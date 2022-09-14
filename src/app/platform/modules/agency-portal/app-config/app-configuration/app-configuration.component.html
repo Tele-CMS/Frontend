@@ -1,0 +1,33 @@
+<h2 class="page_title">Configuration</h2>
+<div class="clearfix"></div>
+<div class="readmin-panel">
+  <div class="row">
+    <div class="col-sm-5 setting_card mb-30">
+      <h3>Soap Settings</h3>
+      <div class="mt-3" *ngFor="let signObj of requiredSoapSignArray;let in=index">
+            <mat-checkbox [(checked)]="signObj.value">{{signObj.label}}</mat-checkbox>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-5 setting_card mb-30">
+      <h3>Page Settings</h3>
+      <div class="mt-3 d-flex align-items-center row" *ngFor="let Obj of requiredPageSettings;let in=index">
+          <div class="col-sm-4"> 
+            <label>{{Obj.label}}</label>
+          </div>
+          <div class="col-sm-8"> 
+            <mat-form-field class="example-full-width">
+              <input matInput autofocus [(ngModel)]="requiredPageSettings[in].value" #name="ngModel" name="name{{in}}" />
+            </mat-form-field>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="requiredSoapSignArray && requiredSoapSignArray.length>0">
+    <div class="col-sm-12 d-flex justify-content-end pt-3">
+      <button mat-raised-button color="primary" name="Save" form="appConfigForm" class="text-uppercase" [disabled]="submitted"
+        (click)="onSubmit($event)" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+
+    </div>
+  </div>

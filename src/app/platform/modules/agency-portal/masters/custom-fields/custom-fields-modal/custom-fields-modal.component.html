@@ -1,0 +1,48 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Custom Field</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="customFieldForm" #documentForm="ngForm" class="readmin-form custom_form"
+          [formGroup]="customFieldForm">
+          <div class="row">
+            <div class="col-sm-12 col-md-6 require">
+              <mat-form-field class="example-full-width" hintLabel="{{formControls.customLabelName.pending ? 'Validating...' : ''}}">
+                <input matInput autofocus placeholder="Field Name" maxlength="50" formControlName="customLabelName"
+                  [ngClass]="{ 'is-invalid': submitted && formControls.customLabelName.errors }" required />
+                <mat-error *ngIf="formControls.customLabelName.errors?.required">
+                  Please enter custom label name
+                </mat-error>
+                <mat-error *ngIf="formControls.customLabelName.errors?.uniqueName">
+                  Name is already taken.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Link To" formControlName="roleTypeId" matInput [ngClass]="{ 'is-invalid': submitted && formControls.roleTypeId.errors }"
+                  required>
+                  <mat-option *ngFor="let option of userRoleType" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.roleTypeId.errors">
+                  Please choose a role to link
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+    <button mat-raised-button color="primary" form="customFieldForm" [disabled]="submitted || formControls.customLabelName.pending"
+      cdkFocusInitial>
+      {{(submitted || formControls.customLabelName.pending) ? submitted ? 'Saving...' :
+      formControls.customLabelName.pending ? 'Validating...' : 'Save' : 'Save'}}
+    </button>
+  </div>
+</div>

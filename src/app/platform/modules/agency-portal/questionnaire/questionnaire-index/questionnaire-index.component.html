@@ -1,0 +1,13 @@
+<div class="readmin-panel pt-0">
+<h2 class="page_title mb-3">Assessment</h2>
+<div class="clearfix"></div>
+      <mat-tab-group (selectedTabChange)="loadComponent($event)" [selectedIndex]="selectedIndex">
+        <mat-tab *ngFor="let tab of questionnaireTabs;let i=index" class="mat-tab-label-active" label={{tab}}>
+        </mat-tab>
+      </mat-tab-group>
+    <div #tabContent></div>
+</div>
+
+
+
+

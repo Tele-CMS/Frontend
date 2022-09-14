@@ -1,0 +1,31 @@
+<div>
+    <!--Payer Box-->
+      <h2 class="page_title">Manage Keywords</h2>
+      <div class="clearfix"></div>
+      <div class="readmin-panel">
+        <div class="no-gutters">
+            <div class="col-md-5 pull-right justify-content-md-end d-flex">
+                <button *ngIf="addPermission" mat-raised-button color="primary" (click)="addCareCategory()">
+                  <i class="fa fa-plus" aria-hidden="true"></i>    Manage Care Category</button>
+              </div>
+            </div>
+            <!-- <div class="col-md-7 justify-content-start pull-left">
+              <div class="row">
+                <div class="col-sm-7 mtm-27">
+                  <mat-form-field class="example-full-width">
+                    <input matInput [(ngModel)]="searchText" name="searchText" (keyup)="applyFilter($event.target.value)" placeholder="Search">
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-5 filter-btn">
+                  <button class="clear-btn" mat-raised-button (click)='clearFilters()'>Clear All</button>
+                </div>
+              </div>
+          </div> -->
+        
+        <div class="clearfix"></div>
+        <app-data-table [inputColumns]="displayedColumns" [inputSource]="payersData" [inputMeta]="metaData" [inputButtons]='actionButtons'
+          (onChange)="onPageOrSortChange($event)" (onTableActionClick)="onTableActionClick($event)">
+        </app-data-table>
+    
+        <!-- (onChange)="onPageOrSortChange($event)" 
+       (-->

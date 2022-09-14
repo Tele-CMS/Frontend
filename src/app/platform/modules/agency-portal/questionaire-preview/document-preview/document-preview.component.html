@@ -1,0 +1,91 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>{{headerText}}</h3>
+  <div mat-dialog-content>
+    <form class="readmin-form qus-doc-preview">
+      <div class="text-center no-record" *ngIf="!(resultArray && resultArray.length)">
+        <span><b>No questions to preview</b></span>
+      </div>
+      <div class="col-sm-12 d-flex align-items-center justify-content-end mb-3"
+        *ngIf="resultArray && resultArray.length">
+        {{countAnswers}} of {{sectionItemData.length}} questions answered
+      </div>
+      <mat-accordion *ngFor="let obj of resultArray; let ix=index">
+        <mat-expansion-panel expanded class="mt-2 mb-1">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{obj[0].sectionName}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div *ngFor="let question of obj">
+            <div [ngSwitch]="question.inputType">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h5><span><i *ngIf="question.isMandatory" class="requide-star">*</i>Q.{{question.displayOrder}}</span>
+                    {{question.question}}</h5>
+                </div>
+              </div>
+              <div class="row" *ngSwitchCase="'TextArea'">
+                <div class="col-sm-12">
+                  <mat-form-field class="example-full-width">
+                    <textarea matInput [value]="getAnswer(question.id,null)" placeholder='{{question.placeholder}}'
+                      (input)="pushAnswers($event,null, question.id,'TextArea')" [readonly]="!patientDocumentId">
+                   </textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row" *ngSwitchCase="'Dropdown'">
+                <div class="col-sm-6">
+                  <mat-form-field class="example-full-width">
+                    <mat-select matInput [value]="getAnswer(question.id,null)"
+                      (selectionChange)="pushAnswers($event,$event.value, question.id,'Dropdown')">
+                      <mat-option *ngFor="let opt of filterCodes(question.categoryId)" [value]="opt.id"
+                        [disabled]="!patientDocumentId">
+                        {{opt.option}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row" *ngSwitchCase="'textbox'">
+                <div class="col-sm-12">
+                  <mat-form-field class="example-full-width">
+                    <input matInput [value]="getAnswer(question.id,null)" placeholder='{{question.placeholder}}'
+                      (input)="pushAnswers($event,null, question.id,'textbox')" [readonly]="!patientDocumentId" />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row" *ngSwitchCase="'CheckBox'">
+                <div class="col-sm-4 mb-3" *ngFor="let opt of filterCodes(question.categoryId)">
+                  <mat-checkbox color="primary" [checked]="getAnswer(question.id,opt.id)"
+                    (change)="pushAnswers($event,opt.id, question.id,'CheckBox')" [id]="opt.id"
+                    [disabled]="!patientDocumentId">{{opt.option}}</mat-checkbox>
+                </div>
+              </div>
+              <div *ngSwitchCase="'RadioButton'">
+                <mat-radio-group class="row" [value]="getAnswer(question.id,null)">
+                  <div class="col-sm-3" *ngFor="let opt of filterCodes(question.categoryId)">
+                    <mat-radio-button color="primary" [value]="opt.id"
+                      (change)="pushAnswers($event,opt.id,question.id,'RadioButton')" [disabled]="!patientDocumentId">
+                      {{opt.option}}</mat-radio-button>
+                  </div>
+                </mat-radio-group>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </form>
+  </div>
+  <div class="clearfix"></div>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="accent" class="cancel-btn" (click)="closeDialog('close')">Close</button>
+    <div>
+      <!-- <button mat-raised-button color="primary" (click)="printAssessmentForm()" form="form">Print</button> -->
+      <button mat-raised-button *ngIf="patientDocumentId" color="primary" (click)="onSubmit()" form="form"
+        [disabled]="submitted || !(resultArray && resultArray.length)">{{submitted
+      ? 'Submiting...' : 'Submit'}}</button>
+
+    </div>
+  </div>
+
+</div>

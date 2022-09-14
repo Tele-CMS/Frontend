@@ -1,0 +1,35 @@
+.editor {
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+    .NgxEditor__MenuBar {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.editor-NgxEditor {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border: none;
+}
+
+.CodeMirror {
+    border: 1px solid #eee;
+    height: auto;
+    margin-bottom: 0.7rem;
+}
+    .pre{
+    white-space: pre !important;
+}
+
+.p-dropdown {
+    border-color: #E4E6EF!important;
+}
+
+.p-dropdown:focus,
+.p-dropdown:not(.p-disabled).p-focus {
+    border-color: #B5B5C3!important;
+    box-shadow: none!important;
+}
+

@@ -1,0 +1,39 @@
+<app-client-header [clientId]="clientId" [headerText]="header" ></app-client-header>
+<div class="readmin-panel">
+<div class="row">
+  <div class="col-md-12 pull-right justify-content-md-end d-flex">
+      <button [disabled]="disableButton()" mat-raised-button *ngIf="addPermission" mat-raised-button color="primary" class="add-primary-btn" (click)="openDialog()">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+          <span [matTooltip]="disableButton() ? tooltipdMessage : ''">Add Immunization</span>
+      </button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-6 mt-20 immunize custom-card custom-card-header" *ngFor="let immunization of immunizationList">
+      <mat-card>
+          <mat-card-header>
+              <mat-card-title>
+                  {{immunization.vaccineName}}
+              </mat-card-title>
+              <mat-card-actions>                  
+                      <button *ngIf="updatePermission" mat-button (click)="openDialog(immunization.id)"><i class="fa fa-pencil"></i></button>
+                      <button *ngIf="deletePermission" mat-button (click)="delete(immunization.id)"><i class="fa fa-close"></i></button>                  
+                  </mat-card-actions>
+          </mat-card-header>              
+              <mat-card-content>
+                  <p>Amount : <span>{{immunization.amountAdministered > 0 ?immunization.amountAdministered:'0'}} ml</span></p>
+                  <p>Administered Date : <span>{{immunization.administeredDate}}</span></p>
+                  <p>Route Of Administration : <span>{{immunization.routeOfAdministration}}</span></p>
+                  <p>Administration Site : <span>{{immunization.administrationSite}}</span></p>
+                  <p>Immunity Status : <span>{{immunization.conceptName}}</span></p>
+              </mat-card-content>
+              
+      </mat-card>
+      <div class="rejectedmsg" *ngIf="immunization.rejectedImmunization">
+        <p><span class="redfont">Rejected!</span>
+            Reason: {{immunization.rejectionReasonNote}}
+        </p></div>
+  </div>
+</div>
+<div class="clearfix"></div>
+    </div>

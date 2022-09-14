@@ -1,0 +1,163 @@
+<div class="family-tab">
+    <mat-tab-group (selectedTabChange)="loadChildComponent($event)">
+        <mat-tab *ngFor="let location of staffLocations" label={{location.locationName}}>
+        </mat-tab>
+    </mat-tab-group>
+</div>
+<div class="container-fluid">
+<div class="row cstom-rel">
+    <div class="clearfix"></div>
+    <form id="availabilityForm" #documentForm="ngForm" class="readmin-form custom_form w-100" [formGroup]="availabilityForm">
+        <div class="col-sm-12">
+            <div class="panel_title mt-20">
+                <h3>Week Days</h3>
+                <i class="flaticon flaticon-calendar"></i>
+            </div>
+            <div class="weekdayslist" formArrayName="daysAvailability">
+                <div>
+                    <div *ngFor="let avl of availabilityForm.get('daysAvailability')['controls']; let ix=index">
+                        <div formGroupName="{{ix}}">
+                            <ul formArrayName="items">
+                                <li *ngFor="let dy of avl.get('items').controls; let j=index">
+                                    <div formGroupName={{j}}>
+                                        <div *ngIf="ix==0">
+                                            {{(j==0?'Sun':j==1?'Mon':j==2?'Tue':j==3?'Wed':j==4?'Thu':j==5?'Fri':j==6?'Sat':'')}}
+                                        </div>
+                                        <div>
+                                            <!-- <input matInput placeholder="Start Time" formControlName="startTime" [ngxTimepicker]="startTime"> --> 
+                                            <input matInput placeholder="Start Time" formControlName="startTime" type="time">
+                                            <ngx-material-timepicker #startTime></ngx-material-timepicker>
+                                        </div>
+                                        <div>
+                                            <!-- <input matInput placeholder="End Time" formControlName="endTime" [ngxTimepicker]="endTime" [min]="dy.controls.startTime.value!=undefined?dy.controls.startTime.value:'00:00 AM'"> -->
+                                            <input matInput placeholder="End Time" formControlName="endTime" type="time" [min]="dy.controls.startTime.value!=undefined?dy.controls.startTime.value:'00:00 AM'">
+                                            <ngx-material-timepicker #endTime></ngx-material-timepicker>
+                                        </div>
+                                    </div>
+                                </li>
+                                <!-- <div>
+                                    <button *ngIf="(ix > 0) || (daysAvailability['controls'].length > 1)" type="button" class="additem removeitem" title="Remove row" (click)=removeDayItem(ix)>
+                    <b class="fa fa-minus-square redfont" aria-hidden="true"></b>
+                  </button>
+                                    <button *ngIf="(ix + 1) === daysAvailability['controls'].length" type="button" class="additem" title="Add row" (click)=addDayItem()>
+                    <b class="fa fa-plus-square greenfont" aria-hidden="true"></b>
+                  </button>
+                                </div> -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 mt-120">
+            <div class="panel_title mt-20">
+                <h3>Availability Date and Time</h3>
+                <i class="flaticon flaticon-calendar-1"></i>
+            </div>
+            <div class="availabletime" formArrayName="availability">
+
+                <div class="pdr-40 parent_div" *ngFor="let avl of availabilityForm.get('availability')['controls']; let ix=index">
+                    <div class="row" formGroupName="{{ix}}">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput readonly [matDatepicker]="date" placeholder="Date" formControlName="date">
+                                <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+                                <mat-datepicker #date></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <!-- <input matInput placeholder="Start Time" formControlName="startTime" [ngxTimepicker]="startTime"> -->
+                            <input matInput placeholder="Start Time" formControlName="startTime" type="time">
+                            <ngx-material-timepicker #startTime></ngx-material-timepicker>
+                        </div>
+                        <div class="col-sm-4">
+                            <!-- <input matInput placeholder="End Time" formControlName="endTime" [ngxTimepicker]="endTime" [min]="avl.controls.startTime.value!=undefined?avl.controls.startTime.value:'00:00 AM'"> -->
+                            <input matInput placeholder="End Time" formControlName="endTime" type="time" [min]="avl.controls.startTime.value!=undefined?avl.controls.startTime.value:'00:00 AM'">
+                            <ngx-material-timepicker #endTime></ngx-material-timepicker>
+                        </div>
+
+
+                        <div class="pdl-40">
+                            <button *ngIf="(ix > 0) || (availability['controls'].length > 1)" type="button" class="additem removeitem" title="Remove row" (click)=removeAvailabilityItem(ix)>
+                <b class="fa fa-minus-square redfont" aria-hidden="true"></b>
+              </button>
+                            <button *ngIf="(ix + 1) === availability['controls'].length" type="button" class="additem" title="Add row" (click)=addAvailabilityItem()>
+                <b class="fa fa-plus-square greenfont" aria-hidden="true"></b>
+              </button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="panel_title mt-20">
+                <h3>Unavailability Date and Time</h3>
+                <i class="flaticon flaticon-interface"></i>
+            </div>
+
+            <div class="unavailabletime" formArrayName="unavailability">
+                <div class="pdr-40 parent_div" *ngFor="let avl of availabilityForm.get('unavailability')['controls']; let ix=index">
+                    <div class="row" formGroupName="{{ix}}">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput readonly [matDatepicker]="date" placeholder="Date" formControlName="date">
+                                <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+                                <mat-datepicker #date></mat-datepicker>
+                            </mat-form-field>
+
+                        </div>
+                        <div class="col-sm-4">
+                            <!-- <input matInput placeholder="Start Time" formControlName="startTime" [ngxTimepicker]="startTime"> -->
+                            <input matInput placeholder="Start Time" formControlName="startTime" type="time">
+                            <ngx-material-timepicker #startTime></ngx-material-timepicker>
+                        </div>
+                        <div class="col-sm-4">
+                            <!-- <input matInput placeholder="End Time" formControlName="endTime" [ngxTimepicker]="endTime" [min]="avl.controls.startTime.value!=undefined?avl.controls.startTime.value:'00:00 AM'"> -->
+                            <input matInput placeholder="End Time" formControlName="endTime" type="time" [min]="avl.controls.startTime.value!=undefined?avl.controls.startTime.value:'00:00 AM'">
+                            <ngx-material-timepicker #endTime></ngx-material-timepicker>
+                        </div>
+
+                        <div class="pdl-40">
+                            <button *ngIf="(ix > 0) || (unavailability['controls'].length > 1)" type="button" class="additem removeitem" title="Remove row" (click)=removeUnAvailabilityItem(ix)>
+                <b class="fa fa-minus-square redfont" aria-hidden="true"></b>
+              </button>
+                            <button *ngIf="(ix + 1) === unavailability['controls'].length" type="button" class="additem" title="Add row" (click)=addUnAvailabilityItem()>
+                <b class="fa fa-plus-square greenfont" aria-hidden="true"></b>
+              </button>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </form>
+    <div class="col-md-12 cstom-slot-pos">
+        <div class="panel_title mt-20">
+            <h3>Booking Slot Time Interval</h3>
+        </div>
+        <mat-form-field>
+            <mat-label>Time Interval</mat-label>
+            <mat-select [(ngModel)]="timeinterval" name="timeinterval" (selectionChange)="timeintervalselect()">
+                <!-- <mat-option *ngFor="let item of timeintervals; let inx=index" [value]="item">
+                    {{item}}
+                </mat-option> -->
+                <mat-option value="15">15 min</mat-option>
+                <mat-option value="30">30 min</mat-option>
+                <mat-option value="45">45 min</mat-option>
+                <mat-option value="60">1 hr</mat-option>
+                <mat-option value="120">2 hr</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+        <div class="col-sm-12 mb-4 d-sm-flex justify-content-sm-end pt-3 actions-btn">
+            <button mat-raised-button color="primary" name="Save" form="availabilityForm" class="text-uppercase" [disabled]="submitted" (click)="onSubmit()" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+        </div>
+</div>
+</div>

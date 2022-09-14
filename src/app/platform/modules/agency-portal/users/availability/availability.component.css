@@ -1,0 +1,51 @@
+.weekdayslist {
+  margin: 0px -15px;
+}
+.weekdayslist ul {
+  list-style: outside none none;
+  padding: 0px 40px 0px 0px;
+  text-align: left;
+  margin: 0px;
+  position: relative;
+  overflow: hidden;
+}
+.weekdayslist ul li {
+  float: left;
+  width: 14.28%;
+  padding: 0px 15px;
+  margin: 10px 0px;
+}
+.additem {
+  right: 15px;
+}
+.removeitem {
+  right: 35px;
+}
+
+.cstom-slot-pos{
+  position: absolute;
+    top: 160px;
+    left: 0;
+}
+.mt-120{
+  margin-top: 120px;
+}
+.cstom-rel{
+  position: relative;
+}
+
+@media (max-width: 1199px) {
+  .weekdayslist ul li {
+    width: 20%;
+  }
+}
+@media (max-width: 767px) {
+  .weekdayslist ul li {
+    width: 25%;
+  }
+}
+@media (max-width: 575px) {
+  .weekdayslist ul li {
+    width: 100%;
+  }
+}

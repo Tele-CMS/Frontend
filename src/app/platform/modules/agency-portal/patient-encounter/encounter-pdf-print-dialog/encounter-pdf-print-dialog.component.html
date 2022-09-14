@@ -1,0 +1,66 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Preview Encounter Summary</h3>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-12">
+        <div class="panel_title">
+          <h3>Administrative Encounter</h3>
+        </div>
+        <div class="col-sm-12 mb-2" *ngFor="let item of masterEncounterChecklistAdministativeModel">
+          <mat-checkbox color="primary" [checked]="item.patientEncounterId > 0"
+            (change)="onChecklistSelection($event, item)">
+            {{ item.name }}
+          </mat-checkbox>
+          <div class="encounter-checklist">
+            <mat-form-field class="example-full-width">
+              <textarea placeholder="Description" [(ngModel)]="item.notes" name="Notes" maxlength="1000" rows="3"
+                matInput></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="panel_title">
+          <h3>Encounter Checklist</h3>
+        </div>
+        <div class="col-sm-12 mb-2" *ngFor="let item of masterEncounterChecklistModel">
+          <mat-checkbox color="primary" [checked]="item.patientEncounterId > 0"
+            (change)="onChecklistSelection($event, item)">
+            {{ item.name }}
+          </mat-checkbox>
+          <div class="encounter-checklist">
+            <ul class="checklist-detail">
+              <li *ngFor="let reviewItem of  getMmasterEncChecklistReviewItems(item.masterEncounterChecklistId)">
+                <i class="zmdi zmdi-check"></i> {{ reviewItem.itemName }}
+              </li>
+            </ul>
+            <div class="encounter-checklist"
+              *ngIf="getEncounterChangeHistory(item.masterEncounterChecklistId).length > 0">
+              Change history
+              <ul class="checklist-detail">
+                <li *ngFor="let history of getEncounterChangeHistory(item.masterEncounterChecklistId)">
+                  <i class="zmdi zmdi-check"></i> {{ history.changes }}
+                </li>
+              </ul>
+            </div>
+            <mat-form-field class="example-full-width">
+              <textarea placeholder="Description" [(ngModel)]="item.notes" name="Notes" maxlength="1000" rows="3"
+                matInput></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button color="accent" class="cancel-btn" mat-raised-button (click)="closeDialog('close')">Close</button>
+    <div>
+      <button mat-raised-button color="primary" form="signForm" [disabled]="submitted" *ngIf="key=='print'"
+        (click)="printEncounterSummary($event)" cdkFocusInitial>Print PDF</button>
+      <button mat-raised-button color="primary" form="signForm" [disabled]="submitted"
+        (click)="emailEncounterSummary($event)" *ngIf="key=='email'" cdkFocusInitial>Email PDF</button>
+    </div>
+  </div>
+</div>

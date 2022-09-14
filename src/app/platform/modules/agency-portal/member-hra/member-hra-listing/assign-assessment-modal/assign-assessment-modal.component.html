@@ -1,0 +1,39 @@
+<div class="custom_modal">
+    <h3 mat-dialog-title>{{headerText}}</h3>
+    <div mat-dialog-content>
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field class="example-full-width">
+                    <mat-select matInput [(ngModel)]="documentId" name="documentId"
+                        (selectionChange)="onDocumentSelect($event)" placeholder="Assessment">
+                        <mat-option *ngFor="let option of masterDocuments" [value]="option.id">
+                            {{option.value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row" *ngFor="let memberListObj of memberHRAModel;let ix=index">
+            <div class="col-sm-6" *ngIf="ix==0">
+                <span>{{memberSelectedText}}</span>
+            </div>
+            <div class="col-sm-6" *ngIf="ix==0">
+                <mat-form-field class="example-full-width">
+                    <input matInput (focus)="expirationDate.open()" [matDatepicker]="expirationDate" [max]="maxDate"
+                        placeholder="Due Date" [(ngModel)]="memberListObj.expirationDate"
+                        [ngModelOptions]="{standalone: false}">
+                    <mat-datepicker-toggle matSuffix [for]="expirationDate"></mat-datepicker-toggle>
+                    <mat-datepicker #expirationDate></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button color="accent" class="cancel-btn" (click)="closeDialog('close')">Close</button>
+        <div>
+            <button name="Assign Assessments" mat-raised-button color="primary" *ngIf="(memberHRAModel.length > 0)"
+                (click)="onSubmit($event)" [disabled]="submitted"
+                cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+        </div>
+    </div>
+</div>

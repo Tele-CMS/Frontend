@@ -1,0 +1,115 @@
+
+/*Authorization Table*/
+.maintable tbody tr>td {
+    border: 0 none;
+    padding: 0;
+}
+
+.table.middletable {
+    margin: 0;
+    white-space: normal;
+}
+
+.middletable tbody tr>td {
+    border-top: 1px solid #eceeef;
+    padding: .5rem;
+}
+.tablefullwidth {
+    background-color: var(--color-white);
+    margin: 0;
+    white-space: normal;
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+}
+.table .trhead tr>td {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    font-size: 15px;
+    color: var(--color-black);
+}
+.table.childtable {
+    margin: 0;
+}
+
+.table tr.nohover:hover {
+    background-color: transparent !important;
+}
+
+.table thead th {
+    color: var(--color-black);
+    font-size: 11px!important;
+    font-weight: 500;
+    text-transform: uppercase;
+    border: 0;
+  }
+
+.table.childtable thead th {
+    background: var(--color-white) none repeat scroll 0 0;
+    padding: 0.50rem 0.75rem;
+}
+
+.table.childtable tbody>tr:hover {
+    background-color: transparent !important;
+}
+
+.table.childtable td {
+    padding: 0.50rem 0.75rem;
+    border: 0px;
+}
+
+.table.middletable tr.nohover>td {
+    padding: 0px !important;
+}
+.tablefullwidth td:first-child {
+    padding-left: 40px !important;
+}
+.rolepermission-table .table.childtable td:first-child {
+    padding-left: 80px !important;
+    font-size: 14px;
+}
+.table.childtable td {
+    padding: .5rem  !important;
+    border: 0 !important;
+}
+.greyaddremove {
+    background: transparent;
+    border: 0 none;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    cursor: pointer;
+    padding: 0;
+}
+.greyaddremove i {
+    color: rgb(38 70 83);
+    font-size: 16px;
+}
+.addnum {
+    background: transparent none repeat scroll 0 0;
+    border: 0 none;
+    float: left;
+    font-size: 14px;
+    line-height: 14px;
+    padding: 0;
+    cursor: pointer;
+    color: #7a7a7a;
+}
+.addnum i {
+    float: left;
+    font-size: 16px;
+    left: 0;
+    position: inherit;
+}
+.orangefont {
+    color: #ff5454;
+}
+.greenfont {
+    color: #79c447;
+}
+.screen-show {
+    display:table-row;
+}
+.screen-hide
+{
+    display: none;
+}

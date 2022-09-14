@@ -1,0 +1,56 @@
+<div *ngIf="staffId">
+  <div class="week-date col-sm-6">
+    <button class="pre-next-btn" (click)="changeWeekValue(-1)"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+    <div class="text-center" *ngIf="DateObject">
+      <p>
+        <span>Date:{{DateObject.fromDate}},{{DateObject.toDate}}</span>
+      </p>
+    </div>
+    <button class="pre-next-btn" (click)="changeWeekValue(1)"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+  </div>
+  <div class="clearfix"></div>
+  <div class="table-responsive mt-15">
+    <table mat-table [dataSource]="usersTimesheetTabularData" class="table table-hover customtable group-table mat-table">
+      <ng-container matColumnDef="submitStatus">
+        <th mat-header-cell *matHeaderCellDef width='15%'>Submit Timesheet
+          <p class="nw-chk">
+            <mat-checkbox [(ngModel)]="ChkAllSubmitStatus" [disabled]="statusArray.length==0?  true : false " (change)='checkAllForSubmitTimeSheet($event)'>
+            </mat-checkbox>
+          </p>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-checkbox [(ngModel)]="submitTimeSheetCheck[element.id]" (change)='submitTimeSheetStatusCheck($event,element.id)'
+            [disabled]="element.status == 'Submitted' || element.status == 'Approved' ? true : false">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="dateOfService">
+        <th mat-header-cell *matHeaderCellDef width='15%'> Date Of Service </th>
+        <td mat-cell *matCellDef="let element"> {{element.dateOfService}} </td>
+      </ng-container>
+      <ng-container matColumnDef="appointmentTypeName">
+        <th mat-header-cell *matHeaderCellDef width='20%'> Appointment Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.appointmentTypeName}} </td>
+      </ng-container>
+      <ng-container matColumnDef="expectedTimeDuration">
+        <th mat-header-cell *matHeaderCellDef width='20%'> Expected Time Duration(Hrs) </th>
+        <td mat-cell *matCellDef="let element"> {{element.expectedTimeDuration}} </td>
+      </ng-container>
+      <ng-container matColumnDef="actualTimeDuration">
+        <th mat-header-cell *matHeaderCellDef width='20%'> Actual Time Duration(Hrs) </th>
+        <td mat-cell *matCellDef="let element"> {{element.actualTimeDuration}} </td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef width='15%'>Status </th>
+        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <div class="col-md-5 pull-right justify-content-md-end d-flex mat-dialog-actions" *ngIf="usersTimesheetTabularData && usersTimesheetTabularData.length">
+      <button mat-raised-button color="primary" (click)="submitTimeSheetStatus()" [disabled]="isActionChecked ? false : true ">
+        <i aria-hidden="true"></i>Submit</button>
+    </div>
+  </div>
+</div>

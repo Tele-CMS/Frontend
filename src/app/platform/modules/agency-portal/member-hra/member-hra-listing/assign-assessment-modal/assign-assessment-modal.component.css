@@ -1,0 +1,8 @@
+.lab-modal 
+{
+    border-bottom: 1px solid #ddd; 
+}
+.lab-modal:last-child 
+{
+    border-bottom: 0px; 
+}

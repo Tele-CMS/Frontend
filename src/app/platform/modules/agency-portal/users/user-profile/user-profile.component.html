@@ -1,0 +1,159 @@
+<div class="readmin-panel">
+<h2 class="page_title sm-title">My Profile</h2>
+<div class="top-btns">
+  <button name="Save" mat-raised-button color="primary" (click)="editProfile()" class="text-uppercase ml-3" cdkFocusInitial>
+    <i class="fa fa fa-pencil" aria-hidden="true"></i> Profile</button>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+  <div class="col-sm-7 mb-30">
+    <div class="readmin-panel crop pd-15">
+      <div class="profilebg d-flex justify-content-center">
+        <div class="clientpic">
+          <img *ngIf="staffProfile" src="{{staffProfile.photoThumbnailPath || '../assets/img/provider-default-user.svg'}}" />
+        </div>
+      </div>
+      <h2 class="ppname text-center mt-3">{{staffProfile.firstName +''+(staffProfile.middleName||'')+' '+staffProfile.lastName + ' ' +(staffProfile.degreeName||
+        '') }}</h2>
+      <div class="ppdetail client_detail">
+        <div class="ledtdiv">
+          <div class="row">
+            <div class="col-md-6"><b>Gender :</b><span>{{staffProfile.gender}}</span></div>
+            <!-- <div class="col-md-3 text-left">{{staffProfile.gender}}</div> -->
+            <div class="col-md-6"><b>Date of joining :</b> <span>{{staffProfile.doj | date}}</span></div>
+            <!-- <div class="col-md-3 text-left">{{staffProfile.doj | date}}</div> -->
+            <div class="col-md-6"><b>NPI number :</b> <span>{{staffProfile.npiNumber}}</span></div>
+            <!-- <div class="col-md-3 text-left">{{staffProfile.npiNumber}}</div> -->
+            <div class="col-md-6"><b>Phone :</b><span>{{staffProfile.phoneNumber}}</span></div>
+            <!-- <div class="col-md-3 text-left">{{staffProfile.phoneNumber}}</div> -->
+            <div class="col-md-6"><b>Email :</b><span>{{staffProfile.email}}</span></div>
+            <!-- <div class="col-md-3 text-left">{{staffProfile.email}}</div> -->
+            <div class="col-md-6"><b>Address :</b><span>{{staffProfile.staffFullAddress}}</span></div>
+            <!-- <div class="col-md-3 text-left">{{staffProfile.staffFullAddress}}</div> -->
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+
+  <div class="col-sm-5">
+    <div class="row">
+      <!-- Tags Start -->
+      <div class="col-sm-12 mb-30">
+        <div class="readmin-panel crop pd-15">
+          <div class="lineheader">
+            <p>Tags</p>
+          </div>
+          <div class="quicksubmenu tagbox mhgt80">
+            <ul _ngcontent-c15="" class="tags">
+              <li _ngcontent-c15="" class="ng-star-inserted" *ngFor="let tag of staffProfile.staffTags">
+                <span class="tagafter"></span>
+                <!-- <span class="tag">Allergy</span> -->
+                <span class="tag" [ngStyle]="{backgroundColor: tag.colorCode}">{{tag.tag}}</span>
+              </li>
+              <li *ngIf="staffProfile.staffTags==undefined || staffProfile.staffTags.length==0" class="tag">No tags found.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- location -->
+      <div class="col-sm-12 mb-30">
+        <div class="readmin-panel crop pd-15">
+          <div class="lineheader">
+            <p>Assigned Locations</p>
+          </div>
+          <div class="row">
+            <div [ngStyle]="{ 'height': '118px' }">
+              <ng-scrollbar>
+                <div class="col-sm-12 assign-loc" *ngFor="let loc of staffProfile.staffLocations">
+                  <p>
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    <small>{{ loc.stateName }}</small>
+                  </p>
+                  <ul>
+                    <li>{{ loc.locationFullAddress }}
+                    </li>
+                  </ul>
+                </div>
+              </ng-scrollbar>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="col-sm-7 mb-30">
+    <div class="readmin-panel crop pd-15">
+      <div class="lineheader">
+        <p>Taxonomy</p>
+      </div>
+      <div class="quicksubmenu tagbox mhgt80">
+        <ul _ngcontent-c15="" class="tags">
+          <li _ngcontent-c15="" class="ng-star-inserted" *ngFor="let tax of staffProfile.staffTaxonomies">
+            <span class="tagafter"></span>
+            <!-- <span class="tag">Allergy</span> -->
+            <span class="tag" [ngStyle]="{backgroundColor: '#377b82'}">{{tax.taxonomy}}</span>
+          </li>
+          <li *ngIf="staffProfile.staffTaxonomies==undefined || staffProfile.staffTaxonomies.length==0" class="tag">No Taxonomy found.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-5 mb-30">
+    <div class="readmin-panel crop pd-15">
+      <div class="lineheader">
+        <p>Speciality</p>
+      </div>
+      <div class="quicksubmenu tagbox mhgt80">
+        <ul _ngcontent-c15="" class="tags">
+          <li _ngcontent-c15="" class="ng-star-inserted" *ngFor="let spl of staffProfile.staffSpecialities">
+            <span class="tagafter"></span>
+            <!-- <span class="tag">Allergy</span> -->
+            <span class="tag" [ngStyle]="{backgroundColor: '#377b82'}">{{spl.speciality}}</span>
+          </li>
+          <li *ngIf="staffProfile.staffSpecialities==undefined || staffProfile.staffSpecialities.length==0" class="tag">No speciality found.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 mb-30">
+    <div class="readmin-panel crop pd-15">
+      <div class="lineheader">
+        <p>Services</p>
+      </div>
+      <div class="quicksubmenu tagbox mhgt80">
+        <ul _ngcontent-c15="" class="tags">
+          <li _ngcontent-c15="" class="ng-star-inserted" *ngFor="let serv of staffProfile.staffServices">
+            <span class="tagafter"></span>
+            <!-- <span class="tag">Allergy</span> -->
+            <span class="tag" [ngStyle]="{backgroundColor: '#377b82'}">{{serv.serviceName}}</span>
+          </li>
+          <li *ngIf="staffProfile.staffServices==undefined || staffProfile.staffServices.length==0" class="tag">No service found.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12">
+    <div class="readmin-panel">
+      <mat-tab-group (selectedTabChange)="loadComponent($event)" [selectedIndex]="selectedIndex">
+        <mat-tab *ngFor="let tab of profileTabs;let i=index" class="mat-tab-label-active" label={{tab}}>
+        </mat-tab>
+      </mat-tab-group>
+      <div *ngIf="selectedIndex==0">
+        <app-user-documents [userId]="userId" [isSpecificUser]="true"></app-user-documents>
+      </div>
+      <div *ngIf="selectedIndex==1">
+        <app-user-leaves [staffId]="staffId" [isSpecificUser]="true"></app-user-leaves>
+      </div>
+      <div *ngIf="selectedIndex==2">
+        <app-user-time-sheet [staffId]="staffId" [isSpecificUser]="true"></app-user-time-sheet>
+      </div>
+    </div>
+  </div>
+</div>

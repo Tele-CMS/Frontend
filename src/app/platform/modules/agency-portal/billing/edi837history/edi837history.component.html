@@ -1,0 +1,160 @@
+<form class="readmin-form custom_form" [formGroup]="claimFilterForm">
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field class="example-full-width">
+        <input matInput [matDatepicker]="fromDate" (focus)="fromDate.open()" placeholder="From Date" formControlName="fromDate" readonly>
+        <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+        <mat-datepicker #fromDate></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field class="example-full-width">
+        <input matInput [matDatepicker]="toDate" (focus)="toDate.open()" placeholder="To Date" formControlName="toDate" readonly>
+        <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+        <mat-datepicker #toDate></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4 filter-btn">
+      <button class="clear-btn" mat-raised-button (click)="onClearFilter()">Clear All</button>
+      <button class="text-uppercase" color="accent" mat-raised-button (click)="onApplyFilter()">Filter</button>
+    </div>
+  </div>
+</form>
+<!-- claim grid starts here -->
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="table-responsive mt-15">
+      <table class="table table-hover maintable customtable group-table">
+        <thead>
+          <tr>
+            <th width="10%">
+
+            </th>
+            <th width="20%">
+              <span>Sent Date</span>
+            </th>
+            <th width="30%">
+              <span>Submitted By</span>
+            </th>
+            <th width="20%">
+              <span>No of Claims</span>
+            </th>
+            <th width="20%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="!submittedClaimsBatchList.length">
+            <td colspan="5">
+              <div class="text-center no-record">No record found.</div>
+            </td>
+          </tr>
+          <tr *ngFor="let claimsBatchObj of submittedClaimsBatchList">
+            <td colspan="5">
+              <table class="table middletable customtable">
+                <tbody>
+                  <tr>
+                    <td width="10%">
+                     
+                        <button type="button" class="morebtn" (click)="handleExpandRow(claimsBatchObj.id)">
+                          <i class="classExpand fa " [ngClass]="{'fa-minus': expandedClaimIds.includes(claimsBatchObj.id), 'fa-ellipsis-h': !expandedClaimIds.includes(claimsBatchObj.id)}"
+                            aria-hidden="true"></i>
+                        </button>
+                     
+                    </td>
+                    <td width="20%">{{ claimsBatchObj.sentDate | date : 'M/d/y' }}</td>
+                    <td width="30%">{{ claimsBatchObj.submittedBy }}</td>
+                    <td width="20%">{{ claimsBatchObj.noOfClaims }}</td>
+                    <td width="20%">
+                      <button type="button" title="Download EDI 837 file" class="tbactionbtn" (click)="onDownloadEDIFile(claimsBatchObj.ediFileText, claimsBatchObj.id)">
+                        <i class="fa fa-download" aria-hidden="true"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="nohover" [ngClass]="{'show-row': expandedClaimIds.includes(claimsBatchObj.id), 'hide-row': !expandedClaimIds.includes(claimsBatchObj.id)}">
+                   
+                    <td colspan="5">
+                      <table class="table childtable">
+                        <thead>
+                          <tr>
+                            <th width="7%"></th>
+                            <th width="10"></th>
+                            <th width="20%">CLAIM ID</th>
+                            <th width="25%">SUBMITTED PAYER PREFERENCE</th>
+                            <th width="38%">SUBMITTED AS</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngIf="!filterClaimsArray(claimsBatchObj.id).length">
+                            <td colspan="5">
+                              <div class="text-center no-record">No record found.</div>
+                            </td>
+                          </tr>
+                          <tr *ngFor="let claimObj of filterClaimsArray(claimsBatchObj.id)">
+                            <td class="p-0" colspan="5">
+                              <table class="table middletable customtable">
+                                <tbody>
+                                  <tr>
+                                    <td width="7%"></td>
+                                    <td width="10%">
+                                        <button type="button" class="morebtn" (click)="handleExpandInnerRow(claimObj.id)">
+                                          <i class="classExpand fa " [ngClass]="{'fa-minus': expandedClaimServiceLineIds.includes(claimObj.id), 'fa-ellipsis-h': !expandedClaimServiceLineIds.includes(claimObj.id)}"
+                                            aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                    <td width="20%">{{claimObj.claimId}}</td>
+                                    <td width="25%">{{claimObj.submittedPayerPreference || '-'}}</td>
+                                    <td width="38%">{{claimObj.submittedAs}}</td>
+                                  </tr>
+                                  <tr class="nohover" [ngClass]="{'show-row': expandedClaimServiceLineIds.includes(claimObj.id), 'hide-row': !expandedClaimServiceLineIds.includes(claimObj.id)}">
+                                   
+                                    <td colspan="5">
+                                      <table class="table childtable">
+                                        <thead>
+                                          <tr>
+                                            <th width="7%"></th>
+                                            <th width="10"></th>
+                                            <th width="20%">Authorization #</th>
+                                            <th width="18%">Service Code</th>
+                                            <th width="15%">Modifiers</th>
+                                            <th width="15%">Unit</th>
+                                            <th width="15%">Rate($)</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr *ngFor="let serviceLineObj of filterClaimServiceLinesArray(claimObj.id)">
+                                            <td width="7%"></td>
+                                            <td width="10"></td>
+                                            <td width="20%">{{serviceLineObj.authorizationNumber}}</td>
+                                            <td width="18%">{{serviceLineObj.serviceCode}}</td>
+                                            <td width="15%">{{serviceLineObj.modifiers || '-'}}</td>
+                                            <td width="15%">{{serviceLineObj.units}}</td>
+                                            <td width="15%">{{serviceLineObj.rate | number: '2.2-2' }}</td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <mat-paginator [length]="metaData['totalRecords']" [pageIndex]="metaData['currentPage'] - 1" [pageSize]="metaData['pageSize']"
+        showFirstLastButtons></mat-paginator>
+
+    </div>
+  </div>
+</div>
+
+<!-- claim grid ends here -->

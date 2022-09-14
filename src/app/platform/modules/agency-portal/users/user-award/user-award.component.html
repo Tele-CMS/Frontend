@@ -1,0 +1,59 @@
+<div class="container-fluid">
+<div class="row">
+  <div class="clearfix"></div>
+  <form id="awardForm" #documentForm="ngForm" class="readmin-form custom_form w-100" [formGroup]="awardForm">
+    <div class="col-sm-12">
+      <div class="panel_title mt-20">
+        <h3>Awards</h3>
+        <i class="flaticon flaticon-calendar-1"></i>
+      </div>
+      <div class="clearfix"></div>
+      <div class="clearfix"></div>
+      <div class="clearfix"></div>
+      <div class="award" formArrayName="award">
+
+        <div class="pdr-40 parent_div" *ngFor="let awd of awardForm.get('award')['controls']; let ix=index">
+          <div class="row" formGroupName="{{ix}}">
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Award" formControlName="awardType">
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Description" formControlName="description">
+              </mat-form-field>
+            </div>
+            <div class="col-sm-2">
+              <mat-form-field class="example-full-width">
+                <input matInput readonly [matDatepicker]="awardDate" placeholder="Award Date" formControlName="awardDate">
+                <mat-datepicker-toggle matSuffix [for]="awardDate"></mat-datepicker-toggle>
+                <mat-datepicker #awardDate></mat-datepicker>
+
+              </mat-form-field>
+            </div>
+
+
+            <div class="pdl-40">
+              <button *ngIf="(ix > 0) || (award['controls'].length > 1)" type="button" class="additem removeitem" title="Remove row" (click)=removeAward(ix)>
+                      <b class="fa fa-minus-square redfont" aria-hidden="true"></b>
+                    </button>
+              <button *ngIf="(ix + 1) === award['controls'].length" type="button" class="additem" title="Add row" (click)=addAward()>
+                      <b class="fa fa-plus-square greenfont" aria-hidden="true"></b>
+                    </button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="row">
+  <div class="col-sm-12 d-sm-flex mb-4 justify-content-sm-end pt-3 actions-btn">
+    <button mat-raised-button color="primary" name="Save" form="awardForm" class="text-uppercase" [disabled]="submitted" (click)="onSubmit()"
+      cdkFocusInitial>{{submitted ? 'Saving...' : 'Save & Finish'}}</button>
+  </div>
+</div>
+</div>

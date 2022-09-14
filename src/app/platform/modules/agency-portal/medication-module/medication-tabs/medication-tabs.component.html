@@ -1,0 +1,13 @@
+<div *ngIf="moduleTabs && moduleTabs.length > 0" class="mod-tabs">
+  <div class="readmin-panel pt-0">
+      <mat-tab-group [(selectedIndex)]="selectedTabIndex" (click)="onTabChange(selectedTabIndex)">
+          <mat-tab *ngFor="let tab of moduleTabs; let index = index">
+              <ng-template mat-tab-label>
+                  <span>{{tab.displayName}}</span>
+              </ng-template>
+          </mat-tab>
+      </mat-tab-group>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

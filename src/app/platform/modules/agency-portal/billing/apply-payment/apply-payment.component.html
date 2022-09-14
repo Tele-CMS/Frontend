@@ -1,0 +1,375 @@
+<div class="billing-blk">
+  <!-- <h2 class="page_title">Apply Payments</h2> -->
+  <div class="clearfix"></div>
+
+  <div class="readmin-panel">
+    <div class="panel_title no_margin">
+      <h4> <i class="flaticon"><mat-icon>payment</mat-icon></i> Payment Detail</h4>
+     
+    </div>
+    <form class="readmin-form custom_form" id="claimFilterForm" #documentForm="ngForm" [formGroup]="claimFilterForm">
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Payment Source" formControlName="source" matInput (selectionChange)="onPaymentSourceChange($event.value)"
+              required>
+              <mat-option *ngFor="let option of paymentSourceList" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formControls.source.errors">
+              Please select payment source
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field *ngIf="(formControls.source.value || '').toUpperCase() == 'SELF' || (formControls.source.value || '').toUpperCase() == 'GUARANTOR'"
+            class="example-full-width">
+            <mat-select placeholder="Patient Name" formControlName="patientId" (selectionChange)="onPatientChange($event.value)" matInput
+              required>
+              <mat-option *ngFor="let option of allPatients" [value]="option.id">
+                {{option.value}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formControls.patientId.errors">
+              Please select patient name
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field *ngIf="(formControls.source.value || '').toUpperCase() == 'INSURANCE'" class="example-full-width">
+            <mat-select placeholder="Insurance Company" formControlName="payerId" (selectionChange)="onPayerChange($event.value)" matInput
+              required>
+              <mat-option *ngFor="let option of masterInsuranceCompany" [value]="option.id">
+                {{option.value}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formControls.payerId.errors">
+              Please select insurance company
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field *ngIf="(formControls.source.value || '').toUpperCase() == 'GUARANTOR'" class="example-full-width" required>
+            <mat-select placeholder="Guarantor Name" formControlName="guarantorId" matInput>
+              <mat-option *ngFor="let option of patientGuarantors" [value]="option.guardianId">
+                {{option.guarantorName}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formControls.guarantorId.errors">
+              Please select guarantor name
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Payment Description" formControlName="paymentDescriptionId" matInput required (selectionChange)="onDescriptionTypeChange($event)">
+              <mat-option *ngFor="let option of filterDescriptionTypes" [value]="option.id">
+                {{option.value}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formControls.paymentDescriptionId.errors">
+              Please select payment description
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Payment Type" formControlName="paymentTypeId" matInput required (selectionChange)="onPaymentTypeChange($event)">
+              <mat-option *ngFor="let option of filterPaymentTypes" [value]="option.id">
+                {{option.value}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formControls.paymentTypeId.errors">
+              Please select payment type
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Amount" appNumbersOnly [allowDecimals]="true" formControlName="amount" maxlength="10" required
+            />
+            <mat-error *ngIf="formControls.amount.errors">
+              Please enter amount
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4" *ngIf="(paymentModeName || '').toLowerCase() === 'check' || (paymentModeName || '').toLowerCase() === 'check ins'">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Reference Number" appNumbersOnly formControlName="CustomReferenceNumber" maxlength="50" required
+            />
+            <mat-error *ngIf="formControls.CustomReferenceNumber.errors">
+              Please enter reference no.
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <input matInput [matDatepicker]="paymentDate" (focus)="paymentDate.open()" placeholder="Date" formControlName="paymentDate"
+              readonly>
+            <mat-datepicker-toggle matSuffix [for]="paymentDate"></mat-datepicker-toggle>
+            <mat-datepicker #paymentDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="panel_title">
+        <h4> <i class="flaticon"><mat-icon>filter_list</mat-icon></i> Filter Claims</h4>
+       
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Insurance Company" formControlName="filterPayerId" matInput>
+              <mat-option *ngFor="let option of masterInsuranceCompany" [value]="option.id">
+                {{option.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Patient Name" formControlName="filterPatientIds" matInput multiple>
+              <mat-option *ngFor="let option of allPatients" [value]="option.id">
+                {{option.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Patient Tags" formControlName="filterTagIds" matInput multiple>
+              <mat-option *ngFor="let option of masterTagsforPatient" [value]="option.id">
+                {{option.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <input matInput [matDatepicker]="fromDate" (focus)="fromDate.open()" placeholder="Claim Start Date" formControlName="filterFromDate"
+              readonly>
+            <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+            <mat-datepicker #fromDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <input matInput [matDatepicker]="toDate" (focus)="toDate.open()" placeholder="Claim End Date" formControlName="filterToDate"
+              readonly>
+            <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+            <mat-datepicker #toDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4 filter-btn">
+          <button type="button" class="clear-btn" mat-raised-button (click)="onClearFilter()">Clear All</button>
+          <button type="button" class="text-uppercase" color="accent" mat-raised-button (click)="onApplyFilter()">Filter</button>
+        </div>
+      </div>
+
+    </form>
+    <!-- claim grid starts here -->
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="table-responsive mt-15">
+          <table class="table table-hover maintable customtable group-table">
+            <thead>
+              <tr>
+                <th width="5%">
+                </th>
+                <th width="10%">
+                  <span class="Tblsort sorting">Claim ID</span>
+                </th>
+                <th width="15%">
+                  <span class="Tblsort sorting">Patient</span>
+                </th>
+                <th width="12%">
+                  <span class="Tblsort sorting">DOS</span>
+                </th>
+                <th width="10%">
+                  <span class="Tblsort sorting">Total Amt($)</span>
+                </th>
+                <th width="12%"></th>
+                <th width="10%">
+                  <mat-checkbox [checked]="isAllCheckedApplyPayment" (change)="onCheckApplyPaymentClaim($event)" [disabled]="!allClaimsWithServiceLines.length"></mat-checkbox>
+                  Action
+                </th>
+                <th width="11%">
+                  <mat-checkbox [checked]="isAllCheckedFullPayment" (change)="onCheckFullPaymentClaim($event)" [disabled]="!allClaimsWithServiceLines.length"></mat-checkbox>
+                  Full Paid
+                </th>
+                <th width="15%">Payment Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="!allClaimsWithServiceLines.length">
+                <td colspan="9">
+                  <div class="text-center no-record">No record found.</div>
+                </td>
+              </tr>
+              <tr *ngFor="let claimObj of allClaimsWithServiceLines">
+                <td colspan="9">
+                  <table class="table middletable customtable">
+                    <tbody>
+                      <tr>
+                        <td width="5%">
+                          <div class="table_custom-check">
+                            <button type="button" class="morebtn" (click)="handleExpandRow(claimObj.claimId)">
+                              <i class="classExpand fa " [ngClass]="{'fa-minus': expandedClaimIds.includes(claimObj.claimId), 'fa-ellipsis-h': !expandedClaimIds.includes(claimObj.claimId)}"
+                                aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </td>
+                        <td width="10%">
+                          <div class="claim">
+                            CL{{ claimObj.claimId }}
+                          </div>
+                        </td>
+                        <td width="15%">{{ claimObj.patientName }}</td>
+                        <td width="12%">{{ claimObj.dos | date : 'M/d/y' }}</td>
+                        <td width="10%">{{ claimObj.totalAmount | number: '2.2-2' }}</td>
+                        <td width="12%">
+                          <mat-form-field class="example-full-width auto-width">
+                            <input matInput [name]="claimObj.claimId" appNumbersOnly [allowDecimals]="true" (keyup)="onUpdateClaimAmount($event.target.value, claimObj.claimId)"
+                              [(ngModel)]="claimObj.totalServiceLinePayment" />
+                          </mat-form-field>
+                        </td>
+                        <td width="10%">
+                          <mat-checkbox [checked]="claimObj.isApplyPayment" (change)="onCheckApplyPaymentClaim($event, claimObj)"></mat-checkbox>
+                        </td>
+                        <td width="11%">
+                          <mat-checkbox [checked]="claimObj.isFullPayment" (change)="onCheckFullPaymentClaim($event, claimObj)"></mat-checkbox>
+                        </td>
+                        <td width="15%">
+                          <mat-form-field class="example-full-width auto-width">
+                            <mat-select placeholder="" matInput [(value)]="claimObj.claimPaymentStatusId">
+                              <mat-option *ngFor="let option of claimPaymentStatus" [value]="option.id">
+                                {{option.value}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </td>
+                      </tr>
+                      <tr class="nohover" [ngClass]="{'show-row': expandedClaimIds.includes(claimObj.claimId), 'hide-row': !expandedClaimIds.includes(claimObj.claimId)}">
+                        <td colspan="9">
+                          <table class="table childtable">
+                            <thead>
+                              <tr>
+                                <th width="5%">&nbsp;</th>
+                                <th width="10%">&nbsp;</th>
+                                <th width="20%">Service Code</th>
+                                <th title="Total Amount" width="25%">Total Amt($)</th>
+                                <th width="20%">Total Balance($)</th>
+                                <th width="20%">Payment($)</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngIf="!claimObj.claimServiceLines || !claimObj.claimServiceLines.length">
+                                <td colspan="6">
+                                  <div class="text-center no-record">No record found.</div>
+                                </td>
+                              </tr>
+                              <tr *ngFor="let serviceLineObj of claimObj.claimServiceLines">
+                                <td class="p-0" colspan="6">
+                                  <table class="table childtable">
+                                    <tbody>
+                                      <tr>
+                                        <td width="5%">
+                                          &nbsp;
+                                        </td>
+                                        <td width="10%">
+                                          <div class="table_custom-check">
+                                            <button type="button" class="morebtn" (click)="handleExpandInnerRow(claimObj.claimId, serviceLineObj, claimObj.patientInsuranceId)">
+                                              <i class="classExpand fa " [ngClass]="{'fa-minus': expandedServiceLineIds.includes(serviceLineObj.id), 'fa-ellipsis-h': !expandedServiceLineIds.includes(serviceLineObj.id)}"
+                                                aria-hidden="true"></i>
+                                            </button>
+                                          </div>
+                                        </td>
+                                        <td width="20%">{{serviceLineObj.serviceCode}}</td>
+                                        <td width="25%">{{serviceLineObj.totalAmount | number: '2.2-2' }}</td>
+                                        <td width="20%">{{serviceLineObj.balance | number: '2.2-2' }}</td>
+                                        <td width="20%">
+                                          <mat-form-field class="example-full-width auto-width">
+                                            <input matInput name="Service{{serviceLineObj.id}}" [(ngModel)]="serviceLineObj.paymentAmount" appNumbersOnly [allowDecimals]="true"
+                                              (keyup)="onUpdateClaimAmount($event.target.value, claimObj.claimId, serviceLineObj.id)"
+                                            />
+                                          </mat-form-field>
+                                        </td>
+                                      </tr>
+                                      <tr *ngFor="let adjustmentObj of serviceLineObj.claimServiceLineAdjustment; let ix = index" [ngClass]="{'show-row': expandedServiceLineIds.includes(serviceLineObj.id), 'hide-row': !expandedServiceLineIds.includes(serviceLineObj.id)}">
+                                        <td width="5%">&nbsp;</td>
+                                        <td width="10%">&nbsp;</td>
+                                        <td width="20%">
+                                          <mat-form-field class="example-full-width">
+                                            <input placeholder="Adj. Amount" matInput maxlength="6" name="adjustmentAmount{{ix}}" [(ngModel)]="adjustmentObj.amountAdjusted"
+                                            />
+                                          </mat-form-field>
+                                        </td>
+                                        <td width="25%">
+                                          <mat-form-field class="example-full-width">
+                                            <mat-select placeholder="Adj. Group Code" matInput [(value)]="adjustmentObj.adjustmentGroupCode">
+                                              <mat-option *ngFor="let option of adjustmentGroupCodeModel" [value]="option.id">
+                                                {{option.value}}
+                                              </mat-option>
+                                            </mat-select>
+                                          </mat-form-field>
+                                        </td>
+                                        <td width="20%">
+                                          <mat-form-field class="example-full-width">
+                                            <input placeholder="Adj. Reason Code" maxlength="6" matInput name="adjustmentReasonCode{{ix}}" [(ngModel)]="adjustmentObj.adjustmentReasonCode"
+                                            />
+                                          </mat-form-field>
+                                        </td>
+                                        <td width="20%">
+                                          <div>
+                                            <button *ngIf="(ix > 0) || (serviceLineObj.claimServiceLineAdjustment.length > 1)" class="tableadd tableless" title="Remove Adjustment"
+                                              type="button" (click)="removeAdjustment($event, claimObj.claimId, serviceLineObj, ix)">
+                                              <b class="fa fa-minus-square orangefont" aria-hidden="true"></b>
+                                            </button>
+                                            <button *ngIf="(ix + 1) === serviceLineObj.claimServiceLineAdjustment.length" class="tableadd" title="Add Adjustment" type="button"
+                                              (click)="addAdjustment($event, claimObj.claimId, serviceLineObj, claimObj.patientInsuranceId)">
+                                              <b class="fa fa-plus-square greenfont" aria-hidden="true"></b>
+                                            </button>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- 
+            <mat-paginator [length]="metaData['totalRecords']" [pageIndex]="metaData['currentPage'] - 1" [pageSize]="metaData['pageSize']"
+              showFirstLastButtons></mat-paginator> -->
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 d-sm-flex justify-content-sm-end pt-3 actions-btn">
+        <button class="text-uppercase" color="primary" form="claimFilterForm" [disabled]="!checkedApplyPaymentLength || submitted"
+          mat-raised-button (click)="onSubmit()">
+          {{submitted ? 'Submiting...' : 'Apply Payment'}}
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

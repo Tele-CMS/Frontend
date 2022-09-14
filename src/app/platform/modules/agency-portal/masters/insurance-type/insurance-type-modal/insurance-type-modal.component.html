@@ -1,0 +1,53 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Insurance Type</h3>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="insuranceTypeForm" #documentForm="ngForm" class="readmin-form custom_form"
+          [formGroup]="insuranceTypeForm">
+          <div class="row">
+            <div class="col-sm-12 require">
+              <mat-form-field class="example-full-width" hintLabel="{{formControls.insuranceType.pending ? 'Validating...' : ''}}">
+                <input matInput autofocus placeholder="Insurance Type" maxlength="50" formControlName="insuranceType" [ngClass]="{ 'is-invalid': submitted && formControls.insuranceType.errors }"
+                  required />
+                <mat-error *ngIf="formControls.insuranceType.errors?.required">
+                  Please enter insurance type
+                </mat-error>
+                <mat-error *ngIf="formControls.insuranceType.errors?.uniqueName">
+                    Name is already taken.
+                  </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 require">
+              <mat-form-field class="example-full-width" hintLabel="{{formControls.insuranceCode.pending ? 'Validating...' : ''}}">
+                <input matInput placeholder="Insurance Code" maxlength="4" formControlName="insuranceCode" [ngClass]="{ 'is-invalid': submitted && formControls.insuranceCode.errors }"
+                  required />
+                <mat-error *ngIf="formControls.insuranceCode.errors?.required">
+                  Please enter insurance code
+                </mat-error>
+                <mat-error *ngIf="formControls.insuranceCode.errors?.uniqueName">
+                    Name is already taken.
+                  </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 require">
+              <mat-form-field class="example-full-width" hintLabel="{{formControls.description.value ? 1000 - formControls.description.value.length : 1000}} Characters Remaining">
+                <textarea matInput placeholder="Description" maxlength="1000" formControlName="description"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button class="cancel-btn" (click)="closeDialog()">Close</button>
+    <button mat-raised-button color="primary" form="insuranceTypeForm" [disabled]="submitted || formControls.insuranceType.pending || formControls.insuranceCode.pending" cdkFocusInitial>
+        {{(submitted || formControls.insuranceType.pending || formControls.insuranceCode.pending) ? submitted ? 'Saving...' : (formControls.insuranceType.pending || formControls.insuranceCode.pending) ? 'Validating...' : 'Save' : 'Save'}}      
+    </button>
+  </div>
+</div>

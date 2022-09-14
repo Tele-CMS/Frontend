@@ -1,0 +1,71 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>{{headerText}}</h3>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-sm-12">
+        <form id="medicationForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="medicationForm">
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Search Medication" formControlName="masterMedicationId" required>
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="filterCtrl" [searching]="searching" placeholderLabel="Search"
+                      noEntriesFoundLabel="No records found!">
+                    </ngx-mat-select-search>
+                  </mat-option>
+                  <mat-option *ngFor="let option of getSlectFilteredServerSideDiagnosis" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                  <mat-option *ngFor="let option of filteredServerSideMedication | async" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.masterMedicationId.errors?.required">
+                  Please select medication </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput appNumbersOnly placeholder="Quantity" formControlName="quantity" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput appNumbersOnly placeholder="Days Supply" formControlName="supplyDays" />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Prescriber NPI" formControlName="prescriberNPI" />
+                </mat-form-field>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Pharmacy" formControlName="pharmacy" />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+                <mat-form-field class="example-full-width">
+                  <input matInput [matDatepicker]="fillDate" [min]="formControls.fillDate.value"
+                    placeholder="Fill Date" formControlName="fillDate" />
+                  <mat-datepicker-toggle matSuffix [for]="fillDate"></mat-datepicker-toggle>
+                  <mat-datepicker #fillDate></mat-datepicker>
+                </mat-form-field>
+              </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="accent" class="cancel-btn" (click)="closeDialog('close')">Close</button>
+    <div>
+      <button name="Save" mat-raised-button color="primary" (click)="onSubmit($event)" form="medicationForm"
+        [disabled]="submitted" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+    </div>
+  </div>
+</div>

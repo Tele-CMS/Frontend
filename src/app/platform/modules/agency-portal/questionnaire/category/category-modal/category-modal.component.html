@@ -1,0 +1,58 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Category</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="categoryForm" #documentForm="ngForm" class="readmin-form custom_form"
+          [formGroup]="categoryForm">
+          <div class="row">
+            <div class="col-sm-12 require">
+              <mat-form-field class="example-full-width" hintLabel="{{formControls.categoryName.pending ? 'Validating...' : ''}}">
+                <input matInput autofocus placeholder="Category Name" maxlength="50" formControlName="categoryName"
+                  [ngClass]="{ 'is-invalid': submitted && formControls.categoryName.errors }" required />
+                <mat-error *ngIf="formControls.categoryName.errors?.required">
+                  Please enter category name
+                </mat-error>
+                <mat-error *ngIf="formControls.categoryName.errors?.uniqueName">
+                  Name is already taken.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 require">
+              <mat-form-field class="example-full-width" hintLabel="{{formControls.description.value ? 1000 - formControls.description.value.length : 1000}} Characters Remaining">
+                <textarea matInput placeholder="Description" maxlength="1000" formControlName="description"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select multiple matInput placeholder="Select HRA Risk Category" formControlName="hraCategoryRiskIds">
+                  <mat-option *ngFor="let option of masterHRACategoryRisk" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>                
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput appNumbersOnly placeholder="Perfect Score" formControlName="perfectScore"/>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="accent" class="cancel-btn" (click)="closeDialog('close')">Close</button>
+    <button mat-raised-button color="primary" form="categoryForm" [disabled]="submitted || formControls.categoryName.pending"
+      cdkFocusInitial>
+      {{(submitted || formControls.categoryName.pending) ? submitted ? 'Saving...' : formControls.categoryName.pending
+      ? 'Validating...' : 'Save' : 'Save'}}
+    </button>
+  </div>
+</div>

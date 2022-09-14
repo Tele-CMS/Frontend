@@ -1,0 +1,101 @@
+<div class="container-fluid">
+  <div class="row" *ngIf="clientId!=null && clientId> 0">
+    <div class="col-12 d-flex justify-content-between">
+      <h2 class="page_title">{{headerText}}</h2>
+    </div>
+  </div>
+</div>
+<div class="client_profile">
+  <div class="quick rr">
+    <ul>
+      <li class="red">
+        <a title="Tags" href="javascript:void(0);">
+          <i class="fa fa-tag"></i>
+        </a>
+        <div class="quicksubmenu tagbox plr-10">
+          <ul class="tags">
+            <ng-container *ngIf="clientHeaderModel.patientTagsHeaderInfo.length > 0; else noPatientTagFound">
+              <li *ngFor="let tag of clientHeaderModel.patientTagsHeaderInfo">
+                <span class="tagafter" [ngStyle]="{backgroundColor: tag.colorCode}"></span>
+                <span class="tag" [ngStyle]="{backgroundColor: tag.colorCode}">{{tag.tag}}</span>
+              </li>
+            </ng-container>
+            <ng-template #noPatientTagFound>
+              <span>No Tag Found.</span>
+            </ng-template>
+            
+          </ul>
+        </div>
+      </li>
+      <li class="blue">
+        <a title="Contact" href="javascript:void(0);">
+          <i class="fa fa-phone"></i>
+        </a>
+        <ul class="quicksubmenu">
+          <li>
+            <i class="fa fa-phone" aria-hidden="true"></i>{{clientHeaderModel.patientBasicHeaderInfo.phone||''}}
+          </li>
+          <li class="msg">
+            <i class="fa fa-envelope" aria-hidden="true"></i>{{clientHeaderModel.patientBasicHeaderInfo.email||''}}
+          </li>
+          <li>
+            <i class="fa fa-map-marker" aria-hidden="true"></i>{{clientHeaderModel.patientBasicHeaderInfo.address||''}}
+          </li>
+        </ul>
+      </li>
+      <li class="green">
+        <a title="Allergies" href="javascript:void(0);">
+          <i class="fa fa-user-md"></i>
+        </a>
+        <div class="quicksubmenu">
+          <p>
+            <b>{{clientHeaderModel.patientBasicHeaderInfo.primaryProvider||''}}</b>
+            <span>-</span>
+          </p>
+          <p *ngFor="let allergy of clientHeaderModel.patientAllergyHeaderInfo">{{allergy.allergen||''}}</p>
+          <p *ngIf="clientHeaderModel.patientAllergyHeaderInfo.length==0">No allergies found</p>
+        </div>
+      </li>
+      <li class="orange">
+        <a title="scheduling" href="javascript:void(0);" (click)="onNavigate('/web/client/scheduling')">
+          <i class="fa fa-calendar" aria-hidden="true"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+ 
+    <div class="clientbox">
+      <div class="user_pic activec">
+        <!-- <img src="{{clientHeaderModel.patientBasicHeaderInfo.photoThumbnailPath}}" alt="" /> -->
+        <img *ngIf="clientHeaderModel.patientBasicHeaderInfo.photoThumbnailPath" src="{{clientHeaderModel.patientBasicHeaderInfo.photoThumbnailPath}}" alt="" />
+        <img *ngIf="!clientHeaderModel.patientBasicHeaderInfo.photoThumbnailPath" src="../../../../../assets/img/patient-default-user.svg" alt="" />
+        <i class="fa fa-circle" aria-hidden="true"></i>
+      </div>
+
+    <div class="userlinks">
+      <p>
+        <a (click)="onNavigate('/web/client/profile')" aria-current="false"
+          href="javascript:void(0);">{{clientHeaderModel.patientBasicHeaderInfo.name}}</a>
+      </p>
+    </div>
+    <div class="client_detail">
+      <p>
+        <b>Gender :</b>
+        <span>{{clientHeaderModel.patientBasicHeaderInfo.gender||''}}</span>
+      </p>
+      <p>
+        <b>D.O.B :</b>
+        <span>{{clientHeaderModel.patientBasicHeaderInfo.dob||''}}</span>
+      </p>
+      <p>
+        <b>SSN: </b>
+        <span>{{clientHeaderModel.patientBasicHeaderInfo.ssn||''}}</span>
+      </p>
+      <p>
+        <b>MRN : </b>
+        <span>{{clientHeaderModel.patientBasicHeaderInfo.mrn||''}}</span>
+      </p>
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>

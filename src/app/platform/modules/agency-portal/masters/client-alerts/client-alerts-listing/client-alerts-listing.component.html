@@ -1,0 +1,278 @@
+<div class="readmin-panel">
+    <h1 class="page_title">Provider Alerts</h1>
+    <div class="clearfix"></div>
+    <form class="readmin-form custom_form">
+        <div class="container-fluid">
+            <div class="row mt-4">
+                <!-- loader content -->
+                <div [class.hidden]="!isLoadingExportPrint">
+                    <div class="full_loader">
+                        <div class="loader">
+                            <div class='loader--dot'></div>
+                            <div class='loader--dot'></div>
+                            <div class='loader--dot'></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 cushgt">
+                    <div class="sech_item caregap-sl-dt">
+                        <p>Alert Types: </p>
+                        <span [ngClass]="{'active' : clientAlerts && clientAlerts.AlertTypeIds.length == masterAlertTypes.length }" (click)="onAlertSelectDeselectAll('SelectAll')">Select All </span>
+                        <span [ngClass]="{'active' : clientAlerts && clientAlerts.AlertTypeIds.length == 0 }" (click)="onAlertSelectDeselectAll()">
+            Deselect All
+          </span>
+                    </div>
+                    <mat-form-field class="example-full-width" floatLabel="never">
+                        <mat-select multiple placeholder="Select Alert Types" [(ngModel)]="clientAlerts && clientAlerts.AlertTypeIds" name="AlertTypeIds" matInput>
+                            <mat-option *ngFor="let alerttype of masterAlertTypes" [value]="alerttype.id">
+                                {{alerttype.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 refresh cushgt">
+                    <div class="sech_item caregap-sl-dt">
+                        <p>Provider: </p>
+                        <span [ngClass]="{'active' : clientAlerts && clientAlerts.CareManagerIds.length == masterStaffs.length }" (click)="onCMSelectDeselectAll('SelectAll')">Select All </span>
+                        <span [ngClass]="{'active' : clientAlerts && clientAlerts.CareManagerIds.length == 0 }" (click)="onCMSelectDeselectAll()">
+            Deselect All
+          </span>
+                    </div>
+                    <mat-form-field class="example-full-width" floatLabel="never">
+                        <mat-select multiple placeholder="Select Provider" name="CareManagerIds" [(ngModel)]="clientAlerts && clientAlerts.CareManagerIds" matInput>
+                            <mat-option *ngFor="let obj of masterStaffs" [value]="obj.id">
+                                {{obj.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <!-- <div class="col-sm-3">
+        <mat-form-field class="example-full-width">
+          <mat-select placeholder="Enrollment Type" name="EnrollmentId" [(ngModel)]="clientAlerts && clientAlerts.EnrollmentId"
+                      matInput>
+            <mat-option *ngFor="let obj of masterEnrollmentTypeFilter" [value]="obj.id">
+              {{obj.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+                <div class="col-md-3 cushgt">
+                    <div class="sech_item caregap-sl-dt">
+                        <p>Programs: </p>
+                        <span [ngClass]="{'active' : clientAlerts && clientAlerts.ProgramIds.length == programsData.length }" (click)="onProgramSelectOrDeselectChange('SelectAll')">
+            Select
+            All
+          </span>
+                        <span [ngClass]="{'active' : clientAlerts && clientAlerts.ProgramIds.length == 0 }" (click)="onProgramSelectOrDeselectChange('DeselectAll')">
+            Deselect All
+          </span>
+                    </div>
+                    <mat-form-field class="example-full-width" floatLabel="never">
+                        <mat-select multiple placeholder="Programs" [(ngModel)]="clientAlerts && clientAlerts.ProgramIds" name="ProgramIds" matInput>
+                            <mat-option *ngFor="let obj of programsData" [value]="obj.id">
+                                {{obj.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <!-- <i (click)="clientAlerts.ProgramIds = []; getDataLoadAlerts()" class="fa fa-refresh field-clear" aria-hidden="true"
+      title="Clear All"></i> -->
+                </div>
+
+                <!-- <div class="col-md-3">
+        <mat-form-field class="example-full-width">
+          <mat-label>Medical ID</mat-label>
+          <input matInput [(ngModel)]="clientAlerts && clientAlerts.medicalID" placeholder="Medical ID" name="medicalID">
+        </mat-form-field>
+      </div> -->
+                <!-- <div class="col-md-3">
+        <mat-form-field class="example-full-width">
+          <mat-select placeholder="Eligibility" [(ngModel)]="clientAlerts && clientAlerts.eligibilityStatus" name="eligibilityStatus"
+                      matInput>
+            <mat-option *ngFor="let obj of masterEligibleDD" [value]="obj.value">
+              {{obj.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+
+                <div class="col-md-3 refresh">
+                    <mat-form-field class="example-full-width">
+                        <input matInput [(ngModel)]="clientAlerts.searchText" name="searchText" placeholder="Search by Patient Name">
+                    </mat-form-field>
+                    <i (click)="clientAlerts.searchText = ''; getDataLoadAlerts()" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+                </div>
+
+                <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Date Of Birth</mat-label>
+                        <input matInput [(ngModel)]="clientAlerts && clientAlerts.dob" name="dob" [matDatepicker]="pdob" (focus)="pdob.open()" placeholder="MM/DD/YYYY" [readonly]="true">
+                        <mat-datepicker-toggle matSuffix [for]="pdob"></mat-datepicker-toggle>
+                        <mat-datepicker #pdob></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <!-- <div class="col-md-3  cushgt">
+        <div class="sech_item caregap-sl-dt">
+          <p>Relationship: </p>
+          <span [ngClass]="{'active' : clientAlerts && clientAlerts.RelationshipIds.length == masterRelationship.length }"
+                (click)="onRelationshipSelectOrDeselectChange('SelectAll')">Select All </span>
+          <span [ngClass]="{'active' : clientAlerts && clientAlerts.RelationshipIds.length == 0 }" (click)="onRelationshipSelectOrDeselectChange('DeselectAll')">
+            Deselect All
+          </span>
+        </div>
+        <mat-form-field class="example-full-width" floatLabel="never">
+          <mat-select multiple placeholder="Relationship" name="RelationshipIds" [(ngModel)]="clientAlerts && clientAlerts.RelationshipIds"
+                      matInput>
+            <mat-option *ngFor="let obj of masterRelationship" [value]="obj.id">
+              {{obj.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field> -->
+                <!-- <i (click)="clientAlerts.RelationshipIds = []; getDataLoadAlerts()" class="fa fa-refresh field-clear"
+          aria-hidden="true" title="Clear All"></i> -->
+                <!-- </div> -->
+
+                <div class="col-md-3 cushgt">
+                    <div class="sech_item caregap-sl-dt">
+                        <p>Gender: </p>
+                        <span [ngClass]="{'active' : clientAlerts && clientAlerts.GenderIds.length == masterGender.length }" (click)="onGenderSelectOrDeselectChange('SelectAll')">
+            Select
+            All
+          </span>
+                        <span [ngClass]="{'active' : clientAlerts && clientAlerts.GenderIds.length == 0 }" (click)="onGenderSelectOrDeselectChange('DeselectAll')">
+            Deselect All
+          </span>
+                    </div>
+                    <mat-form-field class="example-full-width" floatLabel="never">
+                        <mat-select multiple placeholder="Gender" name="GenderIds" [(ngModel)]="clientAlerts && clientAlerts.GenderIds" matInput>
+                            <mat-option *ngFor="let obj of masterGender" [value]="obj.id">
+                                {{obj.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <!-- <i (click)="clientAlerts.GenderIds = []; getDataLoadAlerts()" class="fa fa-refresh field-clear" aria-hidden="true"
+            title="Clear All"></i> -->
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Start Age Range</mat-label>
+                        <input matInput appNumbersOnly [(ngModel)]="clientAlerts && clientAlerts.startAge" placeholder="Start Age" name="startAge">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>End Age Range</mat-label>
+                        <input matInput appNumbersOnly [(ngModel)]="clientAlerts && clientAlerts.endAge" placeholder="End Age" name="endAge">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-2">
+                    <mat-form-field class="example-full-width">
+                        <input matInput [matDatepicker]="fromDate" (focus)="fromDate.open()" placeholder="From Date" [(ngModel)]="clientAlerts && clientAlerts.StartDate" name="StartDate" [readonly]="true">
+                        <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+                        <mat-datepicker #fromDate></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-2">
+                    <mat-form-field class="example-full-width">
+                        <input matInput [matDatepicker]="toDate" (focus)="toDate.open()" placeholder="To Date" [(ngModel)]="clientAlerts && clientAlerts.EndDate" name="EndDate" [readonly]="true">
+                        <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+                        <mat-datepicker #toDate></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <!-- <div class="col-sm-3 refresh">
+        <mat-form-field class="example-full-width">
+          <mat-select placeholder="Primary Condition" [(ngModel)]="clientAlerts && clientAlerts.PrimaryConditionId"
+                      name="PrimaryConditionId" matInput>
+            <mat-option *ngFor="let obj of masterChronicCondition" [value]="obj.id">
+              {{obj.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <i (click)="clientAlerts.PrimaryConditionId = null; getDataLoadAlerts()" class="fa fa-refresh field-clear"
+           aria-hidden="true" title="Clear All"></i>
+      </div>
+      <div class="col-md-5 cushgt">
+        <div class="sech_item caregap-sl-dt">
+          <p>Comorbid Condition(s): </p>
+          <span [ngClass]="{'active' : clientAlerts && clientAlerts.ComorbidConditionIds.length == masterChronicCondition.length }"
+                (click)="onComorbidSelectOrDeselectChange('SelectAll')">Select All </span>
+          <span [ngClass]="{'active' : clientAlerts && clientAlerts.ComorbidConditionIds.length == 0 }" (click)="onComorbidSelectOrDeselectChange('DeselectAll')">
+            Deselect All
+          </span>
+        </div>
+        <mat-form-field class="example-full-width" floatLabel="never">
+          <mat-select multiple placeholder="Select Comorbid Condition(s)" [(ngModel)]="clientAlerts && clientAlerts.ComorbidConditionIds"
+                      name="ComorbidConditionIds" matInput>
+            <mat-option *ngFor="let obj of masterChronicCondition" [value]="obj.id">
+              {{obj.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3 cushgt">
+        <div class="sech_item caregap-sl-dt">
+          <p>Risk: </p>
+          <span [ngClass]="{'active' : clientAlerts && clientAlerts.riskIds.length == masterRiskData.length }" (click)="onRiskSelectOrDeselectChange('SelectAll')">
+            Select
+            All
+          </span>
+          <span [ngClass]="{'active' : clientAlerts && clientAlerts.riskIds.length == 0 }" (click)="onRiskSelectOrDeselectChange('DeselectAll')">
+            Deselect All
+          </span>
+        </div>
+        <mat-form-field class="example-full-width" floatLabel="never">
+          <mat-select multiple placeholder="Risk" name="Risk" [(ngModel)]="clientAlerts && clientAlerts.riskIds"
+                      matInput>
+            <mat-option *ngFor="let obj of masterRiskData" [value]="obj.id">
+              {{obj.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field> -->
+                <!-- <i (click)="clientAlerts.riskIds = []; getDataLoadAlerts()" class="fa fa-refresh field-clear" aria-hidden="true"></i> -->
+                <!-- </div> -->
+
+                <!-- <div class="col-md-2 refresh">
+        <mat-form-field class="example-full-width">
+          <mat-select matInput [(ngModel)]="clientAlerts.nextAppointmentPresent" name="NextAppointment" placeholder="Next Appointment">
+            <mat-option *ngFor="let option of nextAppointmentList" [value]="option.id">
+              {{option.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <i (click)="clientAlerts.nextAppointmentPresent = null" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+      </div> -->
+
+            </div>
+            <div class="row">
+                <div class="col-md-6 filter-btn d-flex justify-content-sm-start justify-content-between flex-row">
+                    <!-- <button mat-raised-button class="add-new-btn mr-3" color="primary" (click)="openEmailPopup()" type="button"
+          [disabled]="!(getalertsLength > 0)">
+          Email
+        </button>
+        <button mat-raised-button class="add-new-btn mr-3" color="primary" (click)="openMessagePopup()" type="button"
+          [disabled]="!(getalertsLength > 0)">
+          Message
+        </button>
+        <button mat-raised-button class="mr-3 add-new-btn" color="primary" (click)='exportToExcel()' type="button"
+          [disabled]='!(getalertsLength > 0)'>
+          Export to excel
+        </button>
+        <button mat-raised-button color="primary" class="mr-3 add-new-btn" [disabled]='!(getalertsLength > 0)' type="button" (click)="printAlertsData($event)"
+          cdkFocusInitial>Print PDF</button> -->
+                    <!-- <button [disabled]='!(getalertsLength > 0)' mat-raised-button class="mr-3 add-new-btn" color="primary" type="button" (click)="openReminderDialog()">
+            Set Reminder
+        </button> -->
+                </div>
+                <div class="col-md-6 filter-btn d-flex justify-content-sm-end justify-content-between flex-row">
+                    <button type="button" class="clear-btn mr-3" color="accent" (click)="clearFilters()" mat-raised-button type="button">Clear
+          All</button>
+                    <button type="button" mat-raised-button color="primary" class="mr-3" (click)="searchFilter()">Filter</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="clearfix"></div>
+
+    <app-data-table class="mt-3 d-block table-responsive" [inputColumns]="displayedColumns" [inputSource]="alertsList" [inputMeta]="alertMetaData" (onChange)="onPageOrSortChange($event)" [inputButtons]='actionButtons'></app-data-table>
+</div>

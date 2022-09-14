@@ -1,0 +1,77 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Speciality</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="specialityForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="specialityForm">
+          <div class="row">
+            <div class="col-sm-12 require">
+              <mat-form-field class="example-full-width" hintLabel="{{formControls.globalCodeName.pending ? 'Validating...' : ''}}">
+                <input matInput autofocus placeholder="Speciality Name" maxlength="50" formControlName="globalCodeName" [ngClass]="{ 'is-invalid': submitted && formControls.globalCodeName.errors }"
+                  required />
+                <mat-error *ngIf="formControls.globalCodeName.errors?.required">
+                  Please enter speciality name
+                </mat-error>
+                <mat-error *ngIf="formControls.globalCodeName.errors?.uniqueName">
+                  Speciality Name is already taken.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 require">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Select Category" formControlName="globalCodeCategoryID" matInput [ngClass]="{ 'is-invalid': submitted && formControls.globalCodeCategoryID.errors }"
+                  required>
+                  <mat-option *ngFor="let sp of masterCategory" [value]="sp.id">
+                    {{sp.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.globalCodeCategoryID.errors?.required">
+                  Please select  Category
+                </mat-error>
+              </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5">
+            <div >
+                <h3>Update Speciality Icon</h3>
+                <i class="flaticon flaticon-commerce"></i>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div  class="uplaod_pic modal-pic-adj">
+              <label class="browse">
+                <img *ngIf="imagePreview" [src]="imagePreview" alt="" />
+                <span *ngIf="imagePreview">Change</span>
+                <i *ngIf="!imagePreview" class="fa fa-upload fa-2x" aria-hidden="true"></i>
+                <input type="file" formControlName="userImg" (change)="handleImageChange($event)">
+              </label>
+            </div>
+            <!-- <div *ngIf="">
+
+            </div> -->
+            <p class="ins_photo">(Browse any png,svg file and its size should be less than 2 MB)</p>
+        </div>
+      
+        </div>
+          <!-- <div class="row">
+            <div class="col-sm-6 require">
+              <mat-checkbox formControlName="isActive">
+                Is Active
+              </mat-checkbox>
+            </div>
+          </div> -->
+        </form>
+      </div>
+    </div>
+
+  <div mat-dialog-actions>
+    <button mat-raised-button class="cancel-btn" (click)="closeDialog()">Close</button>
+    <button mat-raised-button color="primary" form="specialityForm" [disabled]="submitted || formControls.globalCodeName.pending" cdkFocusInitial>
+        {{(submitted || formControls.globalCodeName.pending) ? submitted ? 'Saving...' : formControls.globalCodeName.pending ? 'Validating...' : 'Save' : 'Save'}}
+      </button>
+  </div>
+</div>

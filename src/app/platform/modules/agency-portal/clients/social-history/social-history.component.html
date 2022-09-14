@@ -1,0 +1,73 @@
+<app-client-header [clientId]="clientId" [headerText]="header" ></app-client-header>
+<div class="readmin-panel">
+
+  <form id="socialForm" #documentForm="ngForm" class="pt-3 custom_form" id="socialForm" [formGroup]="socialForm">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-4 require">
+          <mat-form-field class="example-full-width">
+            <mat-select autofocus placeholder="Alcohol" formControlName="alcohalID" required [ngClass]="{ 'is-invalid': submitted && formControls.alcohalID.errors }">
+              <mat-option *ngFor="let alcohol of masterSocialHistory" [value]="alcohol.id">
+                {{alcohol.value}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formControls.alcohalID.errors">
+                Please select this option
+              </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-4 require">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Tobacco" formControlName="tobaccoID" [ngClass]="{ 'is-invalid': submitted && formControls.tobaccoID.errors }" required>
+              <mat-option *ngFor="let tobacco of masterSocialHistory" [value]="tobacco.id">
+                {{tobacco.value}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formControls.tobaccoID.errors">
+              Please select this option
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-4 require">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Drugs" formControlName="drugID" [ngClass]="{ 'is-invalid': submitted && formControls.drugID.errors }" required>
+              <mat-option *ngFor="let drugs of masterSocialHistory" [value]="drugs.id">
+                {{drugs.value}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formControls.drugID.errors">
+              Please select this option
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col-sm-4 require">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Occupation" maxlength="100" formControlName="occupation" required [ngClass]="{ 'is-invalid': submitted && formControls.occupation.errors }" />
+                <mat-error *ngIf="formControls.occupation.errors?.required">
+                    Please enter occupation
+                  </mat-error>
+              </mat-form-field>
+            </div>
+          <div class="col-sm-4 require">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Travel" formControlName="travelID" [ngClass]="{ 'is-invalid': submitted && formControls.travelID.errors }" required>
+                <mat-option *ngFor="let travel of masterSocialHistory" [value]="travel.id">
+                  {{travel.value}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="formControls.travelID.errors">
+                Please select this option
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 d-sm-flex justify-content-sm-end pt-3 actions-btn mb-3">
+            <button name="Save" mat-raised-button color="primary" (click)="onSubmit($event)" form="socialForm" class="text-uppercase" [disabled]="submitted" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+            </div>
+            </div>
+          </div>
+        </form>
+      </div>

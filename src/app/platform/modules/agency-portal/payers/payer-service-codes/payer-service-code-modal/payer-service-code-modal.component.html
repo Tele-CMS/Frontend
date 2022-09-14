@@ -1,0 +1,128 @@
+<div class="custom_modal">
+    <h3 mat-dialog-title>{{headerText}}</h3>
+    <div mat-dialog-content>
+        <div class="row">
+            <div class="col-sm-12">
+                <form id="pscCodeForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="pscCodeForm">
+                    <div class="row">
+                        <div class="col-sm-6 require">
+                            <mat-form-field class="example-full-width">
+                                <mat-select placeholder="Service Code" formControlName="serviceCodeId" matInput [ngClass]="{ 'is-invalid': submitted && formControls.serviceCodeId.errors }" required [disabled]="isUpdate" (selectionChange)="getMasterServiceCodeById($event.value)">
+                                    <mat-option *ngFor="let serviceCode of masterServiceCode" [value]="serviceCode.id">
+                                        {{serviceCode.value}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formControls.serviceCodeId.errors?.required">
+                                    Please select service code
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <!-- <div class="col-sm-6 require">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Rounding Rule" formControlName="ruleID" matInput [ngClass]="{ 'is-invalid': submitted && formControls.ruleID.errors }"
+                  required>
+                  <mat-option *ngFor="let rule of masterRoundingRules" [value]="rule.id">
+                    {{rule.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.ruleID.errors?.required">
+                  Please select rounding rule
+                </mat-error>
+              </mat-form-field>
+            </div> -->
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <textarea matInput autofocus placeholder="Description" maxlength="500" formControlName="description"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 require">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autofocus placeholder="Unit Duration" maxlength="60" formControlName="unitDuration" [ngClass]="{ 'is-invalid': submitted && formControls.unitDuration.errors }" required />
+                                <mat-error *ngIf="formControls.unitDuration.errors?.required">
+                                    Please enter duration
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6 require">
+                            <mat-form-field class="example-full-width">
+                                <mat-select placeholder="Unit Type" formControlName="unitType" matInput [ngClass]="{ 'is-invalid': submitted && formControls.unitType.errors }" required>
+                                    <mat-option *ngFor="let unit of masterUnitType" [value]="unit.id">
+                                        {{unit.value}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formControls.unitType.errors?.required">
+                                    Please select unit type
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autofocus placeholder="Rate" formControlName="ratePerUnit" [ngClass]="{ 'is-invalid': submitted && formControls.ratePerUnit.errors }" required />
+                                <mat-error *ngIf="formControls.ratePerUnit.errors?.required">
+                                    Please enter rate
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="row" formArrayName="payerModifierModel">
+                            <div class="col-sm-6 pdr-40" *ngFor="let modifer of pscCodeForm.get('payerModifierModel')['controls'];let ix = index;">
+                                <div class="row" formGroupName="{{ix}}">
+                                    <div class="col-sm-6">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-select placeholder="Select Modifier" formControlName="modifier" matInput (selectionChange)="addRate(ix,$event)">
+                                                <mat-option *ngFor="let md of masterModifers" [value]="md.modifier">
+                                                    {{md.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput autofocus placeholder="Rate" maxlength="60" formControlName="rate" />
+                                        </mat-form-field>
+
+                                    </div>
+                                </div>
+                                <div>
+                                    <button *ngIf="(ix > 0) || (modifiers['controls'].length > 1)" type="button" class="additem removeitem" title="Remove row" (click)="removeModifier(ix)">
+                      <b class="fa fa-minus-square redfont" aria-hidden="true"></b>
+                    </button>
+                                    <button *ngIf="(ix + 1) === modifiers['controls'].length" type="button" class="additem" title="Add row" (click)="addModifier()">
+                      <b class="fa fa-plus-square greenfont" aria-hidden="true"></b>
+                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <mat-checkbox formControlName="isBillable">
+                                Is Billable
+                            </mat-checkbox>
+                        </div>
+                        <div class="col-sm-6">
+                            <mat-checkbox formControlName="isRequiredAuthorization">
+                                Is Required Authorization
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+        <div>
+            <button name="Save" mat-raised-button color="primary" (click)="onSubmit()" form="pscCodeForm" class="text-uppercase" [disabled]="submitted" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+        </div>
+    </div>
+</div>

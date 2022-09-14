@@ -1,0 +1,120 @@
+
+<div [ngClass]="{'readmin-panel' : !isSpecificUser}">
+  <h2 *ngIf="!isSpecificUser" class="page_title">
+    Manage Leaves</h2>
+  <div *ngIf="!isSpecificUser" class="clearfix"></div>
+  <div class="row">
+    <div class="col-md-7 justify-content-start pull-left" *ngIf="!staffId">
+      <div>
+        <div class="row">
+          <div class="col-7 mtm-27">
+            <form class="readmin-form custom_form" [formGroup]="staffLeaveFormGroup">
+              <mat-form-field class="example-full-width">
+                <mat-select formControlName="filterStaffId" placeholder="Select Staff" (selectionChange)='getStaffLeaves($event.value)'
+                  matInput>
+                  <mat-option *ngFor="let state of masterStaffs" [value]="state.id">
+                    {{state.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </form>
+          </div>
+          <div class="col-5 filter-btn">
+            <button class="clear-btn" mat-raised-button (click)='clearFilter()'>Clear All</button>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+  <div *ngIf="staffId">
+    <div class="col-md-12 pull-right justify-content-md-end d-flex mb-3 mt-3">
+      <button mat-raised-button color="primary" class="add-primary-btn" (click)="openDialog()">
+        <i class="fa fa-plus" aria-hidden="true"></i> <span>Apply Leaves</span></button>
+    </div>
+  </div>
+  <div class="table-responsive mt-15">
+    <table class="table table-hover customtable group-table" matSort matSortDisableClear>
+      <thead>
+        <tr>
+          <th width="15%">
+            <span class="Tblsort sorting">Staff Name</span>
+          </th>
+          <th width="12%">
+            <span class="Tblsort sorting">Leave Type</span>
+          </th>
+          <th width="15%">
+            <span class="Tblsort sorting">Leave Reason</span>
+          </th>
+          <th width="13%" mat-sort-header="fromDate" disableClear>
+            <span class="Tblsort sorting">From Date</span>
+          </th>
+          <th width="10%" mat-sort-header="toDate" disableClear>
+            <span class="Tblsort sorting">To Date</span>
+          </th>
+
+          <th width="20%">
+            <span class="Tblsort sorting">Description</span>
+          </th>
+          <th width="15%" *ngIf="selectedStaffSelectedId">
+            <span class="Tblsort sorting">Leave Status</span>
+          </th>
+          <th width="15%" *ngIf="staffId">
+            <span class="Tblsort sorting">Actions</span>
+          </th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let code of usersData">
+          <td>
+            <span>{{code.staffName}}</span>
+          </td>
+          <td>
+            <span>{{code.leaveType}}</span>
+          </td>
+          <td>
+            <span>{{code.leaveReason}}</span>
+          </td>
+          <td>
+            <span>{{code.fromDate}}</span>
+          </td>
+          <td>
+            <span>{{code.toDate}}</span>
+          </td>
+          <td>
+            <i [matTooltip]="code.description" matTooltipClass="example-tooltip" class="fa fa-info-circle infoIcon">
+            </i>
+            <span>{{code.description}}</span>
+          </td>
+          <td *ngIf="staffId">{{code.leaveStatus}}</td>
+          <td *ngIf="!staffId">
+            <mat-form-field class="example-full-width">
+              <mat-select (selectionChange)='addStatus(code.id,$event.value)' [value]="code.leaveStatusId" matInput
+                [disabled]="code.leaveStatus.toLowerCase() == 'approved'">
+                <mat-option *ngFor="let status of masterLeaveStatus" [value]="status.id">
+                  {{status.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td *ngIf="staffId">
+            <button type="button" title="Edit" class="tbactionbtn" (click)="editAppliedLeave(code.id)">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </button>
+            <button type="button" title="Delete" class="tbactionbtn" (click)="deleteAppliedLeave(code.id)">
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <mat-paginator [length]="metaData['totalRecords']" [pageIndex]="metaData['currentPage'] - 1" [pageSize]="metaData['pageSize']"
+      showFirstLastButtons></mat-paginator>
+  </div>
+  <div class="row" *ngIf="!staffId">
+    <div class="col-md-12 pull-right justify-content-md-end d-flex mat-dialog-actions">
+      <button mat-raised-button color="primary" (click)="submitLeaves()">
+        <i aria-hidden="true"></i>Update</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,370 @@
+<head>
+    <meta charset="utf-8">
+    <!-- <title>SmartHealth - Provider Dashboard</title> -->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"></script>-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/css/font-awesome.css" integrity="sha512-72McA95q/YhjwmWFMGe8RI3aZIMCTJWPBbV8iQY3jy1z9+bi6+jHnERuNrDPo/WGYEzzNs4WdHNyyEr/yXJ9pA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"> -->
+
+</head>
+
+
+<div class="provider-container">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-sm-12 col-md-4">
+                <div class="blue-box">
+                    <h3>Appointments</h3>
+                    <div class="blue-box-inner">
+                        <div class="row blue-box-detail">
+                            <div class="col-md-6" (click)="gotoschedulertoday('today')">
+                                <div class="lght-txt">Today</div>
+                                <div class="white-txt">{{dashboardData.todayAppointmentsCount}}</div>
+                            </div>
+                            <div class="col-md-6" (click)="gotoschedulermonth('currentmonth')">
+                                <div class="lght-txt">This Month</div>
+                                <div class="white-txt">{{dashboardData.totalAppointments}}</div>
+                            </div>
+                        </div>
+                        <div class="row blue-box-detail">
+                            <div class="col-md-6" (click)="gotoschedulermonth('previousmonth')">
+                                <div class="lght-txt">Last Month</div>
+                                <div class="white-txt">{{dashboardData.todayAppointments}}</div>
+                            </div>
+                            <div class="col-md-6" (click)="gotoschedulerTotal()">
+                                <div class="lght-txt">Total</div>
+                                <div class="white-txt">{{dashboardData.totalAppointmentsCount}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-sm-12 col-md-4">
+                <div class="blue-box">
+                    <h3>Payments</h3>
+                    <div class="blue-box-inner">
+                        <div class="row blue-box-detail">
+                            <div class="col-md-6" (click)="gotopayments()">
+                                <div class="lght-txt">Today</div>
+                                <div class="white-txt" *ngIf="dashboardData">${{dashboardData.todaysAppointmentsAmount}}</div>
+
+                            </div>
+                            <div class="col-md-6" (click)="gotopayments()">
+                                <div class="lght-txt">This Month</div>
+                                <div class="white-txt" *ngIf="dashboardData && dashboardData.appointmentTotalRevenue ">${{dashboardData.appointmentTotalRevenue.totalRevenue| number: '2.0-2'}}</div>
+                            </div>
+                        </div>
+                        <div class="row blue-box-detail">
+                            <div class="col-md-6" (click)="gotopaymentslastmonth('previousmonth')">
+                                <div class="lght-txt">Last Month</div>
+                                <div class="white-txt" *ngIf="dashboardData && dashboardData.previousMonthAppointmentsAmount">${{dashboardData.previousMonthAppointmentsAmount| number: '2.0-2'}}</div>
+                            </div>
+                            <div class="col-md-6" (click)="gotopayments()">
+                                <div class="lght-txt">Total</div>
+                                <div class="white-txt" *ngIf="dashboardData && dashboardData.totalAppointmentsAmount">${{dashboardData.totalAppointmentsAmount| number: '2.0-2'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="col-sm-12 col-md-4">
+                <div class="blue-box">
+                    <h3>Upcoming Appointments</h3>
+                    <div class="blue-box-inner">
+                        <li *ngIf="allAppointmentsList.length > 0">
+                            <p><i class="la la-calendar-times-o"></i> {{appointmentTime1}}</p>
+                        </li>
+                        <li *ngIf="allAppointmentsList.length > 1">
+                            <p><i class="la la-calendar-times-o"></i> {{appointmentTime2}}</p>
+                        </li>
+                        <li *ngIf="allAppointmentsList.length == 0">
+                            <p> No appointments </p>
+                        </li>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-sm-12 col-md-4">
+                <div class="blue-box" id="main">
+                    <h3>Consultation</h3>
+                    <div class="accordion" id="faq">
+                        <div class="card">
+                            <div id="faqhead1">
+                                <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="true" aria-controls="faq1">
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i> New
+                                </a>
+                            </div>
+
+                            <div id="faq1" class="collapse" aria-labelledby="faqhead1" data-parent="#faq">
+                                <div class="card-body">
+                                    <button mat-raised-button color="primary" (click)="gotoscheduler('currentmonth','new','online')">
+                                    Teleconsultation</button>
+                                    <button mat-raised-button color="primary" (click)="gotoscheduler('currentmonth','new','face to face')">
+                                      Face To Face</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div id="faqhead2">
+                                <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq2" aria-expanded="true" aria-controls="faq2">
+                                    <i class="fa fa-phone-square" aria-hidden="true"></i> Follow-Up</a>
+
+                            </div>
+
+                            <div id="faq2" class="collapse" aria-labelledby="faqhead2" data-parent="#faq">
+                                <div class="card-body">
+                                    <button mat-raised-button color="primary" (click)="gotoscheduler('currentmonth','follow up','online')">
+                                        Teleconsultation</button>
+                                    <button mat-raised-button color="primary" (click)="gotoscheduler('currentmonth','follow up','face to face')">
+                                          Face To Face</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="card">
+                            <div id="faqhead3">
+                                <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq3" aria-expanded="true" aria-controls="faq3" (click)="opentermconditionmodal()">
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i> UrgentCare
+                                </a>
+                            </div> -->
+
+                        <!-- <div id="faq3" class="collapse" aria-labelledby="faqhead3" data-parent="#faq">
+                                <div class="card-body">
+                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</div>
+                            </div> -->
+                        <!-- </div>
+                    </div> -->
+                        <!--<div class="accordion" id="accordionExample">
+                      <div class="card">
+                        <div class="card-head" id="headingOne">
+                          <h2 class="mb-0" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                              Collapsible Group Item #1
+                          </h2>
+                        </div>
+
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                          <div class="card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card">
+                        <div class="card-head" id="headingTwo">
+                          <h2 class="mb-0 collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                              Collapsible Group Item #2
+                          </h2>
+                        </div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                          <div class="card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card">
+                        <div class="card-head" id="headingThree">
+                          <h2 class="mb-0 collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                              Collapsible Group Item #3
+                          </h2>
+                        </div>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                          <div class="card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
+                          </div>
+                        </div>
+                      </div>
+                    </div>-->
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-3">
+                <div class="white-box service-blk">
+                    <h3>Top Services</h3>
+                    <ul>
+                        <li *ngFor="let serv of staffProfile.staffServices"><i class="fa fa-medkit" aria-hidden="true"></i>{{serv.serviceName}}</li>
+                        <!-- <li><i class="fa fa-plus-circle" aria-hidden="true"></i> Diabetes</li>
+                        <li><i class="fa fa-plus-circle" aria-hidden="true"></i> Substance abuse counseling</li>
+                        <li><i class="fa fa-plus-circle" aria-hidden="true"></i> Biopsie</li>
+                        <li><i class="fa fa-plus-circle" aria-hidden="true"></i> Cryotherapy</li> -->
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-9">
+                <div class="white-box nw-appt-details">
+                    <h3> Appointment Details</h3>
+                    <app-appointment-graph></app-appointment-graph>
+                </div>
+            </div>
+            <!-- <div class="col-sm-12 col-md-9">
+                <div class="white-box nw-appt-details">
+                    <h3> Encounters Graph</h3>
+                    <app-encounter-graph></app-encounter-graph>
+                </div>
+            </div>  -->
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <!-- <div class="hgt100 dash-blk cstm-mat-grid">
+    <div>
+        <span *ngIf="showMessage && passwordExpiryMessage && status">
+      <div class="alert {{passwordExpiryColorCode}} update-pwd">
+        {{passwordExpiryMessage}}
+        <i (click)="hideMessageClick()" class="fa fa-times" aria-hidden="true"></i>
+      </div>
+    </span>
+        <div>
+            <div>
+                <h2 class="page_title">Your Appointments</h2>
+                <div *ngIf="showurgentcarebtn" class="col-md-3 pull-right justify-content-md-end d-flex mt-15">
+                    <button mat-raised-button color="primary" (click)="Redirect()">
+                 Join Urgent Care Call</button>
+                </div>
+                <div class="clearfix"></div>
+                <div class="iconbox-wrapper dashboard-box">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="iconbox-single white-txt show-hand" style="background-color: #2f2660;" (click)="gotoscheduler('currentmonth')">
+                                <div class="box-title pt-3">
+                                    <div class="circle-icon">
+                                        <img src="../../../../../assets/img/calender-icon.png" alt="" />
+
+                                    </div>
+                                    <div>
+                                        <p class="white-txt">This Month <br>Appointments</p>
+
+                                    </div>
+                                </div>
+                                <h5>{{dashboardData.totalAppointments}}</h5>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="iconbox-single show-hand" style="background-color: rgb(46 38 95 / 25%);" (click)="gotoscheduler('previousmonth')">
+                                <div class="box-title pt-3">
+                                    <div class="circle-icon white-icon">
+
+                                        <img src="../../../../../assets/img/checkout-icon.png" alt="" />
+                                    </div>
+                                    <div>
+                                        <p>Previous Month <br> Appointments</p>
+
+                                    </div>
+                                </div>
+                                <h5>{{dashboardData.todayAppointments}}</h5>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="iconbox-single show-hand" style="background-color: #89f8ab" (click)="gotopayments()">
+                                <div class="box-title pt-3">
+                                    <div class="circle-icon">
+
+                                        <img src="../../../../../assets/img/revenue-icon.png" alt="" />
+                                    </div>
+                                    <div>
+                                        <p>Total Revenue <br> This Month</p>
+
+                                    </div>
+                                </div>
+                                <div *ngIf="dashboardData && dashboardData.appointmentTotalRevenue ">
+                                    <h5>${{dashboardData.appointmentTotalRevenue.totalRevenue| number: '2.0-2'}}</h5>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <app-appointment-graph></app-appointment-graph>
+
+
+                <div class="row dashboardchart" style="display: none;">
+                    <div class="col-md-12 mb-30">
+                        <div class="readmin-panel pt-0">
+                            <div class="panel-heading dashboard-panel">
+                                <h5>{{headerText}}</h5>
+                                <div style="display: inline-block; position: relative;">
+                                    <button mat-icon-button [matMenuTriggerFor]="authMenu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                                    <mat-menu #authMenu="matMenu">
+                                        <button mat-menu-item (click)="changeWidget('authorization')">
+                    <span>Authorization</span>
+                  </button>
+                                        <button mat-menu-item (click)="changeWidget('clientstatus')">
+                    <span>Patient Status</span>
+                  </button>
+                                    </mat-menu>
+                                </div>
+                            </div>
+                            <div class="dashboard_body">
+                                <div *ngIf="isAuth" class="table-responsive">
+                                    <app-auth-list></app-auth-list>
+                                </div>
+                                <div *ngIf="!isAuth">
+                                    <app-line-chart [lineChartData]="lineChartData" [lineChartLabels]="lineChartLabels"></app-line-chart>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row dashboardchart" style="display: none">
+                    <div class="col-md-12 mb-30">
+                        <div class="readmin-panel pt-0 righticonmenu">
+
+
+                            <mat-tab-group (selectedTabChange)="onTabChanged($event)">
+
+                                <mat-tab>
+                                    <ng-template mat-tab-label>
+                                        APPROVED APPOINTMENTS
+
+                                    </ng-template>
+                                    <div class="dash-table mt-3">
+
+                                        <ng-scrollbar [trackX]="true" [autoHide]="true">
+
+                                            <app-data-table class="sticky-table fixed-table no-table" [ngClass]="{'no-fixed':encounterList && encounterList.length == 0,'':encounterList && encounterList.length > 0}" stickyHeader="true" [inputColumns]="aprovedAppointmentsDisplayedColumns" [inputSource]="encounterList"
+                                                [inputMeta]="encMeta" [inputButtons]='aprovedAppointmentsActionButtons' (onChange)="onEncPageOrSortChange($event)" (onTableActionClick)="onEncTableActionClick($event)">
+                                            </app-data-table>
+                                        </ng-scrollbar>
+                                    </div>
+                                </mat-tab>
+
+                                <mat-tab label="CANCELLED APPOINTMENTS">
+                                    <div class="dash-table mt-3">
+                                        <ng-scrollbar [trackX]="true" [autoHide]="true">
+                                            <app-data-table class="sticky-table fixed-table no-table" [ngClass]="{'no-fixed':cancelledPatientAppointment && cancelledPatientAppointment.length == 0,'':cancelledPatientAppointment && cancelledPatientAppointment.length > 0}" stickyHeader="true" [inputColumns]="cancelledDisplayedColumns"
+                                                [inputSource]="cancelledPatientAppointment" [inputMeta]="cancelledAppointmentMeta" [inputButtons]='cancelledActionButtons' (onChange)="onCancelledPageOrSortChange($event)">
+                                            </app-data-table>
+                                        </ng-scrollbar>
+                                    </div>
+                                </mat-tab>
+                            </mat-tab-group>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->

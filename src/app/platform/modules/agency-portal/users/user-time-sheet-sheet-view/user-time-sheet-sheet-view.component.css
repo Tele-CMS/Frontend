@@ -1,0 +1,13 @@
+/*User Time Sheet*/
+.week-date{display: flex; justify-content: flex-start; align-items: center;}
+.week-date .pre-next-btn {
+    min-width: 30px !important;
+    height: 30px !important;
+    line-height: 27px !important;
+    width: 30px !important;
+    border: 0px;
+    background-color: transparent;
+}
+
+.week-date .pre-next-btn i{color: var(--color-black) !important;}
+.week-date p{margin: 0px;}

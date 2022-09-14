@@ -1,0 +1,33 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Service Code</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+
+        <div class="row">
+          <div class="col-sm-12 require">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Service Code" (selectionChange)="onServiceCodeSelection($event)" matInput
+                [ngClass]="{ 'is-invalid': submitted && formControls.serviceCode.errors }" required>
+                <mat-option *ngFor="let option of masterServiceCode" [value]="option">
+                  {{option.value}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="formControls.serviceCode.errors">
+                Please select service code
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+    <button mat-raised-button color="accent" (click)="onAddServiceCode()">
+      Add
+    </button>
+  </div>
+</div>

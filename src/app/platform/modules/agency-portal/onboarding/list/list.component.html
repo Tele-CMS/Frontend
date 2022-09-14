@@ -1,0 +1,296 @@
+<div class="container-fluid">
+<div class="layout-theme-tp-bar absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
+
+    <!-- Header -->
+    <div class="relative flex-0 py-8 px-4 sm:p-16 overflow-hidden bg-gray-800 dark top-banner">
+        <!-- Background - @formatter:off -->
+        <!-- Rings -->
+        <svg class="absolute inset-0 pointer-events-none" viewBox="0 0 960 540" width="100%" height="100%" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+            <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
+                <circle r="234" cx="196" cy="23"></circle>
+                <circle r="234" cx="790" cy="491"></circle>
+            </g>
+        </svg>
+        <!-- @formatter:on -->
+        <div class="z-10 relative flex flex-col items-center">
+            <h3 class="text-xl font-semibold">Onboarding Modules</h3>
+            <h2 class="mt-1 text-4xl sm:text-7xl font-extrabold tracking-tight leading-tight text-center">
+                Interactive How To Guides
+            </h2>
+            <div class="max-w-2xl mt-6 sm:text-2xl text-center tracking-tight text-muted">
+                These sections will step you through the process of navigating through the complexities of healthcare.
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex flex-auto p-6 sm:p-10">
+
+        <div class="flex flex-col flex-auto w-full max-w-xs sm:max-w-5xl mx-auto">
+            <!-- Filters -->
+            <div class="d-flex flex-col sm:flex-row align-items-center justify-content-between w-full max-w-xs sm:max-w-none">
+                
+                    <select class="select-categories" name="" id="" (change)="filterByCategory($event)">
+                        <option [value]="'all'">All</option>
+                        <ng-container *ngFor="let category of onBoardingCategories; trackBy: trackByFn">
+                            <option [value]="category.slug">{{category.title}}</option>
+                            <mat-option [value]="category.slug">{{category.title}}</mat-option>
+                        </ng-container>
+                        
+                    </select>  
+                <mat-form-field appearance="outline" class="my-3 searchCat" [floatLabel]="'always'">
+                    <!-- <mat-icon matPrefix class="icon-size-5 text-current" [svgIcon]="'heroicons_solid:search'"></mat-icon> -->
+                    <svg id="document-search" class="icon-size-5 text-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="20" height="20">
+                        <path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2h-1.528A6 6 0 004 9.528V4z"/>
+                        <path fill-rule="evenodd" d="M8 10a4 4 0 00-3.446 6.032l-1.261 1.26a1 1 0 101.414 1.415l1.261-1.261A4 4 0 108 10zm-2 4a2 2 0 114 0 2 2 0 01-4 0z" clip-rule="evenodd"/>
+                    </svg>
+                    <input (input)="filterByQuery(query.value)" placeholder="Search by title or description" matInput #query>
+                </mat-form-field>
+                <!-- <mat-slide-toggle
+                    class="mt-8 sm:mt-0 sm:ml-auto"
+                    [color]="'primary'"
+                    (change)="toggleCompleted($event)">
+                    Hide completed
+                </mat-slide-toggle> -->
+                <button *ngIf="IsAddPermission" class="btn btn-primary" (click)="addHeaderModal()"><i class="fa fa-plus"></i> Add Module</button>
+            </div>
+            <!-- Sections -->
+
+            <ng-container *ngIf="filteredOnBoardingModules.length; else noSections">
+                <div class="boxes-wraper">
+                    <ng-container *ngFor="let section of filteredOnBoardingModules | paginate : {itemsPerPage : itemsPerPage, currentPage: page}; trackBy: trackByFn">
+                        <!-- Section -->
+                       
+                        <div class="flex flex-col h-100% shadow-light-md rounded-lg overflow-hidden bg-card">
+                            <div class="tutsTop flex flex-col p-6">
+                                <ng-container *ngIf="section.isImage">
+                                    <ng-container *ngIf="section.isImage == 1">
+                                        <div class="relative w-full mb-3">
+                                            <img class="w-full rounded object-cover" [src]="section.headerImage">
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="section.isImage == 2">
+                                        <div class="relative w-full mb-3">
+                                            <!--<video class="w-full rounded object-cover" [src]="section.headerVideo"></video>-->
+                                            <iframe class="w-full rounded object-cover" [src]="section.headerVideo" title="View Only"></iframe>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <!-- Section category -->
+                                    <!-- <ng-container *ngIf="(section.category | telecmsFindByKey:'slug':onBoardingCategories) as category"> -->
+                                    <ng-container >
+                                       
+                                        <!-- <div class="categoryTuts py-0.5 px-3 rounded-full text-sm font-semibold" [ngClass]="{'text-blue-800 bg-blue-100 dark:text-blue-50 dark:bg-blue-500': category.slug === 'web',
+                                                        'text-green-800 bg-green-100 dark:text-green-50 dark:bg-green-500': category.slug === 'android',
+                                                        'text-pink-800 bg-pink-100 dark:text-pink-50 dark:bg-pink-500': category.slug === 'cloud',
+                                                        'text-amber-800 bg-amber-100 dark:text-amber-50 dark:bg-amber-500': category.slug === 'firebase'}">
+                                            {{category.title}}
+                                        </div> -->
+                                         <div class="categoryTuts py-0.5 px-3 rounded-full text-sm font-semibold" [ngClass]="{'text-blue-800 bg-blue-100 dark:text-blue-50 dark:bg-blue-500': section.category === 'web',
+                                                        'text-green-800 bg-green-100 dark:text-green-50 dark:bg-green-500': section.category === 'android',
+                                                        'text-pink-800 bg-pink-100 dark:text-pink-50 dark:bg-pink-500': section.category === 'cloud',
+                                                        'text-amber-800 bg-amber-100 dark:text-amber-50 dark:bg-amber-500': section.category === 'firebase'}">
+                                            {{section.category}}
+                                        </div>
+                                    </ng-container>
+                                    <!-- Completed at least once -->
+                                    <div class="flex items-center">
+                                        <ng-container *ngIf="section.totalSteps">
+                                            <ng-container *ngIf="section.totalSteps > 0">
+                                                <!-- <mat-icon class="icon-size-5 text-green-600" [svgIcon]="'heroicons_solid:badge-check'" [matTooltip]="'You completed this section at least once'"></mat-icon> -->
+                                                <svg id="badge-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"  width="18" height="18">
+                                                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </ng-container>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <!-- Section title & description -->
+                                <h4>{{section.header}}</h4>
+                                <div class="tutsDetails text-muted">{{section.headerDescription}}</div>
+                                <div class="w-12 h-1 my-4 border-t-2"></div>
+                                <!-- Section time -->
+                                <!-- <div class="d-flex align-items-center leading-5 text-md text-muted">
+                                    <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                    <ng-container *ngIf="!section.duration">
+                                        <div class="ml-1.5">0 minutes</div>
+                                    </ng-container>
+                                    <ng-container *ngIf="section.duration">
+                                        <div class="ml-1.5">{{section.duration}} minutes</div>
+                                    </ng-container>
+
+                                </div> -->
+                                <!-- Section completion -->
+                                <div class="d-flex align-items-center mt-2 leading-5 text-md text-muted">
+                                    <!-- <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:academic-cap'"></mat-icon> -->
+                                    <svg id="academic-cap" class="icon-size-5 m-l10 text-hint" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="18" height="18" fill="currentColor">
+                                        <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+                                    </svg>
+                                    <ng-container *ngIf="!section.totalSteps">
+                                        <div class="ms-2">Never completed</div>
+                                    </ng-container>
+                                    <ng-container *ngIf="section.totalSteps > 0">
+                                        <div class="ms-2">
+                                            <span>Completed</span>
+                                            <span class="ml-1">
+                                                <!-- Once -->
+                                                <ng-container *ngIf="section.totalSteps === 1">once</ng-container>
+                                                <!-- Twice -->
+                                                <ng-container *ngIf="section.totalSteps === 2">twice</ng-container>
+                                                <!-- Others -->
+                                                <ng-container *ngIf="section.totalSteps > 2">{{section.totalSteps}}
+                                                    {{section.totalSteps | i18nPlural: {
+                                                        '=0'   : 'time',
+                                                        '=1'   : 'time',
+                                                        'other': 'times'
+                                                    } }}
+                                                </ng-container>
+                                            </span>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <!-- Footer -->
+                            <div class="flex flex-col w-full mt-auto">
+                                <!-- Section progress -->
+                                <!-- <div class="relative h-0.5">
+                                    <div
+                                        class="z-10 absolute inset-x-0 h-6 -mt-3"
+                                        [matTooltip]="section.progress.currentStep / section.totalSteps | percent"
+                                        [matTooltipPosition]="'above'"
+                                        [matTooltipClass]="'-mb-0.5'"></div>
+                                    <mat-progress-bar
+                                        class="h-0.5"
+                                        [value]="(100 * section.progress.currentStep) / section.totalSteps"></mat-progress-bar>
+                                </div> -->
+
+                                <!-- Section launch button -->
+                                <div class="box-footer">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <!-- <span  class="footerDelete" tooltip="Delete" tooltipPlacement="top"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-trash m-l10 icon-delete" viewBox="0 0 16 16" -->
+                                        <span   *ngIf="IsDeletePermission" class="footerDelete" ><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-trash m-l10 icon-delete" viewBox="0 0 16 16"
+                                          
+                                            [hidden]="!(['Pages.OnboardingHeaders.Edit', 'Pages.OnboardingModule.Delete'])" (click)="DeleteHeader(section.id);" title="Delete Details">
+                                           <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                           <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                       </svg></span>
+                                        <button class="btn btn-primary btn-sm" mat-stroked-button (click)="handleOnboardingRedirection(section.id)">
+                                            <span class="inline-flex items-center">
+    
+                                                <!-- Not started -->
+                                                <ng-container *ngIf="!section.totalSteps">
+                                                    <!-- Never completed -->
+                                                    <ng-container *ngIf="!section.totalSteps">
+                                                        <span>Start</span>
+                                                    </ng-container>
+                                                    <!-- Completed before -->
+                                                    <ng-container *ngIf="section.totalSteps > 0">
+                                                        <span>Start again</span>
+                                                    </ng-container>
+                                                </ng-container>
+    
+                                                <!-- Started -->
+                                                <ng-container *ngIf="section.totalSteps > 0">
+                                                    <span>Continue</span>
+                                                </ng-container>
+    
+                                                <!-- <mat-icon class="ml-1.5 icon-size-5"
+                                                          [svgIcon]="'heroicons_solid:arrow-sm-right'"></mat-icon> -->
+                                                          <svg id="arrow-sm-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="18" height="18" fill="currentColor" >
+                                                            <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                                        </svg>
+                                            
+                                                        </span>
+                                        </button>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+
+                <ng-container *ngIf="filteredOnBoardingModules.length > 1">
+                    <!--begin::Pagination-->
+                        <div class="d-flex flex-stack flex-wrap pt-10">
+                            <app-data-pagination [page]="page" [itemsPerPage]="itemsPerPage" [pageData]="filteredOnBoardingModules"></app-data-pagination>
+                            <!--begin::Pages-->
+                            <pagination-controls (pageChange)="page = $event"></pagination-controls>
+                            <!--end::Pages-->
+                        </div>
+                    <!--end::Pagination-->
+                </ng-container>
+            </ng-container>
+
+            <!-- No sections -->
+            <ng-template #noSections>
+                <div class="noDataFound">
+                    <!-- <mat-icon class="icon-size-30" [svgIcon]="'iconsmind:file_search'"></mat-icon> -->
+                    <span class="iconSearch">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="303" height="262.792" viewBox="0 0 303 262.792">
+                            <defs>
+                            <clipPath id="clip-path">
+                                <rect id="Rectangle_2" data-name="Rectangle 2" width="272.047" height="219.601" fill="none"/>
+                            </clipPath>
+                            <clipPath id="clip-path-2">
+                                <rect id="Rectangle_7" data-name="Rectangle 7" width="162.468" height="189.303" fill="none"/>
+                            </clipPath>
+                            <clipPath id="clip-path-4">
+                                <rect id="Rectangle_4" data-name="Rectangle 4" width="45.491" height="85.06" fill="none"/>
+                            </clipPath>
+                            <clipPath id="clip-path-5">
+                                <rect id="Rectangle_5" data-name="Rectangle 5" width="9.702" height="9.686" fill="none"/>
+                            </clipPath>
+                            </defs>
+                            <g id="searchIcon" transform="translate(-380 -1880)">
+                            <g id="Group_2" data-name="Group 2" transform="translate(380 1880)">
+                                <g id="Group_1" data-name="Group 1" clip-path="url(#clip-path)">
+                                <path id="Path_1" data-name="Path 1" d="M136.024,14.292V10.665A10.808,10.808,0,0,0,125.078,0H10.946A10.808,10.808,0,0,0,0,10.665V202.977H272.048V24.957A10.809,10.809,0,0,0,261.1,14.292Z" transform="translate(0 0)" fill="#89d6d6"/>
+                                <rect id="Rectangle_1" data-name="Rectangle 1" width="250.436" height="175.269" transform="translate(12.077 29.66)" fill="#fff"/>
+                                <path id="Path_2" data-name="Path 2" d="M132.144,76.122l-4.039,10.909H10.946A10.808,10.808,0,0,0,0,97.7V233.483a10.808,10.808,0,0,0,10.946,10.665H261.1a10.808,10.808,0,0,0,10.946-10.665V79.74A10.808,10.808,0,0,0,261.1,69.075H142.441a10.935,10.935,0,0,0-10.3,7.047" transform="translate(0 -24.546)" fill="#3ababa"/>
+                                </g>
+                            </g>
+                            <g id="Group_12" data-name="Group 12" transform="translate(520.532 1953.489)">
+                                <g id="Group_11" data-name="Group 11" clip-path="url(#clip-path-2)">
+                                <rect id="Rectangle_3" data-name="Rectangle 3" width="95.294" height="20.417" transform="matrix(-0.602, -0.799, 0.799, -0.602, 130.139, 167.684)" fill="#9ea6ad"/>
+                                <g id="Group_10" data-name="Group 10">
+                                    <g id="Group_9" data-name="Group 9" clip-path="url(#clip-path-2)">
+                                    <path id="Path_3" data-name="Path 3" d="M48.033,225.728l.188-.142c5.142-3.877,6.973-10.124,4.089-13.954L19.645,167.567,0,181.723l33.5,44.089c2.884,3.83,9.392,3.793,14.535-.084" transform="translate(108.791 -39.358)" fill="#1a3151"/>
+                                    <path id="Path_4" data-name="Path 4" d="M64.358,98.173c20.27,26.912,58.673,32.166,85.776,11.737S182.777,51.1,162.507,24.19,103.834-7.977,76.731,12.453,44.088,71.262,64.358,98.173" transform="translate(-52.148 0)" fill="#1a3151"/>
+                                    <path id="Path_5" data-name="Path 5" d="M73.845,95.629A52.868,52.868,0,1,0,84.488,21.887,52.65,52.65,0,0,0,73.845,95.629" transform="translate(-54.777 -2.624)" fill="#d1e7f5"/>
+                                    <g id="Group_5" data-name="Group 5" transform="translate(13.652 16.292)" opacity="0.22">
+                                        <g id="Group_4" data-name="Group 4" transform="translate(0)">
+                                        <g id="Group_3" data-name="Group 3" clip-path="url(#clip-path-4)">
+                                            <path id="Path_6" data-name="Path 6" d="M177.37,28.607a37.848,37.848,0,0,0-34.3,30.06A37.087,37.087,0,0,0,163.566,99.19c4.279,2.013,1.419,8.81-2.866,6.8a44.6,44.6,0,0,1-25.3-45.938c2.392-18.917,17.22-34.066,35.714-38a40.925,40.925,0,0,1,5.428-.738c4.719-.358,5.585,6.94.832,7.3" transform="translate(-135.044 -21.294)" fill="#f9f9f9"/>
+                                        </g>
+                                        </g>
+                                    </g>
+                                    <g id="Group_8" data-name="Group 8" transform="translate(49.309 96.704)" opacity="0.31">
+                                        <g id="Group_7" data-name="Group 7" transform="translate(0)">
+                                        <g id="Group_6" data-name="Group 6" clip-path="url(#clip-path-5)">
+                                            <path id="Path_7" data-name="Path 7" d="M136.184,134.162a4.864,4.864,0,1,0,.979-6.785,4.844,4.844,0,0,0-.979,6.785" transform="translate(-135.218 -126.391)" fill="#f9f9f9"/>
+                                        </g>
+                                        </g>
+                                    </g>
+                                    <path id="Path_8" data-name="Path 8" d="M65.757,167.6,47.066,181.068a1.537,1.537,0,0,1-2.048-.22l-.169-.191a1.537,1.537,0,0,1,.272-2.274l18.843-13.3a1.536,1.536,0,0,1,2.159.387l.017.025a1.538,1.538,0,0,1-.383,2.107" transform="translate(62.047 -38.707)" fill="#145566"/>
+                                    <path id="Path_9" data-name="Path 9" d="M119.323,113.978a52.616,52.616,0,0,0,47.738-49.584A51.684,51.684,0,0,0,124.417,10.82,52.422,52.422,0,0,0,67.355,83.831a51.777,51.777,0,0,0,51.969,30.147,1.4,1.4,0,0,1,.236,2.788,55.376,55.376,0,0,1-35.7-9.175A54.437,54.437,0,0,1,62.348,78.479,55.158,55.158,0,0,1,156.9,26.358,54.534,54.534,0,0,1,169.91,61.032a55.392,55.392,0,0,1-50.35,55.734,1.4,1.4,0,0,1-.236-2.788" transform="translate(-53.347 -1.703)" fill="#145566"/>
+                                    <path id="Path_10" data-name="Path 10" d="M61.826,220.183l.139-.1-.148.09ZM14.394,172.916l-.074-.155Z" transform="translate(89.547 -40.578)" fill="#737373"/>
+                                    </g>
+                                </g>
+                                </g>
+                            </g>
+                            </g>
+                        </svg>
+                    </span>
+                    
+  
+                    <div class="mt-6 font-semibold">Sorry! no sections found!</div>
+                </div>
+            </ng-template>
+        </div>
+
+    </div>
+
+</div></div>

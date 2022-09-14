@@ -1,0 +1,35 @@
+
+  <h2 class="page_title">Manage Time Sheet</h2>
+  <div class="clearfix"></div>
+  <div class="readmin-panel">
+    <div class="no-gutters">
+      <div class="col-md-7 justify-content-start pull-left">
+        <div class="row">
+          <div class="col-7 mtm-27">
+            <form class="readmin-form custom_form">
+              <mat-form-field class="example-full-width">
+                <mat-select [value]="staffId" placeholder="Select Staff" (selectionChange)='getStaffId($event.value)'
+                  matInput>
+                  <mat-option *ngFor="let state of masterStaffs" [value]="state.id">
+                    {{state.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </form>
+          </div>
+          <div class="col-5 filter-btn">
+            <button class="clear-btn" mat-raised-button (click)='clearFilter()'>Clear All</button>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+<div class="clearfix"></div>
+    <mat-tab-group (selectedTabChange)="loadComponent($event)" [selectedIndex]="selectedIndex">
+      <mat-tab *ngFor="let tab of timesheetTabs;let i=index" class="mat-tab-label-active" label={{tab}}>
+      </mat-tab>
+    </mat-tab-group>
+    <div #tabContent>
+      <div class="text-center" *ngIf="!(staffId)">No Staff Selected</div>
+    </div>
+  </div>

@@ -1,0 +1,41 @@
+<div [ngClass]=" { 'readmin-panel': isRoleClient }">
+  <div *ngIf="isRoleClient" class="d-flex justify-content-between panel-title align-items-center col-12">
+    <h1 class="page_title">My Encounters</h1>
+  </div>
+  <div class="clearfix client-encounter"></div>
+  <form class="readmin-form custom_form" id="encounterFormGroup" #documentForm="ngForm"
+    [formGroup]="encounterFormGroup">
+    <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-4">
+        <mat-form-field class="example-full-width">
+          <input matInput [matDatepicker]="fromDate" (focus)="fromDate.open()" placeholder="From Date"
+            formControlName="fromDate">
+          <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+          <mat-datepicker #fromDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-4">
+        <mat-form-field class="example-full-width">
+          <input matInput [matDatepicker]="toDate" (focus)="toDate.open()" placeholder="To Date"
+            formControlName="toDate">
+          <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+          <mat-datepicker #toDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-xl-4 col-lg-12 filter-btn justify-content-sm-between">
+        <div>
+          <button type="button" class="clear-btn mr-3" color="accent" mat-raised-button (click)='clearFilters()'>Clear
+            All</button>
+          <button name="Filter" mat-raised-button color="primary" (click)='applyFilter()'>Filter</button></div>
+        <button *ngIf="!isEncounterDrawerOpened && addPermission" class="ml-3" name="Filter" mat-raised-button
+          color="primary" (click)='openEncounterDialog()'>Add New</button>
+      </div>
+    </div>
+  </div>
+  </form>
+  <div class="clearfix"></div>
+  <app-data-table class="mt-3 d-block table-responsive patient-encounter-table" [inputColumns]="displayedColumns"
+    [inputSource]="encounterListModel" [inputMeta]="metaData" (onChange)="onPageOrSortChange($event)"
+    (onTableActionClick)="onTableActionClick($event)" [inputButtons]='actionButtons'></app-data-table>
+</div>

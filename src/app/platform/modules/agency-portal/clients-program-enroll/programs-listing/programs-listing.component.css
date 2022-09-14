@@ -1,0 +1,17 @@
+.refresh
+{
+    padding-right: 27px;
+}
+.field-clear
+{
+    position: absolute;
+    bottom: 1.80em;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.40);
+}
+.readmin-panel {
+  float: left;
+}
+.table-responsive td.mat-cell a {
+  color: #264653;
+}

@@ -1,0 +1,42 @@
+<div *ngIf="isClientDetailsRoute">
+  <div *ngIf="(clientId !=null && clientId !=undefined && clientId > 0); else AddClientSection;">
+    <h2 class="page_title">Update Patient</h2>
+  </div>
+  <ng-template #AddClientSection>
+    <div class="d-flex justify-content-between mb-3">
+      <h2 class="page_title">Add Patient</h2>
+    </div>
+  </ng-template>
+</div>
+
+<div #clientMainPanel>
+<!-- Client Common Header -->
+<ng-container *ngIf="isClientEncounter">
+  <div class="readmin-panel">
+  <app-client-header [ngClass]="{'SM': isMediaSM, 'MD': isMediaMD, 'LG': isMediaLG }" *ngIf="clientId > 0"
+    [clientId]="clientId" [headerText]="header">
+  </app-client-header>
+</div>
+</ng-container>
+
+<div class="readmin-panel pt-0" [ngClass]="{'SM': isMediaSM, 'MD': isMediaMD }">
+  <mat-tab-group *ngIf="clientId > 0 && !isClientDetailsRoute" (selectedTabChange)="loadComponent($event)"
+    [selectedIndex]="selectedIndex">
+    <mat-tab *ngFor="let link of navLinks" label={{link.displayName}}>
+    </mat-tab>
+  </mat-tab-group>
+  <router-outlet></router-outlet>
+</div>
+
+
+
+  <!-- Encountr right drawer for client listing -->
+  <app-create-encounter *ngIf="clientId > 0 && isShowCreateEncounter" [patientId]="clientId"></app-create-encounter>
+</div>
+
+<!-- <div *ngIf="clientUserId > 0 && chatPermission">
+  <app-chat-widget [title]="name" [imgSource]="photoThumbnailPath" [fromUserId]="loginUserId" [toUserId]="clientUserId"
+    [allMessageArray]="chatHistoryData" [meta]="chatHistoryMeta" (onLoadEarlier)="onLoadEarlierMessages($event)"
+    (onReceiveNotification)="onReceiveNotification($event)">
+  </app-chat-widget>
+</div> -->

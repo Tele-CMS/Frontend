@@ -1,0 +1,90 @@
+<section class="contact-us">
+    <div class="container">
+        <div class="row contact-outer">
+            <div class="col-md-6">
+                <h4>contact us!</h4>
+                <p>Please do not hesitate to contact us if you have any questions regarding our service.</p>
+            </div>
+            <div class="col-md-6">
+                <div class="cont-search">
+                    <input type="email" [formControl]="contactUsText" placeholder="Email address">
+                        <button (click)="sendContactUsEmail()" mat-raised-button color="primary">Send</button>
+                        <div class="email-error">
+                        <div *ngIf="contactUsText.errors?.required && isContactUsSubmited">
+                            Please enter email
+                        </div>
+                        <div *ngIf="contactUsText.value && contactUsText.errors?.email && isContactUsSubmited">
+                            Please enter valid email
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <a [routerLink]="['/']"><img class="img-fluid" src="../../../assets/logo-2.png" alt="logo"
+                        class="site-logo" /></a>
+                <ul class="social-linking">
+                    <li><a href="https://www.facebook.com/smartdata.enterprises.inc"><i class="fa fa-facebook"
+                                aria-hidden="true"></i></a></li>
+                    <li><a href="https://twitter.com/smartdataincltd"><i class="fa fa-twitter"
+                                aria-hidden="true"></i></a></li>
+                    <li><a href="https://www.linkedin.com/company/smart-data-enterprises/mycompany/"><i
+                                class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                    <li><a href="https://www.instagram.com/smartdataincltd/"><i class="fa fa-instagram"
+                                aria-hidden="true"></i></a></li>
+                </ul>
+                <div class="app-store">
+                    <a [routerLink]="['/']"><img class="img-fluid" src="../assets/img/apple-store.svg"
+                            alt="app-store" /></a>
+                    <!-- <a [routerLink]="['/']"><img class="img-fluid" src="../assets/img/google-play.svg" alt="app-store" /></a> -->
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <h5>Links</h5>
+                <ul>
+                    <li><a [routerLink]="['/']">Home</a></li>
+                    <li><a [routerLink]="['/doctor-list']" routerLinkActive="active">Doctor</a></li>
+                    <li><a [routerLink]="['/what-we-do']">Services</a></li>
+                    <li><a [routerLink]="['/web/signup-selection']" routerLinkActive="active">Register</a></li>
+                    <!-- <li><a href="#">Tour</a></li> -->
+                </ul>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <h5>Support</h5>
+                <ul>
+                    <li><a [routerLink]="['/faq']">FAQ</a></li>
+                    <li><a [routerLink]="['/what-we-do']">How it works</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a [routerLink]="['/contact-us']">Contact</a></li>
+                    <!-- <li><a href="#">Report</a></li> -->
+                </ul>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <h5>Contact Us</h5>
+                <ul>
+                    <li><a href="tel:+19146870207"> +1 914 687 0207</a></li>
+                    <li><a [href]="mailToAddress" target="_top">
+                           {{organizationEmailAddress}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="social-link justify-content-sm-between">
+        <p><i class="fa fa-copyright" aria-hidden="true"></i> 2021 smartTelehealth. All rights reserved.</p>
+        <div class="term">
+            <a href="javascript:void(0);" (click)="opentermconditionmodal()">Terms of use</a>
+            <a href="javascript:void(0);" (click)="opentermconditionmodal()">Privacy Policy</a>
+        </div>
+    </div>
+</footer>

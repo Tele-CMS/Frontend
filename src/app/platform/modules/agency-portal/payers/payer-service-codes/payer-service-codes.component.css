@@ -1,0 +1,13 @@
+
+.tbactionbtn {
+    background: transparent none repeat scroll 0 0;
+    border: 0 none;
+    margin-right: 10px;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0.6;
+    color: var(--color-black);
+}
+.tbactionbtn:hover {
+    opacity: 1;
+}

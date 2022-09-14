@@ -1,0 +1,156 @@
+.cont-banner {
+    background-image: url("../../../assets/img/contact-us-banner.png");
+    background-repeat: no-repeat;
+    width: 100%;
+    position: relative;
+    background-size: cover;
+    /* height: 600px; */
+    margin-bottom: 60px;
+}
+.contactus-content {
+    background: rgb(38 70 83 / 30%);
+    color: var(--color-white);
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 40px 0;
+}
+.contactus-content h2{
+    font-size: 3rem;
+}
+.conract-form form {
+    background: var(--color-white);
+    padding: 4%;
+    margin-bottom: 50px;
+}
+.conract-form .form-group .input-style {
+    width: 100%;
+    padding:10px 20px;
+    border-radius: 0;
+    border: 1px solid #707070;
+    min-height: 50px;
+}
+.outbox-enqueires {
+    text-align: center;
+    margin: 40px auto;
+}
+.enqueiries {
+    background: #254653;
+    padding: 30px;
+    word-break: break-word;
+    margin-top: 35px;
+}
+.blue-icon {
+    background:#4c9898;
+    border-radius: 100%;
+    height: 150px;
+    width: 150px;
+    padding: 20px;
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.outbox-enqueires.dark-theme .blue-icon {
+    background:#4c9898;
+}
+.blue-icon img {
+    max-width: 90%;
+    max-height: 90%;
+}
+.enqueiries p, .enqueiries span{
+    font-weight: 500;
+    font-size: 1.5rem;
+    color: var(--color-white);
+}
+.enqueiries a {
+    background: var(--yellow-color);
+    color: var(--color-white);
+    display: inline-block;
+    width: 200px;
+    line-height: 50px;
+    border-radius: 12px;
+    margin-top: 20px;
+}
+.outbox-enqueires.dark-theme .enqueiries a {
+    background:#2F2660;
+}
+.enqueiries h2 {
+    /* font-weight: 600; */
+}
+a.mailto-btn {
+    margin-top: 100px;
+}
+.enqueiries::before {
+    content: '';
+    display: block;
+    width: 80%;
+    margin: auto;
+    height: 18px;
+    background: var(--yellow-color);
+    position: relative;
+    top: -37px;
+}
+.outbox-enqueires.dark-theme .enqueiries::before {
+    background:var(--yellow-color);
+}
+.conract-form form .btn-outer button {
+    box-shadow: none;
+    border-radius: 12px;
+    margin: auto;
+    display: inline-block;
+    width: 200px;
+    line-height: 50px;
+    margin-top: 20px;
+    font-size: 16px;
+}
+.conract-form form .btn-outer{
+    text-align: center;
+}
+.conract-form form p {
+    color: var(--color-black);
+    font-size: 22px;
+}
+.conract-form form p a {
+    text-decoration: underline;
+    color: #264653;
+}
+.outbox-enqueires h3 {
+    /* font-weight: 600; */
+    color: #264653;
+}
+section.location-contact {
+    margin-bottom: 60px;
+}
+@media (max-width: 575px){
+.whatwedo-content h2,.contactus-content h2 {
+    font-size: 2rem;
+}
+.conract-form form p {
+    font-size: 16px;
+}
+.cont-banner {
+    height: 450px;
+    margin-bottom: 30px;
+}
+.blue-icon{
+    height: 110px;
+    width: 110px;
+}
+.enqueiries p, .enqueiries span {
+    font-weight: 500;
+    font-size: 1.3rem;
+}
+.enqueiries h2 {
+    font-size: 1.7rem;
+}
+section.location-contact {
+    margin-bottom: 0;
+}
+}
+
+.is-invalid{
+    border: 1px solid red !important;
+}

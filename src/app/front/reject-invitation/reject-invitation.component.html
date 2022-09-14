@@ -1,0 +1,62 @@
+<div class="login_bg">
+  <div class="login-wrapper">
+    <div class="col-sm-10 mx-auto">
+      <div class="row">
+        <div class="col-lg-6 order-lg-1">
+          <div *ngIf="isTokenValid; then rejectInvitationDiv else messageDiv"></div>
+          <ng-template #rejectInvitationDiv>
+            <form id="userForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="userForm">
+              <div class="reject-inv-reason text-left">
+                <!--Reject Invitation-->
+                <h3>Join the Service!!!</h3>
+                <P>It looks like you want to decline this invitation. Do you have a moment to send us a few details about what
+                  happened here? Just share your feedback with us.</P>
+                <p>This sort of thing is very rare. If there was any trouble here, We want to make it right!</p>
+
+                <mat-form-field class="example-full-width">
+                  <textarea autofocus placeholder="Tell us your reason here..." maxlength="500" rows="2" matInput formControlName="remarks"
+                    [ngClass]="{ 'is-invalid': submitted && formControls.remarks.errors }" required></textarea>
+                  <mat-error *ngIf="formControls.remarks.errors?.required">
+                    Please enter reject remarks
+                  </mat-error>
+                </mat-form-field>
+                <div class="col-12 d-flex justify-content-center mt-4">
+                  <button name="Save" class="example-full-width signup-btn" mat-raised-button color="accent" (click)="onSubmit($event)" form="userForm"
+                    [disabled]="submitted">{{submitted ? 'Please Wait...' : 'Register'}}</button>
+                </div>
+              </div>
+              <!--Reject Invitation-->
+            </form>
+          </ng-template>
+          <ng-template #messageDiv>
+            <div class="user-registed">
+              <!--for already register users-->
+              <h3 class="redfont">{{Message.title}}</h3>
+              <p>{{Message.message}}</p>
+              <img src="{{Message.imgSrc}}" alt="user-register-icon" />
+            </div>
+          </ng-template>
+        </div>
+        <div class="col-lg-6 login-content">
+          <div class="loginlogo">
+            <img src={{logoUrl}} alt="" />
+          </div>
+          <p>
+            <span>smartTelehealth</span> system (SH) is a Cloud Based system that facilitates managing the functioning of
+            the Agencies.
+            <span>smartTelehealth</span> system will help in making the whole functioning paperless. It integrates all the
+            information regarding patients, doctors, staff, agency administrative details etc. into one place</p>
+          <p>Safe and Secure Process to safe guard patients privacy and rights by following
+            <span>HIPAA.</span>
+          </p>
+          <p>smartTelehealth is a Product of
+            <a class="smartlink" href="https://www.smartdatainc.com/" target="_blank">
+              <span className="smartlink">smartData Enterprises.</span>
+            </a>
+          </p>
+          <p>Copyright @ 2018 All Right Reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

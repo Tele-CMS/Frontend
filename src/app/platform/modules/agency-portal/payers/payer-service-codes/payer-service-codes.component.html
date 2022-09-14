@@ -1,0 +1,159 @@
+<div class="no-gutters  mt-3">
+  <!-- *ngIf="!isFirstTimeLoad"  -->
+  <div *ngIf="!isFirstTimeLoad" class="col-md-5 pull-right justify-content-md-end d-flex">
+    <button mat-raised-button color="primary" class="add-primary-btn" (click)="openDialog()">
+      <i class="fa fa-plus" aria-hidden="true"></i><span> Add Service Code</span></button>
+  </div>
+  <div class="row">
+    <div class="col-md-7 justify-content-start pull-left">
+      <div class="row">
+        <div class="col-7 mtm-27">
+          <mat-form-field class="example-full-width">
+            <input matInput [(ngModel)]="searchText" name="searchText" (keyup)="applyFilter()" placeholder="Search">
+          </mat-form-field>
+        </div>
+        <div class="col-5 filter-btn">
+          <button class="clear-btn" mat-raised-button (click)="clearFilters();">Clear All</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover customtable group-table" matSort matSortDisableClear>
+    <thead>
+      <tr>
+        <th *ngIf="isFirstTimeLoad" width="5%">
+          <mat-checkbox (change)="onParentClick($event)" [checked]="isParentSelected"></mat-checkbox>
+        </th>
+        <th width="13%" mat-sort-header="serviceCode" disableClear>
+          <span class="Tblsort sorting">Service Code</span>
+        </th>
+        <th width="11%" mat-sort-header="description" disableClear>
+          <span class="Tblsort sorting">Description</span>
+        </th>
+        <th width="10%" mat-sort-header="unitDuration" disableClear>
+          <span class="Tblsort sorting">Duration</span>
+        </th>
+        <th width="10%" mat-sort-header="unitTypeName" disableClear>
+          <span class="Tblsort sorting">Unit Type</span>
+        </th>
+        <th width="8%" mat-sort-header="ratePerUnit" disableClear>
+          <span class="Tblsort sorting">Rate</span>
+        </th>
+
+        <!-- <th width="13%" mat-sort-header="ruleName" disableClear>
+              <span class="Tblsort sorting">Rounding Rule</span>
+            </th> -->
+        <th width="10%" mat-sort-header="isBillable" disableClear>
+          <span class="Tblsort sorting">Billable</span>
+        </th>
+        <th width="10%" mat-sort-header="isRequiredAuthorization" disableClear>
+          <span class="Tblsort sorting">Req. Auth</span>
+        </th>
+        <th *ngIf="!isFirstTimeLoad" width="10%">Action</th>
+      </tr>
+    </thead>
+
+
+    <tbody>
+      <tr *ngFor="let code of payerServiceCodesGrid">
+        <td *ngIf="isFirstTimeLoad">
+          <mat-checkbox (change)="onChildClick($event,code)" [checked]="code.isEditable"></mat-checkbox>
+        </td>
+        <td>
+          <span>{{code.serviceCode}}</span>
+        </td>
+        <td>
+          <span *ngIf="!code.isEditable">
+            {{code.description && code.description.length > 20 ? code.description.substring(0, 20) + '...' :
+            code.description }}
+          </span>
+          <span *ngIf="code.isEditable">
+            <mat-form-field class="example-full-width">
+              <input matInput autofocus placeholder="Description"
+                (blur)="updateModel($event.target.value,'description',code)" [value]="code.description" />
+            </mat-form-field>
+          </span>
+        </td>
+        <td>
+          <span *ngIf="!code.isEditable">{{code.unitDuration}}</span>
+          <span *ngIf="code.isEditable">
+            <mat-form-field class="example-full-width">
+              <input matInput autofocus appNumbersOnly placeholder="Unit Duration"
+                (blur)="updateModel($event.target.value,'unitduration',code)" [value]="code.unitDuration" />
+            </mat-form-field>
+          </span>
+        </td>
+        <td>
+          <span *ngIf="!code.isEditable">{{code.unitTypeName}}</span>
+          <span *ngIf="code.isEditable">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Unit Type" matInput [value]="code.unitTypeID"
+                (selectionChange)="updateModel($event.value,'unittype',code)">
+                <mat-option *ngFor="let unit of masterUnitType" [value]="unit.id">
+                  {{unit.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </span>
+        </td>
+        <td>
+          <span *ngIf="!code.isEditable">{{code.ratePerUnit |number:'2.2-2'}}</span>
+          <span *ngIf="code.isEditable">
+            <mat-form-field class="example-full-width">
+              <input matInput autofocus appNumbersOnly [allowDecimals]="true" placeholder="Rate"
+                [value]="code.ratePerUnit" (blur)="updateModel($event.target.value,'rate',code)" />
+            </mat-form-field>
+          </span>
+        </td>
+        <!-- <td>
+              <span *ngIf="!code.isEditable">{{code.ruleName}}</span>
+              <span *ngIf="code.isEditable">
+                  <mat-form-field class="example-full-width">
+                      <mat-select placeholder="Rule" matInput [value]="code.ruleID" (selectionChange)="updateModel($event.value,'rulename',code)"
+                        >
+                        <mat-option *ngFor="let rule of masterRoundingRules" [value]="rule.id">
+                          {{rule.value}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </span>
+            </td> -->
+        <td>
+          <span *ngIf="!code.isEditable" [innerHTML]="code.isBillable | status"></span>
+          <span *ngIf="code.isEditable">
+            <mat-checkbox [checked]="code.isBillable" (change)="updateModel($event.checked,'billable',code)">
+            </mat-checkbox>
+          </span>
+        </td>
+        <td>
+          <span *ngIf="!code.isEditable" [innerHTML]="code.isRequiredAuthorization | status"></span>
+          <span *ngIf="code.isEditable">
+            <mat-checkbox [checked]="code.isRequiredAuthorization"
+              (change)="updateModel($event.checked,'reqauth',code)"></mat-checkbox>
+          </span>
+        </td>
+        <td *ngIf="!isFirstTimeLoad">
+          <button type="button" title="Edit" class="tbactionbtn" (click)="openDialog(code.payerServiceCodeId)">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </button>
+          <button type="button" title="Delete" class="tbactionbtn" (click)="deletePayerServiceCode(code)">
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <mat-paginator (page)="onSortOrPageChanges($event)" [length]="metaData['totalRecords']" [pageIndex]="metaData['currentPage'] - 1"
+    [pageSize]="metaData['pageSize']" [pageSizeOptions]="metaData['pageSizeOptions']" showFirstLastButtons ></mat-paginator>
+
+</div>
+
+
+<div *ngIf="isFirstTimeLoad" class="row">
+  <div class="col-sm-12 d-sm-flex justify-content-sm-end pt-3 actions-btn">
+    <button name="Save" mat-raised-button color="primary" (click)="onSubmit($event)" class="text-uppercase"
+      [disabled]="submitted" cdkFocusInitial>{{submitted ? 'Saving...' : 'Update Service Codes'}}</button>
+  </div>

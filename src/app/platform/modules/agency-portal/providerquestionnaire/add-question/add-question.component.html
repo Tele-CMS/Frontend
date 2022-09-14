@@ -1,0 +1,144 @@
+<div class="custom_modal">
+    <h3 mat-dialog-title>{{isUpdate ? 'Update' : 'Add' }} Question</h3>
+    <div mat-dialog-content>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="justify-content-start pull-left">
+                    <form class="readmin-form custom_form" id="controlsFormGroup" autocomplete="off"
+                        [formGroup]="controlsFormGroup">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>Control</mat-label>
+                                            <mat-select placeholder="Control"
+                                                formControlName='questionnaireTypeControlId'
+                                                (selectionChange)="onControltypeChange($event.value)"
+                                                [(value)]="selectedControlType" matInput>
+                                                <mat-option *ngFor="let c of controlsList" [value]="c.id">
+                                                    {{c.name}}
+                                                </mat-option>
+
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <mat-checkbox formControlName="isActive">
+                                            Is Active
+                                        </mat-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>Question</mat-label>
+                                            <input placeholder="Question" formControlName='questionText' matInput>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <mat-checkbox  formControlName="isRequired">
+                                            is Required
+                                        </mat-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div *ngIf="isShowType" class="col-sm-9">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>Type</mat-label>
+                                            <mat-select placeholder="Type"
+                                            formControlName='type'
+                                            matInput>
+                                            <mat-option *ngFor="let t of textFieldTypes" [value]="t.value">
+                                                {{t.name}}
+                                            </mat-option>
+
+                                        </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-12 pd-0">
+                                        <div *ngIf="isShowAddOptions">
+                                            <div formArrayName="options">
+
+                                                <div
+                                                    *ngFor="let qc of controlsFormGroup.get('options')['controls']; let i =index">
+                                                    <div [formGroupName]="i">
+                                                        <div class="">
+                                                            <div class="col-sm-12">
+                                                                <div class="row">
+                                                                    <div class="col-sm-9">
+                                                                        <mat-form-field class="example-full-width">
+                                                                            <mat-label>Option {{i+1}}</mat-label>
+                                                                            <input placeholder="Option {{i+1}}"
+                                                                                formControlName='option' matInput>
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                                    <div class="col-sm-2">
+                                                                        <button
+                                                                            *ngIf="controlsFormGroup.get('options')['controls'].length >1"
+                                                                            type="button" class="additem removeitem"
+                                                                            title="Remove option"
+                                                                            (click)=removeOption(i)>
+                                                                            <b class="fa fa-minus-square redfont"
+                                                                                aria-hidden="true"></b>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <button type="button" class="additem" title="Add row"
+                                                (click)="addQuestionnaireControlOption('')">
+                                                <b class="fa fa-plus-square greenfont" aria-hidden="true"></b>
+                                            </button>
+
+
+                                        </div>
+
+                                    </div>
+                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 pull-right">
+                                        <div mat-dialog-actions class="float-right">
+                                            <button class="cancel-btn" mat-raised-button
+                                                (click)="onClose()">Close</button>
+                                            <button mat-raised-button color="primary" mat-raised-button
+                                                (click)="onSubmit()" type="submit">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="clearfix"></div>
+
+
+
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

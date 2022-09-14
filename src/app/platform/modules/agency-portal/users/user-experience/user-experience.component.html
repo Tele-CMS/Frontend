@@ -1,0 +1,62 @@
+<div class="container-fluid">
+<div class="row">
+  <div class="clearfix"></div>
+  <form id="experienceForm" #documentForm="ngForm" class="readmin-form custom_form w-100" [formGroup]="experienceForm">
+    <div class="col-sm-12">
+      <div class="panel_title mt-20">
+        <h3>Work & Experience</h3>
+        <i class="flaticon flaticon-calendar-1"></i>
+      </div>
+      <div class="clearfix"></div>
+      <div class="clearfix"></div>
+      <div class="clearfix"></div>
+      <div class="experience" formArrayName="experience">
+
+        <div class="pdr-40 parent_div" *ngFor="let avl of experienceForm.get('experience')['controls']; let ix=index">
+          <div class="row" formGroupName="{{ix}}">
+            <div class="col-sm-8">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Organization" formControlName="organizationName">
+              </mat-form-field>
+            </div>
+            <div class="col-sm-2">
+              <mat-form-field class="example-full-width">
+                <input matInput readonly [matDatepicker]="startDate" placeholder="Start Date" formControlName="startDate">
+                <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                <mat-datepicker #startDate></mat-datepicker>
+
+              </mat-form-field>
+            </div>
+            <div class="col-sm-2">
+              <mat-form-field class="example-full-width">
+                <input matInput readonly [matDatepicker]="endDate" placeholder="End Date" formControlName="endDate">
+                <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+                <mat-datepicker #endDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+
+            <div class="pdl-40">
+              <button *ngIf="(ix > 0) || (experience['controls'].length > 1)" type="button" class="additem removeitem" title="Remove row"
+                (click)=removeExperience(ix)>
+                  <b class="fa fa-minus-square redfont" aria-hidden="true"></b>
+                </button>
+              <button *ngIf="(ix + 1) === experience['controls'].length" type="button" class="additem" title="Add row" (click)=addExperience()>
+                  <b class="fa fa-plus-square greenfont" aria-hidden="true"></b>
+                </button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="row">
+  <div class="col-sm-12 d-sm-flex mb-4 justify-content-sm-end pt-3 actions-btn">
+    <button mat-raised-button color="primary" name="Save" form="experienceForm" class="text-uppercase" [disabled]="submitted"
+      (click)="onSubmit()" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+  </div>
+</div>
+</div>

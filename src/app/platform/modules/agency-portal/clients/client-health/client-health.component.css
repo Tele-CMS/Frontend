@@ -1,0 +1,71 @@
+
+
+.resizepanel .clientbox
+  {
+    /* padding: 0px; */
+  }
+
+.MD .readmin-form .col-sm-4,
+.MD .readmin-form .col-lg-12,
+.MD .col-md-3
+{
+    width: 50%;
+    max-width: 50%;
+    flex: inherit;
+}
+.MD .sm-client-detail
+{
+    flex-direction: column;
+}
+.SM .readmin-form .col-sm-4,
+.SM .readmin-form .col-lg-12,
+.SM .col-md-6, .MD .col-md-6,
+.SM .col-sm-6, .MD .col-sm-6,
+.SM .col-sm-5, .SM .col-sm-7,
+.SM .col-md-3
+
+{
+    width: 100%;
+    max-width: 100%;
+    flex: inherit;
+}
+.SM .col-sm-5, .SM .col-sm-7
+
+{
+    width: 100%;
+    max-width: 100%;
+    flex: inherit;
+    justify-content: center !important;
+}
+.MD .vital-panels .col-sm-5, .MD .vital-panels .col-sm-7
+
+{
+    width: 100%;
+    max-width: 100%;
+    flex: inherit;
+
+}
+.SM .clientbox {
+    flex-direction: column;
+}
+.SM .clientbox > div {
+    flex-direction: column;
+}
+.SM .user_pic {
+    margin: 0px;
+    width: 70px;
+    height: 70px;
+}
+.SM .sm-client-detail {
+    flex-direction: column;
+    align-items: center;
+}
+
+.MD .client-add-task, .SM .client-add-task
+{
+    position: inherit;
+    right: 0px;
+}
+body .resizepanel{
+  margin-right: 400px;
+}

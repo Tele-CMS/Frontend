@@ -1,0 +1,203 @@
+<div class="container-fluid">
+<div class="row">
+  <div class="col-sm-12">
+    <form id="payerForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="payerForm">
+      <div class="row mt-4">
+        <div class="col-sm-4 require">
+          <mat-form-field class="example-full-width">
+            <input matInput autofocus placeholder="Payer Name" maxlength="100" formControlName="name" [ngClass]="{ 'is-invalid': submitted && formControls.name.errors }"
+              required />
+            <mat-error *ngIf="formControls.name.errors?.required">
+              Please enter payer name
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-4 require">
+          <mat-form-field class="example-full-width">
+            <mat-select autofocus placeholder="Insurance Type" formControlName="insuranceTypeId" matInput [ngClass]="{ 'is-invalid': submitted && formControls.insuranceTypeId.errors }"
+              required>
+              <mat-option *ngFor="let insType of masterInsuranceType" [value]="insType.id">
+                {{insType.value}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formControls.insuranceTypeId.errors">
+              Please select insurance type
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4">
+          <mat-form-field class="example-full-width">
+            <input matInput autofocus placeholder="TPL Code" maxlength="20" formControlName="tplCode" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-4 ">
+          <mat-form-field class="example-full-width">
+            <input matInput autofocus placeholder="Carrier Payer Id" maxlength="10" formControlName="carrierPayerID" />
+          </mat-form-field>
+        </div>
+        <div class="col-sm-4 require">
+          <mat-form-field class="example-full-width">
+            <input matInput autofocus placeholder="Email" maxlength="60" formControlName="email" [ngClass]="{ 'is-invalid': submitted && formControls.email.errors }"
+              required/>
+            <mat-error *ngIf="formControls.email.errors?.required">
+              Please enter email
+            </mat-error>
+            <mat-error *ngIf="formControls.email.errors?.email">
+              Please enter a valid email address
+          </mat-error>
+            <mat-error *ngIf="formControls.email.errors?.pattern">
+              Please enter a valid email address
+          </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 require">
+          <mat-form-field class="example-full-width">
+            <input appPhoneNumber matInput autofocus placeholder="Phone" maxlength="15" formControlName="phone" [ngClass]="{ 'is-invalid': submitted && formControls.phone.errors }"
+              required/>
+            <mat-error *ngIf="formControls.phone.errors?.required">
+              Please enter phone
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-4 require">
+          <mat-form-field class="example-full-width">
+            <input appPhoneNumber matInput autofocus placeholder="Fax" formControlName="fax" maxlength="15"/>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-8 require">
+          <!-- <mat-form-field class="example-full-width">
+            <input matInput autofocus placeholder="Address" maxlength="100" formControlName="address" [ngClass]="{ 'is-invalid': submitted && formControls.address.errors }"
+              required />
+            <mat-error *ngIf="formControls.address.errors?.required">
+              Please enter address
+            </mat-error>
+          </mat-form-field> -->
+          <app-google-address-input [control]="formControls.address" (onAddressChange)="handleAddressChange($event)"></app-google-address-input>
+        </div>
+        <div class="col-sm-4 require">
+          <mat-form-field class="example-full-width">
+            <input matInput autofocus placeholder="Apt/Unit" maxlength="15" formControlName="apartmentNumber" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-4 require">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Country" formControlName="countryID" matInput [ngClass]="{ 'is-invalid': submitted && formControls.countryID.errors }"
+              required>
+              <mat-option *ngFor="let country of masterCountry" [value]="country.id">
+                {{country.value}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formControls.countryID.errors">
+              Please select country
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-4 require">
+          <mat-form-field class="example-full-width">
+            <input matInput autofocus appAlphanumericOnly alphabetsOnly="true"  placeholder="City" maxlength="50" formControlName="city" />
+          </mat-form-field>
+        </div>
+        <div class="col-sm-4 require">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="State" formControlName="stateID" matInput [ngClass]="{ 'is-invalid': submitted && formControls.stateID.errors }"
+              required>
+              <mat-option *ngFor="let state of masterState" [value]="state.id">
+                {{state.value}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formControls.stateID.errors">
+              Please select state
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-4 require">
+          <mat-form-field class="example-full-width">
+            <input mask='00000-0000' matInput autofocus placeholder="Zip" maxlength="10" formControlName="zip" [ngClass]="{ 'is-invalid': submitted && formControls.zip.errors }"
+              required />
+            <mat-error *ngIf="formControls.zip.errors?.required">
+              Please enter zip
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-4 d-flex align-items-center">
+          <mat-checkbox formControlName="dayClubByProvider">
+            Day Club By Provider
+          </mat-checkbox>
+        </div>
+
+        <div class="col-sm-4 d-flex align-items-center">
+          <mat-checkbox formControlName="isActive">
+            Is Active
+          </mat-checkbox>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-4 d-flex align-items-center">
+          <mat-checkbox formControlName="isEDIPayer">
+            EDI Payer
+          </mat-checkbox>
+        </div>
+
+        <div class="col-sm-4 d-flex align-items-center">
+          <mat-checkbox formControlName="isPractitionerIsRenderingProvider">
+            Practitioner is Rendering Provider
+          </mat-checkbox>
+        </div>
+        <div class="col-sm-4 require">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="HCFA Print Format" formControlName="form1500PrintFormat" matInput [ngClass]="{ 'is-invalid': submitted && formControls.form1500PrintFormat.errors }"
+              required>
+              <mat-option *ngFor="let format of printFormats" [value]="format.id">
+                {{format.value}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formControls.form1500PrintFormat.errors">
+              Please select print format
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-sm-8">
+          <mat-form-field class="example-full-width">
+            <input matInput autofocus placeholder="Additional Claim Info" maxlength="60" formControlName="additionalClaimInfo" />
+          </mat-form-field>
+        </div>
+
+      </div>
+
+
+      <div class="row">
+        <div class="col-sm-12 d-sm-flex justify-content-sm-end pt-3 actions-btn mb-3">
+          <button name="Save" mat-raised-button color="primary" (click)="onSubmit($event)" form="payerForm" class="text-uppercase" [disabled]="submitted"
+            cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+
+          <button name="SaveContinue" mat-raised-button color="accent" (click)="onSubmit($event)" form="payerForm" class="text-uppercase ml-3"
+            [disabled]="submitted">{{submitted ? 'Saving...' : 'Save & Continue'}}</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+</div>

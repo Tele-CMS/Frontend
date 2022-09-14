@@ -1,0 +1,43 @@
+<form class="readmin-form custom_form">
+  <div class="container-fluid">
+  <div class="row mt-3">
+    <div class="col-sm-8">
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <mat-select matInput placeholder="Select Category" [(value)]="categoryId"
+              (selectionChange)="onCategorySelect($event.value)">
+              <mat-option *ngFor="let option of masterCategory" [value]="option.id">
+                {{option.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <input matInput [(ngModel)]="searchText" name="searchText" (keyup)="applyFilter($event.target.value)"
+              placeholder="Search">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4 filter-btn">
+            <button type="button" class="clear-btn" color="accent" (click)="clearFilters()" mat-raised-button>Clear All</button>
+          </div>
+      </div>
+    </div>
+    <div class="col-sm-4 d-flex align-items-center justify-content-end">
+      <button mat-raised-button color="accent" class="btn btn-default" (click)="clearRedirection()" style="position: absolute; right: 120px;">
+        <span>Cancel</span>
+      </button>
+      <button mat-raised-button color="primary" class="add-new-category-code add-primary-btn add-new-btn" [disabled]="!categoryId"
+              (click)="openDialog()">
+        <span>Add New</span>
+      </button>
+    </div>
+  </div>
+  </div>
+</form>
+<div class="clearfix"></div>
+<app-data-table class="d-block table-responsive" [inputColumns]="displayedColumns" [inputSource]="categoryCodeData" [inputMeta]="metaData"
+  [inputButtons]='actionButtons' (onChange)="onPageOrSortChange($event)"
+  (onTableActionClick)="onTableActionClick($event)">
+</app-data-table>

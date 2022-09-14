@@ -1,0 +1,8 @@
+<div class="readmin-panel">
+      <mat-tab-group (selectedTabChange)="loadComponent($event)" [selectedIndex]="selectedIndex">
+        <mat-tab *ngFor="let tab of payerTabs;let i=index" class="mat-tab-label-active" label={{tab}} [disabled]="(payerId==null && tab!='Payer Info')?true:false">
+        </mat-tab>
+      </mat-tab-group>
+      <div #tabContent></div>
+    </div>
+

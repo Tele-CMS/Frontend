@@ -1,0 +1,146 @@
+<div class="custom_modal">
+    <h3 mat-dialog-title>{{headerText}}</h3>
+    <div mat-dialog-content>
+      <div class="row">
+        <div class="col-sm-12">
+          <form id="paymentDetailForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="paymentDetailForm">
+            <div class="row">
+              <div class="col-sm-6">
+                <mat-form-field class="example-full-width">
+                  <mat-select placeholder="Payment Source" formControlName="paymentSource" matInput [ngClass]="{ 'is-invalid': submitted && formControls.paymentSource.errors }"
+                    required [disabled]="disableSource" (selectionChange)="changePaymentSource($event.value)">
+                    <mat-option *ngFor="let obj of paymentSourceArray" [value]="obj">
+                      {{obj}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="formControls.paymentSource.errors?.required">
+                    Please select payment source
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-6">
+                <div *ngIf="paymentSourceType=='Insurance'">
+                <mat-form-field class="example-full-width">
+                  <mat-select [disabled]="disableSource" placeholder="Select Payer" formControlName="patientInsuranceId" matInput [ngClass]="{ 'is-invalid': submitted && formControls.patientInsuranceId.errors }"
+                    required>
+                    <mat-option *ngFor="let payer of patientPayers" [value]="payer.id">
+                      {{payer.value}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="formControls.patientInsuranceId.errors?.required">
+                    Please select payer
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div *ngIf="paymentSourceType=='Guarantor'">
+                  <mat-form-field class="example-full-width">
+                    <mat-select [disabled]="disableSource" placeholder="Select Guarantor" formControlName="guarantorId" matInput [ngClass]="{ 'is-invalid': submitted && formControls.guarantorId.errors }"
+                      required>
+                      <mat-option *ngFor="let guan of patientGuarantor" [value]="guan.guardianId">
+                        {{guan.guarantorName}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formControls.guarantorId.errors?.required">
+                      Please select guarantor
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                  <mat-form-field class="example-full-width">
+                      <input matInput [matDatepicker]="paymentDate"  placeholder="Payment Date" formControlName="paymentDate"
+                      readonly required>
+                      <mat-datepicker-toggle matSuffix [for]="paymentDate"></mat-datepicker-toggle>
+                      <mat-datepicker #paymentDate></mat-datepicker>
+                      <mat-error *ngIf="formControls.paymentDate.errors?.required">
+                        Please enter payment date
+                      </mat-error>
+                    </mat-form-field>
+              </div>
+              <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Payment Description" formControlName="descriptionTypeId" matInput [ngClass]="{ 'is-invalid': submitted && formControls.descriptionTypeId.errors }"
+                  required>
+                  <mat-option *ngFor="let unit of masterPaymentDescription" [value]="unit.id">
+                    {{unit.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.descriptionTypeId.errors?.required">
+                  Please select description
+                </mat-error>
+              </mat-form-field>
+            </div>
+            </div>
+  
+            <div class="row">
+              <div class="col-sm-6">
+                <mat-form-field class="example-full-width">
+                  <mat-select placeholder="Payment Type" formControlName="paymentTypeId" matInput [ngClass]="{ 'is-invalid': submitted && formControls.paymentTypeId.errors }"
+                    required>
+                    <mat-option *ngFor="let unit of masterPaymentType" [value]="unit.id">
+                      {{unit.value}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="formControls.paymentTypeId.errors?.required">
+                    Please select payment type
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-6">
+                <mat-form-field class="example-full-width">
+                  <input maxlength="10" appNumbersOnly [allowDecimals]="true" matInput autofocus placeholder="Amount" formControlName="amount"
+                    [ngClass]="{ 'is-invalid': submitted && formControls.amount.errors }" required />
+                  <mat-error *ngIf="formControls.amount.errors?.required">
+                    Please enter amount
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <mat-form-field class="example-full-width">
+                  <mat-select placeholder="Adj Group Code" formControlName="adjustmentGroupCode" matInput
+                    >
+                    <mat-option *ngFor="let unit of masterAdjGroupCodes" [value]="unit.id">
+                      {{unit.value}}
+                    </mat-option>
+                  </mat-select>
+                  <!-- <mat-error *ngIf="formControls.adjustmentGroupCode.errors?.required">
+                    Please select adjustment group Code
+                  </mat-error> -->
+                </mat-form-field>
+              </div>
+              <div class="col-sm-6">
+                <mat-form-field class="example-full-width">
+                  <input matInput autofocus placeholder="Adj Reason Code" formControlName="adjustmentReasonCode"
+                     /> 
+                     <!-- [ngClass]="{ 'is-invalid': submitted && formControls.adjustmentReasonCode.errors }" required -->
+                  <!-- <mat-error *ngIf="formControls.adjustmentReasonCode.errors?.required">
+                    Please enter adjustment reason code
+                  </mat-error> -->
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <input matInput autofocus placeholder="Notes" formControlName="notes" maxlength="200"/>
+                </mat-form-field>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+      <div>
+        <button name="Save" mat-raised-button color="primary" (click)="onSubmit()" form="paymentDetailForm" class="text-uppercase"
+          [disabled]="submitted" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+      </div>
+    </div>
+  </div>

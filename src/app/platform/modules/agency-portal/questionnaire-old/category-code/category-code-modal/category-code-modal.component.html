@@ -1,0 +1,66 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Category Code</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="categoryCodeForm" #documentForm="ngForm" class="readmin-form custom_form"
+          [formGroup]="categoryCodeForm">
+          <div class="row">
+            <div class="col-sm-12">
+              <mat-form-field class="example-full-width" hintLabel="{{formControls.codeName.pending ? 'Validating...' : ''}}">
+                <input matInput autofocus placeholder="Category Code" maxlength="50" formControlName="codeName"
+                  [ngClass]="{ 'is-invalid': submitted && formControls.codeName.errors }" required />
+                <mat-error *ngIf="formControls.codeName.errors?.required">
+                  Please enter category code name
+                </mat-error>
+                <mat-error *ngIf="formControls.codeName.errors?.uniqueName">
+                  Name is already taken.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Order" maxlength="30" formControlName="displayOrder" [ngClass]="{ 'is-invalid': submitted && formControls.displayOrder.errors }"
+                  required />
+                <mat-error *ngIf="formControls.displayOrder.errors">
+                  Please enter display order
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="QIK Score" maxlength="10" formControlName="score" [ngClass]="{ 'is-invalid': submitted && formControls.score.errors }"
+                  required />
+                <mat-error *ngIf="formControls.score.errors">
+                  Please enter QIK score
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <mat-form-field class="example-full-width" hintLabel="{{formControls.description.value ? 1000 - formControls.description.value.length : 1000}} Characters Remaining">
+                <textarea matInput placeholder="Description" maxlength="1000" formControlName="description" [ngClass]="{ 'is-invalid': submitted && formControls.description.errors }"
+                  required></textarea>
+                <mat-error *ngIf="formControls.description.errors">
+                  Please enter description
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+    <button mat-raised-button color="primary" form="categoryCodeForm" [disabled]="submitted || formControls.codeName.pending"
+      cdkFocusInitial>
+      {{(submitted || formControls.codeName.pending) ? submitted ? 'Saving...' : formControls.codeName.pending ?
+      'Validating...' : 'Save' : 'Save'}}
+    </button>
+  </div>
+</div>

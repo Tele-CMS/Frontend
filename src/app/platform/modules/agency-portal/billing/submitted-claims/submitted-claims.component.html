@@ -1,0 +1,277 @@
+<form class="readmin-form custom_form" [formGroup]="claimFilterForm">
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Claim ID" formControlName="claimId" />
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Patient Name" formControlName="patientIds" matInput multiple>
+          <mat-option *ngFor="let option of allPatients" [value]="option.id">
+            {{option.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Insurance Company" formControlName="payerName" matInput>
+          <mat-option *ngFor="let option of masterInsuranceCompany" [value]="option.value">
+            {{option.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field class="example-full-width">
+        <input matInput [matDatepicker]="fromDate" (focus)="fromDate.open()" placeholder="From Date" formControlName="fromDate" readonly>
+        <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+        <mat-datepicker #fromDate></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field class="example-full-width">
+        <input matInput [matDatepicker]="toDate" (focus)="toDate.open()" placeholder="To Date" formControlName="toDate" readonly>
+        <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+        <mat-datepicker #toDate></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4 filter-btn">
+      <button class="clear-btn" mat-raised-button (click)="onClearFilter()">Clear All</button>
+      <button class="text-uppercase" color="accent" mat-raised-button (click)="onApplyFilter()">Filter</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 reset-btn claims_btn mt-4">
+      <button *ngIf="checkedEDIClaimIds.length" (click)="batchGenerate($event, true)" class="text-uppercase" color="primary" mat-button>BATCH EDI GENERATION</button>
+    </div>
+  </div>
+</form>
+<!-- claim grid starts here -->
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="table-responsive mt-15">
+      <table class="table table-hover maintable customtable group-table" matSort matSortDisableClear>
+        <thead>
+          <tr>
+            <th width="10%">
+              <mat-checkbox (change)="onCheckClaims($event,null)" [checked]="isAllchecked" [disabled]="!allClaimsWithServiceLines.length"></mat-checkbox>
+            </th>
+            <th width="10%" mat-sort-header="ClaimID" disableClear>
+              <span class="Tblsort sorting">Claim ID</span>
+            </th>
+            <th width="10%" mat-sort-header="dos" disableClear>
+              <span class="Tblsort sorting">DOS</span>
+            </th>
+            <th width="15%" mat-sort-header="patientName" disableClear>
+              <span class="Tblsort sorting">Patient</span>
+            </th>
+            <th width="15%" mat-sort-header="payer" disableClear>
+              <span class="Tblsort sorting">Payer Name</span>
+            </th>
+            <th width="20%">Additional Payer Info.</th>
+            <th width="10%">Total($)</th>
+            <th width="10%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="!allClaimsWithServiceLines.length">
+            <td colspan="8">
+              <div class="text-center no-record">No record found.</div>
+            </td>
+          </tr>
+          <tr *ngFor="let claimObj of allClaimsWithServiceLines">
+            <td colspan="8">
+              <table class="table middletable customtable">
+                <tbody>
+                  <tr>
+                    <td width="10%">
+                      <div class="table_custom-check">
+                        <mat-checkbox (change)="onCheckClaims($event, claimObj)" [checked]="claimObj.isEDIPayer ? checkedEDIClaimIds.includes(claimObj.claimId) : checkedNonEDIClaimIds.includes(claimObj.claimId)"
+                          [disabled]=""></mat-checkbox>
+                        <button type="button" class="morebtn" (click)="handleExpandRow(claimObj.claimId)">
+                          <i class="classExpand fa " [ngClass]="{'fa-minus': expandedClaimIds.includes(claimObj.claimId), 'fa-ellipsis-h': !expandedClaimIds.includes(claimObj.claimId)}"
+                            aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </td>
+                    <td width="10%">
+                        <div class="claim">
+                            CL{{ claimObj.claimId }}
+                            <i (click)="onToggleClaimInfoBox(claimObj.claimId)"
+                             class="fa fa-info-circle infoIcon" aria-hidden="true" title="Click here to view SOAP"></i>
+                            <div class="claimbox {{ claimObj.claimId == claimInfoBoxClaimId ? 'show' : 'hide'}}">
+                              <div class="claimheader">
+                                <h3>
+                                  Claim ID :
+                                  <span>CL{{ claimObj.claimId }}</span>
+                                </h3>
+                                <div class="claimicons">
+                                  <ul>
+                                    <li>
+                                      <a title="close" href="javascript:void(0)">
+                                        <i (click)="onToggleClaimInfoBox(claimObj.claimId)" class="fa fa-times"></i>
+                                      </a>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                              <div class="claimcontent">
+                                <h3>{{claimObj.renderingProvider}}</h3>
+                                <div class="claimsoapdate">
+                                  <ul>
+                                    <li *ngFor="let claimEnc of claimObj.claimEncounters">
+                                      <i class="fa fa-clock-o bluefont" aria-hidden="true"></i>
+                                      <span>{{claimEnc.startDateTime | date : 'hh:mm a'}}</span>-
+                                      <span>{{claimEnc.endDateTime | date : 'hh:mm a'}}</span>
+                                      <i (click)="getPatientEncounterDetails(claimEnc.patientEncounterId)"
+                                       class="fa fa-info-circle infoIcon" aria-hidden="true" title="Click here to view SOAP"></i>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                    </td>
+                    <td width="10%">{{ claimObj.dos | date : 'M/d/y' }}</td>
+                    <td width="15%">{{ claimObj.patientName }}</td>
+                    <td width="15%">{{ claimObj.payer }}</td>
+                    <td width="20%">
+                      <mat-form-field class="example-full-width" *ngIf="(editableClaimInfoId == claimObj.claimId) || !claimObj.additionalClaimInfo">
+                        <input matInput (blur)="onUpdatePayerAdditionalInfo(claimObj.claimId, $event)" [value]="claimObj.additionalClaimInfo || ''"
+                        />
+                      </mat-form-field>
+
+                      <span *ngIf="claimObj.additionalClaimInfo && !(editableClaimInfoId == claimObj.claimId)" (dblclick)="onEditClaimAdditionalInfo(claimObj.claimId)">{{claimObj.additionalClaimInfo}}</span>
+                    </td>
+                    <td width="10%">{{claimObj.totalAmount | number: '2.2-2' }}</td>
+                    <td width="10%">
+                      <button type="button" title="Submit" class="tbactionbtn" (click)="generatePaperClaim(claimObj)">
+                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                      </button>
+                      <button type="button" title="Claim History" (click)="handleOpenHistory(claimObj.claimId)" class="tbactionbtn">
+                          <i class="fa fa-history" aria-hidden="true"></i>
+                        </button>
+                    </td>
+                  </tr>
+                  <tr class="nohover" [ngClass]="{'show-row': expandedClaimIds.includes(claimObj.claimId), 'hide-row': !expandedClaimIds.includes(claimObj.claimId)}">
+                    <td></td>
+                    <td colspan="9">
+                      <table class="table childtable">
+                        <thead>
+                          <tr>
+                            <th width="15%">Service Code</th>
+                            <th width="10%">Modifiers</th>
+                            <th width="5%">Unit</th>
+                            <th width="5%">Rate($)</th>
+                            <th width="9%">Amount($)</th>
+                            <th width="14%">Location Code</th>
+                            <th width="18%">Practitioner</th>
+                            <th width="15%">Rend. Provider</th>
+                            <th width="9%">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngIf="!claimObj.claimServiceLines || !claimObj.claimServiceLines.length">
+                            <td colspan="9">
+                              <div class="text-center no-record">No record found.</div>
+                            </td>
+                          </tr>
+                          <tr *ngFor="let serviceLineObj of claimObj.claimServiceLines">
+                            <td width="15%">{{serviceLineObj.serviceCode}}</td>
+                            <td width="10%">{{serviceLineObj.modifiers || '-'}}</td>
+                            <td width="5%">{{serviceLineObj.quantity}}</td>
+                            <td width="5%">{{serviceLineObj.rate | number: '2.2-2' }}</td>
+                            <td width="9%">{{serviceLineObj.totalAmount | number: '2.2-2' }}</td>
+                            <td width="14%">{{serviceLineObj.serviceFacilityCode}}</td>
+                            <td width="18%">{{serviceLineObj.clinician}}</td>
+                            <td width="15%">{{serviceLineObj.renderingProvider}}</td>
+                            <td width="9%">
+                              <button type="button" title="Edit" class="tbactionbtn" (click)="onServiceLineAddUpdateClick(claimObj, serviceLineObj.id)">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <mat-paginator [length]="metaData['totalRecords']" [pageIndex]="metaData['currentPage'] - 1" [pageSize]="metaData['pageSize']"
+        showFirstLastButtons></mat-paginator>
+        
+        <!-- soap dragable box -->
+        <div class="soapdrag" *ngIf="showEncounterDetails">
+            <div class="soapdragheader">
+              <h3>Visit Detail</h3>
+              <i class="material-icons" (click)="closeSOAPDetail()">clear</i>
+            </div>
+  
+            <div class="visitcontent" *ngIf="patientEncounterDetailsData">
+                <ng-scrollbar>
+                <div class="visititem">
+                  <div class="visititem-title"><i class="flaticon flaticon-interface-1"></i>Service Type</div>
+                  <div class="itemdiagnosis">
+                    {{patientEncounterDetailsData.isDirectService ? 'Direct' : 'Indirect'}}
+                  </div>
+                </div>
+                <div class="visititem">
+                  <div class="visititem-title"><i class="flaticon flaticon-bathroom"></i>Soap Note</div>
+                  <div class="itemdivide">
+                    <h5>Subjective</h5>
+                    <p>{{patientEncounterDetailsData.soapNotes.subjective}}</p>
+                  </div>
+                  <div class="itemdivide">
+                    <h5>Objective</h5>
+                    <p>{{patientEncounterDetailsData.soapNotes.objective}}</p>
+                  </div>
+                  <div class="itemdivide">
+                    <h5>Assessment</h5>
+                    <p>{{patientEncounterDetailsData.soapNotes.assessment}}</p>
+                  </div>
+                  <div class="itemdivide">
+                    <h5>Plan</h5>
+                    <p>{{patientEncounterDetailsData.soapNotes.plans}}</p>
+                  </div>
+                </div>
+                <div class="visititem">
+                  <div class="visititem-title"><i class="flaticon flaticon-interface-1"></i>CPT CODE</div>
+                  <div class="cptcodes">
+                  <ul>
+                    <li *ngFor="let data of patientEncounterDetailsData.patientEncounterServiceCodes" title={{data.description}}>
+                      ({{data.serviceCode}} {{data.attachedModifiers ? ':' + data.attachedModifiers : ''}})
+                      {{(data.description || '').length > 50 ? (data.description || '').substring(0, 50) + '...' : data.description}}
+                    </li>
+                  </ul>
+                  </div>
+                  </div>
+                <div class="visititem">
+                  <div class="visititem-title"><i class="flaticon flaticon-gym"></i>Diagnosis</div>
+                  <div class="itemdiagnosis">
+                        <p *ngFor="let data of patientEncounterDetailsData.patientEncounterDiagnosisCodes"
+                         title={{data.description}}>
+                         ({{data.icdCode}})
+                         {{(data.description || '').length > 50 ? (data.description || '').substring(0, 50) + '...' : data.description}}
+                        </p>
+                  </div>
+                </div>
+                </ng-scrollbar>
+            </div>
+          </div>
+          <!-- soap dragable box -->
+
+    </div>
+  </div>
+</div>
+
+<!-- claim grid ends here -->

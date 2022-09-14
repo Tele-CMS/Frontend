@@ -1,0 +1,123 @@
+<section class="cont-banner">
+    <div class="contactus-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Making patients and practitioners closer than ever</h2>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="conract-form">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 mx-auto">
+                <h2 class="section-heading">Tell us if you have any questions and we'll get back to you promptly</h2>
+                <form [formGroup]="contactUsForm" (ngSubmit)="onSubmit()">
+                    <div *ngIf="errorMessage" class="alert-danger">{{errorMessage}}</div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input formControlName="name" type="text" placeholder="Full Name" class="input-style" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" required>
+                                <mat-error *ngIf="f.name.errors && submitted">
+                                    Please enter Name
+                                </mat-error>
+                            </div>
+                            <div class="form-group">
+                                <input formControlName="email" type="email" placeholder="Email Address" class="input-style" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" required>
+                                <mat-error *ngIf="f.email.errors?.required && submitted">
+                                    Please enter email
+                                </mat-error>
+                                <mat-error *ngIf="f.email.errors?.email && submitted">
+                                    Please enter a valid email address
+                                </mat-error>
+                            </div>
+                            <div class="form-group">
+                                <select formControlName="department" class="input-style" [ngClass]="{ 'is-invalid': submitted && f.department.errors }" required>
+                                    <option value="">Select Department</option>
+                                    <option value="Mediacal">Medical</option>
+                                    <option value="Doctor">Doctor</option>
+                                    <option value="Patient">Patient</option>
+                                </select>
+                                <mat-error *ngIf="f.department.errors && submitted">
+                                    Please select department
+                                </mat-error>
+                            </div>
+                            <div class="form-group">
+                                <textarea formControlName="reason" class="input-style" placeholder="Please specify the reason for your inquiry with reasons: General information, pricing request for proposal (RFP), request for information (RFI) ."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <p>The information you provide will be used in accordance with the terms of our
+                                    <a href="#"> privacy policy </a>.
+                                </p>
+                            </div>
+                            <div class="btn-outer">
+                                <button type="submit" [disabled]="loading" mat-raised-button color="primary" class="radius-btn ">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="location-contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="outbox-enqueires">
+                    <h3>Public Enquiries</h3>
+                    <div class="enqueiries">
+                        <div class="blue-icon">
+                            <img src="../assets/img/call-icn.svg" alt="icon" />
+                        </div>
+                        <p>Do you have any questions or enquiries? </p>
+                        <span>Call Us At </span>
+                        <h2>+1 914 687 0207</h2>
+                        <a href="tel:+19146870207"> Call Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-5">
+                <div class="outbox-enqueires">
+                    <h3>Practitioners</h3>
+                    <div class="enqueiries">
+                        <div class="blue-icon">
+                            <img src="../assets/img/doctor-icn.svg" alt="icon" />
+                        </div>
+                        <p>Are you a care provider interested in working with TeleHealth?</p>
+                        <!-- <span>Email Us At</span>
+                            <h2>smarttelehealth@gmail.com</h2> -->
+                        <a [href]="mailToAddress" class="mailto-btn">Email Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5 mx-auto">
+                <div class="outbox-enqueires dark-theme">
+                    <h3>Headquarters</h3>
+                    <div class="enqueiries">
+                        <div class="blue-icon">
+                            <img src="../assets/img/building-icn.svg" alt="icon" />
+                            </div>
+                            <p>Shivalik Tower</p>
+                            <p> E-37, Phase VIII, Industrial Area</p>
+                            <p> Mohali, Punjab - 160071, India (GMT+5:30)</p>
+                            <p>+91-172-4060000</p>
+                            <!-- <a href="#">Get Directions</a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,45 @@
+/* .vid {
+  border: 5px solid black;
+  width: 90%;
+  height: 50%;
+} */
+
+.vid {
+  width: 100%;
+  height: 50%;
+  background: var(--color-black);
+}
+
+/* .buttondives {
+  position: absolute;
+  bottom: 5px;
+  left: 169px;
+} */
+
+.buttondives {
+  position: relative;
+  bottom: 67px;
+  left: 17px;
+}
+
+.videodives {
+  position: relative;
+}
+
+.remoteVideodiv video {
+  margin-left: 5px;
+  width: 218px;
+  height: 153px;
+}
+
+.remoteVideodiv {
+  border: 0px solid blue;
+  width: 50%;
+  height: 50%;
+}
+
+.remoteVideo {
+  border: 5px solid rgb(51, 143, 32);
+  width: 50%;
+  height: 50%;
+}

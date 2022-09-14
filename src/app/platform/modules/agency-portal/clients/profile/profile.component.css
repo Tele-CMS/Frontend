@@ -1,0 +1,18 @@
+@media (max-width:480px) {
+    .top-btns button {
+        line-height: 32px !important;
+        height: 38px !important;
+        margin-left: 10px;
+        padding: 0px 8px !important;
+        min-width: auto !important;
+        font-size: 13px !important;
+    }
+}
+
+.readmin-panel .client_detail .row {
+    padding: 0 !important;
+}
+
+.client_detail .text-left {
+    word-break: break-all !important;
+}

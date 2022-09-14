@@ -1,0 +1,221 @@
+<div class="readmin-panel">
+  <div class="d-flex justify-content-between panel-title align-items-center">
+    <h2 class="page_title">Disease Management Program Activity</h2>
+    <button name="Save" mat-raised-button color="primary" (click)="onSubmit()">Assign Activities</button>
+  </div>
+  <div class="row d-flex justify-content-start align-items-center disease-detail">
+
+    <div class="col-sm-4 mb-2">
+      Assessment/Questionnaie:
+      <span>{{questionnaireAggregateResponse&&questionnaireAggregateResponse.questionnaire || '-'}}</span>
+    </div>
+    <div class="col-sm-4 mb-2">
+      Disease Management Program:
+      <span>{{questionnaireAggregateResponse&&questionnaireAggregateResponse.diseaseManagmentProgram || '-'}}</span>
+    </div>
+    <div class="col-sm-4 mb-2">
+      Q Score/Risk:
+      <span>{{questionnaireAggregateResponse&&questionnaireAggregateResponse.qScore  || '-'}}/{{questionnaireAggregateResponse&&questionnaireAggregateResponse.risk || '-'}}</span>
+    </div>
+
+  </div>
+  <div class="table-responsive mt-15">
+    <table class="mat-table table table-hover multitable group-table" matSort matSortDisableClear>
+      <thead>
+        <tr class="mat-header-row">
+          <th class="mat-header-cell" width="8%">
+            &nbsp;
+
+          </th>
+          <th class="mat-header-cell" width="12%">
+            <span class="Tblsort sorting">ACTIVITY</span>
+          </th>
+          <th class="mat-header-cell" width="26%">
+            <span class="Tblsort sorting">DESCRIPTION</span>
+          </th>
+          <th class="mat-header-cell" width="9%">
+            <span>FREQUENCY</span>
+          </th>
+          <th class="mat-header-cell" width="9%">
+            <span>VALUE</span>
+          </th>
+          <th class="mat-header-cell" width="9%">
+            <span>Sign</span>
+          </th>
+          <th class="mat-header-cell" width="9%">
+            <span>GOAL</span>
+          </th>
+          <th class="mat-header-cell" width="9%">
+            <span>Unit</span>
+          </th>
+          <th class="mat-header-cell" width="9%">
+            <span title="View Detail">Action</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="mat-header-row" *ngFor="let dmpAcyivityObj of dmpAcyivityData; let ix=index">
+          <td class="p-0" colspan="10">
+            <table class="table middletable customtable">
+              <tbody>
+                <tr class="mat-header-row">
+                  <td class="mat-cell" width="8%">
+                    <div class="table_custom-check">
+                      <button type="button" class="morebtn mr-3"
+                        (click)="handleExpandRow(dmpAcyivityObj.diseaseManagementProgramActivityId, ix)">
+                        <i class="classExpand fa "
+                          [ngClass]="{'fa-minus': expandedIds.includes(dmpAcyivityObj.diseaseManagementProgramActivityId), 'fa-ellipsis-h': !expandedIds.includes(dmpAcyivityObj.diseaseManagementProgramActivityId)}"
+                          aria-hidden="true"></i>
+                      </button>
+                      <mat-checkbox color="primary" [(ngModel)]="dmpAcyivityObj.assignActivityToPatient"
+                        (change)="onCheckAssignActivity($event, ix)">
+                      </mat-checkbox>
+                    </div>
+
+
+                  </td>
+                  <td class="mat-cell" width="12%">{{dmpAcyivityObj.activityType}}</td>
+                  <td class="mat-cell" width="26%">
+                    <i [matTooltip]="dmpAcyivityObj.descriptions" matTooltipClass="example-tooltip"
+                      class="fa fa-info-circle infoIcon ml-1"></i>
+                    {{(dmpAcyivityObj.descriptions || '').length >= 30 ? dmpAcyivityObj.descriptions.substring(0, 30) + '...' : dmpAcyivityObj.descriptions}}
+                  </td>
+                  <td class="mat-cell" width="9%">
+                    <mat-form-field class="example-full-width">
+                      <mat-select placeholder="Frequency" [(value)]="dmpAcyivityObj.frequency" matInput>
+                        <mat-option *ngFor="let option of masterFrequencyType" [value]="option.id">
+                          {{option.description}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </td>
+                  <td class="mat-cell" width="9%">
+                    <mat-form-field class="example-full-width auto-width">
+                      <input matInput [(ngModel)]="dmpAcyivityObj.frequencyValue" appNumbersOnly
+                        [allowDecimals]="true" />
+                    </mat-form-field>
+                  </td>
+                  <td class="mat-cell" width="9%">
+                    <mat-form-field class="example-full-width">
+                      <mat-select placeholder="Sign" [(value)]="dmpAcyivityObj.sign" matInput>
+                        <mat-option *ngFor="let option of masterMeasureSign" [value]="option.id">
+                          {{option.description}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </td>
+                  <td class="mat-cell" width="9%">
+                    <mat-form-field class="example-full-width">
+                      <input placeholder="Goal" [(ngModel)]="dmpAcyivityObj.goalResultValue" matInput />
+                    </mat-form-field>
+                  </td>
+                  <td class="mat-cell" width="9%">
+                    <mat-form-field class="example-full-width">
+                      <mat-select placeholder="Unit" [(value)]="dmpAcyivityObj.activityUnitTypeId" matInput>
+                        <mat-option *ngFor="let option of masterUnitType" [value]="option.id">
+                          {{option.unitType}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </td>
+                  <td class="mat-cell" width="9%" *ngIf="dmpAcyivityObj.diseaseManagementPlanPatientActivityId">
+                    <button class="tbactionbtn" title="View Activity Logs"
+                      (click)="openDialogForDailyDiary(dmpAcyivityObj)">
+                      <i class="fa fa-eye"></i>
+                    </button>
+
+                  </td>
+                  <td class="mat-cell" width="9%" *ngIf="!dmpAcyivityObj.diseaseManagementPlanPatientActivityId">
+                  </td>
+                </tr>
+                <tr class="mat-header-row" class="nohover"
+                  [ngClass]="{'show-row': expandedIds.includes(dmpAcyivityObj.diseaseManagementProgramActivityId), 'hide-row': !expandedIds.includes(dmpAcyivityObj.diseaseManagementProgramActivityId)}">
+                  <td class="p-0" colspan="10">
+                    <table class="table m-0">
+                      <thead>
+                        <tr class="mat-header-row">
+
+                          <th class="mat-header-cell" width="8%">&nbsp;</th>
+                          <th class="mat-header-cell" width="20%">Notification Type</th>
+                          <th class="mat-header-cell" width="20%">Frequency</th>
+                          <th class="mat-header-cell" width="10%">Value</th>
+                          <th class="mat-header-cell" width="42%">Message</th>
+                          <th class="mat-header-cell" width="10%">&nbsp;</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="mat-header-row"
+                          *ngFor="let notificationObj of getPatientDiseaseManagementProgramActivityNotifications(dmpAcyivityObj); let iy=index">
+                          <td class="mat-cell" class="p-0" colspan="6">
+                            <table class="table m-0">
+                              <tbody>
+                                <tr class="mat-header-row">
+                                  <td class="mat-cell" width="8%">
+                                    &nbsp;
+                                  </td>
+                                  <td class="mat-cell" width="20%">
+                                    <mat-form-field class="example-full-width">
+                                      <mat-select placeholder="Notification Type"
+                                        [(value)]="notificationObj.notificationTypeId" matInput>
+                                        <mat-option *ngFor="let option of masterNotifications;let ix=index"
+                                          [value]="option.id">
+                                          {{option.description}}
+                                        </mat-option>
+                                      </mat-select>
+                                    </mat-form-field>
+                                  </td>
+                                  <td class="mat-cell" width="20%">
+                                    <mat-form-field class="example-full-width">
+                                      <mat-select placeholder="Frequency"
+                                        [(value)]="notificationObj.notificationFrequency" matInput>
+                                        <mat-option *ngFor="let option of masterFrequencyType" [value]="option.id">
+                                          {{option.description}}
+                                        </mat-option>
+                                      </mat-select>
+                                    </mat-form-field>
+                                  </td>
+                                  <td class="mat-cell" width="10%">
+                                    <mat-form-field class="example-full-width auto-width">
+                                      <input matInput [(ngModel)]="notificationObj.notificationFrequencyValue"
+                                        appNumbersOnly [allowDecimals]="true" />
+                                    </mat-form-field>
+                                  </td>
+                                  <td class="mat-cell" width="32%">
+                                    <mat-form-field class="example-full-width auto-width">
+                                      <input matInput [(ngModel)]="notificationObj.message" />
+                                    </mat-form-field>
+
+                                  </td>
+                                  <td class="mat-cell" width="10%">
+                                    <div class="d-flex align-items-center">
+                                      <button
+                                        *ngIf="(iy > 0) || (getPatientDiseaseManagementProgramActivityNotifications(dmpAcyivityObj).length > 1)"
+                                        type="button" class="remove-row mr-2" title="Remove Notification"
+                                        (click)=removePatientNotifications(ix,iy,notificationObj)>
+                                        <b class="zmdi zmdi-minus-square"></b>
+                                      </button>
+                                      <button
+                                        *ngIf="(iy + 1) == getPatientDiseaseManagementProgramActivityNotifications(dmpAcyivityObj).length"
+                                        type="button" class="add-new-row" title="Add Notification"
+                                        (click)=addPatientNotifications(ix)>
+                                        <b class="zmdi zmdi-plus-square"></b>
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,170 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Add Service Code</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="claimServiceCodeForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="claimServiceCodeForm">
+
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Service Code" formControlName="serviceCode" matInput [disabled]="id > 0" (selectionChange)="onServiceCodeSelected($event)"
+                  [ngClass]="{ 'is-invalid': submitted && formControls.serviceCode.errors }" required>
+                  <mat-option *ngFor="let option of ServiceCodes" [value]="option.serviceCodeId">
+                    {{option.serviceCode}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.serviceCode.errors">
+                  Please select service code
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Unit" maxlength="40" formControlName="quantity" appNumbersOnly [ngClass]="{ 'is-invalid': submitted && formControls.quantity.errors }"
+                  required />
+                <mat-error *ngIf="formControls.quantity.errors">
+                  Please enter quantity
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Rate Per Unit($)" maxlength="40" formControlName="rate" appNumbersOnly [allowDecimals]="true" [ngClass]="{ 'is-invalid': submitted && formControls.rate.errors }"
+                  required />
+                <mat-error *ngIf="formControls.rate.errors">
+                  Please enter rate
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-checkbox formControlName="isBillable" [disabled]="true">
+                Is Billable
+              </mat-checkbox>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Modifier 1" formControlName="modifier1" matInput>
+                  <mat-option *ngFor="let option of filteredServiceCodeModifiers" [value]="option.modifier">
+                    {{option.modifier}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Modifier 2" formControlName="modifier2" matInput>
+                  <mat-option *ngFor="let option of filteredServiceCodeModifiers" [value]="option.modifier">
+                    {{option.modifier}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Modifier 3" formControlName="modifier3" matInput>
+                  <mat-option *ngFor="let option of filteredServiceCodeModifiers" [value]="option.modifier">
+                    {{option.modifier}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Modifier 4" formControlName="modifier4" matInput>
+                  <mat-option *ngFor="let option of filteredServiceCodeModifiers" [value]="option.modifier">
+                    {{option.modifier}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Practitioner" formControlName="clinicianId" matInput [ngClass]="{ 'is-invalid': submitted && formControls.clinicianId.errors }"
+                  required>
+                  <mat-option *ngFor="let option of masterAllStaff" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.clinicianId.errors?.required">
+                  Please select practitioner
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Rendering Provider" formControlName="renderingProviderId" matInput [ngClass]="{ 'is-invalid': submitted && formControls.renderingProviderId.errors }"
+                  required>
+                  <mat-option *ngFor="let option of masterAllStaff" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.renderingProviderId.errors?.required">
+                  Please select rendering provider
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Service Location" formControlName="serviceLocationID" matInput [ngClass]="{ 'is-invalid': submitted && formControls.serviceLocationID.errors }" required>
+                  <mat-option *ngFor="let option of officeAndPatientLocations" [value]="option.rowNo">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.serviceLocationID.errors?.required">
+                  Please select service location
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width" *ngIf="selectedServiceLocation && (selectedServiceLocation.key || '').toUpperCase() === 'OTHER'">
+                <mat-select placeholder="Address Type" formControlName="customAddressID" matInput [ngClass]="{ 'is-invalid': submitted && formControls.customAddressID.errors }"
+                  required>
+                  <mat-option *ngFor="let option of masterPatientLocation" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.customAddressID.errors?.required">
+                  Please select address type
+                </mat-error>
+              </mat-form-field>
+
+              <p *ngIf="selectedServiceLocation && (selectedServiceLocation.key || '').toUpperCase() !== 'OTHER'">
+                {{ selectedServiceLocation.fullAddress }}
+              </p>
+            </div>
+          </div>
+          <div class="row" *ngIf="selectedServiceLocation && (selectedServiceLocation.key || '').toUpperCase() === 'OTHER'">
+            <div class="col-sm-12">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Other Address" formControlName="customAddress" [ngClass]="{ 'is-invalid': submitted && formControls.customAddress.errors }"
+                  required />
+                <mat-error *ngIf="formControls.customAddress.errors">
+                  Please enter other address
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+  <div mat-dialog-actions>
+    <button class="cancel-btn" mat-raised-button (click)="onClose()">Close</button>
+    <button mat-raised-button color="primary" form="claimServiceCodeForm" [disabled]="submitted" cdkFocusInitial>
+      {{submitted ? 'Saving...' : 'Submit'}}
+    </button>
+  </div>
+</div>

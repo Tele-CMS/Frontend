@@ -1,0 +1,85 @@
+<div class="custom_modal">
+    <h3 mat-dialog-title>{{headerText}}</h3>
+    <div mat-dialog-content>
+        <div class="row">
+            <div class="col-sm-12">
+                <form (ngSubmit)="onSubmit()" id="sendUserInvitationForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="sendUserInvitationForm">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autofocus appAlphanumericOnly allowFirstName="true" placeholder="First Name" maxlength="100" formControlName="firstName" [ngClass]="{ 'is-invalid': submitted && formControls.firstName.errors }"
+                                    required />
+                                <mat-error *ngIf="formControls.firstName.errors?.required">
+                                    Please enter first name
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autofocus appAlphanumericOnly alphabetsOnly="true" placeholder="Middle Name" maxlength="100" formControlName="middleName" [ngClass]="{ 'is-invalid': submitted && formControls.middleName.errors }"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autofocus appAlphanumericOnly alphabetsOnly="true" placeholder="Last Name" maxlength="100" formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && formControls.lastName.errors }"
+                                    required />
+                                <mat-error *ngIf="formControls.lastName.errors?.required">
+                                    Please enter last name
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autofocus placeholder="Email" maxlength="100" formControlName="email" [ngClass]="{ 'is-invalid': submitted && formControls.email.errors }"
+                                    required />
+                                <mat-error *ngIf="formControls.email.errors?.required">
+                                    Please enter user email
+                                </mat-error>
+                                <mat-error *ngIf="formControls.email.errors?.email">
+                                    Please enter a valid email address
+                                </mat-error>
+                                <mat-error *ngIf="formControls.email.errors?.pattern">
+                                    Please enter a valid email address
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autofocus placeholder="Phone" maxlength="15" minlength="10" formControlName="phone" [ngClass]="{ 'is-invalid': submitted && formControls.phone.errors }"
+                                    required />
+                                <mat-error *ngIf="formControls.phone.errors?.required">
+                                    Please enter user phone number
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-select placeholder="Role" formControlName="roleID" matInput [ngClass]="{ 'is-invalid': submitted && formControls.roleID.errors }"
+                                    required>
+                                    <mat-option *ngFor="let role of masterRoles" [value]="role.id">
+                                        {{role.value}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formControls.roleID.errors">
+                                    Please select role
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+        <div>
+            <button name="Save" mat-raised-button color="primary" form="sendUserInvitationForm" class="text-uppercase" [disabled]="submitted"
+                cdkFocusInitial>{{submitted ? 'Sending...' : 'Send'}}</button>
+        </div>
+    </div>
+</div>

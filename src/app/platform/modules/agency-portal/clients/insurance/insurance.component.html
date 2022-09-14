@@ -1,0 +1,272 @@
+<div class="readmin-form custom_form insurance-blk">
+  <ul class="tabs-sm">
+    <li [ngClass]="{active : activeInsurance=='primary'}">
+      <a href="#" (click)="activeHandler($event, 'primary')">
+        <i class="flaticon flaticon-medical-2"></i>Primary Insurance</a>
+    </li>
+    <li [ngClass]="{active : activeInsurance=='secondary'}">
+      <a href="#" (click)="activeHandler($event, 'secondary')">
+        <i class="flaticon flaticon-shield-1"></i>Secondary Insurance</a>
+    </li>
+    <!-- : <li><a href=#><i className="flaticon flaticon-shield-1"></i> Secondary Insurance</a></li> -->
+    <!-- {this.state.enableTertiary ? -->
+    <li [ngClass]="{active : activeInsurance=='tertiary'}">
+      <a href="#" (click)="activeHandler($event, 'tertiary')">
+        <i class="flaticon flaticon-insurance-1"></i>Tertiary Insurance</a>
+    </li>
+    <!-- : <li><a href={this.resolveJavascript()}><i className="flaticon flaticon-insurance-1"></i> Tertiary Insurance</a></li>} -->
+  </ul>
+</div>
+<div class="row pt-3 pb-3">
+  <div class="col-sm-12">
+    <form id="insuranceForm" #documentForm="ngForm" [formGroup]="insuranceForm">
+      <div class="row">
+        <div class="col-sm-6">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Insurance Company" (selectionChange)="updateValue($event.value)" formControlName="insuranceCompanyID"
+              matInput [ngClass]="{ 'is-invalid': submitted && formControls.insuranceCompanyID.errors }" [disabled]="(patientInsuranceId!=null)?true:false"
+              required>
+              <mat-option *ngFor="let option of masterInsuranceCompanies" [value]="option.id">
+                {{option.value}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formControls.insuranceCompanyID.errors">
+              Please select insurance company
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+          <mat-form-field class="example-full-width">
+            <input matInput autofocus placeholder="Insurance Company Address" maxlength="50" formControlName="insuranceCompanyAddress"
+              readonly />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <mat-form-field class="example-full-width">
+            <input matInput autofocus placeholder="Carrier Payer ID" maxlength="50" formControlName="carrierPayerID"
+              readonly />
+          </mat-form-field>
+        </div>
+        <div class="col-sm-4">
+          <mat-form-field class="example-full-width">
+            <input matInput readonly [matDatepicker]="cardIssueDate" [max]="maxDate" placeholder="Insurance Issue Date"
+              formControlName="cardIssueDate">
+            <mat-datepicker-toggle matSuffix [for]="cardIssueDate"></mat-datepicker-toggle>
+            <mat-datepicker #cardIssueDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-4">
+          <mat-form-field class="example-full-width">
+            <input matInput autofocus placeholder="Insurance Group Name" maxlength="50" formControlName="insuranceGroupName" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <mat-form-field class="example-full-width">
+            <input matInput autofocus placeholder="Insurance Plan Name" maxlength="50" formControlName="insurancePlanName" />
+          </mat-form-field>
+        </div>
+        <div class="col-sm-4">
+          <mat-form-field class="example-full-width">
+            <input matInput autofocus placeholder="Insurance ID Number" maxlength="50" formControlName="insuranceIDNumber"
+              [ngClass]="{ 'is-invalid': submitted && formControls.insuranceIDNumber.errors }" required />
+            <mat-error *ngIf="formControls.insuranceIDNumber.errors">
+              Please enter insurance id number
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-4">
+          <mat-form-field class="example-full-width">
+            <input matInput autofocus placeholder="Primary Insurance Notes" maxlength="50" formControlName="notes" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <mat-checkbox formControlName="insurancePersonSameAsPatient" (click)="formControlValueChanged()">
+            Insured Person is the same person as Patient
+          </mat-checkbox>
+        </div>
+      </div>
+      <div formGroupName="insuredPerson" *ngIf="!(formControls.insurancePersonSameAsPatient.value)">
+        <div class="panel_title">
+          <i class="flaticon flaticon-shield"></i>
+          <h3>Insured person</h3>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="First Name" appAlphanumericOnly allowFirstName="true" maxlength="40" formControlName="firstName" [ngClass]="{ 'is-invalid': submitted && insuredPersonformControls.controls.firstName.errors }"
+                required />
+              <mat-error *ngIf="insuredPersonformControls.controls.firstName.errors?.required">
+                Please enter first name
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Middle Name" appAlphanumericOnly alphabetsOnly="true" maxlength="40" formControlName="middleName" />
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Last Name" appAlphanumericOnly alphabetsOnly="true" maxlength="40" formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && insuredPersonformControls.controls.lastName.errors }"
+                required />
+              <mat-error *ngIf="insuredPersonformControls.controls.lastName.errors?.required">
+                Please enter last name
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Gender" formControlName="genderID" matInput [ngClass]="{ 'is-invalid': submitted && insuredPersonformControls.controls.genderID.errors }"
+                required>
+                <mat-option *ngFor="let genderVal of masterGender" [value]="genderVal.id">
+                  {{genderVal.value}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="insuredPersonformControls.controls.genderID.errors?.required">
+                Please select gender
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input matInput readonly [matDatepicker]="dob" [max]="maxDate" placeholder="Date of Birth"
+                formControlName="dob" required>
+              <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+              <mat-datepicker #dob></mat-datepicker>
+              <mat-error *ngIf="insuredPersonformControls.controls.dob.errors?.required">
+                Please enter dob
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input appPhoneNumber matInput placeholder="Phone Number" formControlName="phone" [ngClass]="{ 'is-invalid': submitted && insuredPersonformControls.controls.phone.errors }"
+                required />
+              <mat-error *ngIf="insuredPersonformControls.controls.phone.errors?.required">
+                Please enter phone number
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Relationship" formControlName="relationshipID" matInput [ngClass]="{ 'is-invalid': submitted && insuredPersonformControls.controls.relationshipID.errors }"
+                required>
+                <mat-option *ngFor="let relationshipVal of masterRelationship" [value]="relationshipVal.id">
+                  {{relationshipVal.value}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="insuredPersonformControls.controls.relationshipID.errors?.required">
+                Please select relationship
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4 require">
+              <!-- <mat-form-field class="example-full-width">
+                <input matInput placeholder="Address" maxlength="40" formControlName="address1" [ngClass]="{ 'is-invalid': submitted && insuredPersonformControls.controls.address1.errors}"
+                required />
+              <mat-error *ngIf="insuredPersonformControls.controls.address1.errors?.required">
+                Please enter address
+              </mat-error>
+            </mat-form-field> -->
+            <app-google-address-input [control]="insuredPersonformControls.controls.address1" (onAddressChange)="handleAddressChange($event)"></app-google-address-input>
+          </div>
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Apt/Unit" maxlength="10" formControlName="apartmentNumber" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 require">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Country" formControlName="countryID" matInput required>
+                <mat-option *ngFor="let country of masterCountry" [value]="country.id">
+                  {{country.value}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="insuredPersonformControls.controls.countryID.errors">
+                Please select country
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="City" appAlphanumericOnly alphabetsOnly="true" maxlength="50" formControlName="city" required/>
+              <mat-error *ngIf="insuredPersonformControls.controls.city.errors">
+                Please enter city
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="State" formControlName="stateID" matInput required>
+                <mat-option *ngFor="let state of masterState" [value]="state.id">
+                  {{state.value}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="insuredPersonformControls.controls.stateID.errors">
+                Please select state
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input appZipcode matInput placeholder="Zip Code" maxlength="10" formControlName="zip" [ngClass]="{ 'is-invalid': submitted && insuredPersonformControls.controls.zip.errors}"
+                required />
+              <mat-error *ngIf="insuredPersonformControls.controls.zip.errors?.required">
+                Please enter zip code
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 mt-3">
+          <div class="uplaod_pic insurance-doc">
+            <label class="browse">
+              <img *ngIf="imagePreviewFront" [src]="imagePreviewFront" alt="" />
+              <span *ngIf="imagePreviewFront">Change</span>
+              <i *ngIf="!imagePreviewFront" class="fa fa-upload fa-2x" aria-hidden="true"></i>
+              <input type="file"  (change)="handleImageChange($event,'front')">
+            </label>
+          </div>
+          <p class="ins_photo">Please upload insurance front picture.
+            (jpg, jpeg, bmp, png)</p>
+        </div>
+        <div class="col-sm-6 mt-3">
+          <div class="uplaod_pic insurance-doc">
+            <label class="browse">
+              <img *ngIf="imagePreviewBack" [src]="imagePreviewBack" alt="" />
+              <span *ngIf="imagePreviewBack">Change</span>
+              <i *ngIf="!imagePreviewBack" class="fa fa-upload fa-2x" aria-hidden="true"></i>
+              <input type="file" (change)="handleImageChange($event,'back')">
+            </label>
+          </div>
+          <p class="ins_photo">Please upload insurance back picture.
+            (jpg, jpeg, bmp, png)</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 d-sm-flex justify-content-sm-end pt-3 actions-btn">
+          <button name="Save" mat-raised-button color="primary" (click)="onSubmit($event)" form="insuranceForm" class="text-uppercase"
+            [disabled]="submitted" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+
+          <button name="SaveContinue" mat-raised-button color="accent" (click)="onSubmit($event)" form="insuranceForm"
+            class="text-uppercase ml-3" [disabled]="submitted">{{submitted ? 'Saving...' : 'Save & Continue'}}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

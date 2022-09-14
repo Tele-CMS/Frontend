@@ -1,0 +1,23 @@
+.box-heading{
+    color: #2F2660;
+    font-size: 20px;
+    /* font-weight: 600; */
+    margin: 18px 20px 20px 0;
+    padding: 0;
+    text-align: left;
+    text-transform: capitalize;
+}
+
+.additem {
+    top: -5px !important;
+}
+
+
+.payment-blk .btn-danger{
+    border-radius: 10px;
+}
+.payment-blk .btn-primary {
+    background-color: var(--yellow-color);
+    border-color: #0fd8ef;
+    border-radius: 10px;
+}

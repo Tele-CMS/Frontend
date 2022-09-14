@@ -1,0 +1,40 @@
+.field-clear
+{
+    position: absolute;
+    bottom: 1.80em;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.40);
+}
+.readmin-panel{
+  float: left;
+}
+/* .table th:last-child, .table td:last-child
+{
+    position: sticky;
+    z-index: 1;
+    right: 0;
+}
+.table td:last-child
+{
+    background-color: #fff;
+    background-clip: padding-box;
+}
+.table th:last-child
+{
+    background-color: #F1F5F7;
+} */
+.table.table-hover tbody tr:hover {
+    background-color: transparent;
+}
+.appoint-data p
+{
+    margin: 15px 10px 0px 0px;
+}
+.appoint-data span
+{
+ font-weight: 800;
+}
+.refresh-icon .refresh
+{
+    padding-right: 27px;
+}

@@ -1,0 +1,233 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>EOB PAYMENTS INPUT TOOL</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form id="eobPaymentForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="eobPaymentForm">
+
+          <div class="row mb-3">
+            <div class="col-12">
+              <h4 class="modal-title">
+                Check Detail
+              </h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Insurance Company" formControlName="payerId" matInput [ngClass]="{ 'is-invalid': submitted && formControls.payerId.errors }"
+                  required>
+                  <mat-option *ngFor="let option of insuranceCompanies" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.payerId.errors">
+                  Please select insurance company
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Check#" formControlName="check" [ngClass]="{ 'is-invalid': submitted && formControls.check.errors }"
+                  required />
+                <mat-error *ngIf="formControls.check.errors">
+                  Please enter check ref no.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Amount#" formControlName="amount" appNumbersOnly [allowDecimals]="true" [ngClass]="{ 'is-invalid': submitted && formControls.amount.errors }"
+                  required />
+                <mat-error *ngIf="formControls.amount.errors">
+                  Please enter amount
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Payment Type" formControlName="paymenttype" matInput [ngClass]="{ 'is-invalid': submitted && formControls.paymenttype.errors }"
+                  required>
+                  <mat-option *ngFor="let option of masterPaymentType" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.payerId.errors">
+                  Please select payment type
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="picker" placeholder="Payment Date" formControlName="paymentDate" readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-12">
+              <h4 class="modal-title">Charge Detail</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-select placeholder="Patient" formControlName="patient" matInput (selectionChange)="onPatientSelected($event)" [ngClass]="{ 'is-invalid': submitted && formControls.patient.errors }"
+                  required>
+                  <mat-option *ngFor="let option of allPatients" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.patient.errors">
+                  Please select patient
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field hintLabel="Total ${{totalPaymentAmount}}">
+                <mat-select placeholder="DOS/Service Code" formControlName="dos" matInput (selectionChange)="onSelectServiceCode($event)" [ngClass]="{ 'is-invalid': submitted && formControls.dos.errors }"
+                  required>
+                  <mat-option *ngFor="let option of openChargesForBalance" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.dos.errors">
+                  Please select dos/service code
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width" hintLabel="Balance ${{totalBalanceAmount}}">
+                <input matInput placeholder="Payment" formControlName="payment" appNumbersOnly [allowDecimals]="true" [ngClass]="{ 'is-invalid': submitted && formControls.payment.errors }"
+                  required />
+                <mat-error *ngIf="formControls.payment.errors">
+                  Please enter payment
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div formArrayName="adjustments" *ngFor="let adj of adjustments['controls'];let ix = index">
+            <div class="row" [formGroupName]="ix">
+              <div class="col-sm-4">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Adjustment" formControlName="amountAdjusted" appNumbersOnly [allowDecimals]="true" />
+                </mat-form-field>
+              </div>
+              <div class="col-sm-4">
+                <mat-form-field class="example-full-width">
+                  <mat-select placeholder="Adj Grp Code" formControlName="adjustmentGroupCode" matInput>
+                    <mat-option *ngFor="let option of adjustmentGroupCodeModel" [value]="option.id">
+                      {{option.value}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-4 pdl-40">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Adj Reason Code" formControlName="adjustmentReasonCode" />
+                </mat-form-field>
+
+                <button *ngIf="(ix > 0) || (adjustments['controls'].length > 1)" type="button" class="additem removeitem" title="Remove row"
+                    (click)=removeAdjustments(ix)>
+                    <b class="fa fa-minus-square orangefont" aria-hidden="true"></b>
+                  </button>
+                  <button *ngIf="(ix + 1) === adjustments['controls'].length" type="button" class="additem" title="Add row" (click)=addAdjustments()>
+                    <b class="fa fa-plus-square greenfont" aria-hidden="true"></b>
+                  </button>
+              </div>
+
+              
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8">
+              <mat-checkbox formControlName="settled">
+                Settled
+              </mat-checkbox>
+            </div>
+            <div class="col-sm-4">
+              <button mat-raised-button color="primary" (click)="onAddPaymentDetails()">
+                Add
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover customtable group-table">
+          <thead>
+            <tr>
+              <th width="25%">Patient Name</th>
+              <th width="25%">DOS</th>
+              <th width="20%">Payment Amt</th>
+              <th width="20%">Mark Settled</th>
+              <th width="10%">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let paymentObj of applyPaymentDataArray; let ix=index">
+              <td colSpan="5" class="p-0">
+                <table class="table middletable">
+                  <tbody>
+                    <tr>
+                      <td width="25%">{{paymentObj.patientName}} </td>
+                      <td width="25%">{{paymentObj.claimServiceLines[0].serviceCode}}</td>
+                      <td width="20%">{{paymentObj.claimServiceLines[0].paymentAmount | number:'2.2-2'}}</td>
+                      <td width="20%">{{paymentObj.markSettled ? 'Settled' : 'Not Settled'}}</td>
+                      <td width='10%'>
+                        <button (click)="onDeleteServiceCode($event, ix)" type="button" title="Delete" class="tbactionbtn">
+                          <b class="fa fa-trash-o" aria-hidden="true"></b>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr class="nohover" *ngIf="paymentObj.claimServiceLines[0].claimServiceLineAdjustment">
+                      <td colSpan="5">
+                        <table class="table childtable">
+                          <thead>
+                            <tr>
+                              <th width="25%"></th>
+                              <th width="25%">Adj. Amt</th>
+                              <th width="25%">Adj. Group Code</th>
+                              <th width="25%">Adj. Reason Code</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let adjustmentObj of paymentObj.claimServiceLines[0].claimServiceLineAdjustment" >
+                              <td></td>
+                              <td>{{adjustmentObj.amountAdjusted | number:'2.2-2'}}</td>
+                              <td>{{adjustmentObj.adjustmentGroupCode || '-'}}</td>
+                              <td>{{adjustmentObj.adjustmentReasonCode || '-'}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+    <div class="row">
+      <div class="col-sm-4">
+        <span class="bottom-label">Total Payment: ${{calculateTotalAmount() | number:'2.2-2'}}</span>
+      </div>
+      <div class="col-sm-4">
+        <span class="bottom-label">Total Adjustment: ${{calculateTotalAdjustmentAmount() | number:'2.2-2'}}</span>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button class="cancel-btn" mat-raised-button (click)="onClose()">Close</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="submitted || !applyPaymentDataArray.length" cdkFocusInitial>
+      {{submitted ? 'Submiting...' : 'Apply Payments'}}
+    </button>
+  </div>
+</div>

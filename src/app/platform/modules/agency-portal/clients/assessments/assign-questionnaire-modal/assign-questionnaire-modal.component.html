@@ -1,0 +1,41 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Assign Assessment</h3>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="patientDocumentForm" #documentForm="ngForm" class="readmin-form custom_form"
+          [formGroup]="patientDocumentForm">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Select Assessment" formControlName="documentId" matInput
+                  [ngClass]="{ 'is-invalid': submitted && formControls.documentId.errors }" required>
+                  <mat-option *ngFor="let option of masterDocuments" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.documentId.errors">
+                  Please assign assessment
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput (focus)="expirationDate.open()" [matDatepicker]="expirationDate" placeholder="Due Date"
+                  formControlName="expirationDate">
+                <mat-datepicker-toggle matSuffix [for]="expirationDate"></mat-datepicker-toggle>
+                <mat-datepicker #expirationDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="accent" class="cancel-btn" (click)="closeDialog('close')">Close</button>
+    <button mat-raised-button color="primary" form="patientDocumentForm" [disabled]="submitted" cdkFocusInitial>
+      {{submitted ? 'Assigning...' : 'Assign'}}
+    </button>
+  </div>
+</div>

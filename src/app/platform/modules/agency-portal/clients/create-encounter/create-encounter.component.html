@@ -1,0 +1,263 @@
+<div #dragsidebar mwlResizable [enableGhostResize]="true" [resizeEdges]="{left: true}" (resizing)="onResizing($event)" [validateResize]="onValidateResize" class="encounter-sidebar" [ngClass]="{'close-drawer' : !isOpen}">
+    <button mat-button class="app-menu-button client-list" (click)="onClientToggle()">
+    <i class="flaticon-agenda-1"></i>
+  </button>
+    <!-- loader -->
+    <div [class.hidden]="!isLoadingList && !isLoading">
+        <div class="full_loader">
+            <div class="loader">
+                <div class='loader'>
+                    <div class='loader--dot'></div>
+                    <div class='loader--dot'></div>
+                    <div class='loader--dot'></div>
+                    <div class='loader--text'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="encounter-header d-flex justify-content-between align-items-center">
+            <h3>Create Encounter <span *ngIf="firstTimeSaved === true"><i class="fa fa-clock-o" aria-hidden="true"></i>{{
+          countdownTimer}}</span> </h3>
+            <i class="zmdi zmdi-close" mat-button (click)="onCloseCreateEncounterForm()"></i>
+        </div>
+        <!-- <form class="readmin-form"> -->
+        <div class="encounter-content">
+            <ng-scrollbar>
+                <div class="col-md-12 mt-3 mb-3">
+                    <form id="soapForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="soapForm">
+                        <div class="row" *ngIf="!isPatientEligible">
+                            <div class="col-sm-5">
+                                <mat-form-field class="example-full-width">
+                                    <mat-select placeholder="Select any API" formControlName="apiId" matInput [ngClass]="{ 'is-invalid': submitted && formControls.apiId.errors } " [required]="isPatientEligible ? false : true ">
+                                        <mat-option *ngFor="let check of checkEligibilityAPIs" [value]="check.id">
+                                            {{check.displayName}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="formControls.apiId.errors">
+                                        Please select any API
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <button type="button" (click)="checkPatientEligibility()" class="btn-sm mat-raised-button mat-accent" title="Check Eligibility" [disabled]="submittedEligibility">{{submittedEligibility ? 'Checking.....': 'Eligibility Check'}}</button>
+                            </div>
+                            <div class="col-sm-5" *ngIf="formControls.apiId.value == 1">
+                                <button type="button" (click)="sendBBIntructionsMail()" class="btn-sm mat-raised-button mat-accent" [disabled]="submittedEmail || isMailSent" title="Send an email to enable sync with medicare data">{{ submittedEmail ? 'Sending email.... ' : 'Send Approval to patient'}} </button>
+                            </div>
+                        </div>
+                        <div *ngIf="isPatientEligible">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="p_title">
+                                        <h3>Service Codes</h3>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-select multiple placeholder="Select Service Code" formControlName="serviceCodeIds" matInput [ngClass]="{ 'is-invalid': submitted && formControls.serviceCodeIds.errors }" required>
+                                            <mat-option *ngFor="let code of masterServiceCode" [value]="code.id">
+                                                {{code.value}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="formControls.serviceCodeIds.errors">
+                                            Please select service codes
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="panel_title">
+                                        <h3>Encounter Details</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="encountersList.length > 0">
+                                <div class="col-sm-12">
+                                    <mat-form-field class="example-full-width" floatLabel="never">
+                                        <mat-select placeholder="Patient Encounters" matInput (selectionChange)="onEncounterSelect($event)" formControlName="selectedEncounterId">
+                                            <mat-option *ngFor="let encounter of encountersList" [value]="encounter.id">
+                                                {{encounter.dateOfService}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput [matDatepicker]="picker" (focus)="picker.open()" placeholder="Start Date" formControlName="startDate">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <mat-form-field class="example-full-width">
+                                        <!-- <input matInput placeholder="Start Time {{timeZoneName && '(' + timeZoneName + ')'}}" [value]="encStartTime"
+                         [ngxTimepicker]="startTime" readonly [max]="encEndTime"> -->
+                                        <input matInput placeholder="Start Time" type="time" formControlName="startTime" [max]="encEndTime">
+                                        <ngx-material-timepicker #startTime (timeSet)="onEncounterTimeSet('encStartTime', $event)"></ngx-material-timepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="End Time" type="time" readonly formControlName="endTime" [min]="encStartTime">
+                                        <!-- <input matInput placeholder="End Time" [value]="encEndTime" type="time" (change)="onEncounterTimeSet('encEndTime', $event)" [min]="encStartTime">  -->
+                                        <!--[disabled]="firstTimeSaved === true"-->
+                                        <ngx-material-timepicker #endTime (timeSet)="onEncounterTimeSet('encEndTime', $event)"></ngx-material-timepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-select placeholder="Program Name" formControlName="ProgramTypeIds" matInput multiple>
+                                            <mat-option *ngFor="let option of masterProgramTypes" [value]="option.id">
+                                                {{option.description}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- <div class="col-sm-12 refresh">
+                <mat-form-field class="example-full-width">
+                  <mat-select placeholder="Encounter Method" formControlName="EncounterMethodId" matInput>
+                    <mat-option>None</mat-option>
+                    <mat-option *ngFor="let option of masterEncounterMethods" [value]="option.id">
+                      {{option.value}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <i (click)="resetFormValue('EncounterMethodId')" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+              </div> -->
+                                <!-- <div class="col-sm-12 require">
+                <mat-form-field class="example-full-width">
+                  <mat-select required placeholder="Encounter Type" formControlName="EncounterTypeId" matInput>
+                    <mat-option *ngFor="let option of masterEncounterTypes" [value]="option.id">
+                      {{option.value}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="formControls.EncounterTypeId.errors?.required">
+                    Please enter encounter type
+                  </mat-error>
+                </mat-form-field>
+              </div> -->
+                                <div class="col-sm-12">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-select placeholder="Location" formControlName="LocationId" matInput>
+                                            <mat-option *ngFor="let option of locationData" [value]="option.id">
+                                                {{option.locationName}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <mat-form-field class="example-full-width">
+                                        <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" placeholder="Complaint" matInput rows="4" formControlName="ManualChiefComplaint">
+                    </textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="panel_title">
+                                        <h3>Notes</h3>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <mat-form-field class="example-full-width">
+                                        <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" placeholder="Notes" rows="4" matInput formControlName="notes" required maxlength="8000" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" style="overflow-y: scroll;"></textarea>
+                                        <mat-error *ngIf="formControls.notes.errors?.required">
+                                            Please enter notes
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <!-- <div class="col-sm-12 mt-3">
+                <mat-form-field class="example-full-width">
+                  <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" placeholder="Patient Notes" rows="4"
+                            matInput formControlName="memberNotes" maxlength="8000" cdkAutosizeMinRows="1"
+                            cdkAutosizeMaxRows="10" style="overflow-y: scroll;"></textarea>
+                </mat-form-field>
+              </div> -->
+                            </div>
+                        </div>
+                    </form>
+                    <!-- <div class="row">
+            <div class="col-12">
+              <div class="panel_title">
+                <h3>Administrative Encounter</h3>
+              </div>
+
+              <div class="col-sm-12 mb-2" *ngFor="let item of masterEncounterChecklistAdministativeModel">
+                <mat-checkbox class="checkbox-sm" color="primary" [checked]="item.patientEncounterId > 0" (change)="onChecklistSelection($event, item)">
+                  {{ item.name }}
+                </mat-checkbox>
+                <div *ngIf="isItemChecked(item)" class="encounter-checklist">
+                  <mat-form-field class="example-full-width">
+                    <textarea placeholder="Description" [(ngModel)]="item.notes" name="Notes" maxlength="10000" rows="3"
+                              matInput></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div> -->
+                    <div *ngIf="isPatientEligible">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="panel_title">
+                                    <h3>Encounter Checklist</h3>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 mb-2" *ngFor="let item of masterEncounterChecklistModel">
+                                <mat-checkbox class="checkbox-sm" color="primary" [checked]="item.patientEncounterId > 0" (change)="onChecklistSelection($event, item)">
+                                    {{ item.name }}
+                                </mat-checkbox>
+                                <div *ngIf="isItemChecked(item)" class="encounter-checklist">
+                                    <ul>
+                                        <li *ngFor="let reviewItem of  getMmasterEncChecklistReviewItems(item.masterEncounterChecklistId)">
+                                            <i class="zmdi zmdi-check"></i> {{ reviewItem.itemName }}
+                                        </li>
+                                    </ul>
+                                    <div *ngIf="getEncounterChangeHistory(item.masterEncounterChecklistId).length > 0">
+                                        Change history
+                                        <ul>
+                                            <li *ngFor="let history of getEncounterChangeHistory(item.masterEncounterChecklistId)">
+                                                {{ history.changes }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <mat-form-field class="example-full-width">
+                                        <textarea placeholder="Description" [(ngModel)]="item.notes" name="Notes" maxlength="10000" rows="3" matInput></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="row" style="overflow:scroll">
+            <div class="col-12">
+              <div class="panel_title">
+                <h3>Medications</h3>
+              </div>
+              <app-data-table class="mt-3 d-block table-responsive" [inputColumns]="displayedColumns" [inputSource]="patientCurrentMedicationModel" [inputMeta]="metaData">
+              </app-data-table>
+            </div>
+            </div>-->
+
+                    </div>
+                </div>
+            </ng-scrollbar>
+        </div>
+        <div class="encounter-footer" *ngIf="isPatientEligible">
+            <div class="col-md-12 d-flex justify-content-between align-items-center">
+                <button type="button" class="clear-btn" color="accent" (click)="onCloseCreateEncounterForm()" mat-raised-button>Cancel</button>
+                <button mat-raised-button color="primary" form="soapForm" [disabled]="submitted || autoSaveSubmit" cdkFocusInitial (click)="onSubmit()">{{submitted || autoSaveSubmit ? autoSaveSubmit ? 'Auto Saving...' :
+          'Saving...' : 'Save Encounter'}}</button>
+            </div>
+        </div>
+        <!-- </form> -->
+    </div>
+</div>

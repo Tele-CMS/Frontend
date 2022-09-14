@@ -1,0 +1,12 @@
+
+<div class="clearfix"></div>
+<div class="user-block presc-blk">
+  <mat-tab-group (selectedTabChange)="loadComponent($event)" [disableRipple]="'true'" [selectedIndex]="selectedIndex">
+    <mat-tab *ngFor="let tab of timesheetTabs;let i=index" class="mat-tab-label-active" label={{tab}}>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+    
+    <div #tabContent>
+      <!-- <div class="text-center" *ngIf="!(staffId)">No Staff Selected</div> -->
+    </div>

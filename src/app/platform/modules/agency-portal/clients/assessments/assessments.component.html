@@ -1,0 +1,41 @@
+<app-client-header [clientId]="clientId" [headerText]="header" ></app-client-header>
+<div class="readmin-panel">
+<div class="row mb-3">
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-sm-6">
+        <mat-form-field class="example-full-width">
+          <mat-select matInput [(ngModel)]="filterParams && filterParams.documentId" name="documentId" placeholder="Assessment">
+            <!-- (selectionChange)="isButtonDisabled($event)" -->
+            <mat-option *ngFor="let option of masterDocuments" [value]="option.id">
+              {{option.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-sm-6">
+        <mat-form-field class="example-full-width">
+          <mat-select matInput [(ngModel)]="filterParams && filterParams.statusId" name="statusId" placeholder="Status">
+            <mat-option *ngFor="let option of masterStatus" [value]="option.id">
+              {{option.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 filter-btn">
+    <button type="button" class="clear-btn mr-2" color="accent" mat-raised-button (click)='clearfilterParams()'>Clear
+      All</button>
+    <button name="Filter" class="pdl-5 mr-2" mat-raised-button color="primary" (click)='applyFilter()'>Filter</button>
+    <button name="Save" class="add-new-btn mr-2" mat-raised-button color="primary" (click)="openDialog()">Assign</button>
+  </div>
+</div>
+
+<app-data-table class="mt-3 d-block table-responsive" [inputColumns]="displayedColumns"
+  [inputSource]="assessmentListingData" [inputMeta]="metaData" [inputButtons]='actionButtons'
+  (onChange)="onPageOrSortChange($event)" (onTableActionClick)="onTableActionClick($event)">
+</app-data-table>
+</div>

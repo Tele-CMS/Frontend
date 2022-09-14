@@ -1,0 +1,97 @@
+<app-client-header [clientId]="clientId" [headerText]="header"></app-client-header>
+
+<div class="readmin-panel">
+    <!-- <div class="panel-body"> -->
+    <!-- <div class="row">
+            <div class="col-md-12 pull-right justify-content-md-end d-flex">
+                <button [disabled]="disableButton()" mat-raised-button *ngIf="addPermission" mat-raised-button color="primary" class="add-primary-btn" (click)="openDialog()">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+          <span [matTooltip]="disableButton() ? tooltipdMessage : ''">Add Diagnosis</span>
+      </button>
+            </div>
+        </div> -->
+
+    <!-- <div class="clearfix"></div>
+    <div class="row"> -->
+    <div class="col-sm-12 d-flex align-items-center justify-content-end mt-3">
+        <div>
+            <button name="add_diagnosis" *ngIf="addPermission" mat-raised-button color="primary" (click)="openDialog()" class="text-uppercase mb-2">Add
+    Diagnosis</button>
+        </div>
+    </div>
+    <!-- </div> -->
+
+
+    <app-data-table class="d-block table-responsive" [inputColumns]="displayedColumns" [inputSource]="diagnosisList" [inputMeta]="metaData" [inputButtons]='actionButtons' (onChange)="onSortOrPageChanges($event)" (onTableActionClick)="onTableActionClick($event)">
+    </app-data-table>
+    <!-- <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-hover customtable group-table" matSort matSortDisableClear>
+                        <thead>
+                            <tr>
+                                <th width="45%" mat-sort-header="description" disableClear>
+                                    <span>DIAGNOSIS </span>
+                                </th>
+                                <th width="30%" mat-sort-header="diagnosisDate" disableClear>
+                                    <span>DIAGNOSIS DATE</span>
+                                </th>
+                                <th width="25%">
+                                    <span>ACTION</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="!diagnosisList.length">
+                                <td colspan="3" class="text-center">
+                                    No record found.
+                                </td>
+                            </tr>
+                            <tr *ngFor="let code of diagnosisList; let x = index">
+                                <td>
+                                    <span>{{code.diagnosisDate | date:"MM/dd/yyyy"}}</span>
+                                </td>
+                                <td>
+                                    <span>{{code.diagnosis}}</span>
+                                </td>
+                                <td>
+                                    <button type="button" title="Edit" class="tbactionbtn" (click)="openDialog(code.id)">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </button>
+                                    <button type="button" title="Delete" class="tbactionbtn" (click)="delete(code.id)">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <mat-paginator (page)="onSortOrPageChanges($event)" [length]="metaData['totalRecords']" [pageIndex]="metaData['currentPage'] - 1" [pageSize]="metaData['pageSize']" [pageSizeOptions]="metaData['pageSizeOptions']" showFirstLastButtons></mat-paginator>
+                </div>
+            </div>
+        </div> -->
+    <!-- </div> -->
+
+
+    <!-- <div class="row">
+  <div class="col-sm-6 mt-20 custom-card custom-card-header" *ngFor="let diagnosis of diagnosisList">
+      <mat-card>
+          <mat-card-header>
+                <mat-card-title>
+                        <p>Diagnosis Date: <span> {{diagnosis.diagnosisDate | date:'MM/dd/yyyy'}}</span> </p>
+                    </mat-card-title>
+              <mat-card-actions>
+                      <button *ngIf="updatePermission" mat-button (click)="openDialog(diagnosis.id)"><i class="fa fa-pencil"></i></button>
+                      <button *ngIf="deletePermission" mat-button (click)="delete(diagnosis.id)"><i class="fa fa-close"></i></button>
+                  </mat-card-actions>
+          </mat-card-header> -->
+    <!-- <div mat-card-avatar class="example-header-image"></div> -->
+    <!-- <mat-card-content>
+                  <p>Status : <span [ngClass]="{'greenfont': diagnosis.isActive, 'yellowfont': !diagnosis.isActive}"> {{diagnosis.isActive? 'Active':'In Active'}} </span> </p>
+                  <p><span>Diagnosis</span></p>
+                  <p><i matTooltip="diagnosis.diagnosis" matTooltipClass="example-tooltip" class="fa fa-info-circle infoIcon" aria-hidden="true"></i> <span>  {{diagnosis.diagnosis}} </span></p>
+                </mat-card-content>
+      </mat-card>
+  </div>
+</div> -->
+</div>
+<!-- </div> -->

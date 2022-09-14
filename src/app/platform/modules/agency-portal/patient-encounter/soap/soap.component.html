@@ -1,0 +1,357 @@
+<div class="d-flex justify-content-between panel-title align-items-center col-md-12">
+    <h2 class="page_title">Visit Details</h2>
+    <button name="back" mat-raised-button color="accent" (click)="onBackClick()">Back</button>
+</div>
+<div class="d-flex justify-content-between panel-title align-items-center border-0">
+
+    <!-- <div>
+    <button class="ml-3" name="Print Summary" mat-raised-button color="primary" *ngIf="encounterId>0" (click)='printEncounterSummary()'>Print
+      Summary</button>
+    <button class="ml-3" name="Email Summary" mat-raised-button color="primary" *ngIf="encounterId>0" (click)='emailEncounterSummary()'>Email
+      Summary</button>
+  </div> -->
+</div>
+<div class="container-fluid">
+    <div class="soap_detail detail_wd">
+        <div class="row">
+            <div class="col-sm-3" *ngIf="patientAppointmentDetails && patientAppointmentDetails.appointmentTypeName">
+                <p>
+                    <b>Appointment :</b>
+                    <span>{{(patientAppointmentDetails && patientAppointmentDetails.appointmentTypeName) || '-'}}</span>
+                </p>
+            </div>
+            <div class="col-sm-3">
+                <p>
+                    <b>Date :</b>
+                    <span>{{getDetails('startDateTime') && getDetails('startDateTime') | date:'MM/dd/yyyy'}}</span>
+                </p>
+            </div>
+            <div class="col-sm-3" *ngIf="patientEncounterDetails && patientEncounterDetails.startDateTime && patientEncounterDetails.endDateTime">
+                <p>
+                    <b>Time:</b>
+                    <span>
+                    {{
+(patientEncounterDetails.startDateTime | date:'h:mm a') + ' - ' +
+                    (patientEncounterDetails.endDateTime | date:'h:mm a')
+                    }}
+                  </span>
+                </p>
+            </div>
+            <div class="col-sm-3">
+                <!-- <p>
+                  <b>Referral Provider:</b>
+                  <span *ngIf="patientEncounterDetails!=null" [innerHTML]="(patientEncounterDetails.referringProviderName | textFormat) || '-'"></span>
+                </p> -->
+            </div>
+            <!-- <div class="col-sm-3">
+              <p>
+                <b>Referral NPI:</b>
+                <span>{{patientEncounterDetails && patientEncounterDetails.referringProviderNPI || '-'}}</span>
+              </p>
+            </div> -->
+            <div class="col-sm-3">
+                <p>
+                    <b>Seen By :</b>
+                    <span>{{ staffDetails && staffDetails.staffName }}</span>
+                </p>
+            </div>
+            <div class="col-sm-3">
+                <p>
+                    <b>Location Name :</b>
+                    <span>{{patientEncounterDetails?.locationName}}</span>
+                </p>
+            </div>
+            <div class="col-sm-3">
+                <p>
+                    <b>Service Location :</b>
+                    <span>{{ServiceLocationAddress}}</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <form id="soapForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="soapForm">
+        <div class="row">
+            <div class="col-sm-6">
+                <mat-form-field class="example-full-width">
+                    <mat-select placeholder="Program Name" formControlName="ProgramTypeIds" matInput multiple [disabled]="isSoapCompleted">
+                        <mat-option *ngFor="let option of masterProgramTypes" [value]="option.id">
+                            {{option.description}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+                <mat-form-field class="example-full-width">
+                    <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" placeholder="Complaint" rows="4" matInput formControlName="ManualChiefComplaint" [readonly]="isSoapCompleted">
+              </textarea>
+                </mat-form-field>
+            </div>
+        </div>
+        <!-- <div class="row">
+        <div class="col-sm-6">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Encounter Method" formControlName="EncounterMethodId" matInput [disabled]="isSoapCompleted">
+              <mat-option *ngFor="let option of masterEncounterMethods" [value]="option.id">
+                {{option.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Encounter Type" formControlName="EncounterTypeId" matInput [disabled]="isSoapCompleted">
+              <mat-option *ngFor="let option of masterEncounterTypes" [value]="option.id">
+                {{option.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div> -->
+
+        <div class="row">
+            <div class="col-12">
+                <div class="panel_title">
+                    <h3>Service codes</h3>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div *ngFor="let code of patientEncounterServiceCodes">
+                    <p>{{code.serviceCode}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="panel_title">
+                    <h3>Notes</h3>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <mat-form-field class="example-full-width">
+                    <textarea cdkTextareaAutosize placeholder="Notes" matInput formControlName="notes" required [readonly]="isSoapCompleted" maxlength="8000" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" style="overflow-y: scroll;"></textarea>
+                    <mat-error *ngIf="formControls.notes.errors?.required">
+                        Please enter notes
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <!-- <div class="col-12">
+          Follow Up Notes
+        </div>
+        <div class="col-sm-12">
+          <span [innerHTML]="followUpNotes | textFormat"></span>
+        </div>
+        <div class="col-sm-12 mt-3">
+          <mat-form-field class="example-full-width">
+            <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" placeholder="Patient Notes" matInput
+                      formControlName="memberNotes" [readonly]="isSoapCompleted" maxlength="8000" cdkAutosizeMinRows="1"
+                      cdkAutosizeMaxRows="10" style="overflow-y: scroll;"></textarea>
+          </mat-form-field>
+        </div> -->
+        </div>
+    </form>
+    <!-- <div class="row">
+      <div class="col-12">
+        <div class="panel_title">
+          <h3>Administrative Encounter</h3>
+        </div>
+        <div class="col-sm-12 mb-2" *ngFor="let item of masterEncounterChecklistAdministativeModel">
+          <mat-checkbox color="primary" [checked]="item.patientEncounterId > 0" (change)="onChecklistSelection($event, item)"
+                        [disabled]="isSoapCompleted">
+            {{ item.name }}
+          </mat-checkbox>
+          <div class="encounter-checklist" *ngIf="isItemChecked(item)">
+            <mat-form-field class="example-full-width" floatLabel="never">
+              <textarea placeholder="Description" maxlength="10000" [(ngModel)]="item.notes" name="Notes" rows="3"
+                        matInput [readonly]="isSoapCompleted"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <div class="row">
+        <div class="col-12">
+            <div class="panel_title">
+                <h3>Encounter Checklist</h3>
+            </div>
+            <div class="col-sm-12 mb-2" *ngFor="let item of masterEncounterChecklistModel">
+                <mat-checkbox color="primary" [checked]="item.patientEncounterId > 0" (change)="onChecklistSelection($event, item)" [disabled]="isSoapCompleted">
+                    {{ item.name }}
+                </mat-checkbox>
+                <div class="encounter-checklist" *ngIf="isItemChecked(item)">
+                    <ul class="checklist-detail">
+                        <li *ngFor="let reviewItem of  getMmasterEncChecklistReviewItems(item.masterEncounterChecklistId)">
+                            <i class="zmdi zmdi-check"></i> {{ reviewItem.itemName }}
+                        </li>
+                    </ul>
+                    <div class="encounter-checklist" *ngIf="getEncounterChangeHistory(item.masterEncounterChecklistId).length > 0">
+                        Change history
+                        <ul class="checklist-detail">
+                            <li *ngFor="let history of getEncounterChangeHistory(item.masterEncounterChecklistId)">
+                                <i class="zmdi zmdi-check"></i> {{ history.changes }}
+                            </li>
+                        </ul>
+                    </div>
+                    <mat-form-field class="example-full-width" floatLabel="never">
+                        <textarea placeholder="Description" maxlength="10000" [(ngModel)]="item.notes" name="Notes" rows="3" matInput [readonly]="isSoapCompleted"></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- medication code start -->
+    <!-- <div class="row">
+        <div class="col-12">
+            <div class="panel_title">
+                <h3>Medications</h3>
+            </div>
+            <app-data-table class="mt-3 d-block table-responsive" [inputColumns]="displayedColumns" [inputSource]="patientCurrentMedicationModel" [inputMeta]="metaData" stickyHeader="true">
+            </app-data-table> -->
+    <!-- (onChange)="onSortOrPageChanges($event)" -->
+    <!-- <div class="table-responsive">
+                <table class="mat-table table table-hover group-table referrals mt-3">
+                    <thead>
+                        <tr class="mat-header-row">
+                            <th class="mat-header-cell" width="12%">
+                                Medication
+                            </th>
+                            <th class="mat-header-cell" width="8%">
+                                Medication Form
+                            </th>
+                            <th class="mat-header-cell" width="8%">
+                                Dose
+                            </th>
+                            <th class="mat-header-cell" width="8%">
+                                Quantity
+                            </th>
+                            <th class="mat-header-cell" width="10%">
+                                Days Supply
+                            </th>
+                            <th class="mat-header-cell" width="10%">
+                                Frequency
+                            </th>
+                            <th class="mat-header-cell" width="10%">
+                                Condition
+                            </th>
+                            <th class="mat-header-cell" width="10%">
+                                Provider Name
+                            </th>
+                            <th class="mat-header-cell" width="10%">
+                                Prescribed Date
+                            </th>
+                            <th class="mat-header-cell" width="8%">
+                                Refills
+                            </th>
+                            <th class="mat-header-cell" width="8%">
+                                Source
+                            </th>
+                            <th class="mat-header-cell" width="10%">
+                                Notes
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let refObj of patientCurrentMedicationModel">
+                        <tr class="mat-header-row" *ngIf="refObj">
+                            <td class="mat-cell">{{refObj.medication || ''}}</td>
+                            <td class="mat-cell">{{refObj.dosageForm || ''}}</td>
+                            <td class="mat-cell">{{refObj.dose || ''}}</td>
+                            <td class="mat-cell">{{refObj.quantity || ''}}</td>
+                            <td class="mat-cell">{{refObj.daySupply || ''}}</td>
+                            <td class="mat-cell">{{refObj.frequency || ''}}</td>
+                            <td class="mat-cell">{{refObj.condition || ''}}</td>
+                            <td class="mat-cell">{{refObj.providerName || ''}}</td>
+                            <td class="mat-cell">{{(refObj.prescribedDate || '') | date:'MM/dd/yyyy' }}</td>
+                            <td class="mat-cell">{{refObj.refills || ''}}</td>
+                            <td class="mat-cell">{{refObj.source || ''}}</td>
+                            <td class="mat-cell">{{refObj.notes || ''}}</td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="patientCurrentMedicationModel.length == 0">
+                        <tr class="mat-header-row">
+                            <td class="mat-cell"></td>
+                            <td class="mat-cell"></td>
+                            <td class="mat-cell"></td>
+                            <td class="mat-cell"></td>
+                            <td class="mat-cell"></td>
+                            <td class="mat-cell" colspan="3"> No records found!</td>
+                            <td class="mat-cell"></td>
+                            <td class="mat-cell"></td>
+                            <td class="mat-cell"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> -->
+    <!-- </div>
+    </div> -->
+    <!-- medication code end -->
+
+    <!-- <div class="row">
+        <div class="col-12">
+            <div class="panel_title">
+                <h3>Service codes</h3>
+            </div>
+            <app-data-table class="mt-3 d-block table-responsive" [inputColumns]="displayedColumnsServiceCodes" [inputSource]="patientEncounterServiceCodes" [inputMeta]="metaData" stickyHeader="true">
+            </app-data-table> -->
+    <!-- (onChange)="onSortOrPageChanges($event)" -->
+    <!-- </div>
+    </div> -->
+
+    <div class="row">
+        <div class="col-sm-12 d-sm-flex justify-content-sm-between pt-3 actions-btn">
+            <button color="accent" class="cancel-btn" mat-raised-button (click)="onBackClick()">Cancel</button>
+            <div class="d-inline">
+                <button *ngIf="!isSoapCompleted" mat-raised-button color="primary" (click)="onSubmit()" [disabled]="submitted || Completed || (encounterId > 0 && !isAllSigned)" class="ml-3">
+            {{ submitted ? 'Saving...' : 'Save'}}
+          </button>
+
+                <button *ngIf="!isSoapCompleted" mat-raised-button color="primary" (click)="onSubmitAsComplete()" [disabled]="submitted || Completed || (encounterId > 0 && !isAllSigned)" class="ml-3">
+            {{ Completed ? 'Completing...' : 'Complete'}}
+          </button>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="employeeSign.bytes || patientSign.bytes || guardianSign.bytes">
+        <div class="col-12">
+            <div class="panel_title mt-24">
+                <h3>Signature</h3>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4" *ngIf="employeeSign.bytes">
+            <div id="showCanvasImageEmployee">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="sign">
+                            <img class="img-fluid" src="data:image/png;base64,{{employeeSign.bytes}}" alt="">
+                            <h3>
+                                {{employeeSign.name}}
+                                <span>(Provider)</span>
+                            </h3>
+                            <p>
+                                <span>Date : </span>{{employeeSign.date | date:'MM/dd/yyyy'}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4" *ngIf="patientSign.bytes">
+            <div id="showCanvasImageEmployee">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="sign">
+                            <img class="img-fluid" src="data:image/png;base64,{{patientSign.bytes}}" alt="">
+                            <h3>
+                                {{patientSign.name}}
+                                <span>(Patient)</span>
+                            </h3>
+                            <p>
+                                <span>Date : </span>{{patientSign.date | date:'MM/dd/yyyy'}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,257 @@
+<div class="readmin-panel">
+<h2 class="page_title">Appointment Report</h2>
+<div class="clearfix"></div>
+ <!-- loader content -->
+ <div [class.hidden]="!isLoadingExportPrint">
+    <div class="full_loader">
+      <div class="loader">
+        <div class='loader--dot'></div>
+        <div class='loader--dot'></div>
+        <div class='loader--dot'></div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid mt-4">
+  <div class="row refresh-icon">
+    <div class="col-sm-3 refresh">
+      <mat-form-field class="example-full-width">
+        <input matInput (focus)="startDateTime.open()" [matDatepicker]="startDateTime" placeholder="Start Date"
+          [(ngModel)]="filterModel.startDateTimeClone" [ngModelOptions]="{standalone: true}">
+        <mat-datepicker-toggle matSuffix [for]="startDateTime"></mat-datepicker-toggle>
+        <mat-datepicker #startDateTime></mat-datepicker>
+      </mat-form-field>
+      <i (click)="filterModel.startDateTime = ''" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+    </div>
+    <div class="col-sm-3 refresh">
+      <mat-form-field class="example-full-width">
+        <input matInput (focus)="endDateTime.open()" [matDatepicker]="endDateTime" placeholder="End Date"
+               [(ngModel)]="filterModel.endDateTimeClone" [ngModelOptions]="{standalone: true}">
+        <mat-datepicker-toggle matSuffix [for]="endDateTime"></mat-datepicker-toggle>
+        <mat-datepicker #endDateTime></mat-datepicker>
+      </mat-form-field>
+      <i (click)="filterModel.endDateTime = ''" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+    </div>
+    <div class="col-sm-3 refresh">
+      <mat-form-field class="example-full-width">
+        <mat-select matInput [(ngModel)]="filterModel.cancellationType" name="cancellationType"
+          placeholder="Cancellation Type">
+          <mat-option *ngFor="let option of masterCancellationTypes" [value]="option.id">
+            {{option.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <i (click)="filterModel.cancellationType = null" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+    </div>
+    <div class="col-sm-3 refresh">
+      <mat-form-field class="example-full-width">
+        <mat-select matInput [(ngModel)]="filterModel.status" name="status" placeholder="Status">
+          <mat-option *ngFor="let option of masterStatus" [value]="option.id">
+            {{option.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <i (click)="filterModel.status = null" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+    </div>
+    <div class="col-sm-3 refresh">
+      <mat-form-field class="example-full-width">
+        <input matInput [(ngModel)]="filterModel.memberName" name="memberName" placeholder="Search By Patient Name">
+      </mat-form-field>
+      <i (click)="filterModel.memberName = ''" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+    </div>
+    <div class="col-sm-3 refresh">
+      <mat-form-field class="example-full-width">
+        <mat-select multiple placeholder="Provider" [(ngModel)]="filterModel.careManagerIds" matInput>
+          <mat-option *ngFor="let option of masterStaffs" [value]="option.id">
+            {{option.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <i (click)="filterModel.careManagerIds = []" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+    </div>
+    <!-- <div class="col-sm-3 refresh">
+      <mat-form-field class="example-full-width">
+        <mat-select multiple placeholder="Program Types" [(ngModel)]="filterModel.programTypes" matInput>
+          <mat-option *ngFor="let option of masterProgramTypes" [value]="option.id">
+            {{option.description}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <i (click)="filterModel.programTypes = null" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+    </div>
+    <div class="col-sm-3 refresh">
+      <mat-form-field class="example-full-width">
+        <mat-select multiple placeholder="Enrolled Program(s)" [(ngModel)]="filterModel.enrolledPrograms" matInput>
+          <mat-option *ngFor="let option of masterProgramTypes" [value]="option.id">
+            {{option.description}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <i (click)="filterModel.enrolledPrograms = null" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+    </div> -->
+    <div class="col-sm-3 refresh">
+      <mat-form-field class="example-full-width">
+        <mat-select matInput [(ngModel)]="filterModel.nextAppointmentPresent" name="NextAppointment" placeholder="Next Appointment">
+          <mat-option *ngFor="let option of nextAppointmentList" [value]="option.id">
+            {{option.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <i (click)="filterModel.nextAppointmentPresent = null" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+    </div>
+    <!-- <div class="col-sm-3 refresh">
+      <mat-form-field class="example-full-width">
+        <mat-select matInput [(ngModel)]="filterModel.isEligible" name="ELIGIBLE" placeholder="Eligible">
+          <mat-option *ngFor="let option of eligibleList" [value]="option.id">
+            {{option.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <i (click)="filterModel.isEligible = null" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+    </div> -->
+  </div>
+</div>
+  <div class="row">
+    <!-- <div class="col-sm-3 refresh">
+      <mat-form-field class="example-full-width">
+        <mat-select matInput [(ngModel)]="filterModel.nextAppointmentPresent" name="NextAppointment" placeholder="Next Appointment">
+          <mat-option *ngFor="let option of nextAppointmentList" [value]="option.id">
+            {{option.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <i (click)="filterModel.nextAppointmentPresent = null" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+    </div>
+    <div class="col-sm-3 refresh">
+      <mat-form-field class="example-full-width">
+        <mat-select matInput [(ngModel)]="filterModel.isEligible" name="ELIGIBLE" placeholder="Eligible">
+          <mat-option *ngFor="let option of eligibleList" [value]="option.id">
+            {{option.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <i (click)="filterModel.isEligible = null" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+    </div> -->
+    <!--<div class="col-sm-5 col-md-4 d-flex align-items-center">
+    <mat-checkbox color="primary" [(ngModel)]="filterModel.nextAppointmentPresent"
+      [checked]='filterModel.nextAppointmentPresent'>
+      Next Appointment Present
+    </mat-checkbox>
+  </div>-->
+  <!--<div class="col-sm-3 d-flex align-items-center">
+    <mat-checkbox color="primary" [(ngModel)]="filterModel.isEligible" [checked]='filterModel.isEligible'>
+      Eligible
+    </mat-checkbox>
+  </div>-->
+
+  </div>
+  <div class="row">
+    <div class="col-md-6 filter-btn d-flex justify-content-sm-start justify-content-between flex-row mt-3">
+      <!-- <button mat-raised-button class="add-new-btn mr-3" color="primary" (click)='createModal()'
+        [disabled]='isButtonsDisabled()'>
+        Email
+      </button>
+      <button mat-raised-button class="add-new-btn mr-3" color="primary" [disabled]='isButtonsDisabled()' (click)='createMessageModal()'>
+        Message
+      </button>
+      <button mat-raised-button class="add-new-btn mr-3" color="primary" (click)='exportToExcel()'
+      [disabled]='isExportButtonDisabled'>
+      Export to excel
+    </button>
+    <button mat-raised-button class="add-new-btn mr-3" color="primary" (click)='printPDFApptReport()'
+    [disabled]='isExportButtonDisabled'>
+    Print PDF
+  </button> -->
+    </div>
+    <div class="col-md-6 filter-btn d-flex justify-content-sm-end justify-content-between flex-row mt-3">
+      <button type="button" class="clear-btn mr-3" color="accent" mat-raised-button (click)='clearFilters()'>Clear
+        All</button>
+      <button name="Filter" mat-raised-button color="primary" (click)='applyFilter()'>Filter</button>
+    </div>
+
+  </div>
+  <!-- summmay section -->
+  <div class="d-flex flex-wrap appoint-data col-12 justify-content-between">
+    <p>Number of Appointments: <span>{{appointmentsCount.totalCount}}</span></p>
+    <p>Number of Cancellations: <span>{{appointmentsCount.cancelledCount}}</span></p>
+    <p>Number of Pendings: <span>{{appointmentsCount.pendingCount}}</span></p>
+  </div>
+  <div class="clearfix"></div>
+  <div class="fixed-table table-responsive">
+    <table class="mat-table table table-hover group-table mt-3" matSort matSortDisableClear>
+      <thead>
+        <tr class="mat-header-row">
+          <th class="mat-header-cell" width="100px">Date</th>
+          <th class="mat-header-cell" width="100px">Time</th>
+          <th class="mat-header-cell" width="150px">Patient Name</th>
+          <th class="mat-header-cell" width="150px">Provider</th>
+          <th class="mat-header-cell" width="150px">Appt Type</th>
+          <!-- <th class="mat-header-cell" width="150px">Programs Name</th>
+          <th class="mat-header-cell" width="120px">Encounter Method</th>
+          <th class="mat-header-cell" width="120px">Encounter Type</th> -->
+          <th class="mat-header-cell" width="120px">Status</th>
+          <th class="mat-header-cell" width="120px">Cancellation Type</th>
+          <th class="mat-header-cell" width="150px">Cancellation Notes</th>
+          <th class="mat-header-cell" width="150px">Upcoming Appointment</th>
+          <!-- <th class="mat-header-cell" width="80px" sticky>Action</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="text-center no-record" *ngIf="!(appointmentList && appointmentList.length)">
+          <td colspan="13">
+            No record found
+          </td>
+        </tr>
+        <tr class="mat-header-row" *ngFor="let apptObj of appointmentList; let ix=index">
+          <td class="mat-cell">
+            {{apptObj.startDateTime | date:'MM/dd/yyyy' }}
+          </td>
+          <td class="mat-cell">
+            {{apptObj.startDateTime | date:'hh:mm a' }}
+          </td>
+          <td class="mat-cell">
+            <a *ngIf="apptObj.patientID > 0; else noPatient;" (click)="onNavigate(apptObj)"
+              aria-current="false" href="javascript:void(0);">{{apptObj.memberName || '-'}}</a>
+            <ng-template #noPatient>
+              -
+            </ng-template>
+          </td>
+          <td class="mat-cell">
+            {{apptObj.careManager || '-'}}
+          </td>
+          <td class="mat-cell">
+            {{apptObj.appointmentType || '-'}}
+          </td>
+          <!-- <td class="mat-cell">
+            {{apptObj.programNames || '-'}}
+          </td>
+          <td class="mat-cell">
+            {{apptObj.encounterMethod || '-'}}
+          </td>
+          <td class="mat-cell">
+            {{apptObj.encounterType || '-'}}
+          </td> -->
+          <td class="mat-cell">
+            {{apptObj.status || '-'}}
+          </td>
+          <td class="mat-cell">
+            {{apptObj.cancellationType || '-'}}
+          </td>
+          <td class="mat-cell">
+            {{apptObj.cancellationNotes || '-'}}
+          </td>
+          <td class="mat-cell">
+              {{ apptObj.nextAppointmentDate !== undefined ? (apptObj.nextAppointmentDate | date:'MM/dd/yyyy, h:mm a' ) : '-' }}
+            <!-- {{apptObj.nextAppointmentDate | date:'MM/dd/yyyy, h:mm a' || '-'}} -->
+          </td>
+          <!-- <td class="mat-cell" sticky>
+          </td> -->
+        </tr>
+      </tbody>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="metaData['totalRecords']"
+      [pageIndex]="metaData['currentPage'] - 1" [pageSize]="metaData['pageSize']" showFirstLastButtons>
+    </mat-paginator>
+
+  </div>
+
+</div>

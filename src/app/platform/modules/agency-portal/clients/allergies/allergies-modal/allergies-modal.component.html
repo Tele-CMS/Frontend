@@ -1,0 +1,94 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>{{headerText}}</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form id="allergyForm" #documentForm="ngForm" class="readmin-form custom_form"
+          [formGroup]="allergyForm">
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select autofocus placeholder="Allergy Type" formControlName="allergyTypeId" [ngClass]="{ 'is-invalid': submitted && formControls.allergyTypeId.errors }"
+                  required matInput>
+                  <mat-option *ngFor="let rel of masterAllergies" [value]="rel.id">
+                    {{rel.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.allergyTypeId.errors?.required">
+                  Please select a allergy type
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Allergen" formControlName="allergen" [ngClass]="{ 'is-invalid': submitted && formControls.allergen.errors }"
+                  required />
+                <mat-error *ngIf="formControls.allergen.errors?.required">
+                  Please enter allergen
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Note" formControlName="note" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select autofocus placeholder="Reaction" formControlName="reactionID" [ngClass]="{ 'is-invalid': submitted && formControls.reactionID.errors }"
+                  required matInput>
+                  <mat-option *ngFor="let rel of masterReaction" [value]="rel.id">
+                    {{rel.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.reactionID.errors?.required">
+                  Please select a reaction
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select autofocus placeholder="Status" formControlName="isActive" matInput>
+                  <mat-option *ngFor="let rel of statusModel" [value]="rel.id">
+                    {{rel.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="createdDate" placeholder="Created Date" [max]="maxDate"
+                  formControlName="createdDate" [ngClass]="{ 'is-invalid': submitted && formControls.createdDate.errors }"
+                  required readonly />
+                <mat-datepicker-toggle matSuffix [for]="createdDate"></mat-datepicker-toggle>
+                <mat-datepicker #createdDate></mat-datepicker>
+                <mat-error *ngIf="formControls.createdDate.errors?.required">
+                  Please enter created date
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+    <div>
+      <button name="Save" mat-raised-button color="accent" (click)="onSubmit($event)" form="allergyForm" class="text-uppercase"
+        [disabled]="submitted" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+      <button *ngIf="allergyModel.id==null || allergyModel.id==0" name="SaveAddMore" mat-raised-button color="primary"
+        (click)="onSubmit($event)" form="allergyForm" class="text-uppercase ml-3" [disabled]="submitted" cdkFocusInitial>{{submitted
+        ? 'Saving...' : 'Save & Add More'}}</button>
+    </div>
+  </div>
+</div>

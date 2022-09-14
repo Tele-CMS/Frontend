@@ -1,0 +1,83 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Assessment</h3>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="documentsForm" #documentForm="ngForm" class="readmin-form custom_form"
+          [formGroup]="documentsForm">
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width" hintLabel="{{formControls.documentName.pending ? 'Validating...' : ''}}">
+                <input matInput autofocus placeholder="Assessment Name" maxlength="50" formControlName="documentName"
+                  [ngClass]="{ 'is-invalid': submitted && formControls.documentName.errors }" required />
+                <mat-error *ngIf="formControls.documentName.errors?.required">
+                  Please enter document name
+                </mat-error>
+                <mat-error *ngIf="formControls.documentName.errors?.uniqueName">
+                  Name is already taken.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Select Assessment Type" formControlName="masterAssessmentTypeId" matInput>
+                  <mat-option *ngFor="let option of masterDocumentsTypes" [value]="option.id">
+                    {{option.description}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-sm-12">
+              <mat-form-field class="example-full-width" hintLabel="{{formControls.description.value ? 1000 - formControls.description.value.length : 1000}} Characters Remaining">
+                <textarea matInput placeholder="Description" maxlength="1000" formControlName="description" [ngClass]="{ 'is-invalid': submitted && formControls.description.errors }"
+                  required></textarea>
+                <mat-error *ngIf="formControls.description.errors">
+                  Please enter description
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div formArrayName="benchmarkRangeModel">
+            <div *ngFor="let X of benchmarkRangeModel['controls']; let ix=index">
+              <div formGroupName="{{ix}}">
+                <div class="row">
+                  <div class="col-sm-4 require pdl-40">
+                    <mat-form-field class="example-full-width">
+                      <mat-select placeholder="Benchmark" formControlName="benchmarkId" matInput>
+                        <mat-option *ngFor="let option of masterBenchmark" [value]="option.id">
+                          {{option.name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-sm-4">
+                    <mat-form-field class="example-full-width">
+                      <input matInput appNumbersOnly [allowDecimals]="true" placeholder="Min Range" maxlength="50"
+                        formControlName="minRange" />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-sm-4">
+                    <mat-form-field class="example-full-width">
+                      <input matInput appNumbersOnly [allowDecimals]="true" placeholder="Max Range" maxlength="50"
+                        formControlName="maxRange" />
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button class="cancel-btn" color="accent" (click)="closeDialog('close')">Close</button>
+    <button mat-raised-button color="primary" form="documentsForm" [disabled]="submitted || formControls.documentName.pending"
+      cdkFocusInitial>
+      {{(submitted || formControls.documentName.pending) ? submitted ? 'Saving...' : formControls.documentName.pending
+      ? 'Validating...' : 'Save' : 'Save'}}
+    </button>
+  </div>
+</div>

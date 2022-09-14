@@ -1,0 +1,93 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Section Item</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="sectionItemForm" #documentForm="ngForm" class="readmin-form custom_form"
+          [formGroup]="sectionItemForm">
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select matInput placeholder="Select Document" formControlName="documentId" (selectionChange)="onDocumentSelect($event.value)"
+                  [ngClass]="{ 'is-invalid': submitted && formControls.documentId.errors }" required>
+                  <mat-option *ngFor="let option of masterDocuments" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.documentId.errors?.required">
+                  Please select document name
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select matInput placeholder="Select Section" formControlName="sectionId" [ngClass]="{ 'is-invalid': submitted && formControls.sectionId.errors }"
+                  required>
+                  <mat-option *ngFor="let option of masterSectionDDValues" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.sectionId.errors?.required">
+                  Please select section
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <mat-form-field class="example-full-width">
+                <textarea matInput placeholder="Question" maxlength="1000" formControlName="itemLabel" [ngClass]="{ 'is-invalid': submitted && formControls.itemLabel.errors }"
+                  required></textarea>
+                <mat-error *ngIf="formControls.itemLabel.errors?.required">
+                  Please enter question
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select matInput placeholder="Select Item Type" formControlName="itemtype" [ngClass]="{ 'is-invalid': submitted && formControls.itemtype.errors }"
+                  required>
+                  <mat-option *ngFor="let option of masterControlValues" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.itemtype.errors?.required">
+                  Please select item type
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select matInput placeholder="Select Category" formControlName="categoryId">
+                  <mat-option *ngFor="let option of masterCategories" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Order" maxlength="30" formControlName="displayOrder" [ngClass]="{ 'is-invalid': submitted && formControls.displayOrder.errors }"
+                  required />
+                <mat-error *ngIf="formControls.displayOrder.errors">
+                  Please enter display order
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+    <button mat-raised-button color="primary" form="sectionItemForm" [disabled]="submitted" cdkFocusInitial>
+      {{submitted ? 'Saving...' :'Save'}}
+    </button>
+  </div>
+</div>

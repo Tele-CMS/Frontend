@@ -1,0 +1,115 @@
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="table-responsive mt-15">
+      <table class="table table-hover maintable customtable group-table" matSort matSortDisableClear>
+        <thead>
+          <tr>
+            <th width="5%">
+            </th>
+            <th width="13%">
+              <span class="Tblsort sorting">SERVICE CODE</span>
+            </th>
+            <th width="12%" >
+              <span class="Tblsort sorting">TOTAL AMT($)</span>
+            </th>
+            <th width="12%">
+              <span class="Tblsort sorting">INS PAID($)</span>
+            </th>
+            <th width="12%">
+              <span class="Tblsort sorting">INS ADJ($)</span>
+            </th>
+            <th width="12%">
+              <span class="Tblsort sorting">PAT PAID($)</span>
+            </th>
+            <th width="12%">
+              <span class="Tblsort sorting">PAT ADJ($)</span>
+            </th>
+            <th width="12%">
+              <span class="Tblsort sorting">BALANCE($)</span>
+            </th>
+            <th width="10%">
+              <span class="Tblsort sorting">ACTIONS</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <tr *ngIf="!serviceLines.length">
+            <td>
+              <div class="text-center no-record">No record found.</div>
+            </td>
+          </tr> -->
+          <tr *ngFor="let serviceLineObj of serviceLines">
+            <td colspan="9">
+              <table class="table middletable customtable">
+                <tbody>
+                  <tr>
+                    <td width="5%">
+                      <div class="table_custom-check"><button type="button" class="morebtn" (click)="toggleDetails(serviceLineObj.id)">
+                        <i [ngClass] ="{'fa-ellipsis-h':!serviceLineObj.isExpanded,'fa-minus':serviceLineObj.isExpanded}"class="classExpand fa" aria-hidden="true"></i></button></div>
+                    </td>
+                    <td width="13%">{{serviceLineObj.serviceCode}}</td>
+                    <td width="12%">{{serviceLineObj.totalAmount | number: '2.2-2' }}</td>
+                    <td width="12%">{{serviceLineObj.insurancePayments | number: '2.2-2' }}</td>
+                    <td width="12%">{{serviceLineObj.insuranceAdjustments | number: '2.2-2' }}</td>
+                    <td width="12%">{{serviceLineObj.patientPayments | number: '2.2-2'}}</td>
+                    <td width="12%">{{serviceLineObj.patientAdjustments | number: '2.2-2' }}</td>
+                    <td width="12%">{{serviceLineObj.balance | number: '2.2-2'}}</td>
+                    <td width="10%">
+                      <button *ngIf="addPermission" type="button" title="Add" class="tbactionbtn" (click)="openDialog(null,serviceLineObj.id)">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="nohover" [ngClass]="{'show-row': serviceLineObj.isExpanded, 'hide-row': !serviceLineObj.isExpanded}">
+                    <!-- -->
+                    <!-- <td></td> -->
+                    <td colspan="9">
+                      <table class="table childtable">
+                        <thead>
+                          <tr>
+                            <th width="5%"></th>
+                            <th width="13%">DATE OF PAYMENT</th>
+                            <th width="20%">PAYMENT SOURCE NAME</th>
+                            <th width="16%">PAYMENT TYPE</th>
+                            <th width="16%">DESCRIPTION TYPE($)</th>
+                            <th width="15%">AMOUNT($)</th>
+                            <th width="10%">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <!-- <tr *ngIf="!claimObj.claimServiceLines || !claimObj.claimServiceLines.length">
+                              <td colspan="9">
+                                <div class="text-center no-record">No record found.</div>
+                              </td>
+                            </tr> -->
+                          <tr *ngFor="let pmtObj of filterPayment(serviceLineObj.id)">
+                            <td width="5%"></td>
+                            <td width="13%">{{pmtObj.paymentDate |date:'M/d/y'}}</td>
+                            <td width="20%">{{pmtObj.payerName || pmtObj.patientName || pmtObj.guardianName}}</td>
+                            <td width="16%">{{pmtObj.paymentType}}</td>
+                            <td width="16%">{{pmtObj.descriptionType}}</td>
+                            <td width="15%">{{pmtObj.amount | number: '2.2-2'}}</td>
+                            <td width="10%">
+                              <button *ngIf="updatePermission" type="button" title="Edit" class="tbactionbtn" (click)="openDialog(pmtObj.id,serviceLineObj.id)">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                              </button>
+                              <button type="button" title="Delete" class="tbactionbtn" (click)="deletePaymentDetails(pmtObj.id)">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,36 @@
+<div fxLayout="row">
+  <div fxFlex='50'>
+
+    <!-- mutebutton{{mutebutton}} -->
+    <div class="d-flex flex-column align-items-center">
+      <div class="p-1 videodives" fxLayout="column" fxLayoutAlign="space-around start">
+        <video #video class="vid" autoplay muted="muted"></video>
+        <div fxLayout="row" class="buttondives">
+          <button mat-raised-button (click)="mute()" style="margin: 10px;">
+                    <!-- {{mutebutton ? 'play' : 'mute'}}-- {{mutebutton}} -->
+                    <mat-icon aria-hidden="false" *ngIf="!mutebutton" color="accent" aria-label="Example home icon">mic</mat-icon>
+                    <mat-icon aria-hidden="false" *ngIf="mutebutton" color="warn"  aria-label="Example home icon">mic_off</mat-icon>
+                        
+                 </button>
+          <button mat-raised-button (click)="close()" style="margin: 10px;"> 
+                    <!-- {{videomute ? 'play' : 'mute'}} -- {{videomute}}  -->
+                    <mat-icon aria-hidden="false" *ngIf="!videomute" color="accent" aria-label="Example home icon">play_circle_outline</mat-icon>
+                    <mat-icon aria-hidden="false" *ngIf="videomute"   color="warn" aria-label="Example home icon">pause_circle_outline</mat-icon>
+                 </button>
+
+          <button mat-raised-button color='warn' style="margin: 10px;" (click)="logout()">End Call</button>
+        </div>
+
+      </div>
+
+
+    </div>
+    <div #remoteVideo class="remoteVideodiv" fxLayout="column" fxLayoutAlign="start stretch">
+
+    </div>
+  </div>
+
+  <!-- <div fxFlex='50'>
+    <app-chat></app-chat>
+  </div> -->
+</div>

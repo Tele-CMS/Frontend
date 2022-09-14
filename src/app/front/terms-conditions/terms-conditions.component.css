@@ -1,0 +1,25 @@
+.policy-blk .section-heading{
+    font-size: 24px;
+    margin-bottom: 12px;
+    margin-top: 25px;
+}
+.policy-blk .fa{
+    position: absolute;
+    top: -10px;
+    right: -7px;
+    background-color: #2f2660;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: var(--color-white);
+    padding: 6px 10px;
+    cursor: pointer;
+    z-index: 99;
+}
+.terms-block{
+    height: calc(100% - 50px);
+    overflow: auto;
+}
+.wedo-box {
+    text-align: center;
+}

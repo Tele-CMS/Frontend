@@ -1,0 +1,204 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>{{headerText}}</h3>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-sm-12">
+        <form id="medicationForm" #documentForm="ngForm" class="readmin-form custom_form"
+              [formGroup]="medicationForm">
+          <div class="row">
+            <div class="col-sm-6" *ngIf="!isCustomModel">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Search Medication" formControlName="medicationId"
+                            (selectionChange)="onMedicationSelect($event.value)" required>
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="filterCtrl" [searching]="searching" placeholderLabel="Search"
+                                           noEntriesFoundLabel="No records found!">
+                    </ngx-mat-select-search>
+                  </mat-option>
+                  <mat-option *ngFor="let option of getSlectFilteredServerSideDiagnosis" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                  <mat-option *ngFor="let option of filteredServerSideMedication | async" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.medicationId.errors?.required">
+                  Please select medication
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6" *ngIf="isCustomModel">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Medication" formControlName="medication" required />
+                <mat-error *ngIf="formControls.medication.errors?.required">
+                  Please enter medication
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6" *ngIf="!isCustomModel">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Medication Form" formControlName="dosageForm" matInput required>
+                  <mat-option *ngFor="let rel of formArray" [value]="rel.value">
+                    {{rel.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.dosageForm.errors?.required">
+                  Please select medication form
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-6" *ngIf="isCustomModel">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Medication Form" formControlName="dosageForm" required />
+                <mat-error *ngIf="formControls.dosageForm.errors?.required">
+                  Please enter medication form
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6" *ngIf="!isCustomModel">
+              <mat-form-field class="example-full-width">
+                <!--<input matInput placeholder="Dose" formControlName="dose" maxlength="10" />-->
+                <!--<input type="text" placeholder="Dose" matInput formControlName="dose" [matAutocomplete]="auto">-->
+                <mat-select placeholder="Dose" formControlName="dose" matInput>
+                  <mat-option *ngFor="let strengthArray of strengthArray" [value]="strengthArray.value">
+                    {{strengthArray.value}}
+                  </mat-option>
+                </mat-select>
+                <!--<mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let strengthArray of strengthArray" [value]="strengthArray">
+                  {{strengthArray}}
+                </mat-option>
+              </mat-autocomplete>-->
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6" *ngIf="isCustomModel">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Dose" formControlName="dose" required />
+                <mat-error *ngIf="formControls.dose.errors?.required">
+                  Please enter dose
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6" *ngIf="!isCustomModel">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Unit" formControlName="unit" matInput>
+                  <mat-option *ngFor="let rel of unitArray" [value]="rel.value">
+                    {{rel.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-6" *ngIf="isCustomModel">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Unit" formControlName="unit" required />
+                <mat-error *ngIf="formControls.unit.errors?.required">
+                  Please enter unit
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Frequency" formControlName="frequencyId" matInput>
+                  <mat-option *ngFor="let rel of masterFrequencyType" [value]="rel.id">
+                    {{rel.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Quantity" formControlName="quantity" />
+              </mat-form-field>
+            </div>
+          
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Condition" formControlName="conditionId">
+                  <mat-option *ngFor="let rel of masterChronicCondition" [value]="rel.id">
+                    {{rel.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6 refresh">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Provider" formControlName="providerId" matInput>
+                  <!-- <mat-option>None</mat-option> -->
+                  <mat-option *ngFor="let rel of masterProvider" [value]="rel.id">
+                    {{rel.physicianName}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <i (click)="resetFormValue('providerId')" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+            </div>
+           
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="prescribedDate"
+                       placeholder="Prescribed Date" formControlName="prescribedDate" />
+                <mat-datepicker-toggle matSuffix [for]="prescribedDate"></mat-datepicker-toggle>
+                <mat-datepicker #prescribedDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6"  *ngIf="!isCustomModel">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Source" formControlName="sourceId" matInput>
+                  <mat-option *ngFor="let item of masterMedicationSource" [value]="item.id">
+                    {{item.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6" *ngIf="isCustomModel">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Source" formControlName="sourceId" matInput>
+                  <mat-option *ngFor="let item of masterCustomMedicationSource" [value]="item.id">
+                    {{item.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Refills" maxlength="100" formControlName="refills" />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput appNumbersOnly placeholder="Day Supply" formControlName="daySupply" />
+              </mat-form-field>
+            </div>
+          </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <textarea matInput placeholder="Notes" formControlName="notes" maxlength="1000"></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+</form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="accent" class="cancel-btn" (click)="closeDialog('close')">Close</button>
+    <div>
+      <button name="Save" mat-raised-button color="primary" (click)="onSubmit($event)" form="medicationForm"
+        [disabled]="submitted" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+    </div>
+  </div>
+</div>

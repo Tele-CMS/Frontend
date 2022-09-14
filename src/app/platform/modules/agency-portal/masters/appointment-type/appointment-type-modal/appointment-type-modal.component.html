@@ -1,0 +1,89 @@
+<div *ngIf="loading">
+  loading...
+</div>
+<div *ngIf="!loading" class="custom_modal">
+  <h3 mat-dialog-title> Add Appointment Type</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="appointmentTypeForm" #documentForm="ngForm" class="readmin-form custom_form"
+          [formGroup]="appointmentTypeForm">
+          <div class="row">
+            <div class="col-sm-12 col-md-6 require">
+              <mat-form-field class="example-full-width" hintLabel="{{f.name.pending ? 'Validating...' : ''}}">
+                <input matInput autofocus placeholder="Appointment Name" maxlength="100" formControlName="name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
+                  required />
+                <mat-error *ngIf="f.name.errors?.required">
+                  Please enter Appointment Name
+                </mat-error>
+
+                <mat-error *ngIf="f.name.errors?.uniqueName">
+                  Name is already taken.
+                </mat-error>
+
+
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-md-6 require">
+              <mat-form-field class="example-full-width">
+                <input matInput autofocus placeholder="Default Duration (min)" maxlength="3" formControlName="defaultDuration"
+                  [ngClass]="{ 'is-invalid': submitted && f.defaultDuration.errors }" required appNumbersOnly />
+                <mat-error *ngIf="f.defaultDuration.errors">
+                  Please enter Default Duration
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <mat-form-field class="example-full-width">
+                <input matInput [(value)]="color" [cpOutputFormat]="'hex'" autocomplete="off" [(colorPicker)]="color"
+                  [cpPosition]="'bottom'" placeholder="Color" formControlName="color" />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder=" Font Color" [cpOutputFormat]="'hex'" [(value)]="fontColor" autocomplete="off"
+                  [(colorPicker)]="fontColor" [cpPosition]="'bottom'" formControlName="fontColor" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12 require">
+              <mat-form-field class="example-full-width" hintLabel="{{f.description.value ? 1000 - f.description.value.length : 1000}} Characters Remaining">
+                <textarea matInput placeholder="Description" maxlength="1000" formControlName="description" ></textarea>
+              </mat-form-field>
+              <small class="blackfont font12"></small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 mt-2">
+              <mat-checkbox formControlName="isBillable">
+                Billable
+              </mat-checkbox>
+            </div>
+          
+            <div class="col-12 mt-2">
+              <mat-checkbox formControlName="allowMultipleStaff">
+                Allow Multiple Staff
+              </mat-checkbox>
+            </div>
+        
+            <div class="col-12 mt-2">
+              <mat-checkbox formControlName="isClientRequired">
+                Is Patient Required
+              </mat-checkbox>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button class="cancel-btn" mat-raised-button (click)="onNoClick()">Close</button>
+    <button mat-raised-button color="primary" form="appointmentTypeForm" [disabled]="submitted || f.name.pending" cdkFocusInitial>
+      {{(submitted || f.name.pending) ? submitted ? 'Saving...' : f.name.pending ? 'Validating...' : 'Save' : 'Save'}}
+    </button>
+  </div>
+</div>

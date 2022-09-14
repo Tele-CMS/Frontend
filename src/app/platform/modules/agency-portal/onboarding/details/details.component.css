@@ -1,0 +1,281 @@
+@import url('../../../../../../assets/scss/_variables.scss');
+.whitebg {
+    background-color: white !important;
+    color: #1e293b !important;
+    width: 22.5rem !important;
+}
+
+.bg-primary {
+    background: var(--primary) !important;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.text-primary {
+    color: var(--primary) !important;
+}
+
+.ml-4 {
+    margin-left: 1rem !important;
+}
+
+:host ::ng-deep .mat-progress-bar .mat-progress-bar-background {
+    border: 1px solid #e0e7ff;
+}
+
+:host ::ng-deep .mat-progress-bar .mat-progress-bar-fill {
+    animation: none;
+    transform-origin: top left;
+    transition: transform 250ms ease;
+    background: var(--primary);
+}
+
+:host ::ng-deep .mat-progress-bar .mat-progress-bar-buffer {
+    background: #e0e7ff;
+}
+
+.ring-rong {
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 100%;
+    background: #fff;
+}
+
+.ring-rong mat-icon {
+    color: #fff;
+    height: 18px;
+}
+
+.relative {
+    position: relative;
+}
+
+.long-top-line {
+    width: 0.05rem;
+    width: 0.125rem !important;
+    height: 100% !important;
+    position: absolute;
+    left: .9rem;
+    z-index: -1;
+}
+
+:host ::ng-deep .telecms-mat-no-header .mat-tab-body {
+    margin: 2rem;
+    background: #fff;
+}
+
+.center-scroll {
+    height: calc(100vh - 367px);
+    overflow-y: auto;
+}
+
+.prev-next {
+    position: fixed;
+    /* bottom: 1rem; */
+    bottom: 3rem;
+    display: flex !important;
+    padding: 1rem 0 !important;
+    color: #fff;
+    z-index: 9999;
+    left: 50%;
+}
+
+.btn-wraper {
+    border-radius: 30px;
+    width: 220px;
+    justify-content: space-between !important;
+}
+
+.prev-next button {
+    background: transparent;
+    color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.prev-next button:hover {
+    background: rgb(0 0 0 / 13%);
+    border-radius: 30px;
+}
+
+:host ::ng-deep mat-tab-header.mat-tab-header {
+    display: none !important;
+}
+
+:host ::ng-deep .prev-next button .mat-button-wrapper {
+    display: flex;
+    align-items: baseline;
+}
+
+.round-corners {
+    border-radius: 12px;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.layout-theme-tp-bar {
+    margin-top: 0px;
+}
+
+.icon-pencil:hover, .icon-delete:hover{
+    fill:#008ad7 !important;
+    color:#008ad7 !important;
+}
+.icon-add:hover {
+    fill: darkgreen !important;
+    color: darkgreen !important;
+}
+
+/* .icon-delete:hover {
+    fill: red !important;
+    color: red !important;
+} */
+
+.m-l10{
+    margin-left:10px;
+}
+.m-l10 {
+    margin-left: 15px;
+}
+
+
+.m-r10 {
+    margin-right: 10px;
+}
+.m-r40 {
+    margin-right: 40px;
+}
+
+.m-l10 {
+    margin-right: 15px;
+}
+
+.m-t10 {
+    margin-top: 10px;
+}
+
+.m-t10 {
+    margin-top: 15px;
+}
+
+.m-b10 {
+    margin-bottom: 10px;
+}
+
+.m-b10 {
+    margin-bottom: 15px;
+}
+
+.align-end{
+    text-align:end;
+}
+
+.h-fullDrawer{height: calc(100vh - 114px);}
+.categoryTuts {
+    background-color: #f5f5f5;
+    color: #009EF7;
+    padding: 3px 8px;
+    border-radius: 3px;
+    display: inline-block;
+    font-weight: 500;
+    font-size: 12px;
+}
+.p-8 {
+    padding: 2rem !important;
+}
+.h-full.h-fullDrawer.mat-drawer-container {
+    margin-left: -30px;
+    margin-right: -30px;
+}
+.whitebg.detailsLeft {
+    border-right: 1px #e2e8f0 solid;
+}
+.matDTop h4 {
+    font-size: 1.25rem !important;
+    font-weight: 600;
+}
+.py-2 {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+}
+.px-8 {
+    padding-right: 2rem !important;
+    padding-left: 2rem !important;
+}
+.border-btm {
+    border-bottom: 1px #e2e8f0 solid!important;
+}
+.py-6 {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+}
+.long-top-line {
+    width: 0.05rem;
+    width: 0.125rem !important;
+    height: 100% !important;
+    position: absolute;
+    left: .9rem;
+    z-index: -1;
+}
+.bg-gray-300 {
+    background-color: #E4E6EF !important;
+}
+.relative {
+    position: relative;
+}
+::ng-deep .detailsLeft + div + .mat-drawer-content {
+    padding-top: 0 !important;
+}
+.p-10 {
+    padding: 2.5rem !important;
+}
+.editAddBtns {
+    text-align: end;
+    position: absolute;
+    top: 14px;
+    right: 0px;
+}
+.mb-6 {
+    margin-bottom: 1.5rem !important;
+}
+.mt-2 {
+    margin-top: 0.5rem !important;
+}
+h2, .h2 {
+    font-size: 1.3rem;
+}
+.shadow {
+    box-shadow: 0 0.5rem 1.5rem 0.5rem rgba(0, 0, 0, 0.075) !important;
+}
+.prose.prose-sm {
+    border: 1px solid #eee;
+    padding: 15px;
+}
+.dark-theme ::ng-deep .detailsLeft.whitebg, body.dark-theme .bg-white.border-btm{
+    background-color: var(--color-white) !important;
+    color: var(--color-black) !important;
+  }
+ ::ng-deep .prev-next button .mat-button-wrapper{
+     align-items: center !important;
+ }
+.timestamp-list .rounded-full svg{
+    width:100%;
+    height:100%;
+}
+.timestamp-list .rounded-full svg path{
+    fill:#fff;
+}
+@media (max-width:991px){
+    .h-fullDrawer{height: calc(100vh - 45px);}
+}
+
+@media (min-width:992px){
+    .prev-next{left: calc(50% + 110px);}
+}

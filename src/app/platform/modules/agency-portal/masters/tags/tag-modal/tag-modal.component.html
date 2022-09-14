@@ -1,0 +1,67 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Tag</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="tagForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="tagForm">
+          <div class="row">
+            <div class="col-sm-12 col-md-6 require">
+              <mat-form-field class="example-full-width" hintLabel="{{f.tag.pending ? 'Validating...' : ''}}">
+                <input matInput autofocus placeholder="Tag Name" maxlength="50" formControlName="tag" [ngClass]="{ 'is-invalid': submitted && f.tag.errors }"
+                  required />
+                <mat-error *ngIf="f.tag.errors?.required">
+                  Please enter tag name
+                </mat-error>
+                <mat-error *ngIf="f.tag.errors?.uniqueName">
+                    Name is already taken.
+                  </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-md-6 require">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Link To" formControlName="roleTypeID" matInput [ngClass]="{ 'is-invalid': submitted && f.roleTypeID.errors }"
+                  required>
+                  <mat-option *ngFor="let option of userRoleType" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="f.roleTypeID.errors">
+                  Please select a role to link
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <mat-form-field class="example-full-width">
+                <input matInput [(value)]="colorCode" [cpOutputFormat]="'hex'" autocomplete="off" [(colorPicker)]="colorCode"
+                  [cpPosition]="'bottom'" placeholder="Color" formControlName="colorCode" />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder=" Font Color" [cpOutputFormat]="'hex'" [(value)]="fontColorCode" autocomplete="off"
+                  [(colorPicker)]="fontColorCode" [cpPosition]="'bottom'" formControlName="fontColorCode" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 require">
+              <mat-form-field class="example-full-width" hintLabel="{{f.description.value ? 1000 - f.description.value.length : 1000}} Characters Remaining">
+                <textarea matInput placeholder="Description" maxlength="1000" formControlName="description"></textarea>
+              </mat-form-field>
+              <small class="blackfont font12"></small>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button class="cancel-btn" mat-raised-button (click)="closeDialog()">Close</button>
+    <button mat-raised-button color="primary" form="tagForm" [disabled]="submitted || f.tag.pending" cdkFocusInitial>
+        {{(submitted || f.tag.pending) ? submitted ? 'Saving...' : f.tag.pending ? 'Validating...' : 'Save' : 'Save'}}      
+    </button>
+  </div>
+</div>

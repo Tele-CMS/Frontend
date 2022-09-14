@@ -1,0 +1,408 @@
+<section class="home-banner">
+    <div class="banner-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>The best virtual care for all,<br> in the comfort of your <br />own home.</h2>
+                    <p>The technology to connect, expertise you can trust <br />and the power to improve your health.
+                    </p>
+                </div>
+                <div class="col-md-12">
+                    <form>
+                        <div class="form-group">
+                            <img src="../assets/img/placeholder-doctor.svg" alt="" />
+                            <ng-select [(ngModel)]="selectedSpeciality" (click)="changeSpeciality($event);" name="speciality" class="custom-ng-select" placeholder="Speciality" [items]="speciality" bindLabel="value" bindValue="id">
+                            </ng-select>
+                        </div>
+                        <div class="form-group">
+                            <img src="../assets/img/placeholder-location.svg" alt="" />
+                            <ng-select [(ngModel)]="selectedService" name="services" class="custom-ng-select" placeholder="Services" [items]="services" bindLabel="value" bindValue="id">
+                            </ng-select>
+                        </div>
+
+                        <div class="form-group">
+                            <img src="../assets/img/placeholder-calander.svg" alt="" />
+                            <ng-datepicker [(ngModel)]="selectedDate" name="date" class="custom-ng-datepicker" [options]="options">
+                            </ng-datepicker>
+                        </div>
+                        <button mat-raised-button color="primary" class="search-btn" (click)="doctorListingRedirection()">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                    <p><b>Not sure what doctor you need? </b><br />Take our assessment to find out more</p>
+                    <div class="img-hvr hvr-6">
+                        <a href="javascript:void(0)" (click)="openSymptomChecker();" class="radius-btn white-btn">Take assessment</a>
+
+                        <div class="ml-3">
+                            <a class="radius-btn white-btn" [routerLink]="['/urgentcare-providers']" routerLinkActive="active">Urgent Care</a>
+
+                        </div>
+                        <div class="ml-3 learn-more-btn">
+                            <a class="radius-btn white-btn" [routerLink]="['/what-we-do']" routerLinkActive="active">Learn More</a>
+
+                        </div>
+                    </div>
+
+                    <!-- <label class="trigger radius-btn white-btn">
+                        <input type="checkbox" class="checkbox checkbox--red" /> Take assessment
+                        <span class="msg bounce">
+                          Feature Coming Soon!
+                        </span>
+                      </label> -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="the-benefits">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="section-heading mt-4">The benefits</h2>
+                <div class="benefit-box">
+                    <div class="content-area">
+                        <h4>We're empowering people everywhere to live their healthiest lives.</h4>
+                        <p>smartTelehealth is on a mission to address the full spectrum of health and well-being—not only when people are sick but also throughout their lifelong journeys to achieve better health.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="meet-doctor">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="section-heading">Meet a doctor online</h2>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="video-frame">
+                    <iframe width="100%" height="285" src="https://www.youtube.com/embed/3mRkoHg4zrc" frameborder="0" allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <div class="col-md-6 meet-doctor-content">
+                <p>You can easily meet a doctor through a video call, at a time and place suitable for you. </p>
+                <p>Our online Doctor witness your body language and hear your tone instantly through a video call.</p>
+                <p> They diagnose and provide your effective consultation from the place of your ease. Classical literature, discovered the undoubtable source.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="categories text-center">
+    <h2 class="section-heading">Speciality</h2>
+
+    <div class="category-items col-sm-9 mx-auto">
+        <div class="category-item" *ngFor="let SIN of specialityIconName" (click)="Speciality(SIN)">
+            <div class="category-circle-icons">
+                <img [src]="SIN.specialityIcon" alt="" />
+            </div>
+            <label class="label">{{SIN.globalCodeName}}</label>
+        </div>
+        <!-- <div class="category-item">
+            <div class="category-circle-icons">
+                <img src="../assets/img/joint.svg" alt="" />
+            </div>
+            <label>Orthopedic</label>
+        </div>
+        <div class="category-item">
+            <div class="category-circle-icons">
+                <img src="../assets/img/neurology.svg" alt="" />
+            </div>
+            <label>Neurology</label>
+        </div>
+        <div class="category-item">
+            <div class="category-circle-icons">
+                <img src="../assets/img/heart.svg" alt="" />
+            </div>
+            <label>Cardiology</label>
+        </div>
+        <div class="category-item">
+            <div class="category-circle-icons">
+                <img src="../assets/img/dentistry.svg" alt="" />
+            </div>
+            <label>Dentistry</label>
+        </div> -->
+    </div>
+</section>
+<!-- <section class="book-doctor">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="section-heading">Meet Our Doctors</h2>
+                <owl-carousel-o [options]="customOptions">
+                    <ng-template carouselSlide>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="book-item">
+                                    <img class="img-fluid" src="../assets/img/drMaria.png" alt="doctor">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="book-item book-doctor-content">
+
+                                    <h5>Maria Rodrigues</h5>
+                                    <p>BDS, MDS - Oral & Maxillofacial Surgery</p>
+                                    <ul>
+                                        <li><img src="../assets/img/placeholder-location.svg" alt="" />Chicago, Illinois, USA</li>
+                                        <li><img src="../assets/img/placeholder-calander.svg" alt="" />Mon - Fri , 10:00 AM - 18:00 PM</li>
+                                    </ul>
+                                    <p>Dr. Rodrigues once qualifying from Newcastle University moved to Chicago to work in private practice where she has gained a wealth of knowledge in cosmetic and general dental procedures. She makes it her mission to
+                                        produce cosmetic excellence and has a strong belief in prevention and will only remove a tooth structure after all other avenues have been exhausted.</p>
+                                    <div class="profile-btns">
+                                        <button mat-raised-button color="accent" (click)="openDialogLogin()">See Profile</button>
+                                        <button mat-raised-button color="primary" (click)="openDialogLogin()">Book Now</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template carouselSlide>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="book-item">
+                                    <img class="img-fluid" src="../assets/img/doctor1.jpg" alt="doctor">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="book-item book-doctor-content">
+
+                                    <h5>Darren Elder</h5>
+                                    <p>BDS, MDS - Oral & Maxillofacial Surgery</p>
+                                    <ul>
+                                        <li><i class="fa fa-map-marker" aria-hidden="true"></i>Newyork, USA</li>
+                                        <li><i class="fa fa-clock-o" aria-hidden="true"></i>Available on Fri, 22 Mar</li>
+                                    </ul>
+                                    <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45.</p>
+                                    <p>making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the
+                                        cites of the word in classical literature, discovered the undoubtable source.</p>
+                                    <div class="profile-btns">
+                                        <button mat-raised-button color="accent" (click)="openDialogLogin()">See Profile</button>
+                                        <button mat-raised-button color="primary" (click)="openDialogLogin()">Book Now</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template carouselSlide>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="book-item">
+                                    <img class="img-fluid" src="../assets/img/doctor1.jpg" alt="doctor">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="book-item book-doctor-content">
+
+                                    <h5>Darren Elder</h5>
+                                    <p>BDS, MDS - Oral & Maxillofacial Surgery</p>
+                                    <ul>
+                                        <li><i class="fa fa-map-marker" aria-hidden="true"></i>Newyork, USA</li>
+                                        <li><i class="fa fa-clock-o" aria-hidden="true"></i>Available on Fri, 22 Mar</li>
+                                    </ul>
+                                    <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45.</p>
+                                    <p>making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the
+                                        cites of the word in classical literature, discovered the undoubtable source.</p>
+                                    <div class="profile-btns">
+                                        <button mat-raised-button color="accent" (click)="openDialogLogin()">See Profile</button>
+                                        <button mat-raised-button color="primary" (click)="openDialogLogin()">Book Now</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </owl-carousel-o>
+
+            </div>
+
+        </div>
+    </div>
+</section> -->
+
+<section class="book-doctor pt-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="section-heading">Meet Our Doctors</h2>
+                <div>
+                    <owl-carousel-o [options]="customOptions">
+                        <ng-template carouselSlide *ngFor="let provider of providers">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="book-item img-hgt">
+                                        <img class="img-fluid profile-img" src="{{provider.providerImageThumbnail || '../../../assets/img/d-team5.png'}}" alt="doctor">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="book-item book-doctor-content">
+
+                                        <h4 class="doc-name"><a (click)="redirectToProfilePage(provider.providerId)">Dr. {{provider.fullName}}</a></h4>
+                                        <h5 class="doc-department pb-0"><span *ngFor="let spl of provider.specialities"> {{spl.speciality}} </span></h5>
+                                        <div class="flex d-flex">
+
+                                            <star-rating value="{{provider.average}}" totalstars="5" checkedcolor="#f4c150" uncheckedcolor="#a5a2a2" size="32px" readonly="true"></star-rating>
+
+                                            <span *ngIf="provider.totalReviews>0" class="d-inline-block average-rating">({{provider.totalReviews}})</span>
+                                        </div>
+                                        <!-- <div class="cfee">Fee : {{provider.payRate | currency:'USD':'symbol-narrow'}}
+                                        </div> -->
+
+                                        <div class="clinic-services">
+                                            <span *ngFor="let taxonomy of provider.taxonomies">{{taxonomy.taxonomy}}</span>
+                                        </div>
+                                        <div class="doc-info-right">
+                                            <div class="clini-infos">
+                                                <ul>
+                                                    <li><i class="fa fa-phone" aria-hidden="true"></i> {{provider.phoneNumber}}</li>
+                                                    <li><i class="fa fa-envelope-o" aria-hidden="true"></i> <a href="mailto:sofiabrient_maxhospital@gmail.com?Subject=Hello%20again" target="_top">{{provider.email}}</a></li>
+                                                    <li class="addres"><i class="fa fa-map-marker" aria-hidden="true"></i> {{provider.address}} </li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                        <div class="clinic-booking">
+                                            <div class="">
+                                                <a href="javascript:void(0)" class="link-btn mr-3" (click)="redirectToProfilePage(provider.providerId)">View Profile</a>
+
+                                                <button mat-raised-button color="primary" (click)="redirectToListing(provider.staffId)">Book Now</button>
+                                                <!-- <button mat-raised-button color="primary" (click)="bookAppointment(provider.staffId,provider.providerId)">Book Now</button> -->
+                                                <!-- <button mat-raised-button color="primary" (click)="bookFreeAppointment(provider.staffId,provider.providerId)">Free Booking</button> -->
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <!-- <ng-template carouselSlide>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="book-item">
+                                        <img class="img-fluid" src="../assets/img/doctor1.jpg" alt="doctor">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="book-item book-doctor-content">
+
+                                        <h5>Darren Elder</h5>
+                                        <p>BDS, MDS - Oral & Maxillofacial Surgery</p>
+                                        <ul>
+                                            <li><i class="fa fa-map-marker" aria-hidden="true"></i>Newyork, USA</li>
+                                            <li><i class="fa fa-clock-o" aria-hidden="true"></i>Available on Fri, 22 Mar
+                                            </li>
+                                        </ul>
+                                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45.</p>
+                                        <p>making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through
+                                            the cites of the word in classical literature, discovered the undoubtable source.
+                                        </p>
+                                        <div class="profile-btns">
+                                            <button mat-raised-button color="accent" (click)="openDialogLogin()">See
+                                                Profile</button>
+                                            <button mat-raised-button color="primary" (click)="openDialogLogin()">Book
+                                                Now</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template> -->
+                    </owl-carousel-o>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="happy-client">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="section-heading">We have 10 000 + happy patients!<br /> Be one of them!</h2>
+                <p class="text-center">We are proud to help you find your ideal doctor for your needs.</p>
+            </div>
+        </div>
+    </div>
+    <div class="ssuccessful-bookings">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-6">
+                    <div class="shape-box">
+                        <img class="img-fluid" src="../assets/img/check_circle_icon.svg" alt="doctor">
+                        <h3>1000+</h3>
+                        <h4>Successful Bookings</h4>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="shape-box">
+                        <img class="img-fluid" src="../assets/img/assignment_turned.svg" alt="doctor">
+                        <h3>100+</h3>
+                        <h4>Active Doctors</h4>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="shape-box">
+                        <img class="img-fluid" src="../assets/img/supervised_user_circle.svg" alt="doctor">
+                        <h3>10000+</h3>
+                        <h4>Happy Patients</h4>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="shape-box">
+                        <img class="img-fluid" src="../assets/img/recovery.svg" alt="doctor">
+                        <h3>75%</h3>
+                        <h4>Recovery rate</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="home-banner banner-contact">
+    <div class="banner-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>The best virtual care for all,<br> in the comfort of your <br />own home.</h2>
+
+                </div>
+                <div class="col-md-12">
+                    <form>
+                        <div class="form-group">
+                            <img src="../assets/img/placeholder-doctor.svg" alt="" />
+                            <ng-select [(ngModel)]="selectedSpeciality" (click)="changeSpeciality($event);" name="speciality" class="custom-ng-select" placeholder="Speciality" [items]="speciality" bindLabel="value" bindValue="id">
+                            </ng-select>
+                        </div>
+                        <div class="form-group">
+                            <img src="../assets/img/placeholder-location.svg" alt="" />
+                            <ng-select [(ngModel)]="selectedService" name="services" class="custom-ng-select" placeholder="Services" [items]="services" bindLabel="value" bindValue="id">
+                            </ng-select>
+                        </div>
+
+                        <div class="form-group">
+                            <img src="../assets/img/placeholder-calander.svg" alt="" />
+                            <ng-datepicker [(ngModel)]="selectedDate" name="date" class="custom-ng-datepicker" [options]="options">
+                            </ng-datepicker>
+                        </div>
+                        <button mat-raised-button color="primary" class="search-btn" (click)="doctorListingRedirection()">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

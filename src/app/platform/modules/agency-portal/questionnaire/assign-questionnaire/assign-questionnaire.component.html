@@ -1,0 +1,47 @@
+<div class="readmin-panel">
+  <div class="d-flex justify-content-between panel-title align-items-center">
+    <h2 class="page_title">Assigned Assessment</h2>
+    <button *ngIf="addPermission" mat-raised-button color="primary" class="add-primary-btn" (click)="openDialog()">
+      Assign</button>
+  </div>
+  <form class="readmin-form custom_form">
+    <div class="row">
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width">
+          <mat-select matInput [(ngModel)]="filters && filters.documentId" name="documentId"
+            placeholder="Select Assessment" (selectionChange)="onDocumentSelect($event.value)">
+            <mat-option *ngFor="let option of masterDocuments" [value]="option.id">
+              {{option.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width">
+          <mat-select placeholder="Select Patient" [(ngModel)]="filters && filters.patientId" name="patientId"
+            (selectionChange)="onPatientSelect($event.value)">
+            <mat-option>
+              <ngx-mat-select-search [formControl]="memberFilterCtrl" [searching]="searching" placeholderLabel="Search"
+                noEntriesFoundLabel="No records found!">
+              </ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let option of getSlectFilteredServerSideMembers" [value]="option.id">
+                  {{option.value}}
+                </mat-option>
+            <mat-option *ngFor="let option of filteredServerSideMembers | async" [value]="option.id">
+              {{option.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4 filter-btn">
+        <button type="button" class="clear-btn" color="accent" mat-raised-button (click)="clearFilters()">Clear All</button>
+      </div>
+    </div>
+  </form>
+<div class="clearfix"></div>
+<app-data-table class="mt-3 d-block table-responsive" [inputColumns]="displayedColumns" [inputSource]="patientDocumentData" [inputMeta]="metaData"
+  [inputButtons]='actionButtons' (onChange)="onPageOrSortChange($event)"
+  (onTableActionClick)="onTableActionClick($event)">
+</app-data-table>
+</div>

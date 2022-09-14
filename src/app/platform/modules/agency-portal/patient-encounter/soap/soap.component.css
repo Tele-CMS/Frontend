@@ -1,0 +1,92 @@
+/*Soap Page*/
+
+.soap_detail p {
+    margin: 0px 0px 15px;
+}
+.soap_detail b {
+    color: #7a7a7a;
+    font-weight: 400;
+    font-size: 12px;
+    display: block;
+}
+.soap_detail span {
+    color: var(--color-black);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.soapmodal_btn {
+    margin-top: 7px;
+}
+
+.sign h3{
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0px;
+    line-height: 20px;
+}
+.sign h3>span {
+    font-size: 13px;
+    font-weight: 400;
+    margin: 0px;
+    color:#7a7a7a;
+}
+.sign p, .sign p>span{
+    font-size: 12px;
+    margin: 3px 0px 0px;
+    color:#7a7a7a;
+}
+.sign {
+    border: 1px solid #eceeef;
+    padding: 10px;
+    overflow: hidden;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    margin-bottom: 15px;
+}
+.sign img{margin-bottom: 10px;}
+textarea.mat-input-element
+{
+    overflow: hidden;
+    min-height: 19px;
+}
+
+.encounter-checklist ul
+{
+margin: 5px 0px 0px;
+padding: 0px 0px 0px 25px;
+list-style: none;
+}
+
+.encounter-checklist ul li
+{
+    margin-bottom:5px; 
+}
+
+.encounter-checklist ul li i
+{
+    color:#38be6f;
+    font-size: 16px;
+}
+
+@media (max-width: 1199px) {
+    /*soap page*/
+    .soap_detail b {
+        width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    /*Soap Page*/
+    .soap_detail p {
+        width: 50%;
+    }
+}
+
+
+@media(max-width: 480px) {
+    /*Soap Note*/
+    .detail_wd p, .soap_detail p {
+        width: 100%;
+    }
+}

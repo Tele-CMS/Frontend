@@ -1,0 +1,59 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Section</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="sectionForm" #documentForm="ngForm" class="readmin-form custom_form"
+          [formGroup]="sectionForm">
+          <div class="row">
+            <div class="col-sm-12 require">
+              <mat-form-field class="example-full-width" hintLabel="{{formControls.sectionName.pending ? 'Validating...' : ''}}">
+                <input matInput autofocus placeholder="Section Name" maxlength="50" formControlName="sectionName"
+                  [ngClass]="{ 'is-invalid': submitted && formControls.sectionName.errors }" required />
+                <mat-error *ngIf="formControls.sectionName.errors?.required">
+                  Please enter section name
+                </mat-error>
+                <mat-error *ngIf="formControls.sectionName.errors?.uniqueName">
+                  Name is already taken.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 require">
+              <mat-form-field class="example-full-width">
+                <textarea class="questionnaire-section" matInput appNumbersOnly placeholder="Order" maxlength="1000" formControlName="displayOrder" [ngClass]="{ 'is-invalid': submitted && formControls.displayOrder.errors }"
+                  required></textarea>
+                <mat-error *ngIf="formControls.displayOrder.errors?.required">
+                  Please enter display order
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+                <mat-form-field class="example-full-width">
+                  <mat-select matInput placeholder="Gender Criteria" formControlName="hraGenderCriteria"
+                    [ngClass]="{ 'is-invalid': submitted && formControls.hraGenderCriteria.errors }" required>
+                    <mat-option *ngFor="let option of masterGenderCriteriaForHRA" [value]="option.id">
+                      {{option.value}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="formControls.hraGenderCriteria.errors?.required">
+                    Please select gender criteria
+                  </mat-error>
+                </mat-form-field>
+              </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="accent" class="cancel-btn" (click)="closeDialog('close')">Close</button>
+    <button mat-raised-button color="primary" form="sectionForm" [disabled]="submitted || formControls.sectionName.pending"
+      cdkFocusInitial>
+      {{(submitted || formControls.sectionName.pending) ? submitted ? 'Saving...' : formControls.sectionName.pending
+      ? 'Validating...' : 'Save' : 'Save'}}
+    </button>
+  </div>
+</div>

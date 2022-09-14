@@ -1,0 +1,120 @@
+<div class="custom_modal">
+    <h3 mat-dialog-title>{{headerText}}</h3>
+    <div mat-dialog-content>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <form  id="vitalForm" #documentForm="ngForm" class="readmin-form custom_form"
+                    [formGroup]="vitalForm">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput readonly [matDatepicker]="vitalDate" [max]="maxDate" placeholder="Vital Date"
+                                    formControlName="vitalDate" required />
+                                <mat-datepicker-toggle matSuffix [for]="vitalDate"></mat-datepicker-toggle>
+                                <mat-datepicker #vitalDate></mat-datepicker>
+                                <mat-error *ngIf="formControls.vitalDate.errors?.required">
+                                    Please enter valid date
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput appNumbersOnly [allowDecimals]="true" placeholder="Height(inches)"
+                                    maxlength="5" formControlName="heightIn" />
+                                    <mat-error *ngIf="formControls.heightIn.errors?.height">
+                                        Height should not be greater than 255
+                                      </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput appNumbersOnly [allowDecimals]="true" placeholder="Weight (Lbs)"
+                                    maxlength="5" formControlName="weightLbs" />
+                                    <mat-error *ngIf="formControls.weightLbs.errors?.weight">
+                                       Weight should not be greater than 999
+                                      </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput appNumbersOnly placeholder="Heart Rate(BPM)" maxlength="7"
+                                    formControlName="heartRate" />
+                                    <mat-error *ngIf="formControls.heartRate.errors?.heartrate">
+                                        Heartrate should not be greater than 200
+                                      </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput appNumbersOnly placeholder="Blood Pressure(Systolic)" maxlength="6"
+                                    formControlName="bpSystolic" />
+                                    <mat-error *ngIf="formControls.bpSystolic.errors?.bpsytolic">
+                                        BPSystolic should not be greater than 280
+                                      </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput appNumbersOnly placeholder="Blood Pressure(Diastolic)" maxlength="6"
+                                    formControlName="bpDiastolic" />
+                                    <mat-error *ngIf="formControls.bpDiastolic.errors?.dystolic">
+                                        BPDiastolic should not be greater than 140
+                                      </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput appNumbersOnly placeholder="Pulse Oximeter" maxlength="7"
+                                    formControlName="pulse" />
+                                    <mat-error *ngIf="formControls.pulse.errors?.pulse">
+                                        Pulse should not be greater than 100
+                                      </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput appNumbersOnly placeholder="Respiration" maxlength="6" formControlName="respiration" />
+                                <mat-error *ngIf="formControls.respiration.errors?.respiration">
+                                    Respiration should not be greater than 100
+                                  </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput appNumbersOnly [allowDecimals]="true" placeholder="Temperature (°F)"
+                                    maxlength="5" formControlName="temperature" />
+                                    <mat-error *ngIf="formControls.temperature.errors?.temperature">
+                                        Temperature should not be greater than 115
+                                      </mat-error>
+                                </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12" *ngIf="vitalValidation">
+                            <div class="del-cont">
+                                <p class="alert-danger_text no_margin">Note : {{error}}</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+        <div>
+            <button name="Save" mat-raised-button color="accent" (click)="onSubmit($event)" form="vitalForm" class="text-uppercase"
+                [disabled]="vitalValidation || submitted" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+            <button *ngIf="vitalModel.id==null || vitalModel.id==0" name="SaveAddMore" mat-raised-button color="primary"
+                (click)="onSubmit($event)" form="vitalForm" class="text-uppercase ml-3" [disabled]="vitalValidation || submitted"
+                cdkFocusInitial>{{submitted ? 'Saving...' : 'Save & Add More'}}</button>
+        </div>
+    </div>
+</div>

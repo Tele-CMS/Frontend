@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="theme-color" content="#444444">
+    <meta charset="utf-8" />
+    <!-- <meta name="theme-color" content="#264653" /> -->
+
+    <title>VirtualVitals-Healthcare</title>
+    <base href="/" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <!-- bootstrap css -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- material icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600" rel="stylesheet" /> -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
+
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css" />
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNZUbdv3yyvvnAOxh33diYantEbTF3ZDk&libraries=places"></script>
+    <script>
+        window.addEventListener("beforeunload", function(e) {
+            // handleWindowClose()
+
+            // // var log = e;
+            localStorage.removeItem("otSession");
+            // var confirmationMessage = "\o/";
+
+            // (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+            // return confirmationMessage; //Webkit, Safari, Chrome etc.
+        });
+
+        // function handleWindowClose() {
+        //
+        //   if ((window.event.clientX < 0) || (window.event.clientY < 0)) {
+        //     event.returnValue = "Browser Closed";
+        //   }
+        // }
+    </script>
+
+    <!-- Main Quill library -->
+    <script src="//cdn.quilljs.com/1.0.0/quill.js"></script>
+    <script src="//cdn.quilljs.com/1.0.0/quill.min.js"></script>
+
+    <!-- Theme included stylesheets -->
+    <link href="//cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
+    <link href="//cdn.quilljs.com/1.0.0/quill.bubble.css" rel="stylesheet">
+
+    <!-- Core build with no theme, formatting, non-essential modules -->
+    <link href="//cdn.quilljs.com/1.0.0/quill.core.css" rel="stylesheet">
+    <script src="//cdn.quilljs.com/1.0.0/quill.core.js"></script>
+
+    <!-- <link rel="stylesheet" type="text/css" href="/node_modules/primeicons/primeicons.css" /> -->
+<link rel="stylesheet" type="text/css" href="/node_modules/primeng/resources/themes/nova-light/theme.css" />
+<!-- <link rel="stylesheet" type="text/css" href="/node_modules/primeng/resources/primeng.min.css" /> -->
+</head>
+
+<body>
+    <app-root></app-root>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+
+</html>

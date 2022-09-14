@@ -1,0 +1,55 @@
+<div>
+
+  <div class="readmin-panel">
+    <h2 class="page_title">Manage Users</h2>
+  <div class="clearfix"></div>
+    <div class="no-gutters">
+      <div class="col-md-12 justify-content-start pull-left">
+        <form class="readmin-form custom_form" id="payrollReportFormGroup" #documentForm="ngForm" [formGroup]="payrollReportFormGroup">
+          <div class="row end-flex">
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Payroll Group" (selectionChange)="payrollGroupOnChange($event)"
+                  formControlName="payrollGroupId" matInput>
+                  <mat-option *ngFor="let payrollGroup of masterPayrollGroup" [value]="payrollGroup.id">
+                    {{payrollGroup.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Staff" formControlName="StaffId" matInput>
+                  <mat-option *ngFor="let staff of masterUserForPayrollGroup" [value]="staff.id">
+                    {{staff.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="FromDate" (focus)="FromDate.open()" placeholder="From Date"
+                  formControlName="FromDate" readonly>
+                <mat-datepicker-toggle matSuffix [for]="FromDate"></mat-datepicker-toggle>
+                <mat-datepicker #FromDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="ToDate" (focus)="ToDate.open()" placeholder="To Date" formControlName="ToDate"
+                  readonly>
+                <mat-datepicker-toggle matSuffix [for]="ToDate"></mat-datepicker-toggle>
+                <mat-datepicker #ToDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-12 p-0 pull-right justify-content-md-end d-flex">
+              <button mat-raised-button color="primary" (click)="generatePayrollreport()">
+                Generate Payroll Report</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <app-data-table [inputColumns]="displayedColumns" [inputSource]="payrollReportData" [inputMeta]="metaData"
+      [inputButtons]='actionButtons'>
+    </app-data-table>

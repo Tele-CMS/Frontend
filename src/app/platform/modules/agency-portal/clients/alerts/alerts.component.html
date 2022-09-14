@@ -1,0 +1,54 @@
+<app-client-header [clientId]="clientId" [headerText]="header" ></app-client-header>
+<div class="readmin-panel" [ngClass]=" { 'readmin-panel': isRoleClient }">
+  <div *ngIf="isRoleClient" class="d-flex justify-content-between panel-title align-items-center">
+    <h1 class="page_title">My Alerts</h1>
+  </div>
+  <div class="clearfix"></div>
+  <form class="readmin-panel custom_form">
+    <div class="row">
+        <div class="col-sm-3 cushgt">
+            <div class="sech_item caregap-sl-dt">
+              <p>Alert Types: </p>
+              <span [ngClass]="{'active' : filterModel && filterModel.AlertTypeIds.length == masterAlertTypes.length }"
+                (click)="onSelectDeselectAll('SelectAll')">Select All </span>
+              <span [ngClass]="{'active' : filterModel && filterModel.AlertTypeIds.length == 0 }"
+                (click)="onSelectDeselectAll()">
+                Deselect All</span>
+            </div>
+            <mat-form-field class="example-full-width" floatLabel="never">
+              <mat-select multiple placeholder="Select Alert Types" [(ngModel)]="filterModel && filterModel.AlertTypeIds" name="AlertTypeId"
+                matInput>
+                <mat-option *ngFor="let alerttype of masterAlertTypes" [value]="alerttype.id">
+                  {{alerttype.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+      <div class="col-sm-3">
+        <mat-form-field class="example-full-width">
+          <input matInput [matDatepicker]="fromDate" (focus)="fromDate.open()" placeholder="From Date"
+            [(ngModel)]="filterModel && filterModel.startDate" name="startDate">
+          <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+          <mat-datepicker #fromDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-3">
+        <mat-form-field class="example-full-width">
+          <input matInput [matDatepicker]="toDate" (focus)="toDate.open()" placeholder="To Date"
+            [(ngModel)]="filterModel && filterModel.endDate" name="endDate">
+          <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+          <mat-datepicker #toDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3 filter-btn d-flex justify-content-sm-end justify-content-between flex-row">
+          <button type="button" class="clear-btn mr-3" color="accent" mat-raised-button (click)='clearFilters()'>Clear
+            All</button>
+          <button name="Filter" mat-raised-button color="primary" (click)='applyFilter()'>Filter</button>
+      </div>
+    </div>
+  </form>
+  <div class="clearfix"></div>
+  <app-data-table class="mt-3 d-block table-responsive" [inputColumns]="displayedColumns"
+    [inputSource]="alertsList" [inputMeta]="metaData" (onChange)="onPageOrSortChange($event)"
+    [inputButtons]='actionButtons'></app-data-table>
+</div>

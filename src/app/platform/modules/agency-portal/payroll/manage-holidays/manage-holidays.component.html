@@ -1,0 +1,17 @@
+<div>
+  <h2 class="page_title">Manage Holiday</h2>
+  <div class="clearfix"></div>
+  <div class="readmin-panel">
+    <div class="no-gutters">
+      <div class="col-md-5 pull-right justify-content-md-end d-flex">
+        <button *ngIf="addPermission" mat-raised-button color="primary" (click)="openDialog()" class="add-primary-btn">
+          <i class="fa fa-plus" aria-hidden="true"></i> <span>Add Holiday</span></button>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <app-data-table [inputColumns]="displayedColumns" [inputSource]="holidayData" [inputMeta]="metaData" [inputButtons]='actionButtons'
+      (onChange)="onPageOrSortChange($event)" (onTableActionClick)="onTableActionClick($event)">
+    </app-data-table>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+    <div>
+      <form (ngSubmit)="onSubmit()" [formGroup]="form">
+          <div *ngFor="let question of questions" class="form-row">
+        <label [attr.for]="question.key">{{question.label}}</label>
+       
+        <div [ngSwitch]="question.controlType">
+          <input *ngSwitchCase="'textbox'" [formControlName]="question.key"
+                  [id]="question.key" [type]="question.type">
+          <select [id]="question.key" *ngSwitchCase="'dropdown'" [formControlName]="question.key">
+            <option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
+          </select>
+          <div *ngSwitchCase="'checkbox'">
+            <div *ngFor="let opt of question.options">
+              <input [name]="question.key+opt.key" [checked]="opt.value" (click)="onChecked($event)"
+              [id]="opt.key" [type]="question.type">
+            </div>
+          </div>
+          <div *ngSwitchCase="'radio'">
+              <div *ngFor="let opt of question.options">
+                <input [name]="radio+question.key" [checked]="opt.value" (click)="onChecked($event)"
+                [id]="opt.key" [type]="question.type">
+              </div>
+            </div>
+
+        </div> 
+      </div>
+      <button type="submit" [disabled]="!form.valid">Save</button>
+      </form>
+      </div>
+  

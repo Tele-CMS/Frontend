@@ -1,0 +1,57 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Service</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="serviceForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="serviceForm">
+          <div class="row">
+            <div class="col-sm-12 require">
+              <mat-form-field class="example-full-width" hintLabel="{{formControls.serviceName.pending ? 'Validating...' : ''}}">
+                <input matInput autofocus placeholder="Service Name" maxlength="50" formControlName="serviceName" [ngClass]="{ 'is-invalid': submitted && formControls.serviceName.errors }"
+                  required />
+                <mat-error *ngIf="formControls.serviceName.errors?.required">
+                  Please enter service name
+                </mat-error>
+                <mat-error *ngIf="formControls.serviceName.errors?.uniqueName">
+                  Service Name is already taken.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          
+    <div class="row">
+      <div class="col-sm-4 require">
+        <mat-form-field class="example-full-width">
+          <mat-select placeholder="Select Speciality" formControlName="globalCodeId" matInput [ngClass]="{ 'is-invalid': submitted && formControls.globalCodeId.errors }"
+            required>
+            <mat-option *ngFor="let sp of masterSpeciality" [value]="sp.id">
+              {{sp.value}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="formControls.globalCodeId.errors?.required">
+            Please select  Speciality
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+
+  </div>
+          <div class="row">
+            <div class="col-sm-6 require">
+              <mat-checkbox formControlName="isActive">
+                Is Active
+              </mat-checkbox>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  <div mat-dialog-actions class="nw-pd">
+    <button mat-raised-button class="cancel-btn" (click)="closeDialog()">Close</button>
+    <button mat-raised-button color="primary" form="serviceForm" [disabled]="submitted || formControls.serviceName.pending" cdkFocusInitial>
+        {{(submitted || formControls.serviceName.pending) ? submitted ? 'Saving...' : formControls.serviceName.pending ? 'Validating...' : 'Save' : 'Save'}}
+      </button>
+  </div>
+</div>

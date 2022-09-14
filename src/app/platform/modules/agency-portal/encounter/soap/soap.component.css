@@ -1,0 +1,151 @@
+/*Soap Page*/
+
+.soap_detail p {
+    margin: 0px 0px 15px;
+}
+
+.soap_detail b {
+    color: #7a7a7a;
+    font-weight: 400;
+    font-size: 12px;
+    display: block;
+}
+
+.soap_detail span {
+    color: var(--color-black);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.soap_content {
+    float: right;
+}
+
+.soapmodal_btn {
+    margin-top: 7px;
+}
+
+.panel_title .flaticon {
+    top: 18px;
+    font-weight: 600;
+}
+
+.panel_title .flaticon.flaticon-gym {
+    top: 0;
+}
+
+.sign h3 {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0px;
+    line-height: 20px;
+}
+
+.sign h3>span {
+    font-size: 13px;
+    font-weight: 400;
+    margin: 0px;
+    color: #7a7a7a;
+}
+
+.sign p,
+.sign p>span {
+    font-size: 12px;
+    margin: 3px 0px 0px;
+    color: #7a7a7a;
+}
+
+.sign {
+    border: 1px solid #eceeef;
+    padding: 10px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.sign img {
+    margin-bottom: 10px;
+}
+
+@media (max-width: 1199px) {
+    /*soap page*/
+    .soap_detail b {
+        width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    /*Soap Page*/
+    .soap_detail p {
+        width: 50%;
+    }
+}
+
+@media (max-width: 480px) {
+    /*Soap Note*/
+    .detail_wd p,
+    .soap_detail p {
+        width: 100%;
+    }
+}
+
+.mwlResizable {
+    /* required for the enableGhostResize option to work */
+    box-sizing: border-box;
+}
+
+.resize-handle-top,
+.resize-handle-bottom {
+    position: absolute;
+    height: 5px;
+    cursor: row-resize;
+    width: 100%;
+}
+
+.resize-handle-top {
+    top: 0;
+}
+
+.resize-handle-bottom {
+    bottom: 0;
+}
+
+.resize-handle-left,
+.resize-handle-right {
+    position: absolute;
+    height: 100%;
+    cursor: col-resize;
+    width: 5px;
+}
+
+.resize-handle-left {
+    left: 0;
+}
+
+.resize-handle-right {
+    right: 0;
+}
+
+.soap-panel {
+    border: solid 1px #121621;
+}
+
+.video-tool {
+    border: solid 0px #2fd4c8;
+    box-shadow: 2px 1px 14px #8eadab;
+}
+
+.formio-form-div {
+    position: relative;
+    min-height: 80px;
+    height: 364px;
+    overflow: auto;
+}
+
+.soap-note-form .formio-form {
+    width: 95%;
+}
+
+.d-flex {
+    display: flex;
+    align-items: center;
+}

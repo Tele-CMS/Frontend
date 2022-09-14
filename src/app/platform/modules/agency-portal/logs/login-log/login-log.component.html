@@ -1,0 +1,25 @@
+<div>
+  <div class="readmin-panel">
+  <h2 class="page_title">Manage Login Log</h2>
+  <div class="clearfix"></div>
+    <div class="row">
+      <div class="col-md-7 justify-content-start pull-left">
+        <div class="row">
+          <div class="col-7 mtm-27">
+            <form class="readmin-form custom_form">
+              <mat-form-field class="example-full-width">
+                <input matInput [(ngModel)]="searchText" name="searchText" (keyup)="applyFilter($event.target.value)" placeholder="Search">
+              </mat-form-field>
+            </form>
+          </div>
+          <div class="col-5 filter-btn">
+            <button class="clear-btn" mat-raised-button (click)='clearFilters()'>Clear All</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <app-data-table [inputColumns]="displayedColumns" [inputSource]="loginLogData" [inputMeta]="metaData" (onChange)="onPageOrSortChange($event)">
+    </app-data-table>

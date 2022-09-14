@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-4" *ngFor="let label of clientCustomLabels;let in=index">
+        <mat-form-field class="example-full-width">
+          <input matInput autofocus [(ngModel)]="clientCustomLabels[in].customLabelValue" #name="ngModel" name="name{{in}}"
+            placeholder="{{label.customLabelName}}" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row" *ngIf="clientCustomLabels && clientCustomLabels.length>0">
+      <div class="col-sm-12 d-sm-flex justify-content-sm-end pt-3 actions-btn">
+        <button mat-raised-button color="primary" name="Save" form="customLabelForm" class="text-uppercase" [disabled]="submitted"
+          (click)="onSubmit($event)" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+        <button mat-raised-button color="accent" name="SaveContinue" form="customLabelForm" class="text-uppercase ml-3" [disabled]="submitted" (click)="onSubmit($event)" cdkFocusInitial>{{submitted ? 'Saving...' : 'Submit'}}</button>
+      </div>
+    </div>
+  </div>
+</div>

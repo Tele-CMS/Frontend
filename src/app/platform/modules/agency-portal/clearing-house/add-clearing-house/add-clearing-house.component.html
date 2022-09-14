@@ -1,0 +1,130 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>{{headerText}}</h3>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-sm-12">
+        <form id="clearingHouseForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="clearingHouseForm">
+          <div class="row">
+            <div class="col-sm-4 require">
+              <mat-form-field class="example-full-width">
+                <input matInput autofocus placeholder="Clearing House Name" maxlength="100" formControlName="clearingHouseName" [ngClass]="{ 'is-invalid': submitted && formControls.clearingHouseName.errors }"
+                  required />
+                <mat-error *ngIf="formControls.clearingHouseName.errors?.required">
+                  Please enter name
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4 require">
+              <mat-form-field class="example-full-width">
+                <input matInput autofocus placeholder="Sender Id" maxlength="40" formControlName="senderID" [ngClass]="{ 'is-invalid': submitted && formControls.senderID.errors }"
+                  required />
+                <mat-error *ngIf="formControls.senderID.errors?.required">
+                  Please enter sender Id
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4 require">
+              <mat-form-field class="example-full-width">
+                <input matInput autofocus placeholder="Receiver Id" maxlength="40" formControlName="receiverID" [ngClass]="{ 'is-invalid': submitted && formControls.receiverID.errors }"
+                  required />
+                <mat-error *ngIf="formControls.receiverID.errors?.required">
+                  Please enter receiver Id
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4 require">
+              <mat-form-field class="example-full-width">
+                <input matInput autofocus placeholder="Interchange Qualifier" maxlength="40" formControlName="interchangeQualifier" [ngClass]="{ 'is-invalid': submitted && formControls.interchangeQualifier.errors }"
+                  required />
+                <mat-error *ngIf="formControls.interchangeQualifier.errors?.required">
+                  Please enter qualifier
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4 require">
+              <mat-form-field class="example-full-width">
+                <input matInput autofocus placeholder="FTP URL" maxlength="40" formControlName="ftpurl" [ngClass]="{ 'is-invalid': submitted && formControls.ftpurl.errors }"
+                  required />
+                <mat-error *ngIf="formControls.ftpurl.errors?.required">
+                  Please enter url
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4 require">
+              <mat-form-field class="example-full-width">
+                <input matInput autofocus placeholder="Port No" maxlength="40" formControlName="portNo" [ngClass]="{ 'is-invalid': submitted && formControls.portNo.errors }"
+                  required />
+                <mat-error *ngIf="formControls.portNo.errors?.required">
+                  Please enter port no
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4 require">
+              <mat-form-field class="example-full-width">
+                <input matInput autofocus placeholder="FTP Username" maxlength="40" formControlName="ftpUsername" [ngClass]="{ 'is-invalid': submitted && formControls.ftpUsername.errors }"
+                  required />
+                <mat-error *ngIf="formControls.ftpUsername.errors?.required">
+                  Please enter  username
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4 require">
+              <mat-form-field class="example-full-width">
+                <input type="password" matInput autofocus placeholder="Password" maxlength="40" formControlName="ftpPassword" [ngClass]="{ 'is-invalid': submitted && formControls.ftpPassword.errors }"
+                  required />
+                  <mat-error *ngIf="formControls.ftpPassword.errors?.required">
+                      Please enter password
+                    </mat-error>
+                   
+               
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4 require">
+              <mat-form-field class="example-full-width">
+                <input type="password" matInput autofocus placeholder="Confirm Password" maxlength="40" formControlName="confirmPassword" [ngClass]="{ 'is-invalid': submitted && formControls.confirmPassword.errors }"
+                  required />
+                <mat-error *ngIf="formControls.confirmPassword.errors?.required">
+                  Please confirm password
+                </mat-error>
+                <mat-error *ngIf="formControls.confirmPassword.errors?.notSame">
+                  Password doesn't match
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4 require">
+              <mat-form-field class="example-full-width">
+                <input matInput autofocus placeholder="Path 837" maxlength="40" formControlName="path837" [ngClass]="{ 'is-invalid': submitted && formControls.path837.errors }"
+                  required />
+                <mat-error *ngIf="formControls.path837.errors?.required">
+                  Please enter path 837
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4 require">
+              <mat-form-field class="example-full-width">
+                <input matInput autofocus placeholder="Path 835" maxlength="40" formControlName="path835" [ngClass]="{ 'is-invalid': submitted && formControls.path835.errors }"
+                  required />
+                <mat-error *ngIf="formControls.path835.errors?.required">
+                  Please enter path 835
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+    <div>
+      <button name="Save" mat-raised-button color="primary" (click)="onSubmit()" form="clearingHouseForm" class="text-uppercase" [disabled]="submitted"
+        cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+    </div>
+  </div>
+</div>

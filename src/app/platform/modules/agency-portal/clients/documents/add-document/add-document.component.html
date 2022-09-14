@@ -1,0 +1,80 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Upload Document</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form id="addDocumentForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="addDocumentForm">
+          <div class="row">
+
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Document Type" formControlName="documentType" matInput [ngClass]="{ 'is-invalid': submitted && formControls.documentType.errors }"
+                  required>
+                  <mat-option *ngFor="let doc of masterDocumentTypes" [value]="doc.id">
+                    {{doc.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.documentType.errors">
+                  Please select document type
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput [min]="todayDate" [matDatepicker]="expirationDate" placeholder="Expiration Date" formControlName="expirationDate" [ngClass]="{ 'is-invalid': submitted && formControls.expirationDate.errors }"
+                readonly required>
+                <mat-datepicker-toggle matSuffix [for]="expirationDate"></mat-datepicker-toggle>
+                <mat-datepicker #expirationDate></mat-datepicker>
+                <mat-error *ngIf="formControls.expirationDate.errors">
+                  Please enter date
+                </mat-error>
+              </mat-form-field>
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <mat-form-field class="example-full-width">
+                <input matInput autofocus placeholder="Title" maxlength="100" formControlName="title" [ngClass]="{ 'is-invalid': submitted && formControls.title.errors }"
+                  required />
+                <mat-error *ngIf="formControls.title.errors?.required">
+                  Please enter title
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-6">
+                  <div class="col-sm-12 pd-0">
+                      <div class="uplaod_pic">
+                          <label class="browse">
+                            <i class="fa fa-upload fa-2x" aria-hidden="true"></i>
+                            <input type="file" (change)="handleImageChange($event)">
+                          </label>
+                        </div>
+                        <!-- <p class="ins_photo">(Browse any jpg, jpeg, bmp, png file.)</p> -->
+                  </div>
+              </div>
+              <div class="col-sm-6">
+                <span>
+                   <p *ngFor="let file of fileList;let i=index;">
+                      {{file.fileName}}
+                      <button type="button" title="Delete" class="tbactionbtn" (click)="removeFile(i)">
+                          <i class="fa fa-times" aria-hidden="true"></i>
+                        </button>
+                   </p> 
+                  
+                </span>
+                </div>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+    <button name="Save" mat-raised-button color="primary" (click)="onSubmit()" form="addDocumentForm" class="text-uppercase"
+        [disabled]="submitted" cdkFocusInitial>{{submitted ? 'Uploading...' : 'Save'}}</button>
+  </div>
+</div>

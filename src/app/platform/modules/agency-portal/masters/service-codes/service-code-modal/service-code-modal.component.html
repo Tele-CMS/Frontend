@@ -1,0 +1,133 @@
+
+<div class="custom_modal">
+  <h3 mat-dialog-title>Service Code</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="serviceCodeForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="serviceCodeForm">
+          <div class="row">
+            <div class="col-sm-12 col-md-6 require">
+              <mat-form-field class="example-full-width" hintLabel="{{f.serviceCode.pending ? 'Validating...' : ''}}">
+                <input matInput autofocus placeholder="Service Code" maxlength="10" formControlName="serviceCode" [ngClass]="{ 'is-invalid': submitted && f.serviceCode.errors }"
+                  required />
+                <mat-error *ngIf="f.serviceCode.errors?.required">
+                  Please enter service code
+                </mat-error>
+                <mat-error *ngIf="f.serviceCode.errors?.uniqueName">
+                    Name is already taken.
+                  </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-md-6 require">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Rounding Rule" formControlName="ruleID" matInput [ngClass]="{ 'is-invalid': submitted && f.ruleID.errors }"
+                  required>
+                  <mat-option *ngFor="let option of masterRoundingRules" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="f.ruleID.errors">
+                  Please select Rounding rule
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-6 require">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Unit Duration" maxlength="3" formControlName="unitDuration" [ngClass]="{ 'is-invalid': submitted && f.unitDuration.errors }"
+                  required appNumbersOnly/>
+                <mat-error *ngIf="f.unitDuration.errors">
+                  Please enter unit duration
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-md-6 require">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Unit Type" formControlName="unitTypeID" matInput [ngClass]="{ 'is-invalid': submitted && f.unitTypeID.errors }"
+                  required>
+                  <mat-option *ngFor="let option of masterUnitType" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="f.unitTypeID.errors">
+                  Please select unit type
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-6 require">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Rate Per Unit ($)" maxlength="8" formControlName="ratePerUnit" [ngClass]="{ 'is-invalid': submitted && f.ratePerUnit.errors }"
+                  required appNumbersOnly [allowDecimals]="true" />
+                <mat-error *ngIf="f.ratePerUnit.errors">
+                  Please enter rate per unit
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- <FieldArray name="modifierModel" component={this.renderModifiersTemplate} /> -->
+          <div class="row">
+            <div class="col-sm-12 require">
+              <mat-form-field class="example-full-width" hintLabel="{{f.description.value ? 1000 - f.description.value.length : 1000}} Characters Remaining">
+                <textarea matInput placeholder="Description" maxlength="1000" formControlName="description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"
+                  required></textarea>
+                <mat-error *ngIf="f.description.errors">
+                  Please enter description
+                </mat-error>
+              </mat-form-field>
+              <small class="blackfont font12"></small>
+            </div>
+          </div>
+              <div formArrayName="modifierModel">
+                <div *ngFor="let X of modifierModel['controls']; let ix=index">
+                  <div class="row">   
+                    <div class="col-sm-6">
+                        <div formGroupName="{{ix}}" class="Xs">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Modifier" maxlength="20" formControlName="modifier" />
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="col-sm-6 pdl-40">
+                          <div formGroupName="{{ix}}" class="Xs">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Rate Per Unit ($)" maxlength="8" formControlName="rate"  appNumbersOnly [allowDecimals]="true"  />
+                          </mat-form-field>
+                        </div>
+                      
+                        <button *ngIf="(ix > 0) || (modifierModel['controls'].length > 1)" type="button" class="additem removeitem" title="Remove modifier" (click)=removeModifierFields(ix)>
+                            <b class="fa fa-minus-square orangefont" aria-hidden="true"></b>
+                          </button>
+                          <button *ngIf="(ix + 1) === modifierModel['controls'].length" type="button" class="additem" title="Add modifier" (click)=addModifierFields()>
+                            <b class="fa fa-plus-square greenfont" aria-hidden="true"></b>
+                          </button>
+                      </div>
+                  </div>
+                </div>
+              </div>
+          <div class="row">
+            <div class="col-sm-12 mt-2">
+              <mat-checkbox formControlName="isBillable">
+                Billable
+              </mat-checkbox>
+            </div>
+            <div class="col-sm-12 mt-2">
+              <mat-checkbox formControlName="isRequiredAuthorization">
+                Required Authorization
+              </mat-checkbox>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button class="cancel-btn" mat-raised-button (click)="closeDialog()">Close</button>
+    <button mat-raised-button color="primary" form="serviceCodeForm" [disabled]="submitted || f.serviceCode.pending" cdkFocusInitial>
+        {{(submitted || f.serviceCode.pending) ? submitted ? 'Saving...' : f.serviceCode.pending ? 'Validating...' : 'Save' : 'Save'}}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,118 @@
+<div class="modal-header">
+    <h5 class="modal-title">
+        <span *ngIf="Headerid==0">Add Header</span>
+        <span *ngIf="Headerid>0">Edit Header</span>
+
+    </h5>
+    <button type="button" class="btn-close" (click)="close()">X
+    </button>
+</div>
+
+<div class="modal-body">
+    <form [formGroup]="HeadingForm" (ngSubmit)="onHeadingSubmit()">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="row" style="background-color:white;">
+                    <div class="col-12">
+
+                        <div class="form-group">
+                            <label class="form-label"><b>Header <span  class="req-fields">*</span></b></label>
+                            <input type="text" name="Title" required="" formControlName="Title" maxlength="128" class="form-control" [class.is-invalid]="isControlInvalid('Title',HeadingForm)">
+
+                            <!-- <input type="text" name="Title" maxlength="128" 
+                                        formControlName="Title"
+                                        class="form-control"
+                                        > -->
+                            <!-- <span *ngIf="submitted &&  this.HeadingForm.value.Title==''">
+                                        <label class="req-fields mt-1 d-block"> Required field</label>
+                                    </span> -->
+                            <small class="text-danger" *ngIf="controlHasError('required','Title',HeadingForm)">
+                                        Header is required.
+                                    </small>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label"><b> Category <span class="req-fields">*</span></b></label>
+
+                            <p-dropdown class="uiDropdownInput" [style]="{'width':'100%'}" [options]="categories" [(ngModel)]="selectedCategories"
+                             optionLabel="title" [ngModelOptions]="{standalone: true}"  placeholder="Select a Category"></p-dropdown>
+
+                            <span *ngIf="submitted &&  !selectedCategories">
+                                                <label class="req-fields mt-1 d-block"> Required field</label>
+                                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label"><b>Description <span class="req-fields">*</span></b></label>
+                            <textarea rows="6" cols="50" formControlName="Description" required="" class="form-control" [class.is-invalid]="isControlInvalid('Description',HeadingForm)">
+                                Enter text here...</textarea>
+                            <!-- <textarea class="form-control" rows="8" cols="50" name="comment" formControlName="Description" style="border-color:lightgray;width:100%;">
+                                        Enter text here...</textarea>
+                            <span *ngIf="submitted &&  this.HeadingForm.value.Description == ''">
+                                            <label class="req-fields mt-1 d-block"> Required field</label>
+                                        </span> -->
+                            <small class="text-danger" *ngIf="controlHasError('required','Description',HeadingForm)">
+                                            Description is required.
+                                                </small>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label"><b>Upload File:</b></label>
+
+                            <div class="inlineRadios">
+                                <div class="form-check form-check-inline ps-0 pe-2 mb-3">
+                                    <input type="radio" id="Image" value="1" (click)="FileType=1;" [checked]="FileType==1">
+                                    <label class="m-0" for="Image">&nbsp; <b>Upload Image</b></label>
+                                </div>
+                                <div class="form-check form-check-inline ps-0 pe-2 mb-3">
+                                    <input type="radio" id="video" value="2" (click)="FileType=2;" [checked]="FileType==2">
+                                    <label class="m-0" for="video">&nbsp; <b>Upload Video</b></label>
+                                </div>
+                            </div>
+                            <span *ngIf="submitted && ( this.FileType==0)">
+                                    <label class="req-fields mt-1 d-block"> Required field</label>
+                            </span>
+
+                            <span *ngIf="FileType>0" class="d-block">
+
+                                    <input type="file" class="form-control" #inputFile (change)="onSelectFile($event)" *ngIf="FileType==1" accept="image/*" />
+                                    <!--<input type='file' #inputFile (change)="onSelectFile($event)" *ngIf="FileType==2" accept="video/*" />-->
+                                    <input type="text" class="form-control" placeholder="Enter url!!!" [(ngModel)]="videopath" *ngIf="FileType==2" [ngModelOptions]="{standalone: true}" />
+
+                                    
+                                </span>
+
+
+
+                        </div>
+                        <div class="form-group text-center">
+                            <img [src]="url" *ngIf="FileType==1 && url" style="max-width: 100%; margin: 0 auto;">
+                            <!--<iframe width="315" height="315" *ngIf="FileType==2 && videopath" src="videopath" title="YouTube video player" frameborder="0"
+                                        > </iframe>-->
+                            <!--allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" > </iframe>-->
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary" [disabled]="!HeadingForm.value.Title || !HeadingForm.value.Description || !selectedCategories.title" type="submit">
+                                <!--<i class="fa fa-plus"></i> Save-->
+                                <span *ngIf="Headerid==0">Add</span>
+                                <span *ngIf="Headerid>0">Edit</span>
+                            </button>
+                        </div>
+
+                    </div>
+                    <!--<div class="col-6">
+                            <div class="card card-custom gutter-b">
+                                <div class="card-body">
+                                    <span>-->
+                    <!--<img id="frame" src="" style="width:100%;height:100%;" />-->
+                    <!--<img [src]="url" *ngIf="format=='image' && url" style="width: 100%; height: 100%;"> <br />-->
+
+                    <!--<video [src]="videopath" *ngIf="FileType==2 && videopath" style="width:80%;height:80%;" controls></video> <br />-->
+                    <!--</span>
+                                </div>
+                            </div>
+                        </div>-->
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>

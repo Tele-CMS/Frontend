@@ -1,0 +1,9 @@
+.client-encounter{
+    margin-top: 10px !important;
+}
+.patient-encounter-table ::ng-deep tbody .mat-row .mat-cell:nth-child(2) span {
+	border: 2px solid var(--yellow-color);
+    color: var(--yellow-color);
+    padding: 3px 9px;
+    border-radius: 5px;
+}

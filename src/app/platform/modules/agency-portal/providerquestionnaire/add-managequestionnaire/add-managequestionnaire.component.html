@@ -1,0 +1,56 @@
+<div>
+    <!--Payer Box-->
+      <h2 class="page_title">Add Your Questionnaires</h2>
+      <div class="clearfix"></div>
+      <div class="readmin-panel">
+        
+        <div class="clearfix"></div>
+        <!-- <app-data-table [inputColumns]="displayedColumns" [inputSource]="payersData" [inputMeta]="metaData" [inputButtons]='actionButtons'
+          (onChange)="onPageOrSortChange($event)" (onTableActionClick)="onTableActionClick($event)">
+        </app-data-table> -->
+    
+        <!-- (onChange)="onPageOrSortChange($event)" 
+       (-->
+<div class="row">
+    <div class="col-sm-12">
+      <form id="payerForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="payerForm">
+        <div class="row">
+        
+          <!-- <div class="col-sm-4 require">
+            <mat-form-field class="example-full-width">
+              <mat-select autofocus placeholder="HealthCare Category" formControlName="careCategoryId" matInput [ngClass]="{ 'is-invalid': submitted && formControls.careCategoryId.errors }"
+                required>
+                <mat-option *ngFor="let insType of masterInsuranceType" [value]="insType.id">
+                  {{insType.value}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="formControls.careCategoryId.errors">
+                Please select HealthCare Category
+              </mat-error>
+            </mat-form-field>
+          </div> -->
+          <div class="col-sm-4 require">
+            <mat-form-field class="example-full-width">
+              <input matInput autofocus placeholder="Add your Questionnaire" maxlength="200" formControlName="questionnnaireName" [ngClass]="{ 'is-invalid': submitted && formControls.questionnnaireName.errors }"
+                required />
+              <mat-error *ngIf="formControls.questionnnaireName.errors?.required">
+                Please enter your questionnaire
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          
+          <div style="margin-left: 502px;">
+            <button  mat-raised-button color="primary" (click)="goBack()" style=" margin-right: 10px;">
+                Back</button>
+            <button name="Save" mat-raised-button color="primary" (click)="onSubmit($event)" form="payerForm" class="text-uppercase" [disabled]="submitted"
+              cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+  
+            <!-- <button name="SaveContinue" mat-raised-button color="accent" (click)="onSubmit($event)" form="payerForm" class="text-uppercase ml-3"
+              [disabled]="submitted">{{submitted ? 'Saving...' : 'Save & Continue'}}</button> -->
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>

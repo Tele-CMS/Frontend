@@ -1,0 +1,16 @@
+
+<div *ngFor="let control of controls" class="row">
+  <div class="col-sm-12">
+    <div class="question-block ng-untouched ng-pristine ng-valid">
+      <mat-label *ngIf="control.questionText" class="mt-2" [ngClass]="{'invalid-txt': hasErrors}"
+        [attr.for]="control.formControlName">{{control.questionText}}
+        <!-- <span class="numbertxt">{{control.type == 'number' ? '' : ''}} </span> -->
+      </mat-label>
+     <br><br>
+
+       {{control.value}} 
+        
+
+    
+    </div>
+  </div>

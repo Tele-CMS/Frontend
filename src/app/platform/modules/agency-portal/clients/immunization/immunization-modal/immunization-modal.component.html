@@ -1,0 +1,183 @@
+<div class="custom_modal">
+    <h3 mat-dialog-title>{{headerText}}</h3>
+    <div mat-dialog-content>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <form id="immunizationForm" #documentForm="ngForm" class="readmin-form custom_form"
+                    [formGroup]="immunizationForm">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-select autofocus placeholder="Order By" formControlName="orderBy" matInput>
+                                    <mat-option *ngFor="let rel of masterStaff" [value]="rel.id">
+                                        {{rel.value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-select placeholder="VFC Eligibillity" formControlName="vfcid" matInput>
+                                    <mat-option *ngFor="let rel of masterVFC" [value]="rel.id">
+                                        {{rel.value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <input matInput readonly [max]="maxDate" [matDatepicker]="administeredDate" placeholder="Date Administered" [ngClass]="{ 'is-invalid': submitted && formControls.administeredDate.errors }"
+                                required formControlName="administeredDate" />
+                                <mat-datepicker-toggle matSuffix [for]="administeredDate"></mat-datepicker-toggle>
+                                <mat-datepicker #administeredDate></mat-datepicker>
+                                <mat-error *ngIf="formControls.administeredDate.errors?.required">
+                                    Please select administered date
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-select placeholder="Immunization" formControlName="immunization" matInput [ngClass]="{ 'is-invalid': submitted && formControls.immunization.errors }"
+                                required>
+                                    <mat-option *ngFor="let rel of masterImmunization" [value]="rel.id">
+                                        {{rel.value}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formControls.immunization.errors?.required">
+                                    Please select a immunization
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <input matInput appNumbersOnly placeholder="Amount Administered(ml)" maxlength="5"
+                                    formControlName="amountAdministered" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-select placeholder="Manufacturer" formControlName="manufactureID" matInput>
+                                    <mat-option *ngFor="let rel of masterManufacture" [value]="rel.id">
+                                        {{rel.value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <input matInput [matDatepicker]="expireDate" placeholder="Expiration Date" [min]="formControls.administeredDate.value" [max]="maxDate"
+                                    formControlName="expireDate" [ngClass]="{ 'is-invalid': submitted && formControls.expireDate.errors }"
+                                    required readonly />
+                                <mat-datepicker-toggle matSuffix [for]="expireDate"></mat-datepicker-toggle>
+                                <mat-datepicker #expireDate></mat-datepicker>
+                                <mat-error *ngIf="formControls.expireDate.errors?.required">
+                                    Please select expiry date
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Vaccine Lot Number" maxlength="5"
+                                    formControlName="vaccineLotNumber" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-select placeholder="Administration Site" formControlName="administrationSiteID"
+                                    matInput>
+                                    <mat-option *ngFor="let rel of masterAdministrationSite" [value]="rel.id">
+                                        {{rel.value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-select placeholder="Route Of Administration" formControlName="routeOfAdministrationID"
+                                matInput [ngClass]="{ 'is-invalid': submitted && formControls.routeOfAdministrationID.errors }"
+                                    required>
+                                    <mat-option *ngFor="let rel of masterRouteOfAdministration" [value]="rel.id">
+                                        {{rel.value}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formControls.routeOfAdministrationID.errors?.required">
+                                    Please select route of administration
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-select placeholder="Administered By" formControlName="administeredBy" matInput>
+                                    <mat-option *ngFor="let rel of masterStaff" [value]="rel.id">
+                                        {{rel.value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-select placeholder="Immunity Status" formControlName="immunityStatusID" matInput [ngClass]="{ 'is-invalid': submitted && formControls.immunityStatusID.errors }"
+                                required>
+                                    <mat-option *ngFor="let rel of masterImmunityStatus" [value]="rel.id">
+                                        {{rel.value}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formControls.immunityStatusID.errors?.required">
+                                    Please select immunity status
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <mat-checkbox formControlName="rejectedImmunization">
+                                Rejected Immunizaiton
+                            </mat-checkbox>
+                        </div>
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-select [disabled]="!formControls.rejectedImmunization.value" placeholder="Rejection Reason" formControlName="rejectionReasonID" matInput [ngClass]="{ 'is-invalid': submitted && formControls.rejectedImmunization.errors }"
+                                [required]="(formControls.rejectedImmunization.value)">
+                                    <mat-option *ngFor="let rel of masterRejectionReason" [value]="rel.id">
+                                        {{rel.value}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formControls.rejectionReasonID.errors?.required">
+                                    Please select an reason
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <textarea matInput placeholder="Note" maxlength="2000" formControlName="rejectionReasonNote"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+        <div>
+            <button name="Save" mat-raised-button color="accent" (click)="onSubmit($event)" form="immunizationForm"
+                class="text-uppercase" [disabled]="submitted" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+            <button *ngIf="immunizationModel.id==null || immunizationModel.id==0" name="SaveAddMore" mat-raised-button
+                color="primary" (click)="onSubmit($event)" form="immunizationForm" class="text-uppercase ml-3" [disabled]="submitted"
+                cdkFocusInitial>{{submitted ? 'Saving...' : 'Save & Add More'}}</button>
+        </div>
+    </div>
+</div>

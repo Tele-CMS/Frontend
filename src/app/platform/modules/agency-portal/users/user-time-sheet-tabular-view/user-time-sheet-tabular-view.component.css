@@ -1,0 +1,32 @@
+/*User Time Sheet*/
+.week-date{display: flex; justify-content: flex-start; align-items: center; padding: 10px;}
+.week-date .pre-next-btn, .week-date .pre-next-btn button {
+    min-width: 30px !important;
+    height: 30px !important;
+    line-height: 27px !important;
+    width: 30px !important;
+}
+
+.week-date .pre-next-btn i{color: var(--color-black) !important;}
+.week-date p{margin: 0px;}
+.week-date .pre-next-btn button > div div {
+    background: var(--color-white) !important;
+}
+.tbactionbtn {
+    background: transparent none repeat scroll 0 0;
+    border: 0 none;
+    margin-right: 10px;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0.6;
+    color: var(--color-black);
+}
+.tbactionbtn:hover {
+    opacity: 1;
+}
+.nw-chk{
+    display: inline-block;
+    float: left;
+    margin-bottom: 0;
+}
+

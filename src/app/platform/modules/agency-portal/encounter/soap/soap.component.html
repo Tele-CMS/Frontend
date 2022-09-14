@@ -1,0 +1,405 @@
+<div>
+    <h2 class="page_title">Visit Details</h2>
+    <div class="clearfix"></div>
+    <!-- client header component start -->
+    <div class="client_profile" *ngIf="clientHeaderModel && clientHeaderModel.patientBasicHeaderInfo">
+
+        <div class="clientbox">
+            <div class="user_pic activec">
+                <img src="{{clientHeaderModel.patientBasicHeaderInfo.photoThumbnailPath|| '../assets/img/patient-default-user.svg'}}" alt="" />
+                <i class="fa fa-circle" aria-hidden="true"></i>
+            </div>
+
+            <div class="userlinks">
+                <p>
+                    <a (click)="onNavigate('/web/client/profile')" aria-current="false" href="javascript:void(0);">{{clientHeaderModel.patientBasicHeaderInfo.name}}</a>
+                </p>
+            </div>
+            <div class="client_detail">
+                <p>
+                    <b>Gender</b><br/>
+                    <span>{{clientHeaderModel.patientBasicHeaderInfo.gender||''}}</span>
+                </p>
+                <p>
+                    <b>D.O.B:</b><br/>
+                    <span>{{clientHeaderModel.patientBasicHeaderInfo.dob||''}}</span>
+                </p>
+                <p>
+                    <b>SSN:</b><br/>
+                    <span>{{clientHeaderModel.patientBasicHeaderInfo.ssn||''}}</span>
+                </p>
+                <p>
+                    <b>MRN:</b><br/>
+                    <span>{{clientHeaderModel.patientBasicHeaderInfo.mrn||''}}</span>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <!-- client header component end -->
+    <div class="readmin-panel soap-note-blk">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between">
+                    <div class="panel_title m-0">
+                        <h3>Appointment</h3>
+                        <i class="flaticon flaticon-medical-4"></i>
+                    </div>
+                    <div *ngIf="!isApptCompleted">
+                        <button name="back" mat-raised-button color="primary" class="text-uppercase" (click)="onBackClick()">Back</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+
+                <div class="row">
+                    <div class="col-sm-4 pl-4">
+                        <p class="d-flex">
+                            <b>Appointment: </b>
+                            <span class="ml-2" *ngIf="patientAppointmentDetails"> {{patientAppointmentDetails.mode +' ('+ patientAppointmentDetails.type+')'}}</span>
+                        </p>
+                    </div>
+                    <div class="col-sm-4">
+                        <p class="d-flex">
+                            <b>Appointment Date: </b>
+                            <span class="ml-2"> {{patientAppointmentDetails &&
+                      patientAppointmentDetails.startDateTime|date:"MM/dd/yyyy"}}</span>
+                        </p>
+                    </div>
+                    <!-- <div class="col-sm-3">
+                        <p>
+                            <b>Appointment Time:</b><br/>
+                            <span>{{appointmentStartTime + ' - ' + appointmentEndTime}}</span>
+                        </p>
+                    </div> -->
+                    <div class="col-sm-4">
+                        <p class="d-flex">
+                            <b>Seen By: </b>
+                            <span class="ml-2"> {{ staffDetails && staffDetails.staffName }}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom:35px;">
+
+                    <!-- <div [ngClass]="{'col-md-12':encounterId > 0, 'col-md-4':encounterId == 0}"> -->
+                    <!-- <div [ngClass]="{'col-md-12':encounterId > 0 , 'col-md-4':encounterId == 0 && istelehealthappt,'col-md-11':encounterId == 0 && !istelehealthappt}"> this has been hidden by Shubham DHall i.e on 17/11/2021 -->
+                    <div class="col-md-12">
+                        <form id="soapForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="soapForm">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="panel_title">
+                                        <h3 style="margin-left: 0 !important;">Soap Notes</h3>
+                                        <i class="flaticon flaticon-bathroom"></i>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-sm-6" *ngIf="masterTemplates && masterTemplates.length && encounterId==0">
+                                    <div class="form-group">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-select placeholder="Select Template" [(value)]="templateFormId" (selectionChange)="getTemplateForm($event.value)">
+                                                <!-- (selectionChange)="getTemplateForm($event.value)" -->
+                                                <!-- (selectionChange)="onMastertemplateSelect($event)" -->
+                                                <mat-option *ngFor="let temp of masterTemplates" [value]="temp.id">
+                                                    {{temp.templateName}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <!-- <div #dragsidebar mwlDraggable (dragEnd)="onDragChat($event)" mwlResizable class="readmin-panel col-sm-6" [resizeEdges]="{ bottom: true, right: true, top: true, left: true }"
+                (resizing)="onResizing($event)" *ngIf="showFormioDiv" [validateResize]="onValidateResize" [ngStyle]="style"
+                (resizeEnd)="onResizeEnd($event)">
+                <div class="resize-handle-top" mwlResizeHandle [resizeEdges]="{ top: true }"></div>
+                <div class="resize-handle-left" mwlResizeHandle [resizeEdges]="{ left: true }"></div>
+                <div class="resize-handle-right" mwlResizeHandle [resizeEdges]="{ right: true }"></div>
+                <div class="resize-handle-bottom" mwlResizeHandle [resizeEdges]="{ bottom: true }"></div>
+                -->
+                                <div class="col-sm-12" *ngIf="templateFormName">
+                                    <ng-scrollbar class="formio-form-div soap-note-form">
+                                        <formio [form]='jsonFormData' [submission]="initialFormValues" [options]="formioOptions" (submit)="onSubmitTemplate($event)" [viewOnly]="true" [hideComponents]="['button']"></formio>
+                                    </ng-scrollbar>
+                                </div>
+
+
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col-md-8 " id="divVideoTool">
+                        <app-video-chat *ngIf="encounterId==0 && patientAppointmentDetails && patientAppointmentDetails.isTelehealthAppointment" [patientAppointmentDetails]="patientAppointmentDetails" [patientAppointmentId]="appointmentId"></app-video-chat>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="mt-4" *ngIf="encounterId == 0">
+                    <button name="add_patientencounternotes" mat-raised-button color="primary" (click)="openPatientEncounterNotesDialog()" class="text-uppercase">Take Notes</button>
+                </div>
+                <br>
+                <br>
+
+                <div class="clearfix"></div>
+                <div class="row">
+                    <div class="col-md-12 d-flex justify-content-between align-items-center">
+                        <div class="panel_title m-0">
+                            <h3 class="m-0">Diagnosis</h3>
+                            <i class="flaticon flaticon-gym"></i>
+                        </div>
+                        <div *ngIf="encounterId == 0">
+                            <button name="add_diagnosis" mat-raised-button color="primary" (click)="openDiagnosisDialog()" class="text-uppercase mb-2">Add
+                    Diagnosis</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-hover customtable group-table" matSort matSortDisableClear>
+                                <thead>
+                                    <tr>
+                                        <th width="35%" mat-sort-header="description" disableClear>
+                                            <span>DIAGNOSIS </span>
+                                        </th>
+                                        <th width="35%" mat-sort-header="diagnosisDate" disableClear>
+                                            <span>DIAGNOSIS DATE</span>
+                                        </th>
+                                        <th width="30%">
+                                            <span>ACTION</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngIf="!patientEncounterDiagnosisCodes.length">
+                                        <td colspan="3" class="text-center">
+                                            No record found.
+                                        </td>
+                                    </tr>
+                                    <tr *ngFor="let code of patientEncounterDiagnosisCodes; let x = index">
+                                        <td>
+                                            <span>{{code.description}}</span>
+                                        </td>
+                                        <td>
+                                            <span>{{code.diagnosisDate | date:"MM/dd/yyyy"}}</span>
+                                        </td>
+                                        <td>
+                                            <button type="button" title="Edit" class="tbactionbtn" (click)="openDiagnosisDialog(code.id)">
+                              <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </button>
+                                            <button type="button" title="Delete" class="tbactionbtn" (click)="deleteDiagnosisCode(code.id)">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                      </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <mat-paginator (page)="onSortOrPageChanges($event)" [length]="metaData['totalRecords']" [pageIndex]="metaData['currentPage'] - 1" [pageSize]="metaData['pageSize']" [pageSizeOptions]="metaData['pageSizeOptions']" showFirstLastButtons></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+
+
+                <br>
+                <br>
+                <div class="clearfix"></div>
+
+                <h4 class="m-0" *ngIf="documentList!=null && documentList.length>0">Patient Documents</h4>
+                <div *ngIf="documentList!=null && documentList.length>0" class="row">
+                    <div class="col-lg-4 col-sm-6 mt-20 custom-card custom-card-header" *ngFor="let doc of documentList">
+                        <mat-card>
+                            <mat-card-header>
+                                <mat-card-title>
+                                    {{doc.documentTitle}}
+                                </mat-card-title>
+                                <mat-card-actions>
+                                    <button mat-button (click)="getUserDocument(doc)">
+                <i class="fa fa-download"></i>
+              </button>
+                                    <button mat-button (click)="deleteUserDocument(doc.id)">
+                <i class="fa fa-close"></i>
+              </button>
+                                </mat-card-actions>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <div class="text-left">
+                                    <p>Document Type:
+                                        <span> {{doc.documentTypeNameStaff}}</span>
+                                    </p>
+                                    <p>Uploaded Date:
+                                        <span> {{doc.createdDate |date:'MM/dd/yyyy'}}</span>
+                                    </p>
+                                    <p>Expiration Date:
+                                        <span> {{doc.expiration |date:'MM/dd/yyyy'}}</span>
+                                    </p>
+                                </div>
+                                <div class="text-right">
+                                    <img *ngIf="doc.extenstion=='.pdf'" src="../../../../../../assets/img/pdf.png" />
+                                    <img *ngIf="doc.extenstion=='.doc' || doc.extenstion=='.docx'" src="../../../../../../assets/img/doc.png" />
+                                    <img *ngIf="doc.extenstion=='.ppt' || doc.extenstion=='.pptx'" src="../../../../../../assets/img/ppt.png" />
+                                    <img *ngIf="doc.extenstion=='.xls' || doc.extenstion=='.xlsx'" src="../../../../../../assets/img/excel.png" />
+                                    <img *ngIf="doc.extenstion=='.jpg' || doc.extenstion=='.jpeg'" src="../../../../../../assets/img/jpg.png" />
+                                    <img *ngIf="doc.extenstion=='.png'" src="../../../../../../assets/img/jpg.png" />
+                                    <img *ngIf="doc.extenstion=='.txt'" src="../../../../../../assets/img/txt.png" />
+                                </div>
+                            </mat-card-content>
+
+                        </mat-card>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="clearfix"></div>
+                <div class="clearfix"></div>
+                <div class="row mt-3">
+                    <div class="col-md-12 d-flex justify-content-between align-items-center">
+                        <div class="panel_title m-0">
+                            <h3 class="m-0">Service Codes</h3>
+                            <i class="flaticon flaticon-interface-2"></i>
+                        </div>
+                        <div *ngIf="!isApptCompleted">
+                            <button mat-raised-button color="primary" class="add-primary-btn mb-2" (click)="openServiceDialog()">
+                    <span>Add Service Code</span>
+                  </button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive ">
+                            <table class="table table-hover customtable group-table">
+                                <thead>
+                                    <tr>
+                                        <th width="35%">
+                                            <span>SERVICE CODE</span>
+                                        </th>
+                                        <th width="35%">
+                                            <span>DESCRIPTION</span>
+                                        </th>
+                                        <th width="30%">
+                                            <span>ACTION</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngIf="!patientEncounterServiceCodes.length">
+                                        <td colspan="3" class="text-center">
+                                            No record found.
+                                        </td>
+                                    </tr>
+                                    <tr *ngFor="let code of patientEncounterServiceCodes; let x = index">
+                                        <td>
+                                            <span>{{code.serviceCode}}</span>
+                                        </td>
+                                        <td>
+                                            <span>{{code.description}}</span>
+                                        </td>
+                                        <td>
+                                            <button type="button" title="Delete" class="tbactionbtn" (click)="deleteCPTCode(x)">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                      </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <!-- <div class="row mt-3" *ngIf="employeeSign.bytes || patientSign.bytes || guardianSign.bytes"> -->
+                <div class="row" *ngIf="encounterId > 0 && !isApptCompleted">
+                    <div class="col-md-12 mb-3 d-flex justify-content-between align-items-center">
+                        <div class="panel_title m-0">
+                            <h3 class="m-0">Signature</h3>
+                            <i class="flaticon flaticon-medical-1"></i>
+                        </div>
+                        <div>
+                            <!-- <button class="cancel-btn float-left" mat-raised-button (click)="onBackClick()">Cancel</button> -->
+
+                            <button *ngIf="encounterId > 0 && !isApptCompleted" [disabled]="submittedSign || submitted" mat-raised-button color="primary" class="text-uppercase" (click)="openSignDialog()">
+                    {{ submittedSign ? 'Saving sign' : 'Add Sign'}}
+                  </button>
+                            <button mat-raised-button color="accent" class="text-uppercase ml-3" (click)="PrintSOAP()" *ngIf="isSoap && !isApptCompleted">Print</button>
+                            <!-- <button *ngIf="encounterId > 0" mat-raised-button color="primary" (click)="onSubmit()"
+                    [disabled]="submitted || (encounterId > 0 && !isAllSigned)" class="text-uppercase ml-3">
+                    {{submitted ? 'Completing...' : 'Complete'}}</button> -->
+                            <button *ngIf="encounterId > 0 && !isApptCompleted" mat-raised-button color="primary" (click)="onSubmit()" [disabled]="submitted || (encounterId > 0 && !isAllSigned)" class="text-uppercase ml-3">
+                      {{submitted ? 'Completing...' : 'Complete'}}</button>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-12 col-md-4" *ngIf="employeeSign.bytes">
+                        <div id="showCanvasImageEmployee">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="sign">
+                                        <img class="img-fluid" src="data:image/png;base64,{{employeeSign.bytes}}" alt="">
+                                        <h3>{{employeeSign.name}}
+                                            <span>(Physician)</span>
+                                        </h3>
+                                        <p>
+                                            <span>Date :</span>{{employeeSign.date}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4" *ngIf="patientSign.bytes">
+                        <div id="showCanvasImageEmployee">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="sign">
+                                        <img class="img-fluid" src="data:image/png;base64,{{patientSign.bytes}}" alt="">
+                                        <h3>{{patientSign.name}}
+                                            <span>(Patient)</span>
+                                        </h3>
+                                        <p>
+                                            <span>Date :</span>{{patientSign.date}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4" *ngIf="guardianSign.bytes">
+                        <div id="showCanvasImageEmployee">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="sign">
+                                        <img class="img-fluid" src="data:image/png;base64,{{guardianSign.bytes}}" alt="">
+                                        <h3>{{guardianSign.name}}
+                                            <span>(Guardian)</span>
+                                        </h3>
+                                        <p>
+                                            <span>Date :</span>{{guardianSign.date}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--main row-->
+
+            </div>
+        </div>
+
+
+        <!-- <div #videoDiv mwlDraggable style="bottom: 603px; right: -482px;" (dragEnd)="onDragVideo($event)" mwlResizable class="video-tool readmin-panel col-sm-6"
+      [resizeEdges]="{ bottom: true, right: true, top: true, left: true }" (resizing)="onResizingVideo($event)" [validateResize]="onValidateResize"
+      [ngStyle]="styleVideo" (resizeEnd)="onResizeVideoEnd($event)">
+
+      <div class="resize-handle-top" mwlResizeHandle [resizeEdges]="{ top: true }"></div>
+      <div class="resize-handle-left" mwlResizeHandle [resizeEdges]="{ left: true }"></div>
+      <div class="resize-handle-right" mwlResizeHandle [resizeEdges]="{ right: true }"></div>
+      <div class="resize-handle-bottom" mwlResizeHandle [resizeEdges]="{ bottom: true }"></div>
+      <app-video-chat *ngIf="patientAppointmentDetails && patientAppointmentDetails.isTelehealthAppointment" [patientAppointmentDetails]="patientAppointmentDetails"
+        [patientAppointmentId]="appointmentId"></app-video-chat>
+
+
+    </div> -->
+        <!-- <app-mean-video *ngIf="patientAppointmentDetails && patientAppointmentDetails.isTelehealthAppointment" [app-id]='appointmentId'
+        [display-name]='userDisplayName'></app-mean-video> -->
+    </div>
+</div>

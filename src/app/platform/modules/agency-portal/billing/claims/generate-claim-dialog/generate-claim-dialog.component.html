@@ -1,0 +1,91 @@
+<div class="custom_modal">
+    <h3 *ngIf="!multipleClaimIds" mat-dialog-title>Generate Claim CL{{claimId}}</h3>
+    <h3 *ngIf="multipleClaimIds" mat-dialog-title>GENERATE BATCH FORM 1500</h3>
+    <div mat-dialog-content>
+  
+      <div class="row">
+        <div class="col-sm-12">
+          <form (ngSubmit)="onSubmit()" id="generateClaimForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="generateClaimForm">
+            
+            <div class="row" *ngIf="!multipleClaimIds">
+              <div class="col-sm-6">
+                <mat-form-field class="example-full-width">
+                  <mat-select placeholder="Payer Name" formControlName="patientInsuranceId" matInput (selectionChange)="onChangePatientInsurance($event.value)"
+                    [ngClass]="{ 'is-invalid': submitted && formControls.patientInsuranceId.errors }" required>
+                    <mat-option *ngFor="let option of patientPayers" [value]="option.id">
+                      {{option.value}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="formControls.patientInsuranceId.errors">
+                    Please select payer name
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-6">
+                  <mat-form-field class="example-full-width">
+                    <mat-select placeholder="Claim Form" formControlName="claimForm" matInput (selectionChange)="onChangeClaimForm($event.value)"
+                      [ngClass]="{ 'is-invalid': submitted && formControls.claimForm.errors }" required>
+                      <mat-option *ngFor="let option of ClaimForms" [value]="option.id">
+                        {{option.value}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formControls.claimForm.errors">
+                      Please select form name
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 mt-3" *ngIf="!isResubmitClaim && (payerPreference || '').toUpperCase() == 'PRIMARY' ">
+                    <mat-checkbox formControlName="markSubmitted" [disabled]="isEDIClaim">
+                        Mark Submitted
+                      </mat-checkbox>
+                  </div>
+                  <div class="col-sm-6" *ngIf="(formControls.claimForm.value && !isEDIClaim) || multipleClaimIds">
+                      <mat-form-field class="example-full-width">
+                        <mat-select placeholder="Print Format" formControlName="printFormat" matInput
+                          [ngClass]="{ 'is-invalid': submitted && formControls.printFormat.errors }" [required]="!isEDIClaim">
+                          <mat-option *ngFor="let option of printFormats" [value]="option.id">
+                            {{option.value}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formControls.printFormat.errors">
+                          Please select print format
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+
+                    <!-- in case of Resubmit claim -->
+                    <div class="col-sm-6" *ngIf="isResubmitClaim && isEDIClaim">
+                        <mat-form-field class="example-full-width">
+                          <mat-select placeholder="Resubmission Reason" formControlName="resubmissionReason" matInput
+                            [ngClass]="{ 'is-invalid': submitted && formControls.resubmissionReason.errors }" [required]="isResubmitClaim && isEDIClaim">
+                            <mat-option *ngFor="let option of claimResubmissionReason" [value]="option.id">
+                              {{option.description}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="formControls.resubmissionReason.errors">
+                            Please select resubmission reason
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-sm-6" *ngIf="isResubmitClaim && isEDIClaim">
+                          <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Control Reference Number" formControlName="payerControlReferenceNumber" />
+                            <!-- <mat-error *ngIf="formControls.PayerControlReferenceNumber.errors">
+                              Please enter control reference number
+                            </mat-error> -->
+                          </mat-form-field>
+                        </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div mat-dialog-actions>
+      <button class="cancel-btn" mat-raised-button (click)="onClose()">Close</button>
+      <button mat-raised-button color="primary" form="generateClaimForm" [disabled]="submitted" cdkFocusInitial>
+        {{submitted ? 'Submitting...' : 'Submit'}}
+      </button>
+    </div>
+  </div>

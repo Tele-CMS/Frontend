@@ -1,0 +1,25 @@
+
+::ng-deep .cdk-overlay-pane {
+    height: 90%;
+}
+::ng-deep .mat-dialog-container,
+::ng-deep .custom_modal,
+::ng-deep .mat-dialog-content div {
+    height: 100%;
+}
+::ng-deep .mat-dialog-content {
+    height: calc(100% - 87px);
+    max-height: initial;
+}
+::ng-deep .mat-dialog-content div iframe {
+    height: auto;
+    min-height: 100%;
+}
+::ng-deep .mat-radio-outer-circle, ::ng-deep .mat-radio-container, ::ng-deep .mat-radio-inner-circle
+{
+    height:20px !important;
+}
+::ng-deep .mat-radio-ripple
+{
+    height:50px !important;
+}

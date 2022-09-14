@@ -1,0 +1,44 @@
+<div>
+
+  <h2 class="page_title">Manage Your Questions</h2>
+  <div class="clearfix"></div>
+
+  <div class="readmin-panel">
+    <div class="no-gutters">
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width">
+          <mat-label>Select Questionnaire Type</mat-label>
+          <mat-select placeholder="Select Questionnaire Type" [formControl]="selectedType" matInput>
+            <mat-option *ngFor="let t of questionnaireTypes" [value]="t">
+              {{t.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+    </div>
+
+    <div>
+
+    </div>
+
+
+    <div class="clearfix"></div>
+
+    <div *ngIf="this.selectedType.value">
+      <button type="button" mat-raised-button color="primary" class="float-right" (click)="createAddEditQuestionModel(null)">Add Question</button>
+    </div>
+
+    <div class="clearfix"></div>
+    <app-data-table [inputColumns]="displayedColumns" [inputSource]="providerQuestionnaires" [inputMeta]="metaData"
+      [inputButtons]='actionButtons' (onChange)="onPageOrSortChange($event)"
+      (onTableActionClick)="onTableActionClick($event)">
+    </app-data-table>
+
+    <div>
+
+    </div>
+
+  </div>
+
+  

@@ -1,0 +1,56 @@
+<app-client-header [clientId]="clientId" [headerText]="header"></app-client-header>
+<div class="clearfix"></div>
+<div class="readmin-panel">
+      <form class="readmin-form custom_form" id="encounterFormGroup" #documentForm="ngForm" [formGroup]="encounterFormGroup">   
+        <div class="row">
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Appointment Type" formControlName="appointmentTypeId" matInput>
+                <mat-option *ngFor="let tag of appointmentType" [value]="tag.value">
+                  {{tag.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Staff Name" formControlName="staffName">
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Status" formControlName="status" matInput>
+                <mat-option *ngFor="let status of statusList" [value]="status.value">
+                  {{status.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      <div class="row">
+          <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="fromDate" (focus)="fromDate.open()" placeholder="From Date" formControlName="fromDate" readonly>
+                <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+                <mat-datepicker #fromDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="toDate" (focus)="toDate.open()" placeholder="To Date" formControlName="toDate" readonly>
+                <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+                <mat-datepicker #toDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+        <div class="col-sm-4">
+          <div class="filter-btn">
+            <button type="button" class="clear-btn" mat-raised-button (click)='clearFilters()'>Clear All</button>
+            <button name="Filter" mat-raised-button color="primary" class="text-uppercase" (click)='applyFilter()'>Filter</button>
+          </div>
+        </div>
+      </div>
+      </form>
+  <div class="clearfix"></div>
+  <app-data-table [inputColumns]="displayedColumns" [inputSource]="encounterListModel" [inputMeta]="metaData"
+    (onChange)="onPageOrSortChange($event)" (onTableActionClick)="onTableActionClick($event)" [inputButtons]='actionButtons'></app-data-table>
+    </div>

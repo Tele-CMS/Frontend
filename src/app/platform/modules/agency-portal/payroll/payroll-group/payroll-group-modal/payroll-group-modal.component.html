@@ -1,0 +1,137 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Payroll Group</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="payrollGroupForm" #documentForm="ngForm" class="readmin-form custom_form"
+          [formGroup]="payrollGroupForm">
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Group Name" maxlength="50" formControlName="groupName" [ngClass]="{ 'is-invalid': submitted && formControls.groupName.errors }"
+                  required />
+                <mat-error *ngIf="formControls.groupName.errors">
+                  Please enter group Name
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Pay Period" formControlName="payPeriodId" matInput [ngClass]="{ 'is-invalid': submitted && formControls.payPeriodId.errors }"
+                  [disabled]="(formControls.isCaliforniaRule.value)?true:false" required>
+                  <mat-option *ngFor="let option of masterPayPeriod" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.payPeriodId.errors">
+                  Please select pay period
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Work Week" formControlName="workWeekId" matInput [ngClass]="{ 'is-invalid': submitted && formControls.workWeekId.errors }"
+                  [disabled]="(formControls.isCaliforniaRule.value)?true:false" required>
+                  <mat-option *ngFor="let option of masterWorkWeek" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.workWeekId.errors">
+                  Please select work week
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Payroll Breaktime" formControlName="payrollBreakTimeId" matInput [ngClass]="{ 'is-invalid': submitted && formControls.payrollBreakTimeId.errors }"
+                  required>
+                  <mat-option *ngFor="let option of masterPayrollBreakTime" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.payrollBreakTimeId.errors">
+                  Please select breaktime
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 overtime_prd">
+              <h5>Overtime Calculation Period</h5>
+              <div class="row">
+                <div class="col-xl-9">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <mat-radio-group formControlName="isCaliforniaRule" [disabled]="payrollGroupModel.id? true : false">
+                        <div class="row">
+                          <div class="col-sm-6" *ngFor="let option of masterOptions">
+                            <mat-radio-button [value]="option.id" (change)="changeCalforniaRule($event)">{{option.value}}</mat-radio-button>
+                          </div>
+                        </div>
+                      </mat-radio-group>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6 cal-period">
+                      <label>Daily Limit(Hrs)</label>
+                    </div>
+
+                    <div class="col-sm-6 overtimefield">
+                      <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Daily Limit(Hrs)" maxlength="50" hintText="hrs" formControlName="dailyLimit"
+                          [readonly]="(formControls.isCaliforniaRule.value)?true:false" [ngClass]="{ 'is-invalid': submitted && formControls.dailyLimit.errors }"
+                          required />
+                        <mat-error *ngIf="formControls.dailyLimit.errors">
+                          Please enter daily limit
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6 cal-period">
+                      Weekly Limit(Hrs)
+                    </div>
+                    <div class="col-sm-6 overtimefield">
+                      <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Weekly Limit(Hrs)" maxlength="50" hintText="hrs" formControlName="weeklyLimit"
+                          [readonly]="(formControls.isCaliforniaRule.value)?true:false" [ngClass]="{ 'is-invalid': submitted && formControls.weeklyLimit.errors }"
+                          required />
+                        <mat-error *ngIf="formControls.weeklyLimit.errors">
+                          Please enter weekly limit
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6 cal-period">
+                      OverTime(Hrs)
+                    </div>
+                    <div class="col-sm-6 require overtimefield">
+                      <mat-form-field class="example-full-width">
+                        <input matInput placeholder="OverTime(Hrs)" maxlength="50" hintText="hrs" formControlName="overTime"
+                          [readonly]="(formControls.isCaliforniaRule.value?true:false)" [ngClass]="{ 'is-invalid': submitted && formControls.overTime.errors }"
+                          required />
+                        <mat-error *ngIf="formControls.overTime.errors">
+                          Please enter over time
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+    <button mat-raised-button color="primary" form="payrollGroupForm" [disabled]="submitted" cdkFocusInitial>
+      Save
+    </button>
+  </div>
+</div>

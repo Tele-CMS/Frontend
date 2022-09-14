@@ -1,0 +1,110 @@
+<div>
+    <h2 class="page_title">Agency Detail</h2>
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="readmin-panel crop">
+                <div class="panel-body pd-15 agency-detail mb-3">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="mb-3">
+                                <label><i class="fa fa-building-o" aria-hidden="true"></i>Organization Name</label>
+                                <span> {{organizationModel.organizationName}}</span>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="mb-3">
+                                <label><i class="fa fa-address-card-o" aria-hidden="true"></i><!-- react-text: 3018 -->Buisness
+                                Name
+                              </label>
+                                <span>{{organizationModel.businessName}}</span>
+                            </p>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label><i class="fa fa-circle-o" aria-hidden="true"></i> Logo
+                              </label>
+                                <p><img class="img-fluid" src="{{organizationModel.logo}}" alt=""></p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="row mt-20">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label><i class="fa fa-adjust" aria-hidden="true"></i> Favicon </label>
+                                <p><img class="img-fluid" src="{{organizationModel.favicon}}" alt=""></p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="mb-3">
+                                <label><i class="fa fa-phone" aria-hidden="true"></i> Phone</label>
+                                <span>{{organizationModel.phone}}</span>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="mb-3">
+                                <label><i class="fa fa-envelope-o" aria-hidden="true"></i> Email</label>
+                                <span>{{organizationModel.email}}</span>
+                            </p>
+                        </div>
+                        
+                    </div>
+                    <div class="row mt-20">
+                        <div class="col-md-4">
+                            <p class="mb-3">
+                                <label><i class="fa fa-fax" aria-hidden="true"></i><!-- react-text: 3051 --> Fax
+                              </label><span>{{organizationModel.fax}}</span>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="mb-3">
+                                <label><i class="fa fa-address-card-o" aria-hidden="true"></i><!-- react-text: 3057 --> Address
+                            </label><span>{{organizationModel.address}}</span>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="mb-3">
+                                <label><i class="fa fa-user-o" aria-hidden="true"></i><!-- react-text: 3064 --> Contact Person Name
+                              </label><span>{{organizationModel.contactPersonName}}</span>
+                            </p>
+                        </div>
+                        
+                    </div>
+                    <div class="row mt-20">
+                        <div class="col-md-4">
+                            <p class="mb-3">
+                                <label><i class="fa fa-phone" aria-hidden="true"></i><!-- react-text: 3070 --> Contact Person Phone
+                              No.
+                              </label><span>{{organizationModel.contactPersonPhoneNumber}}</span>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="mb-3">
+                                <label><i class="fa fa-calendar-check-o" aria-hidden="true"></i><!-- react-text: 3076 --> Payroll
+                              Start Week Day
+                              </label><span>{{organizationModel.payrollStartWeekDay}}</span>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="mb-3">
+                                <label><i class="fa fa-calendar-times-o" aria-hidden="true"></i><!-- react-text: 3082 --> Payroll End
+                              Week Day
+                              </label><span>{{organizationModel.payrollEndWeekDay}}</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row mt-20">
+                        <div class="col-sm-12">
+                            <p class="mb-3">
+                                <label><i class="fa fa-file-text-o" aria-hidden="true"></i><!-- react-text: 3089 --> Description
+                              </label><span>{{organizationModel.description}}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

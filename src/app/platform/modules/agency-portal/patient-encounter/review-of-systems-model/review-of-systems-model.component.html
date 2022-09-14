@@ -1,0 +1,102 @@
+<div class="custom_modal">
+    <h3 mat-dialog-title>Review of Systems</h3>
+    <div mat-dialog-content>
+        <form [formGroup]="reviewSystemForm">
+
+            <table class="table table-lined table-sm mb-0 table-striped" formArrayName="systems">
+                <thead>
+                    <tr>
+                        <th>System</th>
+                        <th style="width: 40%">History of</th>
+                        <th>Comments</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+                    <tr *ngFor="let systemItem of reviewSystemForm.get('systems')['controls']; let i = index">
+                        <!-- <td>General</td> -->
+                        <td [formGroupName]="i">{{ systemItem.value.system_name }}</td>
+
+                        <td>
+                            <!-- <div class="100%">
+                            <p-multiSelect [options]="sampleMultiselectData" [maxSelectedLabels]="4" [selectedItemsLabel]="'{0} items selected'" defaultLabel="None selected" optionLabel="name" class="w-100 primeng-form-control input-sm text-center"></p-multiSelect>
+                        </div> -->
+                            <!-- history_name -->
+                            <div class="mx-select-250">
+                                <mat-form-field class="example-full-width">
+                                    <mat-select placeholder="History Of" [(ngModel)]="systemItem.value.selectedhistoptions" [ngModelOptions]="{ standalone: true }" (selectionChange)="onHistoryChange($event, systemItem)" [compareWith]="compareWithObjects" multiple>
+                                        <mat-option *ngFor="let rel of systemItem.value.history" [value]="rel">
+                                            {{rel.history_name}}
+                                        </mat-option>
+
+                                        <!-- <mat-option *ngFor="let bc of systemItem.value.selectedhistoptions" [value]="bc">
+                                        {{bc.history_name}}
+                                    </mat-option> -->
+                                    </mat-select>
+                                    <!-- <mat-error *ngIf="formControls.immunization.errors?.required">
+                                      Please select a immunization
+                                  </mat-error> -->
+                                </mat-form-field>
+                                <!-- <p-multiSelect [options]="systemItem.value.history" [maxSelectedLabels]="4"
+                                    [selectedItemsLabel]="'{0} items selected'" [disabled]="readonly"
+                                    [(ngModel)]="systemItem.value.selectedhistoptions"
+                                    [ngModelOptions]="{ standalone: true }" [defaultLabel]="selectedLabel"
+                                    (onChange)="onHistoryChange($event, systemItem)" optionLabel="history_name"
+                                    class="w-100 primeng-form-control input-sm text-center"
+                                    panelStyleClass="panel-autocomplete">
+                                    <p-header class="mychkall">
+                                        <span>Select All</span>
+                                    </p-header>
+                                </p-multiSelect> -->
+                            </div>
+
+                        </td>
+                        <!-- <div class="loader-modal" *ngIf="loading"> -->
+                        <!-- <p-progressSpinner [style]="{ width: '50px', height: '50px' }" styleClass="custom-spinner"
+                                strokeWidth="4" fill="#EEEEEE" animationDuration=".5s">
+                            </p-progressSpinner> -->
+                        <!-- </div> -->
+                        <!-- <td><input type="text" pInputText class="form-control input-sm" /></td> -->
+                        <td>
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Comment" [(ngModel)]="systemItem.value.comments" [disabled]="readonly" [ngModelOptions]="{ standalone: true }" (focusout)="saveComments($event, systemItem)" class="form-control input-sm" />
+                            </mat-form-field>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <!-- <div class="card-header">
+
+
+      <button *ngIf="!readonly" class="btn btn-primary btn-sm float-right ml-2" (click)="getIdealChoices()">Ideal
+          Choices</button>
+      <span class="h6">Review of Systems</span>
+  </div>  -->
+    <!-- <div class="card-body" *ngIf="!loader"> -->
+
+    <!-- <div class="card-body"> -->
+
+    <!-- <div class="text-right mt-2">
+          <button (click)="submit()" *ngIf="!readonly" class="btn btn-primary btn-sm">
+              <span *ngIf="!loader">Save Review of Systems</span>
+              <div class="text-light d-flex justify-content-center align-items-center" *ngIf="loader">
+                  <div class="spinner-border text-light spinner-border-sm" role="status" aria-hidden="true"></div>
+                  <span class="text-white ml-2 pt-1 disabled">Saving...</span>
+              </div>
+          </button>
+      </div> -->
+    <!-- </div> -->
+</div>
+<div mat-dialog-actions>
+    <button class="cancel-btn" mat-raised-button (click)="closeDialog('close')">Close</button>
+    <div>
+        <!-- <button *ngIf="!readonly" mat-raised-button color="primary" (click)="getIdealChoices()">Ideal
+            Choices</button> -->
+        <button mat-raised-button color="primary" (click)="submit()" form="familyHistoryForm" [disabled]="submitted" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+    </div>
+
+</div>

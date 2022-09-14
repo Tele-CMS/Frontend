@@ -1,0 +1,321 @@
+<div>
+  <h2 class="page_title">Visit Details</h2>
+  <div class="clearfix"></div>
+
+  <!-- client header component start -->
+  <div class="client_profile" *ngIf="patientAppointmentDetails && patientAppointmentDetails.patientID">
+    <div class="quick rr">
+      <ul>
+        <li class="red">
+          <a href="#" title="Tags">
+            <i class="fa fa-tag"></i>
+          </a>
+          <div class="quicksubmenu tagbox plr-10">
+            <ul class="tags">
+              <li *ngFor="let tag of clientHeaderModel.patientTagsHeaderInfo">
+                <span class="tagafter" [ngStyle]="{backgroundColor: tag.colorCode}"></span>
+                <span class="tag" [ngStyle]="{backgroundColor: tag.colorCode}">{{tag.tag}}</span>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="blue">
+          <a href="#" title="Contact">
+            <i class="fa fa-phone"></i>
+          </a>
+          <ul class="quicksubmenu">
+            <li>
+              <i class="fa fa-phone" aria-hidden="true"></i>{{clientHeaderModel.patientBasicHeaderInfo.phone||''}}</li>
+            <li class="msg">
+              <i class="fa fa-envelope" aria-hidden="true"></i>{{clientHeaderModel.patientBasicHeaderInfo.email||''}}</li>
+            <li>
+              <i class="fa fa-map-marker" aria-hidden="true"></i>{{clientHeaderModel.patientBasicHeaderInfo.address||''}}</li>
+          </ul>
+        </li>
+        <li class="green">
+          <a href="#" title="Bio-Psych Social Intake">
+            <i class="fa fa-user-md"></i>
+          </a>
+          <div class="quicksubmenu">
+            <p>
+              <b>{{clientHeaderModel.patientBasicHeaderInfo.primaryProvider||''}}</b>
+              <span>-</span>
+            </p>
+            <p *ngFor="let allergy of clientHeaderModel.patientAllergyHeaderInfo">{{allergy.allergen||''}}</p>
+            <p *ngIf="clientHeaderModel.patientAllergyHeaderInfo.length==0">No allergies found</p>
+          </div>
+        </li>
+        <li class="orange">
+          <a (click)="onNavigate('/web/client/scheduling')" title="scheduling" href="javascript:void(0);">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="clientbox">
+      <img src="" alt="" />
+      <div class="user_pic activec">
+        <img src="{{clientHeaderModel.patientBasicHeaderInfo.photoThumbnailPath}}" alt="" />
+        <i class="fa fa-circle" aria-hidden="true"></i>
+      </div>
+
+      <div class="userlinks">
+        <p>
+          <a (click)="onNavigate('/web/client/profile')"
+           aria-current="false" href="javascript:void(0);">{{clientHeaderModel.patientBasicHeaderInfo.name}}</a>
+        </p>
+      </div>
+      <div class="client_detail">
+        <p>
+          <b>Gender :</b>
+          <span>{{clientHeaderModel.patientBasicHeaderInfo.gender||''}}</span>
+        </p>
+        <p>
+          <b>D.O.B :</b>
+          <span>{{clientHeaderModel.patientBasicHeaderInfo.dob||''}}</span>
+        </p>
+        <p>
+          <b>SSN: </b>
+          <span>{{clientHeaderModel.patientBasicHeaderInfo.ssn||''}}</span>
+        </p>
+        <p>
+          <b>MRN : </b>
+          <span>{{clientHeaderModel.patientBasicHeaderInfo.mrn||''}}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+<div class="clearfix"></div>
+<!-- client header component end -->
+
+<div class="readmin-panel">
+  <div class="row">
+    <div class="col-sm-12">
+      <form id="soapForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="soapForm">
+        <div class="row">
+          <div class="col-12">
+            <div class="d-flex justify-content-between">
+              <div class="panel_title no_margin">
+                <h3>Appointment</h3>
+                <i class="flaticon flaticon-medical-4"></i>
+              </div>
+              <div>
+                <button name="back" mat-raised-button color="primary" class="text-uppercase" (click)="onBackClick()">Back</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="soap_detail detail_wd col-sm-8">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <p>
+                      <b>Appointment :</b>
+                      <span>{{patientAppointmentDetails && patientAppointmentDetails.patientName}}</span>
+                    </p>
+                  </div>
+                  <div class="col-sm-6">
+                    <p>
+                      <b>Appointment Date :</b>
+                      <span>{{patientAppointmentDetails && patientAppointmentDetails.startDateTime|date:"MM/dd/yyyy"}}</span>
+                    </p>
+                  </div>
+                  <div class="col-sm-6">
+                    <p>
+                      <b>Appointment Time:</b>
+                      <span>{{appointmentStartTime + ' - ' +  appointmentEndTime}}</span>
+                    </p>
+                  </div>
+                  <div class="col-sm-6">
+                    <p>
+                      <b>Seen By :</b>
+                      <span>{{ staffDetails && staffDetails.staffName }}</span>
+                    </p>
+                  </div>
+                  <!-- <div class="col-sm-6">
+                    <p>
+                      <b>Location Type :</b>
+                      <span>{{patientAppointmentDetails && patientAppointmentDetails.locationName}}</span>
+                    </p>
+                  </div> -->
+                  <div class="col-sm-6">
+                    <p>
+                      <b>Service Type :</b>
+                      <span>{{ (patientAppointmentDetails && patientAppointmentDetails.isDirectService) ? 'Direct' : 'Indirect'
+                        }}
+                      </span>
+                    </p>
+                  </div>
+                  <div class="col-sm-6">
+                    <p>
+                      <b>Service Location :</b>
+                      <span>{{patientAppointmentDetails && patientAppointmentDetails.serviceLocationID}}</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4 soap_detail detail_wd">
+                <div class="col-sm-12 pd-15">
+                  <p>
+                    <b>Start Time</b>
+                    <span>{{appointmentStartTime}}</span>
+                  </p>
+                </div>
+                <div class="col-sm-12 pd-15">
+                  <p>
+                    <b>End time</b>
+                    <span>{{appointmentEndTime}}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="panel_title">
+              <h3>Notes</h3>
+              <i class="flaticon flaticon-bathroom"></i>
+            </div>
+          </div>
+           <div class="col-sm-12">
+            <div class="row">
+              <div class="soap_detail detail_wd col-sm-8">
+                <div class="row">
+                  <!-- <div class="col-sm-6">
+                    <p>
+                      <b>Selected Template</b>
+                      <span>{{PatientEncounterDetails && PatientEncounterDetails.}}</span>
+                    </p>
+                  </div> -->
+                  <div class="col-sm-6">
+                    <p>
+                      <b>Subjective</b>
+                      <span>{{PatientEncounterDetails && PatientEncounterDetails.subjective}}</span>
+                    </p>
+                  </div>
+                  <div class="col-sm-6">
+                    <p>
+                      <b>Objective</b>
+                      <span>{{PatientEncounterDetails && PatientEncounterDetails.objective}}</span>
+                    </p>
+                  </div>
+                  <div class="col-sm-6">
+                    <p>
+                      <b>Assessment</b>
+                      <span>{{PatientEncounterDetails && PatientEncounterDetails.assessment}}</span>
+                    </p>
+                  </div>
+                  <div class="col-sm-6">
+                    <p>
+                      <b>Plan</b>
+                      <span>{{PatientEncounterDetails && PatientEncounterDetails.plan}}</span>
+                    </p>
+                  </div>
+                  <div class="col-sm-6">
+                    <p>
+                      <b>Consumer's overall Affect</b>
+                      <span>{{PatientEncounterDetails && PatientEncounterDetails.consumersOverallAffect}}</span>
+                    </p>
+                  </div>
+                  <div class="col-sm-6">
+                    <p>
+                      <b>Description</b>
+                      <span>{{PatientEncounterNotes}}</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> 
+          
+
+
+          <div class="col-sm-12">
+            <!-- <mat-form-field class="example-full-width">
+              <textarea placeholder="Notes" maxlength="1000" rows="6" matInput formControlName="nonBillableNotes" required [readonly]="isSoapCompleted"></textarea>
+              <mat-error *ngIf="formControls.nonBillableNotes.errors?.required">
+                Please enter notes
+              </mat-error>
+            </mat-form-field> -->
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 pt20 text-right false">
+            <span>
+              <!-- <button class="cancel-btn float-left" mat-raised-button (click)="onBackClick()">Cancel</button> -->
+              <button [disabled]="submittedSign || submitted" mat-raised-button color="primary" class="text-uppercase mr-3"
+                  (click)="openSignDialog()">
+                  {{ submittedSign ? 'Saving sign' : 'Add Sign'}}
+                </button>
+              <!-- <button *ngIf="!isSoapCompleted" mat-raised-button color="primary" (click)="onSubmit()" [disabled]="submitted || (!isAllSigned)"
+                class="text-uppercase">
+                {{ submitted ? 'Saving...' : 'Save'}}</button> -->
+            </span>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="employeeSign.bytes || patientSign.bytes || guardianSign.bytes">
+          <div class="col-12">
+            <div class="panel_title mt-24">
+              <h3>Signature</h3>
+              <i class="flaticon flaticon-medical-1"></i>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-4" *ngIf="employeeSign.bytes">
+            <div id="showCanvasImageEmployee">
+              <div class="row">
+                <div class="col-12">
+                  <div class="sign">
+                    <img class="img-fluid" src="data:image/png;base64,{{employeeSign.bytes}}" alt="">
+                    <h3>{{employeeSign.name}}
+                      <span>(Employee)</span>
+                    </h3>
+                    <p>
+                      <span>Date :</span>{{employeeSign.date}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-4" *ngIf="patientSign.bytes">
+            <div id="showCanvasImageEmployee">
+              <div class="row">
+                <div class="col-12">
+                  <div class="sign">
+                    <img class="img-fluid" src="data:image/png;base64,{{patientSign.bytes}}" alt="">
+                    <h3>{{patientSign.name}}
+                      <span>(Patient)</span>
+                    </h3>
+                    <p>
+                      <span>Date :</span>{{patientSign.date}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-4" *ngIf="guardianSign.bytes">
+            <div id="showCanvasImageEmployee">
+              <div class="row">
+                <div class="col-12">
+                  <div class="sign">
+                    <img class="img-fluid" src="data:image/png;base64,{{guardianSign.bytes}}" alt="">
+                    <h3>{{guardianSign.name}}
+                      <span>(Guardian)</span>
+                    </h3>
+                    <p>
+                      <span>Date :</span>{{guardianSign.date}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>

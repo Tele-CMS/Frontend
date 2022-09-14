@@ -1,0 +1,81 @@
+<div class="readmin-panel">
+    <h2 class="page_title">Select a Patient</h2>
+    <div class="clearfix"></div>
+
+
+    <div class="col-md-6 justify-content-start pull-left">
+        <!-- <form class="readmin-form custom_form" id="userFormGroup" #documentForm="ngForm" [formGroup]="userFormGroup"> -->
+        <form>
+            <div class="row end-flex">
+
+                <div class="col-md-9">
+                    <mat-form-field class="example-full-width">
+                        <input matInput [(ngModel)]="searchKey" name="searchKey" type="text"
+                            placeholder="Search here..." (keyup)="getClients()">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3 filter-btn">
+                    <button class="clear-btn" type="reset" mat-raised-button (click)="searchKey='';getClients()">Clear
+                        All</button>
+                </div>
+            </div>
+        </form>
+        <!-- </div> -->
+    </div>
+
+    <!-- <div class="searchwdbtn">
+            <form class="searchclient">
+                <input [(ngModel)]="searchKey" name="searchKey" type="text" class="pateintsearch" placeholder="Search here..." (keyup)="getClients()">
+                <button class="serchclose-btn" type="reset" (click)="searchKey='';getClients()"><i class="fa fa-times" aria-hidden="true"></i></button>
+            </form>
+        </div> -->
+
+    <div class="clearfix"></div>
+    <!-- <div #list (selectionChange)="onClick($event)"> -->
+    <!-- <div [ngStyle]="{ 'height': '100vh' }"> -->
+    <div class="row mt-3">
+        <div class="col-4" *ngFor="let item of patientList; let i = index">
+
+            <!-- [ngClass]="{'clientsearch_img' :true,'activec':item.isActive==true,'inactive': item.isActive==false,'lock':item.isBlock==true}" -->
+            <!-- <img matListAvatar src="../../../../../assets/img/default-user.png" class="img-fluid" alt=""/> -->
+            <div class="patientList-content-main">
+                <div class="patientList-content-cover" (click)="handlePatientEncounterRedirection(item.patientId)"
+                    [ngClass]="activeIndex === i ? 'active' : ' ' ">
+                    <figure>
+                        <img matListAvatar *ngIf="item.photoThumbnailPath" [src]="item.photoThumbnailPath"
+                            class="img-fluid" alt="" />
+                        <img matListAvatar *ngIf="!item.photoThumbnailPath"
+                            src="../../../../../assets/img/patient-default-user.svg" class="img-fluid" alt="" />
+                    </figure>
+                    <div class="patientList-content">
+                        <h3 matLine> {{item.firstName + ' ' +item.lastName}} </h3>
+
+
+                        <!-- <p matLine>
+                      <span> MRN: {{item.mrn}} </span>
+
+                  </p> -->
+
+
+                        <p matLine><span>DOB: {{item.dob}}</span></p>
+                    </div>
+                </div>
+
+                <!-- <span *ngIf="!item.photoThumbnailPath" matListAvatar class="userletter">{{ item.firstName.charAt(0) + item.lastName.charAt(0) }}</span> -->
+
+            </div>
+
+        </div>
+    </div>
+
+    <div *ngIf="patientList!=null && patientList.length==0">
+        <p>No Patient Found</p>
+    </div>
+
+    <!-- </ng-scrollbar> -->
+    <!-- <div class="col-md-12 text-right mt-3 mb-3 pb-3" *ngIf="clientId > 0">
+        <button mat-raised-button color="primary" (click)="onClickNext()">Next</button>
+    </div> -->
+</div>
+
+<!-- </div> -->

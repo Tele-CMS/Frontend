@@ -1,0 +1,39 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Security Question</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="securityQuestionForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="securityQuestionForm">
+          <div class="row">
+            <div class="col-sm-12 require">
+              <mat-form-field class="example-full-width" hintLabel="{{formControls.question.pending ? 'Validating...' : ''}}">
+                <input matInput autofocus placeholder="Security Question" maxlength="50" formControlName="question" [ngClass]="{ 'is-invalid': submitted && formControls.question.errors }"
+                  required />
+                <mat-error *ngIf="formControls.question.errors?.required">
+                  Please enter security question
+                </mat-error>
+                <mat-error *ngIf="formControls.question.errors?.uniqueName">
+                    Name is already taken.
+                  </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 require">
+              <mat-checkbox formControlName="isActive">
+                Is Active
+              </mat-checkbox>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button class="cancel-btn" (click)="closeDialog()">Close</button>
+    <button mat-raised-button color="primary" form="securityQuestionForm" [disabled]="submitted || formControls.question.pending" cdkFocusInitial>
+      {{(submitted || formControls.question.pending) ? submitted ? 'Saving...' : formControls.question.pending ? 'Validating...' : 'Save' : 'Save'}}
+    </button>
+  </div>
+</div>

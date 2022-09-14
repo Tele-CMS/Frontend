@@ -1,0 +1,176 @@
+<div class="provider-block">
+<div class="col-12 mt-3" *ngIf="userInfo">
+    <div class="doctor-widget profile-view">
+        <i (click)="closeDialog('close')" class="fa fa-close" aria-hidden="true"></i>
+        <mat-card>
+            <mat-card-content>
+                <div class="doc-info">
+                    <div class="d-flex doctor-profile-img">
+                        <div class="doctor-img">
+                            <img class="img-fluid profile-img" src="{{userInfo.photoThumbnailPath || '../../../assets/img/noimage.png'}}" alt="doctor">
+                        </div>
+                        <div class="doc-info-cont">
+                            <h4 class="doc-name"><a>Dr. {{fullname}}</a></h4>
+                            <!-- <p class="doc-speciality doc-department" *ngFor="let spl of staffSpecialities">{{spl.speciality}}</p> -->
+                            <h5 class="doc-department mb-0" *ngFor="let spl of staffSpecialities">{{spl.speciality}}</h5>
+                            <!-- <div class="rating">
+                  <i class="fa fa-star filled" aria-hidden="true"></i>
+                  <i class="fa fa-star filled" aria-hidden="true"></i>
+                  <i class="fa fa-star filled" aria-hidden="true"></i>
+                  <i class="fa fa-star filled" aria-hidden="true"></i>
+                  <i class="fa fa-star"></i>
+                  <span class="d-inline-block average-rating">(17)</span>
+                </div> -->
+                            <div class="row">
+
+                                <star-rating value="{{averageRating.average}}" totalstars="5" checkedcolor="#f4c150" uncheckedcolor="#e5e5e5" size="18px" readonly="true" ></star-rating>
+                                <span *ngIf="averageRating.total>0" class="d-inline-block average-rating">({{averageRating.total}})</span>
+                            </div>
+
+                            <div class="clinic-gallery">
+                                <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+                            </div>
+                            <div class="clinic-services">
+                                <span *ngFor="let taxonomy of staffTaxonomy">{{taxonomy.taxonomyName}}</span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="doc-info-right">
+                        <div class="clini-infos">
+                            <ul>
+                                <li><i class="fa fa-map-marker" aria-hidden="true"></i> {{userInfo.address}}</li>
+                                <li><i class="fa fa-money" aria-hidden="true"></i> {{userInfo.payRate | currency:'USD':'symbol-narrow'}}
+
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="clinic-booking">
+                            <button class="mt-5" mat-raised-button color="primary" (click)="openDialogBookAppointment()">Book Now</button>
+                            <!-- <button mat-raised-button color="accent" class="mr-2" (click)="backToListing()">Back</button> -->
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="readmin-panel mb-3">
+        <mat-tab-group (selectedTabChange)="loadChild($event)">
+            <mat-tab label="{{tabs[0].tabName}}">
+                <div class="no-gutters">
+                    <div class="col-md-9 mt-3">
+                        <div class="profile-widget">
+                            <h4>About Me</h4>
+                            <p>{{userInfo.aboutMe}}</p>
+                        </div>
+                        <div class="profile-widget">
+                            <h4>Work & Experience</h4>
+                            <ul>
+                                <li *ngFor="let exp of staffExperiences">{{exp.organizationName}}
+                                    <span>{{exp.startDate | date:'mediumDate'}} - {{exp.endDate | date:'mediumDate'}} ({{exp.totalExperience}})</span>
+                                </li>
+                            </ul>
+                            <span *ngIf="!staffExperiences">No work & experience added yet.</span>
+                        </div>
+                        <div class="profile-widget">
+                            <h4>Education</h4>
+                            <ul>
+                                <li *ngFor="let edu of staffQualifications">{{edu.university}}
+                                    <span>{{edu.course}}</span>
+                                    <span>{{edu.startDate | date:'mediumDate'}} - {{edu.endDate | date:'mediumDate'}}</span>
+                                </li>
+                            </ul>
+                            <span *ngIf="!staffQualifications">No qualification added yet.</span>
+                        </div>
+                        <div class="profile-widget">
+                            <h4>Awards</h4>
+                            <ul>
+                                <li *ngFor="let award of staffAwards">
+                                    <label>{{award.awardDate | date:'mediumDate'}}</label>
+                                    <p>{{award.awardType}}</p>
+                                    <span>{{award.description}}</span>
+                                </li>
+                            </ul>
+                            <span *ngIf="!staffAwards">No awards added yet.</span>
+                        </div>
+                        <div class="service-list">
+                            <h4>Services</h4>
+                            <ul>
+                                <li *ngFor="let serv of staffServices">{{serv.serviceName}}</li>
+                            </ul>
+                        </div>
+                        <!-- <div class="service-list">
+                  <h4>Specializations</h4>
+                  <ul>
+                    <li *ngFor="let taxonomy of staffTaxonomy">{{taxonomy.taxonomyName}}</li>
+                  </ul>
+                </div> -->
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="{{tabs[1].tabName}}">
+                <div class="no-gutters" *ngFor="let loc of StaffLocationAvailabilities">
+                    <div class="col-md-12 mt-3">
+                        <div class="clinic-content">
+                            <h4>{{loc.assignedLocationsModel.location}}</h4>
+                            <h5 class="clinic-direction">
+                                <i class="fa fa-map-marker"></i> {{loc.assignedLocationsModel.address}} <br>
+                                <a href="javascript:void(0);">Get Directions</a>
+                            </h5>
+                        </div>
+                        <div class="clinic-timing">
+                            <div *ngFor="let avail of loc.availabilityModel.days">
+                                <p class="timings-days">
+                                    <span> {{avail.dayName | slice:0:3}} </span>
+                                </p>
+                                <p class="timings-times">
+                                    <span>{{avail.startTime | date:'shortTime'}} - {{avail.endTime | date:'shortTime'}}</span>
+                                </p>
+                            </div>
+                            <div class="direction-map" *ngIf="StaffLocationAvailabilities">
+                                <!-- <agm-map [latitude]='51.678418' [longitude]='7.809007' [mapTypeId]='mapType'>
+                    </agm-map> -->
+
+                                <agm-map [latitude]="loc.latitude" [longitude]="loc.longitude" [zoom]="zoom " [disableDefaultUI]="false " [zoomControl]="false " (mapClick)="mapClicked($event) ">
+
+                                    <agm-marker *ngFor="let m of markers; let i=i ndex " (markerClick)="clickedMarker(m.label, i)
+                      " [latitude]="m.lat " [longitude]="m.lng " [label]="" [markerDraggable]="m.draggable " (dragEnd)="markerDragEnd(m, $event) ">
+
+                                        <agm-info-window>
+                                            <strong>{{m.label}}</strong>
+                                        </agm-info-window>
+
+                                    </agm-marker>
+
+                                    <agm-circle [latitude]="loc.latitude" [longitude]="loc.longitude" [radius]="5000 " [fillColor]="
+                      'red' " [circleDraggable]="true " [editable]="true ">
+                                    </agm-circle>
+
+                                </agm-map>
+                                <!-- <img src="http://maps.googleapis.com/maps/api/staticmap?center=-15.800513,-47.91378&zoom=11&size=200x200&sensor=false ">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3430.3611106600874!2d76.7000029144609!3d30.70824709386467!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390feef68f84e54b%3A0x6d1fe6ad02834905!2ssmartData%20Enterprises!5e0!3m2!1sen!2sin!4v1583495990437!5m2!1sen!2sin "
+                      width="600 " height="450 " frameborder="0 " style="border:0; " allowfullscreen=" "></iframe>
+                    <iframe width="100% " height="300 " frameborder="0 " style="border:0 " src="https://www.google.com/maps/embed/smartdata-enterprises-inc-mohali?share "
+                      allowfullscreen>
+                    </iframe>
+                    <iframe width="600 " height="450 " frameborder="0 " style="border:0 " src="https://www.google.com/maps/embed/v1/undefined?origin=...&q=...&destination=...&center=...&zoom=...&key=... "
+                      allowfullscreen></iframe> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="{{tabs[2].tabName}}">
+
+                <div class="dash-table mt-3">
+                    <ng-scrollbar [trackX]="true" [autoHide]="true">
+                        <app-data-table class="d-inline-block sticky-table fixed-table no-table" [ngClass]="{'no-fixed':reviewRatingList && reviewRatingList.length == 0,'':reviewRatingList && reviewRatingList.length > 0}" stickyHeader="true" [inputColumns]="reviewRatingDisplayedColumns"
+                            [inputSource]="reviewRatingList" (onChange)="onReviewRatingPageOrSortChange($event)" [inputMeta]="reviewRatingMeta">
+                        </app-data-table>
+                    </ng-scrollbar>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>
+</div>

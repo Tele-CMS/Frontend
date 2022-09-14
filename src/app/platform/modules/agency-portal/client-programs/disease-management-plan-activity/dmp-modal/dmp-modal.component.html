@@ -1,0 +1,12 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Activity Logs</h3>
+  <div mat-dialog-content>
+    <div class="clearfix"></div>
+    <app-data-table class="mt-3 d-block table-responsive" [inputColumns]="displayedColumns" [inputSource]="dailyDairyData" [inputMeta]="meta"
+      [inputButtons]='actionButtons' (onChange)="onPageOrSortChange($event)">
+    </app-data-table>
+  </div>
+  <div mat-dialog-actions>
+    <button color="accent" mat-raised-button (click)="closeDialog()">Close</button>
+  </div>
+</div>

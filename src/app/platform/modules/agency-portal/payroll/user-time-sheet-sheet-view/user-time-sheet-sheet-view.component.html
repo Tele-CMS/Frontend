@@ -1,0 +1,81 @@
+<div *ngIf="staffId" class="row">
+  <!-- <div class="row"> -->
+  <div class="week-date col-sm-6">
+    <button class="pre-next-btn" (click)="changeWeekValue(-1)"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+    <div class="text-center" *ngIf="DateObject">
+      <p>
+        <span>{{DateObject.fromDate}},{{DateObject.toDate}}</span>
+      </p>
+    </div>
+    <button class="pre-next-btn" (click)="changeWeekValue(1)"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+    <!-- </div> -->
+  </div>
+  <div class="clearfix"></div>
+  <div class="table-responsive mt-15">
+    <table class="table table-hover maintable customtable group-table" matSort matSortDisableClear>
+      <thead>
+        <tr>
+          <th width="20%" disableClear>
+            <span class="Tblsort sorting">Appointment Type</span>
+          </th>
+          <th width="10%" disableClear>
+            <span class="Tblsort sorting">Sunday</span>
+          </th>
+          <th width="10%" disableClear>
+            <span class="Tblsort sorting">Monday</span>
+          </th>
+          <th width="10%" disableClear>
+            <span class="Tblsort sorting">Tuesday</span>
+          </th>
+          <th width="10%" disableClear>
+            <span class="Tblsort sorting">Wednesday</span>
+          </th>
+
+          <th width="10%" disableClear>
+            <span class="Tblsort sorting">Thursday</span>
+          </th>
+
+          <th width="10%" disableClear>
+            <span class="Tblsort sorting">Friday</span>
+          </th>
+          <th width="10%" disableClear>
+            <span class="Tblsort sorting">Saturday</span>
+          </th>
+          <th width="10%" disableClear>
+            <span class="Tblsort sorting">Total</span>
+          </th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let code of userTimesheetViewData">
+          <td>
+            <span>{{code.appointmentTypeName}}</span>
+          </td>
+          <td>
+            <span>{{code.sunday}}</span>
+          </td>
+          <td>
+            <span>{{code.monday}}</span>
+          </td>
+          <td>
+            <span>{{code.tuesday}}</span>
+          </td>
+          <td>
+            <span>{{code.wednesday}}</span>
+          </td>
+          <td>
+            <span>{{code.thursday}}</span>
+          </td>
+          <td>
+            <span>{{code.friday}}</span>
+          </td>
+          <td>
+            <span>{{code.saturday}}</span>
+          </td>
+          <td>
+            <span>{{code.total}}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

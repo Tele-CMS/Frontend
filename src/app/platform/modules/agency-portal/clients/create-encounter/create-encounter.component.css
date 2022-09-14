@@ -1,0 +1,122 @@
+.encounter-sidebar {
+    width: 400px;
+    height: 100%;
+    right: 0px;
+    top: 75px;
+    position: fixed;
+    background: var(--color-white);
+    z-index: 10000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .1), 0 0 1px rgba(0, 0, 0, .02);
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, .1), 0 0 1px rgba(0, 0, 0, .02);
+}
+
+.encounter-header {
+    background-color: #264653;
+    padding: 10px 15px;
+    color: var(--color-white);
+    font-size: 16px;
+}
+
+.encounter-header h3 {
+    margin: 0px;
+    font-size: 16px;
+}
+
+.encounter-header h3 span {
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.encounter-header h3 span i {
+    padding-right: 5px;
+}
+
+.encounter-header i {
+    cursor: pointer;
+}
+
+.encounter-content {
+    height: calc(100vh - 160px);
+}
+
+.client-list [class^="flaticon-"]:before,
+[class*=" flaticon-"]:before,
+[class^="flaticon-"]:after,
+[class*=" flaticon-"]:after {
+    margin: 0px;
+}
+
+.client-list {
+    position: absolute;
+    left: -40px;
+    top: 50%;
+    background-color: #264653;
+    border-radius: 5px 0px 0px 5px !important;
+    -webkit-border-radius: 5px 0px 0px 5px !important;
+    min-width: auto;
+    color: var(--color-white);
+    height: 40px;
+    line-height: 0px;
+    padding: 0px;
+    width: 40px;
+}
+
+.encounter-sidebar.close-drawer {
+    transition: all .1s ease;
+    -webkit-transition: all .1s ease;
+}
+
+.encounter-checklist ul {
+    margin: 5px 0px 0px;
+    padding: 0px 0px 0px 25px;
+    list-style: none;
+}
+
+.encounter-checklist ul li {
+    margin-bottom: 5px;
+}
+
+.encounter-checklist ul li i {
+    color: #38be6f;
+    font-size: 16px;
+}
+
+textarea.mat-input-element {
+    overflow: hidden;
+    min-height: 19px;
+    max-height: 120px;
+}
+
+.refresh {
+    padding-right: 27px;
+}
+
+.field-clear {
+    position: absolute;
+    bottom: 1.80em;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.40);
+}
+
+.mat-raised-button.mat-accent {
+    color: #264653;
+    border-color: #264653;
+}
+
+.p_title {
+    display: flex;
+    position: relative;
+}
+
+.p_title h3 {
+    color: var(--color-black);
+    font-size: 18px;
+    font-weight: 500;
+    margin: 18px 20px 20px 0;
+    padding: 0;
+    text-align: left;
+    float: left;
+    text-transform: capitalize !important;
+    margin-bottom: 15px !important;
+    padding-left: 0 !important;
+}

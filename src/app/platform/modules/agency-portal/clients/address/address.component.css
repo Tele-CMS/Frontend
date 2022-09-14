@@ -1,0 +1,28 @@
+.additionalAddressBtn {
+    padding-left: 10px;
+    padding-top: 2px;
+    display: flex;
+    align-items: center;
+}
+.addnum {
+    background: transparent none repeat scroll 0 0;
+    border: 0 none;
+    float: left;
+    font-size: 18px;
+    line-height: 14px;
+    padding: 0;
+    cursor: pointer;
+    color: #7a7a7a;
+}
+.remove-btn{
+    bottom:32px !important;
+}
+.parent_div {
+    position: relative;
+}
+.additem {
+    right: 15px;
+}
+.removeitem {
+    right: 35px;
+}

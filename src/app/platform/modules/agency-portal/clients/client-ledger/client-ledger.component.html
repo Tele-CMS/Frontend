@@ -1,0 +1,117 @@
+<app-client-header [clientId]="clientId" [headerText]="header"></app-client-header>
+
+
+<div [ngClass]="{'readmin-panel' : true}">
+    <div class="row" *ngIf="isDetailPage">
+        <div class="col-md-12 pull-right justify-content-md-end d-flex">
+          <button mat-raised-button color="primary" class="add-primary-btn" (click)="toggleDetails()">
+            <i class="fa" aria-hidden="true"></i>
+            <span>Back</span>
+          </button>
+        </div>
+      </div>
+ 
+    <div *ngIf="!isDetailPage" class="table-responsive">
+      <table class="table table-hover customtable group-table" matSort matSortDisableClear>
+        <thead>
+          <tr>
+            <th width="8%" mat-sort-header="claimId" disableClear>
+              <span class="Tblsort sorting">CLAIM#</span>
+            </th>
+            <th width="12%" mat-sort-header="dos" disableClear>
+              <span class="Tblsort sorting">DOS</span>
+            </th>
+            <th width="8%" mat-sort-header="totalAmount" disableClear>
+              <span class="Tblsort sorting">Total AMT($)</span>
+            </th>
+            <th width="8%">
+              <span class="Tblsort sorting">INS OWES($)</span>
+            </th>
+            <th width="8%">
+              <span class="Tblsort sorting">INS PAID($)</span>
+            </th>
+            <th width="8%">
+              <span class="Tblsort sorting">INS ADJ($)</span>
+            </th>
+
+            <th width="8%">
+              <span class="Tblsort sorting">PAT OWES($)</span>
+            </th>
+            <th width="8%">
+              <span class="Tblsort sorting">PAT PAID($)</span>
+            </th>
+            <th width="8%">
+              <span class="Tblsort sorting">PAT ADJ($)</span>
+            </th>
+            <th width="8%" mat-sort-header="balance" disableClear>
+              <span class="Tblsort sorting">BALANCE($)</span>
+            </th>
+            <th width="8%">
+              <span class="Tblsort sorting">STATUS</span>
+            </th>
+            <th width="8%">
+              <span class="Tblsort sorting">ACTIONS</span>
+            </th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let claim of claimList">
+            <td>
+              <span>{{'CL'+claim.claimId}}</span>
+            </td>
+            <td>
+              <span>{{claim.dos | date:'M/d/y'}}</span>
+            </td>
+            <td>
+              <span>{{claim.totalAmount | number: '2.2-2'}}</span>
+            </td>
+            <td>
+              <span>{{claim.insuranceOwes | number: '2.2-2'}}</span>
+            </td>
+            <td>
+              <span>{{claim.insurancePayments | number: '2.2-2'}}</span>
+            </td>
+            <td>
+              <span>{{claim.insuranceAdjustments | number: '2.2-2'}}</span>
+            </td>
+            <td>
+              <span>{{claim.patientOwes | number: '2.2-2'}}</span>
+            </td>
+            <td>
+              <span>{{claim.patientPayments | number: '2.2-2'}}</span>
+            </td>
+            <td>
+              <span>{{claim.patientAdjustments | number: '2.2-2'}}</span>
+            </td>
+            <td>
+              <span>{{claim.balance | number: '2.2-2'}}</span>
+            </td>
+            <td>
+              <span>
+                  {{claim.status}}
+                  <!-- <mat-form-field class="example-full-width">
+                      <mat-select placeholder="Payment Status"  matInput
+                        (selectionChange)="changePaymentSource($event.value)">
+                        <mat-option *ngFor="let obj of paymentStatus" [value]="obj.id">
+                          {{obj.value}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field> -->
+              </span>
+            </td>
+            <td>
+              <button type="button" title="View" class="tbactionbtn" (click)="getClaimServiceLines(claim.claimId)">
+                <i class="fa fa-eye" aria-hidden="true"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <mat-paginator #ledgerPaginator [length]="metaData['totalRecords']" [pageIndex]="metaData['currentPage'] - 1" [pageSize]="metaData['pageSize']"
+        showFirstLastButtons (page)="onSortOrPageChanges($event)"></mat-paginator>
+    </div>
+  
+  <div *ngIf="isDetailPage">
+    <app-client-ledger-detail [claimId]="claimId" [clientId]="clientId"> </app-client-ledger-detail>
+  </div>
+
+</div>

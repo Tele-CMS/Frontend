@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-md-12 pull-right justify-content-md-end d-flex">
+        <button mat-raised-button color="primary" class="add-primary-btn" (click)="openDialog()">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            <span>Add Guardian/Guarantor</span>
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4 col-sm-6 mt-20 custom-card custom-card-header" *ngFor="let guardian of guardianList">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
+                    {{guardian.guardianFirstName+' ' +(guardian.guardianMiddleName||'')+' '+guardian.guardianLastName}}
+                </mat-card-title>
+                <mat-card-actions>
+                        <button mat-button (click)="openDialog(guardian.id)"><i class="fa fa-pencil"></i></button>
+                        <button mat-button (click)="delete(guardian.id)"><i class="fa fa-close"></i></button>
+                    </mat-card-actions>
+            </mat-card-header>
+                <!-- <div mat-card-avatar class="example-header-image"></div> -->
+                <mat-card-content>
+                    <p><span>Realtion : </span>{{guardian.relationshipName}}</p>
+                    <p><span>Phone : </span>{{guardian.guardianHomePhone}}</p>
+                    <p><span>Email : </span>{{guardian.guardianEmail}}</p>
+                </mat-card-content>
+            
+        </mat-card>
+    </div>
+</div>

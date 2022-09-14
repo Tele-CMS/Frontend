@@ -1,0 +1,28 @@
+::ng-deep .payment-blk .table td {
+    text-align: initial !important;
+    padding-left: 15px !important;
+}
+
+.export-btn-rt {
+    position: absolute;
+    right: 27px;
+    top: -75px;
+}
+
+.d-flex {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.total-amt {
+    font-weight: 600;
+    color: #2f2660;
+    background-color: #efefef;
+    padding: 7px 20px;
+    border: 4px;
+}
+
+.pad60 {
+    padding-left: 60px!important;
+}

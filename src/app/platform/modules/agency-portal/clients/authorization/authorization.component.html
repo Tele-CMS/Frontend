@@ -1,0 +1,204 @@
+<app-client-header [clientId]="clientId" [headerText]="header"></app-client-header>
+<div class="readmin-panel">
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-12 pull-right justify-content-md-end d-flex">
+        <button *ngIf="addPermission" mat-raised-button color="primary" class="add-primary-btn" (click)="openDialog()">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+          <span>Add Authorization</span>
+        </button>
+      </div>
+    </div>
+    <!-- Vaild authorization grid starts here -->
+    <div class="panel_title mt-2"><h3>Insurance Authorizations</h3><i class="flaticon flaticon-medical"></i></div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="table-responsive mt-15">
+          <table class="table table-hover maintable customtable group-table" matSort matSortDisableClear>
+            <thead>
+              <tr>
+                <th width="5%"></th>
+                <th width="10%">AUTH #</th>
+                <th width="15%">TITLE</th>
+                <th width="25%">INSURANCE COMPANY</th>
+                <th width="15%">START DATE</th>
+                <th width="20%">END DATE</th>
+                <th width="10%">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="!authorizationDisplayModel.length && isExpired(false)">
+                <td colspan="7">
+                  <div class="text-center no-record">No record found.</div>
+                </td>
+              </tr>
+              <tr *ngFor="let authObj of isExpired(false)">
+                <td colspan="7">
+                  <table class="table middletable customtable">
+                    <tbody>
+                      <tr>
+                        <td width="5%">
+                          <div class="table_custom-check">
+                            <button type="button" class="morebtn" (click)="handleExpandRow(authObj.authorizationId)">
+                              <i class="classExpand fa " [ngClass]="{'fa-minus': expandedAuthIds.includes(authObj.authorizationId), 'fa-ellipsis-h': !expandedAuthIds.includes(authObj.authorizationId)}"
+                                aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </td>
+                        <td width="10%">{{ authObj.authorizationNumber }}</td>
+                        <td width="15%">{{ authObj.authorizationTitle }}</td>
+                        <td width="25%">{{ authObj.payerName}}</td>
+                        <td width="15%">{{ authObj.startDate | date:'MM/dd/yyyy' }}</td>
+                        <td width="20%">{{ authObj.endDate | date:'MM/dd/yyyy' }}</td>
+                        <td width="10%">
+                            <button *ngIf="updatePermission" type="button" title="Edit" class="tbactionbtn" (click)="openDialog(authObj.authorizationId)">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                              </button>
+                              <button *ngIf="deletePermission" type="button" title="Delete" class="tbactionbtn" (click)="deleteDetails(authObj.authorizationId)">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                              </button>
+                        </td>
+                      </tr>
+                      <tr class="nohover" [ngClass]="{'show-row': expandedAuthIds.includes(authObj.authorizationId), 'hide-row': !expandedAuthIds.includes(authObj.authorizationId)}">
+                        <td></td>
+                        <td colspan="7">
+                          <table class="table childtable customtable">
+                            <thead>
+                              <tr>
+                                <th width="15%">Service Codes</th>
+                                <th width="10%">Modifiers </th>
+                                <th width="15%">Unit Approved</th>
+                                <th width="15%">Unit Consumed</th>
+                                <th width="15%">Unit Scheduled</th>
+                                <th width="15%">Unit Remained</th>
+                                <th width="10%"></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngIf="!authObj.authorizationServiceCodesDisplayModel || !authObj.authorizationServiceCodesDisplayModel.length">
+                                <td colspan="9">
+                                  <div class="text-center no-record">No record found.</div>
+                                </td>
+                              </tr>
+                              <tr *ngFor="let authProcObj of authObj.authorizationServiceCodesDisplayModel">
+                                <td width="15%">{{authProcObj.serviceCodes}}</td>
+                                <td width="10%">{{authProcObj.modifiers}}</td>
+                                <td width="5%">{{authProcObj.unitApproved}}</td>
+                                <td width="5%">{{authProcObj.unitConsumed}}</td>
+                                <td width="9%">{{authProcObj.unitScheduled}}</td>
+                                <td width="14%">{{authProcObj.unitRemained}}</td>
+                                <td width="9%">
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- authorization grid ends here -->
+
+    <!--Expired Authorization-->
+    <div class="panel_title mt20"><h3>EXPIRED AUTHORIZATIONS</h3><i class="flaticon flaticon-medical"></i></div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="table-responsive mt-15">
+          <table class="table table-hover maintable customtable group-table" matSort matSortDisableClear>
+            <thead>
+              <tr>
+                <th width="5%"></th>
+                <th width="10%">AUTH #</th>
+                <th width="15%">TITLE</th>
+                <th width="25%">INSURANCE COMPANY</th>
+                <th width="15%">START DATE</th>
+                <th width="20%">END DATE</th>
+                <th width="10%">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="!authorizationDisplayModel.length && isExpired(true)">
+                <td colspan="7">
+                  <div class="text-center no-record">No record found.</div>
+                </td>
+              </tr>
+              <tr *ngFor="let authObj of isExpired(true)">
+                <td colspan="7">
+                  <table class="table middletable customtable">
+                    <tbody>
+                      <tr>
+                        <td width="5%">
+                          <div class="table_custom-check">
+                            <button type="button" class="morebtn" (click)="handleExpandRow(authObj.authorizationId)">
+                              <i class="classExpand fa " [ngClass]="{'fa-minus': expandedAuthIds.includes(authObj.authorizationId), 'fa-ellipsis-h': !expandedAuthIds.includes(authObj.authorizationId)}"
+                                aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </td>
+                        <td width="10%">{{ authObj.authorizationNumber }}</td>
+                        <td width="15%">{{ authObj.authorizationTitle }}</td>
+                        <td width="25%">{{ authObj.payerName}}</td>
+                        <td width="15%">{{ authObj.startDate | date:'MM/dd/yyyy' }}</td>
+                        <td width="20%">{{ authObj.endDate | date:'MM/dd/yyyy' }}</td>
+                        <td width="10%">
+                            <!-- <button type="button" title="Edit" class="tbactionbtn" (click)="onServiceLineAddUpdateClick(claimObj, serviceLineObj.id)">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                              </button> -->
+                              <button *ngIf="deletePermission" type="button" title="Delete" class="tbactionbtn" (click)="onServiceLineDeleteClick(serviceLineObj.id)">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                              </button>
+                        </td>
+                      </tr>
+                      <tr class="nohover" [ngClass]="{'show-row': expandedAuthIds.includes(authObj.authorizationId), 'hide-row': !expandedAuthIds.includes(authObj.authorizationId)}">
+                        <td></td>
+                        <td colspan="7">
+                          <table class="table childtable customtable">
+                            <thead>
+                              <tr>
+                                <th width="15%">Service Codes</th>
+                                <th width="10%">Modifiers </th>
+                                <th width="15%">Unit Approved</th>
+                                <th width="15%">Unit Consumed</th>
+                                <th width="15%">Unit Scheduled</th>
+                                <th width="15%">Unit Remained</th>
+                                <th width="10%"></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngIf="!authObj.authorizationServiceCodesDisplayModel || !authObj.authorizationServiceCodesDisplayModel.length">
+                                <td colspan="9">
+                                  <div class="text-center no-record">No record found.</div>
+                                </td>
+                              </tr>
+                              <tr *ngFor="let authProcObj of authObj.authorizationServiceCodesDisplayModel">
+                                <td width="15%">{{authProcObj.serviceCodes}}</td>
+                                <td width="10%">{{authProcObj.modifiers}}</td>
+                                <td width="5%">{{authProcObj.unitApproved}}</td>
+                                <td width="5%">{{authProcObj.unitConsumed}}</td>
+                                <td width="9%">{{authProcObj.unitScheduled}}</td>
+                                <td width="14%">{{authProcObj.unitRemained}}</td>
+                                <td width="9%">
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!--END Expired Authorization-->
+  </div>
+</div>

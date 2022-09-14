@@ -1,0 +1,394 @@
+
+
+
+<div class="readmin-panel">
+  <h1 class="page_title">Program Enrollments</h1>
+  <div class="clearfix"></div>
+  <form class="readmin-form custom_form">
+    <div class="container-fluid">
+      <div class="row mt-4">
+        <!-- loader content -->
+        <div [class.hidden]="!isLoadingExportPrint">
+          <div class="full_loader">
+            <div class="loader">
+              <div class='loader--dot'></div>
+              <div class='loader--dot'></div>
+              <div class='loader--dot'></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 cushgt">
+          <div class="sech_item caregap-sl-dt">
+            <p>Provider: </p>
+            <span [ngClass]="{'active' : filterModel && filterModel.CareManagerIds.length == masterStaffs.length }"
+              (click)="onProgramsCMSelectOrDeselect('SelectAll')">Select All </span>
+            <span [ngClass]="{'active' : filterModel && filterModel.CareManagerIds.length == 0 }"
+              (click)="onProgramsCMSelectOrDeselect()">
+              Deselect All</span>
+          </div>
+          <mat-form-field class="example-full-width" floatLabel="never">
+            <mat-select multiple placeholder="Provider" name="CareManagerIds"
+              [(ngModel)]="filterModel && filterModel.CareManagerIds" matInput>
+              <mat-option *ngFor="let obj of masterStaffs" [value]="obj.id">
+                {{obj.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <!-- <i (click)="filterModel.CareManagerIds = []" class="fa fa-refresh field-clear" aria-hidden="true"
+    title="Clear All"></i> -->
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width" floatLabel="never">
+            <mat-select multiple placeholder="Select Programs" [(ngModel)]="filterModel && filterModel.ProgramIds"
+              name="ProgramIds" matInput>
+              <mat-option *ngFor="let obj of masterPrograms" [value]="obj.id">
+                {{obj.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4 refresh">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Status" [(ngModel)]="filterModel && filterModel.Status" name="Status" matInput>
+              <mat-option *ngFor="let obj of masterStatus" [value]="obj.id">
+                {{obj.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <i (click)="filterModel && filterModel.Status = null" class="fa fa-refresh field-clear"
+            aria-hidden="true"></i>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <mat-label>Enrollment Start Date</mat-label>
+            <input matInput [(ngModel)]="filterModel && filterModel.StartDate" name="StartDate"
+              [matDatepicker]="startDate" placeholder="MM/DD/YYYY">
+            <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+            <mat-datepicker #startDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <mat-label>Enrollment End Date</mat-label>
+            <input matInput [(ngModel)]="filterModel && filterModel.EndDate" name="EndDate" [matDatepicker]="endDate"
+              placeholder="MM/DD/YYYY">
+            <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+            <mat-datepicker #endDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <mat-label>Patient Name</mat-label>
+            <input matInput [(ngModel)]="filterModel && filterModel.searchText" name="searchText"
+              placeholder="Last Name, First Name">
+            <mat-hint>Last Name, First Name</mat-hint>
+          </mat-form-field>
+        </div> 
+
+        <div class="col-md-4 cushgt">
+          <div class="sech_item caregap-sl-dt">
+            <p>Disease Conditions: </p>
+            <span
+              [ngClass]="{'active' : filterModel && filterModel.conditionId.length == masterChronicCondition.length }"
+              (click)="onSelectDeselectConditionsDropdown('SelectAll')">Select All </span>
+            <span [ngClass]="{'active' : filterModel && filterModel.conditionId.length == 0 }"
+              (click)="onSelectDeselectConditionsDropdown()">
+              Deselect All</span>
+          </div>
+          <mat-form-field class="example-full-width" floatLabel="never">
+            <mat-select multiple matInput [(ngModel)]="filterModel && filterModel.conditionId" name="conditionId"
+              placeholder="Disease Conditions">
+              <mat-option *ngFor="let option of masterChronicCondition" [value]="option.id">
+                {{option.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <!-- <i (click)='clearParticularField("conditionClear")' class="fa fa-refresh field-clear" aria-hidden="true"></i> -->
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Enrollment Type" [(ngModel)]="filterModel && filterModel.EnrollmentId"
+              name="EnrollmentId" matInput>
+              <mat-option *ngFor="let obj of masterEnrollmentFilterData" [value]="obj.id">
+                {{obj.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <mat-label>Start Age Range</mat-label>
+            <input matInput [(ngModel)]="filterModel && filterModel.startAge" placeholder="Start Age" name="startAge">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <mat-label>End Age Range</mat-label>
+            <input matInput [(ngModel)]="filterModel && filterModel.endAge" placeholder="Start Age" name="endAge">
+          </mat-form-field>
+        </div>
+        <div class="col-sm-4 refresh">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Eligible" [(ngModel)]="filterModel && filterModel.isEligible" name="isEligible"
+              matInput>
+              <mat-option *ngFor="let obj of eligibleDD" [value]="obj.value">
+                {{obj.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <i (click)='clearParticularField("eligibleclear")' class="fa fa-refresh field-clear" aria-hidden="true"></i>
+        </div>
+        <!-- <div class="col-sm-4 cushgt">
+          <div class="sech_item caregap-sl-dt">
+            <p>Relationship: </p>
+            <span [ngClass]="{'active' : filterModel && filterModel.relationship.length == masterRelationship.length }"
+              (click)="onSelectDeselectRelationshipDropdown('SelectAll')">Select All </span>
+            <span [ngClass]="{'active' : filterModel && filterModel.relationship.length == 0 }"
+              (click)="onSelectDeselectRelationshipDropdown()">
+              Deselect All
+            </span>
+          </div>
+
+          <mat-form-field class="example-full-width" floatLabel="never">
+            <mat-select multiple placeholder="Relationship" [(ngModel)]="filterModel && filterModel.relationship"
+              name='relationship' matInput>
+              <mat-option *ngFor="let option of masterRelationship" [value]="option.value">
+                {{option.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <i (click)='clearParticularField("relationshipClear")' class="fa fa-refresh field-clear" aria-hidden="true"></i>
+        </div> -->
+        <div class="col-md-4 cushgt">
+          <div class="sech_item caregap-sl-dt">
+            <p>Gender: </p>
+            <span [ngClass]="{'active' : filterModel && filterModel.genderId.length == masterGender.length }"
+              (click)="onSelectDeselectGenderDropdown('SelectAll')">Select All </span>
+            <span [ngClass]="{'active' : filterModel && filterModel.genderId.length == 0 }"
+              (click)="onSelectDeselectGenderDropdown()">
+              Deselect All
+            </span>
+          </div>
+          <mat-form-field class="example-full-width" floatLabel="never">
+            <mat-select multiple matInput [(ngModel)]="filterModel && filterModel.genderId" name="genderId"
+              placeholder="Gender">
+              <mat-option *ngFor="let option of masterGender" [value]="option.id">
+                {{option.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <!-- <i (click)='clearParticularField("conditionClear")' class="fa fa-refresh field-clear" aria-hidden="true"></i> -->
+        </div>
+        <!-- <div class="col-md-4 refresh">
+          <mat-form-field class="example-full-width">
+            <mat-select matInput [(ngModel)]="filterModel.nextAppointmentPresent" name="NextAppointment"
+              placeholder="Next Appointment">
+              <mat-option *ngFor="let option of nextAppointmentList" [value]="option.id">
+                {{option.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <i (click)="filterModel.nextAppointmentPresent = null" class="fa fa-refresh field-clear"
+            aria-hidden="true"></i>
+        </div> -->
+
+      </div>
+      <div class="row">
+        <div class="col-md-6 filter-btn d-flex justify-content-sm-start justify-content-between flex-row">
+          <!-- <button mat-raised-button class="add-new-btn mr-3" color="primary" (click)="createMessageModal()" type="button"
+          [disabled]="!(programsListingData&&programsListingData.DMPPatientModel.length > 0)">
+          Message
+        </button>
+        <button mat-raised-button class="add-new-btn mr-3" color="primary" (click)="openEmailPopup()" type="button"
+          [disabled]="!(programsListingData&&programsListingData.DMPPatientModel.length > 0)">
+          Email
+        </button>
+        <button [disabled]="!(programsListingData&&programsListingData.DMPPatientModel.length > 0)" type="button"
+          mat-raised-button color="primary" class="add-primary-btn mr-3" (click)='exportToExcel()'>Export to
+          excel</button>
+        <button mat-raised-button color="primary"
+          [disabled]='!(programsListingData&&programsListingData.DMPPatientModel.length > 0)'
+          (click)="printDMPEnrollPatientsData($event)" cdkFocusInitial>Print PDF</button> -->
+        </div>
+        <div class="col-md-6 filter-btn d-flex justify-content-sm-end justify-content-between flex-row">
+          <button type="button" class="clear-btn mr-3" color="accent" (click)="clearFilters()" mat-raised-button
+            type="button">Clear All</button>
+          <button type="button" mat-raised-button color="primary" class=" mr-3" (click)="searchFilter()">Filter</button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="clearfix"></div>
+  <!-- <div class="d-block table-responsive mt-3">
+    <app-data-table [inputColumns]="displayedColumns" [inputSource]="programsListingData" [inputMeta]="metaData"
+      [inputButtons]='actionButtons' (onChange)="onPageOrSortChange($event)">
+    </app-data-table> -->
+  <!-- </div> -->
+
+
+  <div class="table-responsive mt-15">
+    <table class="m-0 mt-3 mat-table table table-hover group-table careplan-table table-bordered" matSort
+      matSortDisableClear>
+      <thead>
+        <tr class="mat-header-row">
+          <th class="mat-header-cell" >
+            <span class="Tblsort sorting">Patient Name</span>
+          </th>
+          <th class="mat-header-cell" >
+            <span class="Tblsort sorting">Gender</span>
+          </th>
+          <th class="mat-header-cell" >
+            <span class="Tblsort sorting">Age</span>
+          </th>
+          <!-- <th class="mat-header-cell" width="120px">
+            <span class="Tblsort sorting">Eligibility Status</span>
+          </th> -->
+          <!-- <th class="mat-header-cell" width="120px">
+            <span class="Tblsort sorting">Relationship</span>
+          </th>
+          <th class="mat-header-cell" width="180px">
+            <span class="Tblsort sorting">Disease Conditions</span>
+          </th> -->
+          <th class="mat-header-cell">
+            <span class="Tblsort sorting">Program Name</span>
+          </th>
+          <th class="mat-header-cell">
+            <span class="Tblsort sorting">Enrollment Date</span>
+          </th>
+          <th class="mat-header-cell">
+            <span class="Tblsort sorting">
+              Graduation Date
+            </span>
+          </th>
+          <th class="mat-header-cell">
+            <span class="Tblsort sorting">
+              Termination Date
+            </span>
+          </th>
+          <th class="mat-header-cell"><span>Provider</span></th>
+          <th class="mat-header-cell">
+            <span class="Tblsort sorting">
+              Status
+            </span>
+          </th>
+          <th class="mat-header-cell">
+            <span title="Provider Task">
+              Frequency
+            </span>
+          </th>
+          <!-- <th class="mat-header-cell" width="180px">
+            <span class="Tblsort sorting">
+              Upcoming Appointment
+            </span>
+          </th> -->
+          <!-- <th class="mat-header-cell" width="130px">
+    <span>Actions
+    </span>
+  </th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="mat-header-row  text-center" *ngIf="!(programsListingData)">
+          <td colspan="14">No records found.</td>
+        </tr>
+        <tr class="mat-header-row"
+          *ngFor="let dmpObj of programsListingData && programsListingData.DMPPatientModel; let iy=index">
+
+          <td class="mat-cell">
+            <a *ngIf="dmpObj.patientId > 0; else noPatient;" (click)="onNavigate(dmpObj)" aria-current="false"
+              href="javascript:void(0);">{{dmpObj.patientName || '-'}}</a>
+            <ng-template #noPatient>
+              -
+            </ng-template>
+          </td>
+          <td class="mat-cell">
+            {{ dmpObj && dmpObj.gender || '--'}}
+          </td>
+          <td class="mat-cell">
+            {{ dmpObj && dmpObj.age || '--'}}
+          </td>
+          <!-- <td class="mat-cell">
+            {{ dmpObj && dmpObj.isEligible || '--'}}
+          </td> -->
+          <!-- <td class="mat-cell">
+            {{ dmpObj && dmpObj.relationship || '--'}}
+          </td>
+          <td class="mat-cell">
+            <i *ngIf="dmpObj && dmpObj.diseaseCondition" [matTooltip]="dmpObj && dmpObj.diseaseCondition"
+              matTooltipClass="example-tooltip" class="fa fa-info-circle infoIcon ml-1"></i>
+            <span>{{( dmpObj && dmpObj.diseaseCondition || '--').length >= 20 ? dmpObj.diseaseCondition.substring(0, 20)
+              + '...' : dmpObj.diseaseCondition}}</span>
+          </td> -->
+          <td class="mat-cell">
+            <ul>
+              <li *ngFor='let reqObj of getPatientDMProgramData(dmpObj)'>
+                <!-- <span> {{reqObj && reqObj.diseaseManageProgram || '--'}}</span> -->
+                <i *ngIf="reqObj && reqObj.diseaseManageProgram" [matTooltip]="reqObj && reqObj.diseaseManageProgram"
+                  matTooltipClass="example-tooltip" class="fa fa-info-circle infoIcon ml-1"></i>
+                <span>{{(reqObj && reqObj.diseaseManageProgram || '--').length >= 20 ?
+                  reqObj.diseaseManageProgram.substring(0, 20) + '...' : reqObj.diseaseManageProgram}}</span>
+              </li>
+            </ul>
+          </td>
+          <td class="mat-cell">
+            <ul>
+              <li *ngFor='let reqObj of getPatientDMProgramData(dmpObj)'>
+                <span>{{(reqObj && reqObj.dateOfEnrollment | date:'MM/dd/yyyy') || '----'}}</span>
+              </li>
+            </ul>
+          </td>
+
+          <td class="mat-cell">
+            <ul>
+              <li *ngFor='let reqObj of getPatientDMProgramData(dmpObj)'>
+                <span>{{(reqObj && reqObj.graduationDate | date:'MM/dd/yyyy') || '----'}}</span>
+              </li>
+            </ul>
+          </td>
+          <td class="mat-cell">
+            <ul>
+              <li *ngFor='let reqObj of getPatientDMProgramData(dmpObj)'>
+                <span>{{(reqObj && reqObj.dateOfTermination | date:'MM/dd/yyyy') || '----'}}</span>
+              </li>
+            </ul>
+          </td>
+          <td class="mat-cell">
+            <ul>
+              <li *ngFor='let reqObj of getPatientDMProgramData(dmpObj)'>
+                <span> {{reqObj && reqObj.careManager || '--'}}</span>
+              </li>
+            </ul>
+          </td>
+          <td class="mat-cell">
+            <ul>
+              <li *ngFor='let reqObj of getPatientDMProgramData(dmpObj)'>
+                <span> {{reqObj && reqObj.status || '--'}}</span>
+              </li>
+            </ul>
+          </td>
+          <td class="mat-cell">
+            <ul>
+              <li *ngFor='let reqObj of getPatientDMProgramData(dmpObj)'>
+                <span> {{reqObj && reqObj.frequency || '--'}}</span>
+              </li>
+            </ul>
+          </td>
+          <!-- <td class="mat-cell">
+            {{ (dmpObj && dmpObj.nextAppointmentDate | date:'MM/dd/yyyy h:mm a') || '--'}}
+          </td> -->
+          <!-- <td class="mat-cell">
+
+  </td> -->
+        </tr>
+      </tbody>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="metaData['totalRecords']"
+      [pageIndex]="metaData['currentPage'] - 1" [pageSize]="metaData['pageSize']" showFirstLastButtons>
+    </mat-paginator>
+  </div>
+
+
+</div>

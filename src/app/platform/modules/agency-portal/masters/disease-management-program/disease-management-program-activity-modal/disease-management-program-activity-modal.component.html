@@ -1,0 +1,25 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Disease Management Program Activity</h3>
+  <div mat-dialog-content>
+      <div class="clearfix"></div>
+      <div [class.hidden]="!isLoading">
+
+          <div class="full_loader">
+                <div class='loader'>
+                        <div class='loader--dot'></div>
+                        <div class='loader--dot'></div>
+                        <div class='loader--dot'></div>
+                        <div class='loader--dot'></div>
+                        <div class='loader--dot'></div>
+                        <div class='loader--text'></div>
+                    </div>
+              </div>
+      </div>
+      <app-data-table class="mt-3 d-block table-responsive" [inputColumns]="displayedColumns" [inputSource]="diseaseMangementProgramActivityData" [inputMeta]="metaData"
+        [inputButtons]='actionButtons' (onChange)="onPageOrSortChange($event)">
+      </app-data-table>
+  </div>
+  <div mat-dialog-actions>
+    <button color="accent" class="cancel-btn" mat-raised-button (click)="closeDialog()">Close</button>
+  </div>
+</div>

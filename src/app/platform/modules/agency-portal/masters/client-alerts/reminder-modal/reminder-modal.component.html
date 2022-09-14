@@ -1,0 +1,145 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Reminder Setting</h3>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="reminderForm" #documentForm="ngForm" class="readmin-form custom_form"
+        [formGroup]="reminderForm">
+        <div class="row refresh-icon">
+          <div class="col-md-4 require refresh">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Reminder Title" formControlName="title" [ngClass]="{ 'is-invalid': submitted && f.title.errors }" required/>
+              <mat-error *ngIf="f.title.errors">
+                Please enter title.
+              </mat-error>
+            </mat-form-field>
+            <i [matTooltip]="reminderTitle"  matTooltipClass="example-tooltip"
+                class="fa fa-info-circle infoIcon ml-1 field-clear"></i>
+          </div>
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input matInput [matDatepicker]="picker" (focus)="picker.open()" placeholder="Start Date"
+              formControlName="startDate" (dateChange)="onStartDateSelected($event)" required>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="f.startDate.errors">
+                Date error
+              </mat-error>
+            </mat-form-field>
+            <i [matTooltip]="reminderStartDate"  matTooltipClass="example-tooltip"
+                class="fa fa-info-circle infoIcon ml-1 field-clear"></i>
+          </div>
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input matInput [matDatepicker]="endpicker" (focus)="endpicker.open()" placeholder="End Date"
+              formControlName="endDate" required>
+              <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
+              <mat-datepicker #endpicker></mat-datepicker>
+              <mat-error *ngIf="">
+                Date error
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row refresh-icon">
+          <div class="col-sm-4 refresh">
+            <mat-form-field class="example-full-width">
+              <mat-select multiple placeholder="Select message type" formControlName="masterReminderMessageTypeIDs"
+                matInput [ngClass]="{ 'is-invalid': submitted && f.masterReminderMessageTypeIDs.errors }" required>
+                <mat-option *ngFor="let messagetypes of masterMessageType" [value]="messagetypes.id">
+                  {{messagetypes.value}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="f.masterReminderMessageTypeIDs.errors">
+                Please select message type
+              </mat-error>
+            </mat-form-field>
+            <i [matTooltip]="reminderMessageType" matTooltipClass="example-tooltip"
+              class="fa fa-info-circle infoIcon ml-1 field-clear"></i>
+            </div>
+            <div class="col-md-4 refresh">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Select frequency type" matInput formControlName="masterReminderFrequencyTypeId"
+                [ngClass]="{ 'is-invalid': submitted && f.masterReminderFrequencyTypeId.errors }" required>
+                  <mat-option *ngFor="let frequencytypes of masterReminderFrequencyType" [value]="frequencytypes.id">
+                    {{frequencytypes.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="f.masterReminderFrequencyTypeId.errors">
+                  Please select frequency type
+                </mat-error>
+              </mat-form-field>
+              <i [matTooltip]="reminderFrequencyType" matTooltipClass="example-tooltip"
+                class="fa fa-info-circle infoIcon ml-1 field-clear"></i>
+            </div>
+        </div>
+        <!-- <div class="row refresh-icon">
+          <div class="col-sm-4 require mt-3">
+            <mat-checkbox formControlName="isActive">
+              Is Active
+            </mat-checkbox>
+          </div>
+          <div class="col-sm-4 refresh">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Select enrollment type" matInput formControlName="enrollmentId"
+              [ngClass]="{ 'is-invalid': submitted && f.enrollmentId.errors }" required>
+                <mat-option *ngFor="let obj of masterEnrollmentTypeFilter" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="f.enrollmentId.errors">
+                Please select enrollment type
+              </mat-error>
+            </mat-form-field>
+            <i [matTooltip]="reminderEnrollmentType"  matTooltipClass="example-tooltip"
+                class="fa fa-info-circle infoIcon ml-1 field-clear"></i>
+          </div>
+        </div> -->
+        <!-- <div class="row refresh-icon">
+          <div class="col-sm-4 require mt-3">
+            <mat-checkbox (change)="onClickCheckbox($event,'')" formControlName="isSendReminderToCareManager">
+              Send Reminder To Provider
+            </mat-checkbox>
+          </div>
+          <div class="col-sm-8 require">
+            <mat-form-field *ngIf="isCareManager" class="example-full-width" hintLabel="{{f.careManagerMessage.value ? 1000 - f.careManagerMessage.value.length : 1000}} Characters Remaining">
+              <textarea matInput placeholder="Message to provider" maxlength="1000" formControlName="careManagerMessage"
+                  [ngClass]="{ 'is-invalid': submitted && f.careManagerMessage.errors }" required></textarea>
+                <mat-error *ngIf="f.careManagerMessage.errors?.required">
+                  Please enter provider message
+                </mat-error>
+            </mat-form-field>   
+            <small class="blackfont font12"></small>           
+          </div>
+          
+        </div> -->
+        <div class="row refresh-icon">
+          <div class="col-md-12 require">
+            <mat-form-field class="example-full-width" hintLabel="{{f.message.value ? 1000 - f.message.value.length : 1000}} Characters Remaining">
+              <textarea matInput placeholder="Reminder Message Type Here" maxlength="1000" formControlName="message" [ngClass]="{ 'is-invalid': submitted && f.message.errors }" required></textarea>
+              <mat-error *ngIf="f.message.errors?.required">
+                Please enter message
+              </mat-error>
+            </mat-form-field>
+            <small class="blackfont font12"></small>
+          </div>
+        </div>
+        <div class="row refresh-icon">
+          <div class="col-md-12 require">
+            <mat-form-field class="example-full-width" hintLabel="{{f.notes.value ? 1000 - f.notes.value.length : 1000}} Characters Remaining">
+                <textarea matInput placeholder="Reminder Notes" maxlength="1000" 
+                formControlName="notes"></textarea>
+              </mat-form-field>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button color="accent" class="cancel-btn" mat-raised-button (click)="onNoClick()">Close</button>
+    <button mat-raised-button color="primary" form="reminderForm" [disabled]="submitted" cdkFocusInitial>
+      {{submitted ? 'Saving...'  : 'Save'}}
+    </button>
+  </div>
+</div>

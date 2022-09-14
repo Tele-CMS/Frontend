@@ -1,0 +1,67 @@
+<div class="modal-header">
+    <h5 class="modal-title">
+        <span *ngIf="Detailid==0">Add Details</span>
+        <span *ngIf="Detailid>0">Edit Details</span>
+    </h5>
+    <button type="button" class="btn-close" (click)="close('close')">X
+    </button>
+</div>
+<div class="modal-body">
+    <!--<div class="card">
+        <div class="card-body">-->
+    <form [formGroup]="HeadingDataForm" (ngSubmit)="onHeadingDataSubmit();">
+        <div class="form-group">
+            <label class="form-label"> <b>Title </b><span class="req-fields"> *</span></label>
+            <input type="text" name="displayName" required="" formControlName="Title" maxlength="128" class="form-control">
+            <!--<span *ngIf="submitted && this.HeadingDataForm.value.Title == ''">
+                    <label class="req-fields mt-1 d-block"> Required field</label>
+                </span>-->
+            <small class="text-danger" *ngIf="controlHasError('required','Title',HeadingDataForm)">
+                Header is required.
+            </small>
+        </div>
+        <div class="form-group">
+            <label class="form-label"><b>Description <span class="req-fields"> *</span></b></label>
+            <textarea rows="8" cols="50" name="comment" formControlName="Description" class="form-control">
+                            Enter text...</textarea>
+            <small class="text-danger" *ngIf="controlHasError('required','Description',HeadingDataForm)">
+                Description is required.
+            </small>
+            <!--<span *ngIf="submitted && this.HeadingDataForm.value.Description == ''">
+        <label class="req-fields mt-1 d-block"> Required field</label>
+    </span>-->
+
+        </div>
+        <div class="form-group">
+            <label class="form-label"><b>Content <span class="req-fields"> *</span> </b></label>
+
+            <!--<div class="editor">
+                <ngx-editor-menu [editor]="editor" [toolbar]="toolbar" >
+                </ngx-editor-menu>
+                <ngx-editor [editor]="editor" [(ngModel)]="html"  [ngModelOptions]="{standalone: true}">
+                </ngx-editor>
+            </div>-->
+            <div class="form-group">
+                <quill-editor (onFocus)="focus($event)" (onEditorChanged)="changedEditor($event)" (onBlur)="blur($event)" (onEditorCreated)="created($event)" [modules]="modules" [(ngModel)]="html" [ngModelOptions]="{standalone: true}"></quill-editor>
+            </div>
+            <!--<span *ngIf="submitted && this.html== ''">
+        <label class="req-fields mt-1 d-block"> Content is required.</label>
+            </span>-->
+            <small class="text-danger" *ngIf="submitted && (html == '' || html == null)">
+                Content is required.
+            </small>
+        </div>
+        <!-- <div style="margin-top: 10px;" *ngIf="submitted">
+            <div [innerHTML]="html"></div>
+        </div> -->
+        <div class="form-group">
+            <button class="btn btn-primary" [disabled]="!HeadingDataForm.value.Title || !HeadingDataForm.value.Description || !this.html" type="submit">
+            <!--<i class="fa fa-plus"></i> Save-->
+                <span *ngIf="Detailid==0">Add </span>
+                <span *ngIf="Detailid>0">Edit </span>
+            </button>
+        </div>
+    </form>
+    <!--</div>
+        </div>-->
+</div>

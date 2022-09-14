@@ -1,0 +1,38 @@
+
+    <table class="table table-hover customtable group-table" matSort matSortDisableClear>
+      <thead>
+        <tr>
+          <th width="30%">
+            <span>Patient NAME</span>
+          </th>
+          <th width="30%">
+            <span>REMAINED UNIT(S)</span>
+          </th>
+          <th width="30%">
+            <span>EXPIRY DATE</span>
+          </th>
+          <th width="10%">
+            <span>ACTIONS</span>
+          </th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let auth of authList">
+          <td>
+            <span>{{auth.clientName}}</span>
+          </td>
+          <td>
+            <span  class="remain-unit-circle" [ngStyle]="{'background-color':auth.warningColorCode}">{{auth.remainedUnits + ' Unit(s)'}}</span>
+          </td>
+          <td>
+            <span>{{auth.endDate | date:'MM/dd/yyyy'}}</span>
+          </td>
+          <td>
+            <button type="button" title="View" class="tbactionbtn" (click)="onAuthTableActionClick(auth.clientId)">
+              <i class="fa fa-eye" aria-hidden="true"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <mat-paginator [length]="authMeta['totalRecords']" [pageIndex]="authMeta['currentPage'] - 1"
+      [pageSize]="authMeta['pageSize']" showFirstLastButtons></mat-paginator>

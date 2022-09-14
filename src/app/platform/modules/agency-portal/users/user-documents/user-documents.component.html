@@ -1,0 +1,96 @@
+
+<div [ngClass]="{'readmin-panel' : !isSpecificUser}">
+  <h2 *ngIf="!isSpecificUser" class="page_title">
+    Manage User Document</h2>
+  <div *ngIf="!isSpecificUser" class="clearfix"></div>
+  <div class="row">
+    <div *ngIf="!isSpecificUser" class="col-md-9 justify-content-start pull-left">
+      <form id="documentFormGroup" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="documentFormGroup">
+        <div class="row end-flex">
+          <div class="col-sm-3">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Select User" formControlName="userId" (selectionChange)="applyFilter()" matInput>
+                <mat-option *ngFor="let usr of locationUsers" [value]="usr.userId">
+                  {{usr.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-3">
+            <mat-form-field class="example-full-width">
+              <input (dateChange)="applyFilter()" matInput readonly [matDatepicker]="fromDate" placeholder="From Date" formControlName="fromDate">
+              <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+              <mat-datepicker #fromDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-3">
+            <mat-form-field class="example-full-width">
+              <input (dateChange)="applyFilter()" matInput readonly [matDatepicker]="toDate" [min]="formControls.fromDate.value" placeholder="To Date"
+                formControlName="toDate">
+              <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+              <mat-datepicker #toDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-2 filter-btn">
+            <button class="clear-btn" mat-raised-button (click)='clearfilters()'>Clear All</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-12 pull-right justify-content-md-end d-flex mt-15 mb-3 ">
+    <button *ngIf="(loginUserId == userId) || uploadPermission" mat-raised-button color="primary" (click)="createModal()">
+      <i class="fa fa-plus" aria-hidden="true"></i> Upload Document</button>
+  </div>
+  <div class="clearfix"></div>
+  <div *ngIf="documentList!=null && documentList.length>0" class="row">
+    <div class="col-lg-4 col-md-6 mb-3 custom-card custom-card-header" *ngFor="let doc of documentList">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            {{doc.documentTitle}}
+          </mat-card-title>
+          <mat-card-actions>
+            <button *ngIf="(loginUserId == userId) || downloadPermission" mat-button (click)="getUserDocument(doc)">
+              <i class="fa fa-download"></i>
+            </button>
+            <button *ngIf="(loginUserId == userId) || deletePermission" mat-button (click)="deleteUserDocument(doc.id)">
+              <i class="fa fa-close"></i>
+            </button>
+          </mat-card-actions>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="text-left">
+            <p>Document Type:
+              <span>{{doc.documentTypeNameStaff}}</span>
+            </p>
+            <p>Uploaded Date:
+              <span>{{doc.createdDate |date:'MM/dd/yyyy'}}</span>
+            </p>
+            <p>Expiration Date:
+              <span>{{doc.expiration |date:'MM/dd/yyyy'}}</span>
+            </p>
+          </div>
+
+          <div class="text-right">
+            <img *ngIf="doc.extenstion=='.pdf'" src="../../../../../../assets/img/pdf.png" />
+            <img *ngIf="doc.extenstion=='.doc' || doc.extenstion=='.docx'" src="../../../../../../assets/img/doc.png" />
+            <img *ngIf="doc.extenstion=='.ppt' || doc.extenstion=='.pptx'" src="../../../../../../assets/img/ppt.png" />
+            <img *ngIf="doc.extenstion=='.xls' || doc.extenstion=='.xlsx'" src="../../../../../../assets/img/excel.png" />
+            <img *ngIf="doc.extenstion=='.jpg' || doc.extenstion=='.jpeg'" src="../../../../../../assets/img/jpg.png" />
+            <img *ngIf="doc.extenstion=='.png'" src="../../../../../../assets/img/jpg.png" />
+            <img *ngIf="doc.extenstion=='.txt'" src="../../../../../../assets/img/txt.png" />
+          </div>
+        </mat-card-content>
+
+      </mat-card>
+    </div>
+  </div>
+  <!-- <div *ngIf="userId!=null && (documentList==null || documentList.length==0)" class="row">
+      <p>No Records Found</p>
+     </div>
+  <div *ngIf="userId==null && (documentList==null || documentList.length==0)" class="row">
+   <p>No Staff Selected</p>
+  </div> -->
+</div>

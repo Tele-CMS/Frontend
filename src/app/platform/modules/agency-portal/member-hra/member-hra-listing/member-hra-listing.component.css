@@ -1,0 +1,106 @@
+.memberhra-table th:last-child, .memberhra-table td:last-child
+{
+    position: sticky;
+    z-index: 1;
+    right: 0;
+}
+.memberhra-table td:last-child
+{
+    background-color: var(--color-white);
+    background-clip: padding-box;
+}
+.memberhra-table th:last-child
+{
+    background-color: #F1F5F7;
+}
+.memberhra-table.table-hover tbody tr:hover {
+    background-color: transparent;
+}
+.hra-form h6
+{
+    font-size: 13px;
+}
+.field-clear
+{
+    position: absolute;
+    bottom: 1.80em;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.40);
+}
+.hra-records span {
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 10px;
+}
+.refresh-icon .refresh
+{
+    padding-right: 27px;
+}
+.filter-btn button
+{
+    margin:0rem 0.3rem 0.3rem 0rem !important;
+}
+
+.sech_item {
+    font-size: 13px;
+    line-height: 14px;
+    margin-bottom: 5px;
+    font-weight: 300;
+    display: flex;
+}
+.sech_item p {
+    margin: 0;
+    font-weight: 400;
+}
+.sech_item span::before {
+    border-left: 1px solid var(--color-black);
+    content: "";
+    height: 59%;
+    position: absolute;
+    right: -5px;
+    top: 3px;
+}
+.sech_item span {
+    margin: 0 5px;
+    position: relative;
+    color: var(--color-black);
+    cursor: pointer;
+}
+.sech_item span:last-child::before {
+    border-left: 0px;
+}
+.sech_item span.active {
+    font-weight: 500;
+    color: var(--color-black);
+}
+.caregap-sl-dt {
+    position: absolute;
+    top: -5px;
+    z-index: 1;
+}
+.expt-excel {
+    min-width: auto;
+}
+.fixed-table td.mat-cell a {
+  color: #264653;
+}
+
+@media (max-width: 575px) {
+    .cushgt {
+        padding: 0 15px !important;
+   }
+    .sech_item a {
+        margin: 0px 5px;
+   }
+    .sech_item a::before {
+        border-left: 1px solid var(--color-white);
+        content: "";
+        height: 59%;
+        position: absolute;
+        right: -5px;
+        top: 3px;
+   }
+    .cushgt {
+        margin: 15px 0px 0px;
+   }
+}

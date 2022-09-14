@@ -1,0 +1,66 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Add Signature</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="signForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="signForm">
+          <div class="row" *ngIf="isShowSignatory">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Signatory" formControlName="Signatory" matInput [ngClass]="{ 'is-invalid': submitted && formControls.Signatory.errors }"
+                  required>
+                  <mat-option *ngFor="let option of SignatoryLists" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.Signatory.errors">
+                  Please select signatory
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6" [ngSwitch]="formControls.Signatory.value">
+              <mat-form-field *ngSwitchCase="'Practitioner'" class="example-full-width">
+                <mat-select placeholder="Practitioner" formControlName="StaffID" matInput [ngClass]="{ 'is-invalid': submitted && formControls.StaffID.errors }"
+                  required>
+                  <mat-option *ngFor="let option of StaffLists" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.StaffID.errors">
+                  Please select practitioner
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field *ngSwitchCase="'Client'" class="example-full-width">
+                <input matInput placeholder="Patient" formControlName="Client" readonly />
+              </mat-form-field>
+              <mat-form-field *ngSwitchCase="'Guardian'" class="example-full-width">
+                <input matInput placeholder="Guardian" maxlength="50" formControlName="Guardian" [ngClass]="{ 'is-invalid': submitted && formControls.Guardian.errors }"
+                  required/>
+                <mat-error *ngIf="formControls.Guardian.errors">
+                  Please select guardian
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+                <signature-pad [options]="signaturePadOptions" (onEndEvent)="drawComplete()">
+                  </signature-pad>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+      <button color="accent" class="cancel-btn" mat-raised-button (click)="onClose()">Close</button>
+      <div>
+        
+        <button mat-raised-button color="primary" form="signForm" [disabled]="submitted" cdkFocusInitial>
+        {{submitted ? 'Submiting...' : 'Save'}}
+      </button>
+      <button color="primary" class="ml-3" mat-raised-button (click)="onClear()">Clear</button>
+    </div>
+  </div>
+</div>

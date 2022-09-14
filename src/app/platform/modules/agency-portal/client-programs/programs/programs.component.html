@@ -1,0 +1,14 @@
+<div [ngClass]=" { 'readmin-panel': isRoleClient }">
+    <div *ngIf="isRoleClient" class="d-flex justify-content-between panel-title align-items-center">
+      <h1 class="page_title">My Programs</h1>
+    </div>
+
+    <div *ngIf="addPermission" class="col-sm-12 d-flex align-items-center justify-content-end mb-3">
+      <button name="Save" class="add-new-btn" mat-raised-button color="primary"
+        (click)="assignOrUpdateProgram()">Enroll</button>
+    </div>
+  <app-data-table class="d-block table-responsive" [inputColumns]="displayedColumns" [inputSource]="programsListingData"
+    [inputMeta]="metaData" [inputButtons]='actionButtons' (onChange)="onPageOrSortChange($event)"
+    (onTableActionClick)="onTableActionClick($event)">
+  </app-data-table>
+</div>

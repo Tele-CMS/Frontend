@@ -1,0 +1,30 @@
+<div [ngClass]=" { 'readmin-panel': isRoleClient }">
+  <div class="container-fluid">
+    <div *ngIf="isRoleClient" class="d-flex justify-content-between panel-title align-items-center">
+      <h1 class="page_title">My Claims Medications</h1>
+    </div>
+    <form class="readmin-form custom_form">
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <input matInput [(ngModel)]="searchText" name="searchText" (input)="applyFilter($event.target.value)"
+              placeholder="Search">
+          </mat-form-field>
+        </div>
+        <div class="col-md-8 filter-btn">
+          <button type="button" class="clear-btn mr-5" color="accent" (click)="clearFilters()" mat-raised-button>Clear
+            All</button>
+          <mat-checkbox *ngIf="!isRoleClient" color="primary" (change)="isAlertChecked($event)">
+            Show Alerts
+          </mat-checkbox>
+        </div>
+
+      </div>
+    </form>
+  </div>
+  <div class="clearfix"></div>
+  <app-data-table class="mt-3 d-block table-responsive" [inputColumns]="displayedColumns" [inputSource]="medicationList"
+    [inputMeta]="metaData" [inputButtons]='actionButtons' (onChange)="onPageOrSortChange($event)"
+    (onTableActionClick)="onTableActionClick($event)">
+  </app-data-table>
+</div>

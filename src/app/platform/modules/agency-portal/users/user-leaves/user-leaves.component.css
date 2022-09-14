@@ -1,0 +1,24 @@
+/*Table Css*/
+table {
+    width: 100%;
+  }
+  
+  .table {
+    border-collapse: collapse;
+    background-color: transparent;
+  }
+  
+  .customtable {
+    white-space: normal;
+  }
+
+  table th.mat-header-cell > div > button {
+    color: var(--color-black);
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  /*Pagination*/
+  .mat-paginator .mat-paginator-container {
+    justify-content: space-between;
+  }

@@ -1,0 +1,11 @@
+.overtime_prd h5 {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 20px 0px 20px;
+}
+.overtime_prd label {
+    width: 100% !important;
+}
+.cal-period label {
+    margin-top: 7px !important;
+}

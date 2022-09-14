@@ -1,0 +1,101 @@
+<div>
+    <!--Payer Box-->
+      <h2 class="page_title">Add options to question</h2>
+      <div class="clearfix"></div>
+      <div class="readmin-panel" style="width: 98%;">
+        
+        <div class="clearfix"></div>
+        <!-- <app-data-table [inputColumns]="displayedColumns" [inputSource]="payersData" [inputMeta]="metaData" [inputButtons]='actionButtons'
+          (onChange)="onPageOrSortChange($event)" (onTableActionClick)="onTableActionClick($event)">
+        </app-data-table> -->
+    
+        <!-- (onChange)="onPageOrSortChange($event)" 
+       (-->
+<div class="row">
+    <div class="col-sm-12">
+        <div *ngIf="questionNameModel.questionNameName" class="col-md-3 text-left" style="font-size: 17px;">{{questionNameModel.questionNameName}} ?</div>
+      <form id="payerForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="payerForm">
+        <div class="row">
+        
+          <!-- <div class="col-sm-4 require">
+            <mat-form-field class="example-full-width">
+              <mat-select autofocus placeholder="Question" formControlName="questionid" matInput [ngClass]="{ 'is-invalid': submitted && formControls.questionid.errors }"
+                required>
+                <mat-option *ngFor="let insType of masterInsuranceType" [value]="insType.id">
+                  {{insType.value}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="formControls.questionid.errors">
+                Please select Question
+              </mat-error>
+            </mat-form-field>
+          </div> -->
+
+          <!-- <div class="col-sm-4 require">
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Option"
+                    formControlName="QuestionOptionName" />
+            </mat-form-field>
+          </div> -->
+
+
+          <!-- <div class="col-sm-4 require">
+            <mat-form-field class="example-full-width">
+              <input matInput autofocus placeholder="Keyword Name" maxlength="200" formControlName="keywordName" [ngClass]="{ 'is-invalid': submitted && formControls.keywordName.errors }"
+                required />
+              <mat-error *ngIf="formControls.keywordName.errors?.required">
+                Please enter keyword name
+              </mat-error>
+            </mat-form-field>
+          </div> -->
+          <!-- <div style="margin-left: 577px;"> -->
+            <div style="margin-left: 910px;">
+            <button name="Save" mat-raised-button color="primary" (click)="onSubmit($event)" form="payerForm" class="text-uppercase" [disabled]="submitted"
+              cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+  
+            <!-- <button name="SaveContinue" mat-raised-button color="accent" (click)="onSubmit($event)" form="payerForm" class="text-uppercase ml-3"
+              [disabled]="submitted">{{submitted ? 'Saving...' : 'Save & Continue'}}</button> -->
+          </div>
+
+        </div>
+  
+       
+        
+  
+        
+        <div formArrayName="questionnaireoptions">
+          <div *ngFor="let X of questionnaireoptions['controls']; let ix=index">
+              <div class="row">
+                
+                  <div class="col-sm-4 pdl-40">
+                      <div formGroupName="{{ix}}" class="Xs">
+                          <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Option"
+                                  formControlName="questionOptionName" />
+                          </mat-form-field>
+                      </div>
+                  </div>
+                  <button *ngIf="(ix > 0) || (questionnaireoptions['controls'].length > 1)"
+                      type="button" class="additem removeitem" title="Remove Disease" (click)=removeoptionsFields(ix)>
+                      <b class="fa fa-minus-square orangefont" aria-hidden="true"></b>
+                  </button>
+                  <button *ngIf="(ix + 1) === questionnaireoptions['controls'].length"
+                      type="button" class="additem" title="Add modifier" (click)=addoptionsFields()>
+                      <b class="fa fa-plus-square greenfont" aria-hidden="true"></b>
+                  </button>
+              </div>
+          </div>
+      </div>
+        
+        
+       
+       
+  
+  
+       
+         
+       
+  
+      </form>
+    </div>
+  </div>

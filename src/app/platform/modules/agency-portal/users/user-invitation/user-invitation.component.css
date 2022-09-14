@@ -1,0 +1,13 @@
+/*Invitation Status Style*/
+.user-invitation-pending{
+    color: #3c7590;
+}
+.user-invitation-accepted{
+    color: #157b15;
+}
+.user-invitation-rejected{
+    color: #bd2424;
+}
+.user-invitation-reinvited{
+    color: #dc8e00;
+}

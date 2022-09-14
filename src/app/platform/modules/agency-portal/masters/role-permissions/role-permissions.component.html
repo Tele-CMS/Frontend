@@ -1,0 +1,118 @@
+<div>
+
+  <div class="readmin-panel">
+    <h2 class="page_title">Role Permissions</h2>
+  <div class="clearfix"></div>
+    <div class="row">
+      <div class="col-md-4 mtm-27 justify-content-start pull-left">
+        <form class="readmin-form custom_form" (ngSubmit)="onSubmit()" id="rolePermissionForm" #documentForm="ngForm"
+          [formGroup]="rolePermissionForm">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Select Role" class="example-full-width"
+              (selectionChange)='getRolePermissions($event.value)' formControlName="roleId" matInput
+              [ngClass]="{ 'is-invalid': submitted && formControls.roleId.errors }" required>
+              <mat-option *ngFor="let option of masterRoles" [value]="option.id">
+                {{option.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+      </div>
+      <div class="col-md-8 pull-right justify-content-md-end d-flex">
+        <button mat-raised-button color="primary" form="rolePermissionForm" [disabled]="submitted"
+          cdkFocusInitial>{{submitted ? 'Saving...':'Save'}}</button>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="row">
+      <div class="col-sm-12 table-responsive">
+        <table class="table table-hover maintable rolepermission-table">
+          <thead>
+            <tr>
+              <th width="50%">Modules</th>
+              <th width="50%">Permission</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let module of modulePermissions">
+              <td colspan="2">
+                <table class="table middletable">
+                  <tbody>
+                    <tr class="trhead">
+                      <td width="50%"><button type="button" class="greyaddremove mr-15"><i
+                            class="{{'moduleClass'+module.moduleId}}" (click)="changeClass(module.moduleId,0, 'module')"
+                            [ngClass]="{'fa':true,'fa-plus-square':true}" aria-hidden="true"></i></button>
+                        {{module.moduleName}}
+                        <!-- Manage Users -->
+
+                      </td>
+
+                      <td width="50%">
+                        <mat-slide-toggle [checked]="module.permission" (change)="setPermission(module.moduleId,'module')"></mat-slide-toggle>
+                        <!-- <button type="button" name="MODULE_2" class="addnum" title="Module permissions"
+                          value="false"><i [ngClass]="{'fa':true,'fa-plus-square': module.permission==true ,'greenfont':module.permission==true, 'fa-minus-square': module.permission==false ,'orangefont':module.permission==false}" aria-hidden="true" (click)="setPermission(module.moduleId,'module')"></i></button> -->
+                      </td>
+                    </tr>
+                    <tr *ngFor="let screen of filterItems(module.moduleId,'screen')"
+                      [ngClass]="{'nohover':true, 'screen-hide':true}" class="{{'screenClass'+module.moduleId}}">
+                      <td colspan="2">
+                        <table class="table tablefullwidth">
+                          <tbody>
+                            <tr>
+                              <td width="50%"><button type="button" class="greyaddremove mr-15"><i
+                                    class="{{'screenButton'+screen.screenId}}"
+                                    (click)="changeClass(module.moduleId,screen.screenId,'screen')"
+                                    [ngClass]="{'fa':true,'fa-plus-square':true}" aria-hidden="true"></i></button>
+                                {{screen.screenName}}
+                                <!-- User List -->
+                                <!-- /react-text -->
+                              </td>
+                              <td width="50%">
+                                <mat-slide-toggle [checked]="screen.permission" (change)="setPermission(screen.screenId,'screen')"></mat-slide-toggle>
+                                <!-- <button type="button" name="SCREEN_1" class="addnum" title="Screen permissions"
+                                  value="false"><i [ngClass]="{'fa':true,'fa-plus-square': screen.permission==true ,'greenfont':screen.permission==true, 'fa-minus-square': screen.permission==false ,'orangefont':screen.permission==false}" aria-hidden="true" (click)="setPermission(screen.screenId,'screen')"></i></button> -->
+                              </td>
+                              <!-- "fa fa-minus-square orangefont" -->
+                            </tr>
+                            <tr class="nohover action-show">
+                              <td colspan="2">
+                                <table class="table childtable">
+                                  <tbody>
+                                    <tr *ngFor="let action of filterItems(screen.screenId,'action')"
+                                      [ngClass]="{'screen-hide':true}" class="{{'actionClass'+screen.screenId}}">
+                                      <td width="50%">
+                                        {{action.actionName}}
+                                        <!-- Add User -->
+
+                                      </td>
+                                      <td width="50%">
+                                        <mat-slide-toggle [checked]="action.permission" (change)="setPermission(action.actionId,'action')">
+                                        </mat-slide-toggle>
+                                        <!-- <button type="button" name="ACTION_1" class="addnum" title="Action permission"><i
+                                        [ngClass]="{'fa':true,'fa-plus-square': action.permission==true ,'greenfont':action.permission==true, 'fa-minus-square': action.permission==false ,'orangefont':action.permission==false}" aria-hidden="true" (click)="setPermission(action.actionId,'action')"></i>
+                                      </button> -->
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>

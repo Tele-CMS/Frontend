@@ -1,0 +1,40 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>User Role</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="userRoleForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="userRoleForm">
+          <div class="row">
+            <div class="col-sm-12 require">
+              <mat-form-field class="example-full-width" hintLabel="{{f.roleName.pending ? 'Validating...' : ''}}">
+                <input matInput autofocus placeholder="Role Name" maxlength="50" formControlName="roleName" [ngClass]="{ 'is-invalid': submitted && f.roleName.errors }"
+                  required />
+                <mat-error *ngIf="f.roleName.errors?.required">
+                  Please enter role name
+                </mat-error>
+                <mat-error *ngIf="f.roleName.errors?.uniqueName">
+                    Name is already taken.
+                  </mat-error>
+              </mat-form-field>
+            </div>
+            </div>
+          
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-checkbox formControlName="isActive">
+                Is Active
+              </mat-checkbox>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button class="cancel-btn" mat-raised-button (click)="closeDialog()">Close</button>
+    <button mat-raised-button color="primary" form="userRoleForm" [disabled]="submitted || f.roleName.pending" cdkFocusInitial>
+      {{(submitted || f.roleName.pending) ? submitted ? 'Saving...' : f.roleName.pending ? 'Validating...' : 'Save' : 'Save'}}
+    </button>
+  </div>
+</div>

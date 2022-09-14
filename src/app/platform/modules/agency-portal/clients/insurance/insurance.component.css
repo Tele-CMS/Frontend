@@ -1,0 +1,104 @@
+ /*Insurance tabs*/
+ .active {
+    color: rgba(0, 0, 0, 0.6); }
+.tabs-sm {
+    list-style: outside none none;
+    padding: 0;
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+
+.tabs-sm li {
+    background-color: #efefef;
+    padding: 10px 30px;
+    margin: 0;
+    margin-bottom: 0;
+    border-right: 1px solid #d8d8d8;
+    display: inline-block;
+}
+.tabs-sm-li:last-child{
+    border-right: none;
+}
+
+.tabs-sm li a {
+    color: #2f2660;
+    font-size: 16px;
+    font-weight: 500;
+    padding-left: 30px;
+    position: relative;
+    text-transform: capitalize;
+}
+.tabs-sm li.active a, .tabs-sm li.active a i{
+    color: #264653 !important;
+    font-weight: 600;
+}
+.custom_form .tabs-sm i {
+    color: #2f2660;
+    left: 0;
+    line-height: 20px;
+    top: 0px;
+    font-size: 20px;
+    position: absolute;
+    display:inline-block !important;
+}
+
+.custom_form .tabs-sm li.active a, .custom_form .tabs-sm li a:hover {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.custom_form .tabs-sm li.active a i, .custom_form .tabs-sm li a:hover i {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+/*insurance tabs common css for margin*/
+.rsmb-30 {
+    margin-bottom: 30px;
+}
+.insurance-doc {
+    border-radius: 0px;
+}
+@media (max-width: 767px) {
+    /*Insurance tabs*/
+    .customtab>div span {
+        margin-bottom: 0px !important;
+    }
+    .tabs-sm li {
+        margin-bottom: 10px;
+    }
+}
+@media(max-width: 480px) {
+    /*Insurance tabs*/
+    .copy_adrs {
+        top: 35px;
+    }
+    .tabs-sm li {
+        margin-right: 5px;
+    }
+    .tabs-sm li a {
+        padding-left: 25px;
+    }
+}
+.uplaod_pic img {
+    height: 150px;
+    max-width: 100%;
+    width: auto;
+}
+
+
+.uplaod_pic span {
+    background: rgba(0, 0, 0, 0.20);
+    color: var(--color-white);
+    font-weight: 300;
+    font-size: 13px;
+    left: 0;
+    right: 0;
+    bottom: 5px;
+    border-radius: 0;
+    position: absolute;
+    height: 30px;
+    line-height: 30px;
+}
+
+.uplaod_pic .browse {
+    border-radius: 0px !important;
+}

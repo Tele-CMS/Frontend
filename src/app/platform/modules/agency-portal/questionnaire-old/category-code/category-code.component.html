@@ -1,0 +1,32 @@
+<div class="col-md-5 pull-right justify-content-md-end d-flex">
+  <button mat-raised-button color="primary" class="add-primary-btn" [disabled]="!categoryId" (click)="openDialog()">
+    <i class="fa fa-plus" aria-hidden="true"></i> <span>Add Category Code</span></button>
+</div>
+<div class="col-md-8 justify-content-start pull-left">
+  <form class="readmin-form custom_form">
+    <div class="row end-flex">
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width">
+          <mat-select matInput placeholder="Select Category" [(value)]="categoryId" (selectionChange)="onCategorySelect($event.value)">
+            <mat-option *ngFor="let option of masterCategory" [value]="option.id">
+              {{option.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width">
+          <input matInput [(ngModel)]="searchText" name="searchText" (keyup)="applyFilter($event.target.value)"
+            placeholder="Search">
+        </mat-form-field>
+      </div>
+      <div class="col-md-4 filter-btn">
+        <button class="clear-btn" mat-raised-button (click)="clearFilters()">Clear All</button>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="clearfix"></div>
+<app-data-table [inputColumns]="displayedColumns" [inputSource]="categoryCodeData" [inputMeta]="metaData"
+  [inputButtons]='actionButtons' (onChange)="onPageOrSortChange($event)" (onTableActionClick)="onTableActionClick($event)">
+</app-data-table>

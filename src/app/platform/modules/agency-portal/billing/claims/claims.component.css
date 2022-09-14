@@ -1,0 +1,332 @@
+
+.maintable tbody tr>td {
+    border: 0 none;
+    padding: 0;
+}
+
+.table.middletable {
+    margin: 0;
+    white-space: normal;
+}
+
+.middletable tbody tr>td {
+    border-top: 1px solid #eceeef;
+    padding: 0.75rem;
+}
+
+.table.childtable {
+    margin: 0;
+}
+
+.table tr.nohover:hover {
+    background-color: transparent !important;
+}
+
+.table.childtable thead th {
+    background: var(--color-white) none repeat scroll 0 0;
+    padding: 0.50rem 0.75rem;
+}
+
+.table.childtable tbody>tr:hover {
+    background-color: transparent !important;
+}
+
+.table.childtable td {
+    padding: 0.50rem 0.75rem;
+    border: 0px;
+}
+
+.table.middletable tr.nohover>td {
+    padding: 0;
+}
+
+
+
+
+
+/* for row hide show */
+.show-row{
+    display: table-row;
+}
+.hide-row{
+    display: none;
+}
+
+
+.claim {
+    display: block;
+    position: relative;
+    cursor: pointer;
+}
+
+.claim i.fa-info-circle {
+    color: #53D8A2;
+    padding-left:3px;
+}
+.claimbox {
+    background-color: var(--color-white);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 0 1px rgba(0, 0, 0, 0.02);
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 0 1px rgba(0, 0, 0, 0.02);
+    border: 1px solid #ddd;
+    left: 100%;
+    right: inherit;
+    top: -6px;
+    margin: 0px auto;
+    width: 210px;
+    position: absolute;
+    display: block;
+    z-index: 1000;
+}
+
+.claimbox::before, .claimbox::before {
+    border-bottom: 8px solid transparent;
+    border-right:10px solid #264653;
+    border-top: 8px solid transparent;
+    content: "";
+    left: -10px;
+    position: absolute;
+    top: 7px;
+    z-index: 11;
+}
+
+.claimcontent {
+    padding: 10px 0px;
+    overflow: hidden;
+}
+
+.claimcontent h3 {
+    margin: 0px;
+    padding: 0px 10px 10px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.claimheader {
+    background-color: #264653;
+    padding: 5px 10px;
+    overflow: hidden;
+}
+
+.claimheader h3 {
+    margin: 0px;
+    color: var(--color-white);
+    font-size: 14px;
+    text-align: left;
+    line-height: 17px;
+    padding-top: 3px;
+}
+
+.claimdosdate {
+    padding: 0px 10px 0px 30px;
+    font-size: 14px;
+    color: #7a7a7a;
+    position: relative;
+    float: left;
+}
+
+.claimdosdate span {
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.80);
+}
+
+.claimdosdate i {
+    position: absolute;
+    left: 10px;
+    top: 2px;
+}
+
+.claimicons {
+    float: right;
+}
+
+.claimicons ul {
+    padding: 0px;
+    margin: 0px;
+    text-align: right;
+}
+
+.claimicons ul li {
+    margin: 0px;
+    padding: 0px;
+    display: inline;
+    list-style: none;
+}
+
+.claimicons ul li a {
+    display: inline-block;
+    color: var(--color-white);
+    font-size: 14px;
+    vertical-align: top;
+    padding: 0px 5px 0px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+.claimsoapdate {
+    display: block;
+    overflow: auto;
+    padding: 0px;
+    float: left;
+}
+
+.claimsoapdate ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+.claimsoapdate ul li {
+    margin: 0px;
+    padding: 0px 20px 5px 30px;
+    list-style: none;
+    color: #7a7a7a;
+    position: relative;
+}
+
+.claimsoapdate ul li:last-child {
+    padding-bottom: 0px;
+}
+
+.claim .claimsoapdate li i.fa-info-circle {
+    right: 0px;
+    left: inherit;
+}
+
+.claimsoapdate ul li span {
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.80);
+}
+
+.claimsoapdate ul li i {
+    position: absolute;
+    left: 10px;
+    top: 3px;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+.bottom-label {
+    font-weight: 500;
+    font-size: 14px;
+    display: inline-block;
+    color: #2a3134;
+}
+
+/*Drag Soap Div*/
+.soapdrag {
+    width: 300px;
+    background: var(--color-white);
+    position: fixed;
+    height: 100%;
+    top:48px;
+    box-shadow: 0 6px 25px 0 rgba(38, 50, 56, 0.2);
+    -webkit-box-shadow: 0 6px 25px 0 rgba(38, 50, 56, 0.2);
+    transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    z-index: 1500;
+    right: 0px;
+    padding-right: 10px;
+}
+
+.soapdragheader {
+    background: #53D8A2;
+    padding: 10px;
+    position: relative;
+}
+
+.soapdragheader h3 {
+    padding: 0px;
+    margin: 0px;
+    color: var(--color-white);
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.soapdragheader i {
+    position: absolute;
+    color: var(--color-white);
+    right: 10px;
+    top: 7px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.visitcontent {
+    padding: 10px 10px 92px 10px;
+    height: 100%;
+    width: 100%;
+}
+
+.visititem {
+    padding: 10px;
+    position: relative;
+    padding-left: 30px;
+}
+
+.visititem-title {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    color:#264653;
+}
+
+.visititem-title i {
+    position: absolute;
+    left: 0px;
+    top: 10px;
+}
+
+.itemdivide {
+    margin: 10px 0px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.visititem h5 {
+    font-size: 14px;
+    color: var(--color-black);
+    line-height: 20px;
+    font-weight: 500;
+    margin: 0px;
+    padding: 0px 0px 5px 0px;
+}
+
+.visititem p {
+    margin: 0px;
+    line-height: 20px;
+    font-size: 14px;
+}
+
+.itemdiagnosis {
+    margin: 10px 0px;
+}
+
+.itemdiagnosis p {
+    padding-bottom: 10px;
+}
+
+.cptcodes:last-child {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.cptcodes ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+.cptcodes ul li {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    display: block;
+    padding: 10px 5px 0px 0px;
+    font-size: 14px;
+}
+

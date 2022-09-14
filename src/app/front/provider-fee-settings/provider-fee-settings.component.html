@@ -1,0 +1,41 @@
+<div class="custom_modal">
+    <h3 mat-dialog-title>Cancellation Rules</h3>
+    <div mat-dialog-content>
+
+        <div class="col-md-12">
+        <div *ngIf="data && data.length > 0" class="row text-center">
+          <div class="col-sm-6">
+                Upto Hours
+            </div>
+            <div class="col-sm-6 pl-0">
+                Refund
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="col-sm-12" *ngFor="let cr of data">
+                <div class="row">
+                    <div class="col-sm-6 txt-cntr">
+                        {{cr.uptoHours}}
+                    </div>
+                    <div class="col-sm-6 txt-cntr">
+                        {{cr.refundPercentage + '%'}}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="!data || data.length == 0" class="row text-center col-md-12 pd-12">
+            <div class="fa fa-times"></div>
+            <span class="pd-12">
+                Cancellation policy is not there hence no refund will be given in case of cancellation.
+            </span>
+        </div>
+     </div>
+    </div>
+
+    <div mat-dialog-actions class="float-right">
+        <button class="link-btn mr-3 mb-2" mat-raised-button (click)="onClose()">Close</button>
+       
+    </div>
+</div>

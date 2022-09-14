@@ -1,0 +1,73 @@
+/*.maintable {
+    border: 1px solid #eceeef;
+}*/
+
+.maintable tbody tr>td {
+    padding: 0;
+}
+
+.table.middletable {
+    margin: 0;
+    white-space: normal;
+}
+
+.middletable tbody tr>td {
+    border-top: 1px solid #eceeef;
+    padding:0 .75rem;
+}
+
+.table.childtable {
+    margin: 0;
+}
+
+.table tr.nohover:hover {
+    background-color: transparent !important;
+}
+
+.table.childtable thead th {
+    background: var(--color-white) none repeat scroll 0 0;
+    padding: 0.50rem 0.75rem;
+    height: auto;
+}
+
+.table.childtable tbody>tr:hover {
+    background-color: transparent !important;
+}
+
+.table.childtable td {
+    padding: 0rem 0.75rem;
+    border: 0px;
+}
+
+.table.middletable tr.nohover>td {
+    padding: 0;
+}
+
+/*table add remove red green buttons*/
+.tableadd, .tableless{background: none; border: 0px; padding: 0px; cursor: pointer;}
+.tableless{margin-right: 5px;}
+
+
+
+/* for row hide show */
+.show-row{
+    display: table-row;
+}
+.hide-row{
+    display: none;
+}
+
+.table td .mat-form-field-infix {
+    width: auto;
+}
+.readmin-panel{
+    padding: 15px 0;
+}
+.readmin-panel .panel_title h3{
+    font-weight: 600;
+    padding: 5px 0px 0px 35px;
+}
+.panel_title .flaticon {
+    top: 6px ;
+    left: 10px!important;
+}

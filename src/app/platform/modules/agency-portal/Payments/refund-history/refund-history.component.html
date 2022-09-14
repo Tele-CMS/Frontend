@@ -1,0 +1,52 @@
+<div>
+  <h2 class="page_title">Refund History</h2>
+  <div class="clearfix"></div>
+  <div class="readmin-panel">
+    <div class="no-gutters">
+      <!-- <div class="col-md-3 pull-right justify-content-md-end d-flex">
+        <button *ngIf="addPermission" mat-raised-button color="primary" (click)="addUser()">
+          <i class="fa fa-plus" aria-hidden="true"></i> Add User</button>
+      </div> -->
+      <div class="col-md-9 justify-content-start pull-left">
+        <form class="readmin-form custom_form" id="paymentFormGroup" #documentForm="ngForm" [formGroup]="paymentFormGroup">
+          <div class="row end-flex">
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                <input matInput (keyup)="applyFilter()" placeholder="Patient Name" formControlName="name">
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <input matInput readonly [matDatepicker]="payDate" (dateChange)="applyPayDateFilter($event)" placeholder="Refund Date" formControlName="payDate"
+                      >
+                    <mat-datepicker-toggle matSuffix [for]="payDate"></mat-datepicker-toggle>
+                    <mat-datepicker #payDate></mat-datepicker>
+                    
+                  </mat-form-field>
+              
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <input matInput readonly [matDatepicker]="appDate" (dateChange)="applyAppDateFilter($event)" placeholder="Appointment Date" formControlName="appDate"
+                      >
+                    <mat-datepicker-toggle matSuffix [for]="appDate"></mat-datepicker-toggle>
+                    <mat-datepicker #appDate></mat-datepicker>
+                    
+                  </mat-form-field>
+              
+            </div>
+            <div class="col-md-2 filter-btn">
+              <button class="clear-btn" mat-raised-button (click)='clearFilters()'>Clear All</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <app-data-table [inputColumns]="displayedColumns" [inputSource]="payments" [inputMeta]="metaData" [inputButtons]='actionButtons'
+      (onChange)="onPageOrSortChange($event)">
+    </app-data-table>
+
+    <!-- (onChange)="onPageOrSortChange($event)" 
+   (-->

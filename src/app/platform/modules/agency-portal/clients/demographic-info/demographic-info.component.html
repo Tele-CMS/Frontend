@@ -1,0 +1,297 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 _ngcontent-c39="" class="nw-hdng">Add Patient Details</h3>
+            <form id="demographicInfoForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="demographicInfoForm">
+                <div class="row">
+                    <div class="col-sm-4 require">
+                        <mat-form-field class="example-full-width">
+                            <input matInput autofocus appAlphanumericOnly allowFirstName="true" placeholder="First Name" maxlength="40" formControlName="firstName" [ngClass]="{ 'is-invalid': submitted && formControls.firstName.errors }" required />
+                            <mat-error *ngIf="formControls.firstName.errors?.required">
+                                Please enter first name
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4 require">
+                        <mat-form-field class="example-full-width">
+                            <input matInput autofocus appAlphanumericOnly alphabetsOnly="true" placeholder="Middle Name" maxlength="40" formControlName="middleName" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4 require">
+                        <mat-form-field class="example-full-width">
+                            <input matInput autofocus appAlphanumericOnly alphabetsOnly="true" placeholder="Last Name" maxlength="40" formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && formControls.lastName.errors }" required />
+                            <mat-error *ngIf="formControls.lastName.errors?.required">
+                                Please enter last name
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4 require">
+                        <mat-form-field class="example-full-width">
+                            <mat-select placeholder="Gender" formControlName="gender" matInput [ngClass]="{ 'is-invalid': submitted && formControls.gender.errors }" required>
+                                <mat-option *ngFor="let genderVal of masterGender" [value]="genderVal.id">
+                                    {{genderVal.value}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="formControls.gender.errors?.required">
+                                Please select gender
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4 require">
+                        <mat-form-field class="example-full-width">
+                            <input matInput [matDatepicker]="dob" [max]="maxDate" placeholder="Date of Birth" formControlName="dob" readonly required>
+                            <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                            <mat-datepicker #dob></mat-datepicker>
+                            <mat-error *ngIf="formControls.dob.errors?.required">
+                                Please enter dob
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4 require">
+                        <mat-form-field class="example-full-width">
+                            <input matInput autofocus placeholder="Email" maxlength="60" formControlName="email" [ngClass]="{ 'is-invalid': submitted && formControls.email.errors }" required />
+                            <mat-error *ngIf="formControls.email.errors?.required">
+                                Please enter email
+                            </mat-error>
+                            <mat-error *ngIf="formControls.email.errors?.email">
+                                Please enter a valid email address
+                            </mat-error>
+                            <mat-error *ngIf="formControls.email.errors?.pattern">
+                                Please enter a valid email address
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width">
+                            <input appSsn matInput autofocus placeholder="SSN" maxlength="11" formControlName="ssn" />
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-sm-4 require">
+                        <mat-form-field class="example-full-width">
+                            <input matInput autofocus placeholder="MRN" maxlength="12" formControlName="mrn" [ngClass]="{ 'is-invalid': submitted && formControls.mrn.errors }" required />
+                            <mat-error *ngIf="formControls.mrn.errors?.required">
+                                Please enter MRN
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width">
+                            <mat-select placeholder="Race" formControlName="race" matInput>
+                                <mat-option *ngFor="let race of masterRace" [value]="race.id">
+                                    {{race.value}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4 require">
+                        <mat-form-field class="example-full-width">
+                            <mat-select placeholder="Secondary Race" formControlName="secondaryRaceID" matInput>
+                                <mat-option *ngFor="let race of masterRace" [value]="race.id">
+                                    {{race.value}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4 require">
+                        <mat-form-field class="example-full-width">
+                            <mat-select placeholder="Ethnicity" formControlName="ethnicity" matInput>
+                                <mat-option *ngFor="let eth of masterEthnicity" [value]="eth.id">
+                                    {{eth.value}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4 require">
+
+                        <mat-form-field class="example-full-width">
+                            <input matInput autofocus placeholder="Primary Provider" maxlength="50" formControlName="primaryProvider" />
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width">
+                            <input matInput required autofocus placeholder="User Name" maxlength="50" formControlName="userName" />
+                            <mat-error *ngIf="formControls.userName.errors?.required">
+                                Please select rendering provider
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4 require">
+                        <mat-form-field class="example-full-width">
+                            <mat-select placeholder="Rendering Provider" formControlName="renderingProviderID" matInput [ngClass]="{ 'is-invalid': submitted && formControls.renderingProviderID.errors }" required>
+                                <mat-option *ngFor="let staff of masterRenderingProvider" [value]="staff.id">
+                                    {{staff.value}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="formControls.renderingProviderID.errors?.required">
+                                Please select rendering provider
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-sm-4 require">
+                        <mat-form-field class="example-full-width">
+                            <mat-select placeholder="Primary Diagnosis" formControlName="icdid" matInput [ngClass]="{ 'is-invalid': submitted && formControls.icdid.errors }" required>
+                                <mat-option *ngFor="let icd of masterDiagnosis" [value]="icd.id">
+                                    {{icd.value}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="formControls.icdid.errors?.required">
+                                Please select primary diagnosis
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- <div class="col-sm-4 require">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Location" formControlName="locationID" matInput [ngClass]="{ 'is-invalid': submitted && formControls.locationID.errors }"
+              required>
+              <mat-option *ngFor="let loc of masterLocation" [value]="loc.id">
+                {{loc.value}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formControls.locationID.errors?.required">
+              Please select location
+            </mat-error>
+          </mat-form-field>
+        </div> -->
+                    <!-- agencyremove -->
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width">
+                            <input appNumbersOnly matInput autofocus placeholder="MBI" maxlength="18" formControlName="identifier" />
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-sm-4 d-flex align-items-center">
+                        <mat-checkbox formControlName="isPortalRequired">
+                            Portal Required
+                        </mat-checkbox>
+                    </div>
+                </div>
+                <div class="row" *ngIf="clientId == null || clientId == 0">
+                    <div class="col-sm-12 d-sm-flex justify-content-sm-end pt-3 actions-btn">
+                        <button name="Save" mat-raised-button color="primary" (click)="onSubmit($event)" form="demographicInfoForm" class="text-uppercase" [disabled]="submitted" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+
+                        <button name="SaveContinue" mat-raised-button color="accent" (click)="onSubmit($event)" form="demographicInfoForm" class="text-uppercase ml-3" [disabled]="submitted">{{submitted ? 'Saving...' : 'Save & Continue'}}</button>
+                    </div>
+                </div>
+
+                <div *ngIf="clientId !=null && clientId > 0">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="panel_title">
+                                <h3>Emergency Contact</h3>
+                                <i class="flaticon flaticon-technology"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-8 require">
+                            <mat-form-field class="example-full-width">
+                                <mat-select placeholder="Relationship" formControlName="emergencyContactRelationship" matInput>
+                                    <mat-option *ngFor="let rel of masterRelationship" [value]="rel.id">
+                                        {{rel.value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autofocus appAlphanumericOnly allowFirstName="true" placeholder="First Name" maxlength="40" formControlName="emergencyContactFirstName" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autofocus appAlphanumericOnly alphabetsOnly="true" placeholder="Last Name" maxlength="40" formControlName="emergencyContactLastName" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput appPhoneNumber autofocus placeholder="Phone Number" formControlName="emergencyContactPhone" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="panel_title">
+                                <h3>Tags</h3>
+                                <i class="flaticon flaticon-commerce"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <mat-form-field class="example-full-width">
+                                <mat-select multiple placeholder="Tags" formControlName="tag" matInput>
+                                    <mat-option *ngFor="let tags of masterTagsForPatient" [value]="tags.id">
+                                        {{tags.value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="panel_title">
+                                <h3>Notes</h3>
+                                <i class="flaticon flaticon-interface-1"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <mat-form-field class="example-full-width" hintLabel="{{formControls.note.value ? 1000 - formControls.note.value.length : 1000}} Characters Remaining">
+                                <textarea matInput placeholder="Note" maxlength="1000" formControlName="note">
+                            </textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="panel_title">
+                                <h3>Patient Profile Photo</h3>
+                                <i class="flaticon flaticon-picture"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="uplaod_pic">
+                                <label class="browse">
+              <img *ngIf="imagePreview" [src]="imagePreview" alt="" />
+              <span *ngIf="imagePreview">Change</span>
+              <i *ngIf="!imagePreview" class="fa fa-upload fa-2x" aria-hidden="true"></i>
+              <input type="file" formControlName="clientImg" (change)="handleImageChange($event)">
+            </label>
+                            </div>
+                            <p class="ins_photo">(Browse any jpg, jpeg, bmp, png file.)</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 d-sm-flex justify-content-sm-end pt-3 actions-btn">
+                            <button name="Save" mat-raised-button color="primary" (click)="onSubmit($event)" form="demographicInfoForm" class="text-uppercase" [disabled]="submitted" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+
+                            <button name="SaveContinue" mat-raised-button color="accent" (click)="onSubmit($event)" form="demographicInfoForm" class="text-uppercase ml-3" [disabled]="submitted">{{submitted ? 'Saving...' : 'Save & Continue'}}</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

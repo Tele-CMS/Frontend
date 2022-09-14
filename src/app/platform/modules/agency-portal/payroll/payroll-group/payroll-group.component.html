@@ -1,0 +1,31 @@
+<div>
+    <h2 class="page_title">Manage Payroll Group</h2>
+    <div class="clearfix"></div>
+    <div class="readmin-panel">
+        <div class="no-gutters">
+            <div class="col-md-5 pull-right justify-content-md-end d-flex">
+                <button mat-raised-button color="primary" (click)="openDialog(null)" class="add-primary-btn">
+                    <i class="fa fa-plus" aria-hidden="true"></i> <span>Add Payroll Group</span></button>
+            </div>
+            <div class="col-md-7 justify-content-start pull-left">
+                <div class="row">
+                    <div class="col-7 mtm-27">
+                        <!-- <form class="readmin-form custom_form">
+                            <mat-form-field class="example-full-width">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+                            </mat-form-field>
+                        </form> -->
+                    </div>
+                    <div class="col-5 filter-btn">
+                        <!-- <button class="clear-btn" mat-raised-button>Clear All</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+  
+        <app-data-table [inputColumns]="displayedColumns" [inputSource]="payrollGroupData" [inputMeta]="metaData" [inputButtons]='actionButtons'
+            (onChange)="onPageOrSortChange($event)" (onTableActionClick)="onTableActionClick($event)">
+        </app-data-table>
+    </div>
+  </div>

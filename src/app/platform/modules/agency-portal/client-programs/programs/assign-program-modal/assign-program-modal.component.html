@@ -1,0 +1,86 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>{{ !isEdit ? 'Enroll Program' : 'Update Program' }}</h3>
+  <div mat-dialog-content>
+    <div class="clearfix"></div>
+    <div class="row" *ngFor="let item of programsDataModel;let ix=index">
+      <div class="col-sm-3 mt-3">
+        <mat-checkbox color="primary" (change)='onCheckIds(item.programId)' [disabled]="item.id > 0">
+          {{ item.programName }}
+        </mat-checkbox>
+      </div>
+      <div class="col-sm-9">
+        <div class="row">
+          <div class="col-sm-3" *ngIf="checkedIds.includes(item.programId) && !(item.id > 0)">
+            <mat-form-field class="example-full-width">
+              <input matInput [matDatepicker]="picker1" (focus)="picker1.open()" placeholder="Enrollment Date"
+                [(ngModel)]="item.dateOfEnrollment">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-3" *ngIf="checkedIds.includes(item.programId) && (item.id > 0)">
+            <mat-form-field class="example-full-width">
+              <input matInput [matDatepicker]="picker2" (focus)="picker2.open()" placeholder="Graduation Date"
+                [(ngModel)]="item.graduationDate">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-3" *ngIf="checkedIds.includes(item.programId) && (item.id > 0)">
+            <mat-form-field class="example-full-width">
+              <input matInput [matDatepicker]="picker3" (focus)="picker3.open()" placeholder="Termination Date"
+                [(ngModel)]="item.dateOfTermination">
+              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+              <mat-datepicker #picker3></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-3" *ngIf="checkedIds.includes(item.programId)">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Provider" matInput [(value)]="item.careManagerId">
+                <mat-option *ngFor="let item of careManagersList" [value]="item.id">
+                  {{item.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-3" *ngIf="checkedIds.includes(item.programId)">
+            <mat-form-field class="example-full-width">
+              <mat-select required placeholder="Status" matInput [(ngModel)]="item.statusId" [(value)]="item.statusId">
+                <mat-option *ngFor="let item of programStatusList" [value]="item.id">
+                  {{item.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3" *ngIf="checkedIds.includes(item.programId)">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Visit Frequency" matInput [(value)]="item.frequencyId"
+                (selectionChange)="onSelectFrequency($event.value, item, ix)">
+                <mat-option *ngFor="let item of programFrequencyList" [value]="item.id">
+                  {{item.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+          </div>
+          <div class="col-md-6" *ngIf="(isShowText(ix,item.frequencyId) && checkedIds.includes(item.programId) )">
+            <mat-form-field class="example-full-width">
+              <textarea  placeholder="Frequency" 
+                [(ngModel)]="item.otherFrequencyDescription" rows="2" matInput>
+           </textarea>
+            </mat-form-field>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--row-->
+  </div>
+  <div mat-dialog-actions>
+    <button color="accent" mat-raised-button class="cancel-btn" (click)="closeDialog()">Close</button>
+    <button name="Save" mat-raised-button color="primary"
+      (click)="onSubmit()">{{ isEdit ? 'Update Program(s)' : 'Enroll Program(s)' }}</button>
+  </div>
+</div>

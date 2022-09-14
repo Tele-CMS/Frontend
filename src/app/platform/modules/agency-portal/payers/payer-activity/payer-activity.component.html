@@ -1,0 +1,43 @@
+<div *ngIf="showServiceCodeCmp">
+  <app-add-payer-activity [payerId]="payerId" [activityId]="activityId"></app-add-payer-activity>
+</div>
+<div *ngIf="!showServiceCodeCmp">
+  <div class="container-fluid">
+    <!-- *ngIf="!isFirstTimeLoad"  -->
+    <div class="row  mt-3">
+      <div class="col-md-7 justify-content-start pull-left">
+        <div class="row">
+          <div class="col-7 mtm-27">
+            <mat-form-field class="example-full-width">
+              <input matInput [(ngModel)]="searchText" name="searchText" (keyup)="applyFilter($event.target.value)"
+                placeholder="Search">
+            </mat-form-field>
+          </div>
+          <div class="col-5 filter-btn">
+            <button class="clear-btn" mat-raised-button (click)="clearFilters();">Clear All</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5 pull-right justify-content-md-end d-flex">
+        <button mat-raised-button color="primary" class="add-primary-btn" (click)="toggleActivity(true)">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+          <span> Add Activity</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+  <div class="clearfix"></div>
+
+  <app-data-table [inputColumns]="displayedColumns" [inputSource]="payerActivityData" [inputMeta]="metaData"
+    [inputButtons]='actionButtons' (onChange)="onPageOrSortChange($event)"
+    (onTableActionClick)="onTableActionClick($event)">
+  </app-data-table>
+</div>
+<div *ngIf="showServiceCodeCmp" class="row">
+  <div class="col-sm-12 d-sm-flex justify-content-sm-end pt-3 actions-btn mb-3">
+    <button mat-raised-button color="primary" class="add-primary-btn" (click)="toggleActivity(false)">
+      <span>Back</span>
+    </button>
+  </div>
+</div>

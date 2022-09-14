@@ -1,0 +1,99 @@
+<div class="readmin-panel">
+  <div [class.hidden]="!isDialogLoading">
+    <div class="full_loader">
+      <div class="loader">
+        <div class='loader--dot'></div>
+        <div class='loader--dot'></div>
+        <div class='loader--dot'></div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-between panel-title align-items-center">
+    <h2 class="page_title">Custom Report</h2>
+  </div>
+  <div class="row refresh-icon">
+    <div class="col-sm-3" style="min-width: 500px;">
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Rule" [(ngModel)]="filterModel.ruleId" matInput>
+          <mat-option *ngFor="let option of masterRuleData" [value]="option.id">
+            {{option.ruleName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-sm-3 d-flex align-items-center refresh">
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Biometrics Complete" [(ngModel)]="filterModel.isBiometricsComplete" matInput>
+          <mat-option *ngFor="let option of dropdownData" [value]="option.id">
+            {{option.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <i (click)="filterModel.isBiometricsComplete = null" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+    </div>
+    <div class="col-sm-3 d-flex align-items-center refresh">
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Encounters Compliant" [(ngModel)]="filterModel.isEncountersCompliant" matInput>
+          <mat-option *ngFor="let option of dropdownData" [value]="option.id">
+            {{option.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <i (click)="filterModel.isEncountersCompliant = null" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+    </div>
+    <div class="col-md-12 filter-btn d-flex justify-content-between">
+      <div>
+        <button mat-raised-button class="mr-3 add-new-btn" color="primary" (click)='createEmailModal()' [disabled]='isDisabled'>
+          Email
+        </button>
+        <button mat-raised-button class="add-new-btn mr-3" color="primary" (click)='createMessageModal()' [disabled]='isDisabled'>
+          Message
+        </button>
+        <button mat-raised-button class="add-new-btn mr-3" color="primary" (click)='openQueryBuilder(filterModel.ruleId)' [disabled]='!filterModel.ruleId'>
+          Refresh Query
+        </button>
+      </div>
+      <div>
+        <button mat-raised-button class="mr-3 add-new-btn" color="primary" (click)='onApplyFilter()' [disabled]='!filterModel.ruleId'>
+          Filter
+        </button>
+        <button mat-raised-button class="add-new-btn mr-3" color="primary" (click)='exportToExcel()' [disabled]='isExportButtonDisabled'>
+          Export to excel
+        </button>
+     
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex flex-wrap appoint-data" *ngIf="filterModel.ruleId">
+    <p>Total records: <span>{{metaData['totalRecords']}}</span></p>
+  </div>
+
+  <div class="col-sm-12 text-center mt-5" *ngIf="!(reportData && reportData.length) && !filterModel.ruleId">
+    <strong>Please select a rule to display data.</strong>
+  </div>
+  <div class="table-responsive mt-3">
+    <table class="mat-table table table-hover group-table" matSort matSortDisableClear>
+      <thead>
+        <tr class="mat-header-row">
+          <th class="mat-header-cell" *ngFor="let column of headers">
+            <span class="Tblsort sorting">{{column}}</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="mat-header-row" *ngFor="let obj of reportData; let ix=index">
+          <td class="mat-cell" *ngFor="let dataObj of getDataForTable(ix)">
+            <span>
+              <i *ngIf="dataObj && dataObj.length > 30" [matTooltip]="dataObj" matTooltipClass="example-tooltip" class="fa fa-info-circle infoIcon ml-1"></i>
+              {{dataObj && dataObj.length > 30 ? dataObj.substring(0, 30) + '...' : dataObj}}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="metaData['totalRecords']" [pageIndex]="metaData['currentPage'] - 1"
+    [pageSize]="metaData['pageSize']" showFirstLastButtons>
+  </mat-paginator>
+</div>

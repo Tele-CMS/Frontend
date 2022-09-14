@@ -1,0 +1,74 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>{{headerText}}</h3>
+  <div mat-dialog-content>
+    <div *ngIf="key=='editbulk'">
+      <div class="text-center no-record" *ngIf="!(reqHRAData && reqHRAData.length)">
+        <span><b>No record found</b></span>
+      </div>
+      <div class="row" *ngFor="let memberListObj of reqHRAData; let ix=index">
+        <div class="col-sm-3 d-flex align-items-center" *ngIf='ix==0'>
+          <span>{{memberSelectedText}} </span>
+        </div>
+        <div class="col-sm-3" *ngIf='ix==0'>
+          <mat-form-field class="example-full-width">
+            <mat-select matInput [(ngModel)]="memberListObj.statusId" name="statusId" placeholder="Status"
+              (selectionChange)="statusUpdate($event)">
+              <mat-option *ngFor="let option of masterStatus" [value]="option.id">
+                {{option.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-3" *ngIf='ix==0'>
+          <mat-form-field class="example-full-width">
+            <input matInput (focus)="expirationDate.open()" [matDatepicker]="expirationDate" [max]="maxDate"
+              placeholder="Due Date" [(ngModel)]="memberListObj.expirationDate" [ngModelOptions]="{standalone: true}">
+            <mat-datepicker-toggle matSuffix [for]="expirationDate"></mat-datepicker-toggle>
+            <mat-datepicker #expirationDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="key=='edit'">
+      <div class="row">
+        <div class="col-sm-3 d-flex align-items-center">
+          <span>{{memberSelectedText}}</span>
+        </div>
+        <div class="col-sm-3">
+          <mat-form-field class="example-full-width">
+            <mat-select matInput [(ngModel)]="memberListObj.statusId" name="statusId" placeholder="Status"
+              (selectionChange)="statusUpdate($event.value,memberListObj.patientDocumentId,memberListObj.status)">
+              <mat-option *ngFor="let option of masterStatus" [value]="option.id">
+                {{option.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-3">
+          <mat-form-field class="example-full-width">
+            <input matInput (focus)="completionDate.open()" [matDatepicker]="completionDate" [max]="maxDate"
+              placeholder="Completion Date" [(ngModel)]="memberListObj.completionDate"
+              [ngModelOptions]="{standalone: true}">
+            <mat-datepicker-toggle matSuffix [for]="completionDate"></mat-datepicker-toggle>
+            <mat-datepicker #completionDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-3">
+          <mat-form-field class="example-full-width">
+            <input matInput (focus)="expirationDate.open()" [matDatepicker]="expirationDate" [max]="maxDate"
+              placeholder="Due Date" [(ngModel)]="memberListObj.expirationDate">
+            <mat-datepicker-toggle matSuffix [for]="expirationDate"></mat-datepicker-toggle>
+            <mat-datepicker #expirationDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="accent" class="cancel-btn" (click)="closeDialog('close')">Close</button>
+    <div>
+      <button name="Update Assessments" mat-raised-button color="primary" (click)="onSubmit($event)"
+        [disabled]="submitted" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+    </div>
+  </div>
+</div>

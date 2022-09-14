@@ -1,0 +1,67 @@
+.assign-loc p {
+    margin: 15px 0 0;
+    padding-left: 20px;
+    position: relative;
+    color: rgba(0, 0, 0, .8);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.assign-loc i {
+    font-size: 20px;
+    color: #7a7a7a;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.assign-loc ul {
+    margin: 0;
+    padding: 0 0 0 20px;
+    list-style-type: none;
+}
+
+.assign-loc ul li {
+    margin: 0;
+    padding: 5px 10px 0 0;
+    font-size: 14px;
+    line-height: 16px;
+    color: #7a7a7a;
+    font-weight: 400;
+    display: inline;
+}
+
+.readmin-panel .client_detail .row {
+    padding: 0 !important;
+}
+
+.client_detail .text-left {
+    word-break: break-all !important;
+}
+.ppname{
+    color: #264653 !important;
+    background-color: #efefef;
+    padding: 7px;
+}
+.ledtdiv{
+    font-size: 15px;
+}
+.ledtdiv span{
+    padding-left: 10px;
+}
+.ledtdiv .col-md-3{
+    padding:0 !important;
+}
+.clientpic img{
+    border-radius: 50%;
+}
+.client_detail{
+    padding-bottom: 0 !important;
+}
+
+@media (max-width: 1199px) {
+    .ledtdiv p {
+        width: 100%;
+    }
+}

@@ -1,0 +1,137 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>{{headerText}}</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form id="authorizationForm" #documentForm="ngForm" class="readmin-form custom_form"
+          [formGroup]="authorizationForm">
+          <div class="row">
+            <div class="col-sm-12">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Authorization Title" formControlName="authorizationTitle" required
+                  [ngClass]="{ 'is-invalid': submitted && formControls.authorizationTitle.errors }" />
+                <mat-error *ngIf="formControls.authorizationTitle.errors?.required">
+                  Please enter authorization title
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Authorization Number" formControlName="authorizationNumber" required
+                  [ngClass]="{ 'is-invalid': submitted && formControls.authorizationNumber.errors }" />
+                <mat-error *ngIf="formControls.authorizationNumber.errors?.required">
+                  Please enter authorization number
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select autofocus placeholder="Insurance Company" (selectionChange)="onPayerSelected($event)" formControlName="patientInsuranceId" [ngClass]="{ 'is-invalid': submitted && formControls.patientInsuranceId.errors }"
+                  required matInput>
+                  <mat-option *ngFor="let rel of patientPayers" [value]="rel.id">
+                    {{rel.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.patientInsuranceId.errors?.required">
+                  Please select insurance company
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input readonly matInput [matDatepicker]="startDate" placeholder="Start Date" formControlName="startDate"
+                  [ngClass]="{ 'is-invalid': submitted && formControls.startDate.errors }" required />
+                <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                <mat-datepicker #startDate></mat-datepicker>
+                <mat-error *ngIf="formControls.startDate.errors?.required">
+                  Please enter start date
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input readonly matInput [matDatepicker]="endDate" placeholder="End Date" [min]="formControls.startDate.value"
+                  formControlName="endDate" [ngClass]="{ 'is-invalid': submitted && formControls.endDate.errors }"
+                  required />
+                <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+                <mat-datepicker #endDate></mat-datepicker>
+                <mat-error *ngIf="formControls.endDate.errors?.required">
+                  Please enter end date
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Notes" formControlName="notes" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div  formArrayName="authorizationProcedures" *ngFor="let authProc of authorizationProcedures.controls; let ix=index">
+          <div class="row" formGroupName="{{ix}}">
+            <div class="col-sm-3">
+                <mat-form-field class="example-full-width">
+                    <mat-select multiple autofocus placeholder="Service Codes" (selectionChange)="onTest($event, ix)" formControlName="authProcedureCPT" matInput required>
+                      <mat-option *ngFor="let rel of serviceCodes" [value]="rel.serviceCodeId">
+                        {{rel.serviceCode}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error>
+                        {{serviceCodeErrorMessage}}
+                      </mat-error>
+                  </mat-form-field>
+            </div>
+            <div class="col-sm-3">
+                <mat-form-field class="example-full-width">
+                    <mat-select multiple placeholder="Modifiers" [disabled]="!authProcedureCPTModifiers" formControlName="authProcedureCPTModifiers" matInput >
+                      <mat-option *ngFor="let rel of serviceCodeModifiers" [value]="rel.modifier">
+                        {{rel.modifier}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+            </div>
+            <div class="col-sm-3">
+                <mat-form-field class="example-full-width">
+                    <input matInput appNumbersOnly placeholder="Units" formControlName="unit" required />
+                  </mat-form-field>
+            </div>
+            <div class="col-sm-3  pdl-30">
+                <mat-form-field class="example-full-width">
+                    <mat-select autofocus placeholder="Per" formControlName="typeID" matInput required>
+                      <mat-option *ngFor="let rel of masterAuthorizedProcedure" [value]="rel.id">
+                        {{rel.value}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <button *ngIf="(ix > 0) || (authorizationProcedures['controls'].length > 1)" type="button" class="additem removeitem" title="Remove row" (click)=removeAuthorizationProcedures(ix)>
+                      <b class="fa fa-minus-square orangefont" aria-hidden="true"></b>
+                    </button>
+                    <button *ngIf="(ix + 1) === authorizationProcedures['controls'].length" type="button" class="additem" title="Add row" (click)=addAuthorizationProcedures()>
+                      <b class="fa fa-plus-square greenfont" aria-hidden="true"></b>
+                    </button>
+            </div>
+          
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+    <div>
+      <button name="Save" mat-raised-button color="primary" (click)="onSubmit($event)" form="authorizationForm" class="text-uppercase"
+        [disabled]="submitted" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+      <!-- <button *ngIf="authModel.id==null || authModel.id==0" name="SaveAddMore" mat-raised-button color="primary"
+          (click)="onSubmit($event)" form="authorizationForm" class="text-uppercase" [disabled]="submitted" cdkFocusInitial>{{submitted
+          ? 'Saving...' : 'Save & Add More'}}</button> -->
+    </div>
+  </div>
+</div>

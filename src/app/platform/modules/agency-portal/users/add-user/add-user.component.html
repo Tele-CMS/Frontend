@@ -1,0 +1,565 @@
+<div class="container-fluid">
+<div class="row">
+    <div class="col-sm-12">
+        <h3 class="nw-hdng">Add User Details</h3>
+        <form id="userForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="userForm">
+            <div class="row">
+                <div class="col-sm-4 require">
+                    <mat-form-field class="example-full-width">
+                        <input matInput autofocus placeholder="First Name" maxlength="40" formControlName="firstName" [ngClass]="{ 'is-invalid': submitted && formControls.firstName.errors }" required />
+                        <mat-error *ngIf="formControls.firstName.errors?.required">
+                            Please enter first Name
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-4 require">
+                    <mat-form-field class="example-full-width">
+                        <input matInput autofocus placeholder="Middle Name" maxlength="40" formControlName="middleName" />
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-4 require">
+                    <mat-form-field class="example-full-width">
+                        <input matInput autofocus placeholder="Last Name" maxlength="40" formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && formControls.lastName.errors }" required />
+                        <mat-error *ngIf="formControls.lastName.errors?.required">
+                            Please enter last Name
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-8 require">
+                    <!-- <input matInput autofocus placeholder="Address" maxlength="100" formControlName="address" [ngClass]="{ 'is-invalid': submitted && formControls.address.errors }"
+              required /> -->
+                    <app-google-address-input [control]="formControls.address" (onAddressChange)="handleAddressChange($event)"></app-google-address-input>
+                </div>
+                <div class="col-sm-4 require">
+                    <mat-form-field class="example-full-width">
+                        <input matInput autofocus placeholder="Apt/Unit" maxlength="15" formControlName="apartmentNumber" />
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4 require">
+                    <mat-form-field class="example-full-width">
+                        <mat-select placeholder="Country" formControlName="countryID" matInput [ngClass]="{ 'is-invalid': submitted && formControls.countryID.errors }" required>
+                            <mat-option *ngFor="let country of masterCountry" [value]="country.id">
+                                {{country.value}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formControls.countryID.errors">
+                            Please select country
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-4 require">
+                    <mat-form-field class="example-full-width">
+                        <input matInput autofocus placeholder="City" maxlength="50" formControlName="city" />
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-4 require">
+                    <mat-form-field class="example-full-width">
+                        <mat-select placeholder="State" formControlName="stateID" matInput [ngClass]="{ 'is-invalid': submitted && formControls.stateID.errors }" required>
+                            <mat-option *ngFor="let state of masterState" [value]="state.id">
+                                {{state.value}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formControls.stateID.errors">
+                            Please select state
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4 require">
+                    <mat-form-field class="example-full-width">
+                        <input appZipcode matInput autofocus placeholder="Zip" maxlength="10" formControlName="zip" [ngClass]="{ 'is-invalid': submitted && formControls.zip.errors }" required />
+                        <mat-error *ngIf="formControls.zip.errors?.required">
+                            Please enter zip
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-sm-4 require">
+                    <mat-form-field class="example-full-width">
+                        <input appPhoneNumber matInput autofocus placeholder="Phone Number" formControlName="phoneNumber" [ngClass]="{ 'is-invalid': submitted && formControls.phoneNumber.errors }" required />
+                        <mat-error *ngIf="formControls.phoneNumber.errors?.required">
+                            Please enter phone number
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!-- <div class="col-sm-4 require">
+                    <mat-form-field class="example-full-width">
+                        <input matInput autofocus placeholder="NPI #" maxlength="10" formControlName="npiNumber" appNumbersOnly />
+                    </mat-form-field>
+                </div> -->
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4 require">
+                    <mat-form-field class="example-full-width">
+                        <input matInput autofocus placeholder="Tax ID" maxlength="100" formControlName="taxId" />
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-4 require">
+                    <mat-form-field class="example-full-width">
+                        <input matInput readonly [matDatepicker]="dob" [max]="maxDate" placeholder="Date of Birth" formControlName="dob" required>
+                        <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                        <mat-datepicker #dob></mat-datepicker>
+                        <mat-error *ngIf="formControls.dob.errors?.required">
+                            Please enter dob
+                        </mat-error>
+                        <mat-error *ngIf="formControls.dob.errors?.age">
+                            Age should be greater than 18 years
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-4 require">
+                    <mat-form-field class="example-full-width">
+                        <input matInput readonly [matDatepicker]="doj" placeholder="Date of Hire" [min]="formControls.dob.value" [max]="maxDate" formControlName="doj" required>
+                        <mat-datepicker-toggle matSuffix [for]="doj"></mat-datepicker-toggle>
+                        <mat-datepicker #doj></mat-datepicker>
+                        <mat-error *ngIf="formControls.doj.errors?.required">
+                            Please enter hiring date
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-4 require">
+                    <mat-form-field class="example-full-width" *ngIf="!userRoleName || userRoleName.toLowerCase() != 'admin'">
+                        <mat-select placeholder="Role" formControlName="roleID" matInput [ngClass]="{ 'is-invalid': submitted && formControls.roleID.errors }" required [disabled]="staffId && !addEditRolePermission">
+                            <mat-option *ngFor="let role of masterRoles" [value]="role.id">
+                                {{role.value}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formControls.roleID.errors">
+                            Please select role
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" *ngIf="userRoleName && userRoleName.toLowerCase() == 'admin'">
+                        <input matInput placeholder="Role" disabled="true" value="Admin" />
+                    </mat-form-field>
+                </div>
+
+                <div class="col-sm-4 require">
+                    <mat-form-field class="example-full-width">
+                        <input matInput autofocus placeholder="Email" maxlength="60" formControlName="email" [ngClass]="{ 'is-invalid': submitted && formControls.email.errors }" required />
+                        <mat-error *ngIf="formControls.email.errors?.required">
+                            Please enter email
+                        </mat-error>
+                        <mat-error *ngIf="formControls.email.errors?.email">
+                            Please enter a valid email address
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-4">
+                    <mat-form-field class="example-full-width">
+                        <mat-select placeholder="Gender" formControlName="gender" matInput [ngClass]="{ 'is-invalid': submitted && formControls.gender.errors }">
+                            <mat-option *ngFor="let genderVal of masterGender" [value]="genderVal.id">
+                                {{genderVal.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <!-- <div class="col-sm-4">
+                    <mat-form-field class="example-full-width">
+                        <input matInput autofocus placeholder="CAQH ID" maxlength="15" formControlName="caqhid" />
+                    </mat-form-field>
+                </div> -->
+
+                <div class="col-sm-4">
+                    <mat-form-field class="example-full-width">
+                        <input matInput autofocus placeholder="Language" maxlength="50" formControlName="language" />
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-4">
+                    <mat-form-field class="example-full-width">
+                        <mat-select placeholder="Degree" formControlName="degreeID" matInput [ngClass]="{ 'is-invalid': submitted && formControls.degreeID.errors }">
+                            <mat-option *ngFor="let degree of masterDegree" [value]="degree.id">
+                                {{degree.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-4 require">
+                    <mat-form-field class="example-full-width">
+                        <mat-select placeholder="Payroll Group" formControlName="payrollGroupID" matInput [ngClass]="{ 'is-invalid': submitted && formControls.payrollGroupID.errors }" required>
+                            <mat-option *ngFor="let pGroup of payrollGroup" [value]="pGroup.id">
+                                {{pGroup.value}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formControls.payrollGroupID.errors">
+                            Please select payroll group
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <!-- <div class="row"> -->
+            <!--
+                <div class="col-sm-4">
+                    <mat-form-field class="example-full-width">
+                        <input matInput autofocus placeholder="BHPN Practitioner ID" maxlength="100" formControlName="employeeID" />
+                    </mat-form-field>
+                </div> -->
+
+            <!-- <div class="col-sm-4 require">
+                    <mat-form-field class="example-full-width">
+                        <input matInput autofocus placeholder="Online Pay Rate" maxlength="10" formControlName="payRate" [ngClass]="{ 'is-invalid': submitted && formControls.payRate.errors }" required appNumbersOnly [allowDecimals]="true" />
+                        <mat-error *ngIf="formControls.payRate.errors?.required">
+                            Please enter pay rate
+                        </mat-error>
+                        <mat-error *ngIf="formControls.payRate.errors?.rate">
+                            Pay rate should be greater than 0
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-sm-4 require">
+                    <mat-form-field class="example-full-width">
+                        <input matInput autofocus placeholder="Face To Face Pay Rates" maxlength="10" formControlName="ftFpayRate" [ngClass]="{ 'is-invalid': submitted && formControls.ftFpayRate.errors }" required appNumbersOnly [allowDecimals]="true" />
+                        <mat-error *ngIf="formControls.ftFpayRate.errors?.required">
+                            Please enter pay rate
+                        </mat-error>
+                        <mat-error *ngIf="formControls.ftFpayRate.errors?.rate">
+                            Pay rate should be greater than 0
+                        </mat-error>
+                    </mat-form-field>
+                </div> -->
+
+            <!-- </div> -->
+
+            <div class="row">
+
+                <div class="col-sm-4">
+                    <mat-form-field class="example-full-width" hintLabel="{{formControls.userName.pending ? 'Validating...' : ''}}">
+                        <input matInput autofocus autocomplete="username" placeholder="User Name" maxlength="60" formControlName="userName" [ngClass]="{ 'is-invalid': submitted && formControls.userName.errors }" required />
+                        <mat-error *ngIf="formControls.userName.errors?.required">
+                            Please enter username
+                        </mat-error>
+                        <mat-error *ngIf="formControls.userName.errors?.uniqueName">
+                            Username '{{formControls.userName.value}}' already exists
+                        </mat-error>
+                        <mat-error *ngIf="formControls.userName.errors?.pattern">
+                            Username '{{formControls.userName.value}}' not valid, allowed only alphanumeric characters.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-sm-4 require">
+
+                    <mat-form-field class="example-full-width">
+                        <input matInput autofocus autocomplete="new-password" type="password" placeholder="Password" maxlength="30" formControlName="password" [ngClass]="{ 'is-invalid': submitted && formControls.password.errors }" required />
+                        <mat-error *ngIf="formControls.password.errors?.required && formControls.password.errors?.strong">
+                            Please enter password
+                        </mat-error>
+                        <mat-error *ngIf="formControls.password.errors?.required==undefined && formControls.password.errors?.strong">
+                            Password should have number,special character lowercase and uppercase letters
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-4 require">
+
+                    <mat-form-field class="example-full-width">
+                        <input matInput autofocus autocomplete="new-password" type="password" placeholder="Confirm Password" formControlName="confirmPassword" [ngClass]="{ 'is-invalid': submitted && formControls.confirmPassword.errors }" required />
+                        <mat-error *ngIf="formControls.confirmPassword.errors?.required">
+                            Please re-enter password
+                        </mat-error>
+                        <mat-error *ngIf="formControls.confirmPassword.errors?.notSame">
+                            Password doesn't match
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <!-- <div class="col-sm-12">
+
+          <div class="panel_title">
+            <h3>Location</h3>
+            <i class="flaticon flaticon-location"></i>
+          </div>
+        </div> -->
+
+                <!-- <div class="col-sm-4 require">
+          <mat-form-field class="example-full-width">
+            <mat-select (selectionChange)="updateLocationList()" multiple placeholder="Location" formControlName="locationIds" matInput
+              [ngClass]="{ 'is-invalid': submitted && formControls.locationIds.errors }" required>
+              <mat-option *ngFor="let location of masterLocation" [value]="location.id">
+                {{location.locationName}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formControls.locationIds.errors">
+              Please select locations
+            </mat-error>
+          </mat-form-field>
+        </div> -->
+
+                <!-- <div class="col-sm-4 require">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Default Location" formControlName="defaultLocation" matInput [ngClass]="{ 'is-invalid': submitted && formControls.defaultLocation.errors }"
+              required>
+              <mat-option *ngFor="let location of defaultLocationList" [value]="location.id">
+                {{location.locationName}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formControls.defaultLocation.errors">
+              Please select default location
+            </mat-error>
+          </mat-form-field>
+        </div> -->
+                <!-- <div class="col-sm-4">
+                    <mat-checkbox formControlName="isRenderingProvider">
+                        Rendering Provider
+                    </mat-checkbox>
+                </div> -->
+                <div class="col-sm-4">
+                    <mat-checkbox formControlName="isUrgentCare">
+                        Opt For Urgent Care Services
+                    </mat-checkbox>
+                </div>
+            </div>
+            <br />
+
+            <div class="row">
+                <div class="col-sm-6 require">
+                    <div class="panel_title">
+                        <h3>HealthCare Category</h3>
+                        <i class="flaticon flaticon-commerce"></i>
+                    </div>
+                    <mat-form-field class="example-full-width">
+                        <mat-select multiple placeholder="HealthCare Category" formControlName="staffCarecategoryKeys" matInput [ngClass]="{ 'is-invalid': submitted && formControls.staffCarecategoryKeys.errors }" required>
+                            <mat-option *ngFor="let stf of masterProviderCareCategory" [value]="stf.id">
+                                {{stf.value}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formControls.staffCarecategoryKeys.errors">
+                            Please select healthcarecategory
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!-- <div class="col-sm-6">
+          <div class="panel_title">
+            <h3>Taxonomy</h3>
+            <i class="flaticon flaticon-commerce"></i>
+          </div>
+          <mat-form-field class="example-full-width">
+            <mat-select multiple placeholder="Taxonomy" formControlName="staffTaxonomyKeys" matInput [ngClass]="{ 'is-invalid': submitted && formControls.staffTaxonomyKeys.errors }"
+              required>
+              <mat-option *ngFor="let stf of masterStaffTaxonomies" [value]="stf.id">
+                {{stf.value}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formControls.staffTaxonomyKeys.errors">
+              Please select taxonomy
+            </mat-error>
+          </mat-form-field>
+        </div> -->
+            </div>
+
+            <div class="row">
+                <!-- <div class="col-sm-6 require">
+          <div class="panel_title">
+            <h3>Speciality</h3>
+            <i class="flaticon flaticon-commerce"></i>
+          </div>
+          <mat-form-field class="example-full-width">
+            <mat-select multiple placeholder="Speciality" formControlName="staffSpecialityKeys" matInput [ngClass]="{ 'is-invalid': submitted && formControls.staffSpecialityKeys.errors }"
+              required>
+              <mat-option *ngFor="let stf of masterStaffSpecialities" [value]="stf.id">
+                {{stf.value}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formControls.staffSpecialityKeys.errors">
+              Please select speciality
+            </mat-error>
+          </mat-form-field>
+        </div> -->
+
+
+                <div class="col-sm-6 require">
+                    <div class="panel_title">
+                        <h3>Speciality</h3>
+                        <i class="flaticon flaticon-commerce"></i>
+                    </div>
+                    <mat-form-field class="example-full-width">
+                        <!-- <mat-select multiple placeholder="Speciality" formControlName="staffSpecialityKeys" matInput [ngClass]="{ 'is-invalid': submitted && formControls.staffSpecialityKeys.errors }"
+              required>
+              <mat-option *ngFor="let stf of masterStaffSpecialities" [value]="stf.id">
+                {{stf.value}}
+              </mat-option>
+            </mat-select> -->
+
+                        <mat-select (selectionChange)="selectChange($event.value);" multiple placeholder="Speciality" formControlName="staffSpecialityKeys" matInput [ngClass]="{ 'is-invalid': submitted && formControls.staffSpecialityKeys.errors }" required>
+                            <ngx-mat-select-search [formControl]="filterCtrl" [searching]="searching" placeholderLabel="Search" noEntriesFoundLabel="No records found!"></ngx-mat-select-search>
+                            <mat-option *ngFor="let option of testingspeciality | async" [value]="option.id">
+                                {{option.value}}
+                            </mat-option>
+                            <mat-option *ngFor="let stf of masterStaffSpecialities" [value]="stf.id">
+                                {{stf.value}}
+                            </mat-option>
+
+                        </mat-select>
+
+
+
+                        <!-- <mat-select [formControl]="staffSpecialityKeys" placeholder="Bank" #singleSelect>
+              <mat-option>
+                <ngx-mat-select-search [formControl]="staffSpecialityKeys"></ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let stf of masterStaffSpecialities | async" [value]="stf.id">
+                {{stf.value}}
+              </mat-option>
+            </mat-select> -->
+
+                        <!-- <mat-select [formControl]="staffSpecialityKeys" placeholder="Speciality" [multiple]="true">
+              <mat-select-search [formControl]="staffSpecialityKeys"></mat-select-search>
+              <mat-option *ngFor="let stf of masterStaffSpecialities | async" [value]="stf.id">
+                {{stf.value}}
+              </mat-option>
+            </mat-select> -->
+
+                        <!-- <mat-select [formControl]="staffSpecialityKeys" placeholder="Speciality" [multiple]="true" #multiSelect>
+              <ngx-mat-select-search [formControl]="npiNumber"></ngx-mat-select-search>
+              <mat-option *ngFor="let stf of masterStaffSpecialities" [value]="stf.id">
+                {{stf.value}}
+              </mat-option>
+            </mat-select> -->
+                        <mat-error *ngIf="formControls.staffSpecialityKeys.errors">
+                            Please select speciality
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="panel_title">
+                        <h3>Services</h3>
+                        <i class="flaticon flaticon-two-users"></i>
+                    </div>
+                    <mat-form-field class="example-full-width">
+                        <mat-select multiple placeholder="Services" formControlName="servicesKeys" matInput [ngClass]="{ 'is-invalid': submitted && formControls.servicesKeys.errors }" required>
+                            <mat-option *ngFor="let stf of masterServices" [value]="stf.id">
+                                {{stf.value}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formControls.servicesKeys.errors">
+                            Please select service
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="panel_title">
+                        <h3>Team</h3>
+                        <i class="flaticon flaticon-two-users"></i>
+                    </div>
+                    <mat-form-field class="example-full-width">
+                        <mat-select multiple placeholder="Team Members" formControlName="staffTeamKeys" matInput [ngClass]="{ 'is-invalid': submitted && formControls.staffTeamKeys.errors }">
+                            <mat-option *ngFor="let stf of masterStaff" [value]="stf.id">
+                                {{stf.value}}
+                            </mat-option>
+                        </mat-select>
+                        <!-- <mat-error *ngIf="formControls.staffTaxonomyKeys.errors">
+                Please select team
+              </mat-error> -->
+                    </mat-form-field>
+                </div>
+
+
+                <div class="col-sm-6">
+                    <div class="panel_title">
+                        <h3>Taxonomy</h3>
+                        <i class="flaticon flaticon-commerce"></i>
+                    </div>
+                    <mat-form-field class="example-full-width">
+                        <mat-select multiple placeholder="Taxonomy" formControlName="staffTaxonomyKeys" matInput [ngClass]="{ 'is-invalid': submitted && formControls.staffTaxonomyKeys.errors }" required>
+                            <mat-option *ngFor="let stf of masterStaffTaxonomies" [value]="stf.id">
+                                {{stf.value}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formControls.staffTaxonomyKeys.errors">
+                            Please select taxonomy
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel_title">
+                        <h3>Tags</h3>
+                        <i class="flaticon flaticon-commerce"></i>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <mat-form-field class="example-full-width">
+                        <mat-select multiple placeholder="Tags" formControlName="staffTagsKeys" matInput>
+                            <mat-option *ngFor="let tags of masterTagsForStaff" [value]="tags.id">
+                                {{tags.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel_title">
+                        <h3>About Me</h3>
+                        <i class="flaticon flaticon-commerce"></i>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <mat-form-field class="example-full-width">
+                        <textarea matInput autofocus type="text" placeholder="Describe yourself" formControlName="aboutMe" [ngClass]="{ 'is-invalid': submitted && formControls.aboutMe.errors }" required>
+              </textarea>
+                        <mat-error *ngIf="formControls.aboutMe.errors?.required">
+                            Please enter description
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel_title">
+                        <h3>User Profile Photo</h3>
+                        <i class="flaticon flaticon-commerce"></i>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="uplaod_pic">
+                        <label class="browse">
+                            <img *ngIf="imagePreview" [src]="imagePreview" alt="" />
+                            <span *ngIf="imagePreview">Change</span>
+                            <i *ngIf="!imagePreview" class="fa fa-upload fa-2x" aria-hidden="true"></i>
+                            <input type="file" formControlName="userImg" (change)="handleImageChange($event)">
+                        </label>
+                    </div>
+                    <p class="ins_photo">(Browse any jpg, jpeg, bmp, png file.)</p>
+                    <!-- <input type="file" formControlName="userImg" (change)="handleImageChange($event)" /> -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 d-sm-flex justify-content-sm-end pt-3 actions-btn">
+                    <button type="button" class="btn btn-outline pull-left" (click)="goBack($event)">Back</button>
+                    <button name="Save" mat-raised-button color="accent" (click)="onSubmit($event)" form="userForm" class="text-uppercase" [disabled]="submitted">{{submitted ? 'Saving...' : 'Save'}}</button>
+
+                    <button name="SaveContinue" mat-raised-button color="primary" (click)="onSubmit($event)" form="userForm" class="text-uppercase ml-3" [disabled]="submitted">{{submitted ? 'Saving...' : 'Save & Continue'}}</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+</div>

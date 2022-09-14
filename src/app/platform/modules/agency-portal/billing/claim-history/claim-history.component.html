@@ -1,0 +1,23 @@
+<div>
+    <div class="panel-body">
+      <div class="col-sm-12 mtm-40">
+        <div class="row cliam_hisdeatil">
+          <div class="col-sm-6">
+            <p>Claim Id : <span>{{claimDetails ? 'CL' + claimDetails.claimId : '-'}}</span> </p>
+          </div>
+          <div class="col-sm-6">
+            <p>DOS : <span>{{claimDetails && claimDetails.dos | date : 'MM/dd/yyyy'}}</span></p>
+          </div>
+          <div class="col-sm-6">
+            <p>Patient Name : <span>{{claimDetails ? claimDetails.patientName : '-'}}</span></p>
+          </div>
+          <div class="col-sm-6">
+            <p>Insurance Company : <span>{{claimDetails ? claimDetails.payer : '-'}}</span></p>
+          </div>
+        </div>
+        <app-data-table [inputColumns]="displayedColumns" [inputSource]="claimHistoryData" [inputMeta]="metaData"
+          [inputButtons]='actionButtons'>
+        </app-data-table>
+      </div>
+    </div>
+</div>

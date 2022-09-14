@@ -1,0 +1,42 @@
+<div>
+  <h2 class="page_title">Manage Questionnaire
+  </h2>
+  <div class="clearfix"></div>
+  <div class="readmin-panel">
+    <div class="no-gutters">
+      <div class="col-md-4 pull-right justify-content-md-end d-flex">
+        <button mat-raised-button color="primary" class="add-primary-btn" (click)="openDialog()">
+          <i class="fa fa-plus" aria-hidden="true"></i> <span>Assign</span></button>
+      </div>
+      <div class="col-md-8 justify-content-start pull-left">
+        <form class="readmin-form custom_form">
+          <div class="row end-flex">
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                <mat-select matInput placeholder="Select Document" (selectionChange)="onDocumentSelect($event.value)">
+                  <mat-option *ngFor="let option of masterDocuments" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                <mat-select matInput placeholder="Select Patient">
+                  <mat-option *ngFor="let option of masterPatients" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 filter-btn">
+              <button class="clear-btn" mat-raised-button (click)="clearFilters()">Clear All</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <app-data-table [inputColumns]="displayedColumns" [inputSource]="patientDocumentData" [inputMeta]="metaData"
+      [inputButtons]='actionButtons' (onChange)="onPageOrSortChange($event)" (onTableActionClick)="onTableActionClick($event)">
+    </app-data-table>

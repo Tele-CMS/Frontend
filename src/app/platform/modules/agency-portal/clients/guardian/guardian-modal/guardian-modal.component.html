@@ -1,0 +1,78 @@
+<div class="custom_modal">
+    <h3 mat-dialog-title>{{headerText}}</h3>
+    <div mat-dialog-content>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <form  id="guardianForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="guardianForm">
+                    <div class="row">
+                        <div class="col-sm-4 require">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autofocus placeholder="First Name" maxlength="40" formControlName="guardianFirstName" [ngClass]="{ 'is-invalid': submitted && formControls.guardianFirstName.errors }"
+                                    required />
+                                <mat-error *ngIf="formControls.guardianFirstName.errors?.required">
+                                    Please enter firstname
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autofocus placeholder="Middle Name" maxlength="40" formControlName="guardianMiddleName" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4 require">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autofocus placeholder="Last Name" maxlength="40" formControlName="guardianLastName" [ngClass]="{ 'is-invalid': submitted && formControls.guardianLastName.errors }"
+                                    required />
+                                <mat-error *ngIf="formControls.guardianLastName.errors?.required">
+                                    Please enter lastanme
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autofocus placeholder="Email" maxlength="60" formControlName="guardianEmail" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input appPhoneNumber matInput autofocus placeholder="Phone" formControlName="guardianHomePhone" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                           
+                                <mat-form-field class="example-full-width">
+                                    <mat-select placeholder="Realtionship" formControlName="relationshipID" matInput [ngClass]="{ 'is-invalid': submitted && formControls.relationshipID.errors }"
+                                        required>
+                                        <mat-option *ngFor="let rel of masterRelationship" [value]="rel.id">
+                                            {{rel.value}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="formControls.relationshipID.errors?.required">
+                                        Please select relationship
+                                    </mat-error>
+                                </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                        <mat-checkbox formControlName="isGuarantor">
+                            Is Guarantor
+                        </mat-checkbox>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+            <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+        <div>
+            <button name="Save" mat-raised-button color="primary" (click)="onSubmit($event)" form="guardianForm" class="text-uppercase" [disabled]="submitted" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+            <button name="SaveAddMore" mat-raised-button color="accent" (click)="onSubmit($event)" form="guardianForm" class="text-uppercase ml-3" [disabled]="submitted" cdkFocusInitial *ngIf="guardianModel.id==null || guardianModel.id==0">{{submitted ? 'Saving...' : 'Save & Add More'}}</button>
+        </div>
+    </div>
+</div>

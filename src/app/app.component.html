@@ -1,0 +1,83 @@
+<div>
+  <router-outlet></router-outlet>
+  <notifier-container></notifier-container>
+  <div>
+    <div
+      #videoDiv
+      mwlDraggable
+      style="left: 15px;"
+      (dragEnd)="onDragVideo($event)"
+      class="video-tool video-tool-hide readmin-panel"
+      [ngStyle]="styleVideo"
+    >
+      <!-- <div class="resize-handle-top" mwlResizeHandle [resizeEdges]="{ top: true }"></div>
+      <div class="resize-handle-left" mwlResizeHandle [resizeEdges]="{ left: true }"></div>
+      <div class="resize-handle-right" mwlResizeHandle [resizeEdges]="{ right: true }"></div>
+      <div class="resize-handle-bottom" mwlResizeHandle [resizeEdges]="{ bottom: true }"></div> -->
+      <!-- <div class="video-tool video-tool-hide readmin-panel col-sm-6"> -->
+      <div
+        *ngIf="session && isVideoStarted"
+        class="video-call ots-widget-container"
+      >
+        <app-publisher
+          [session]="session"
+          [patientAppointmentId]="apptId"
+          [otSessionId]="otSessionId"
+        ></app-publisher>
+        <app-subscriber
+          class="app-subscriber"
+          (click)="toggleActivation(i)"
+          [index]="i"
+          [class.sub-active]="i == 0"
+          [class.sub-not-active]="i != 0"
+          *ngFor="let stream of streams; let i = index"
+          [stream]="stream"
+          [session]="session"
+        ></app-subscriber>
+      </div>
+    </div>
+  </div>
+  <div
+    #textChat
+    mwlDraggable
+    style="right: 15px;"
+    (dragEnd)="onDragChat($event)"
+    mwlResizable
+    class="text-chat-app"
+    [resizeEdges]="{ bottom: true, right: true, top: true, left: true }"
+    (resizing)="onResizingChat($event)"
+    [validateResize]="onValidateResizeChat"
+    [ngStyle]="styleChat"
+    (resizeEnd)="onResizeChatEnd($event)"
+  >
+    <div
+      class="resize-handle-top"
+      mwlResizeHandle
+      [resizeEdges]="{ top: true }"
+    ></div>
+    <div
+      class="resize-handle-left"
+      mwlResizeHandle
+      [resizeEdges]="{ left: true }"
+    ></div>
+    <div
+      class="resize-handle-right"
+      mwlResizeHandle
+      [resizeEdges]="{ right: true }"
+    ></div>
+    <div
+      class="resize-handle-bottom"
+      mwlResizeHandle
+      [resizeEdges]="{ bottom: true }"
+    ></div>
+    <div *ngIf="isChatActivated">
+      <app-text-chat
+        [chatInitModel]="chatInitModel"
+        [textChatModel]="textChatModel"
+        [currentRoomId]="roomId"
+        [allMessageArray]="chatHistory"
+        [userInChatRoom]="userInChatRoom"
+      ></app-text-chat>
+    </div>
+  </div>
+</div>

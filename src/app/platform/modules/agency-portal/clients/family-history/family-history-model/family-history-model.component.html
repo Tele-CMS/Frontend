@@ -1,0 +1,136 @@
+<div class="custom_modal">
+    <h3 mat-dialog-title>Family History</h3>
+    <div mat-dialog-content>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <form (ngSubmit)="onSubmit()" id="familyHistoryForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="familyHistoryForm">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autofocus appAlphanumericOnly allowFirstName="true" placeholder="First Name" maxlength="10" formControlName="firstName" [ngClass]="{ 'is-invalid': submitted && formControls.firstName.errors }" required />
+                                <mat-error *ngIf="formControls.firstName.errors?.required">
+                                    Please enter firstname
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autofocus appAlphanumericOnly alphabetsOnly="true" placeholder="Last Name" maxlength="10" formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && formControls.lastName.errors }" required />
+                                <mat-error *ngIf="formControls.lastName.errors?.required">
+                                    Please enter lastname
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-select placeholder="Gender" formControlName="genderID" matInput [ngClass]="{ 'is-invalid': submitted && formControls.genderID.errors }" required>
+                                    <mat-option *ngFor="let option of masterGender" [value]="option.id">
+                                        {{option.value}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formControls.genderID.errors">
+                                    Please select gender
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <input matInput [matDatepicker]="dob" [max]="maxDate" placeholder="Date of birth" formControlName="dob" [ngClass]="{ 'is-invalid': submitted && formControls.dob.errors }" readonly required>
+                                <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                                <mat-datepicker #dob></mat-datepicker>
+                                <mat-error *ngIf="formControls.dob.errors">
+                                    Please enter date of birth
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-select placeholder="Relationship" formControlName="relationshipID" matInput [ngClass]="{ 'is-invalid': submitted && formControls.relationshipID.errors }" required>
+                                    <mat-option *ngFor="let option of masterRelationship" [value]="option.id">
+                                        {{option.value}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formControls.relationshipID.errors">
+                                    Please select relationship
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <input matInput [matDatepicker]="dateOfDeath" [min]="formControls.dob.value" [max]="maxDate" readonly placeholder="Date of Death" formControlName="dateOfDeath">
+                                <mat-datepicker-toggle matSuffix [for]="dateOfDeath"></mat-datepicker-toggle>
+                                <mat-datepicker #dateOfDeath></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Cause Of Death" maxlength="50" formControlName="causeOfDeath" [readonly]="(formControls.dateOfDeath.value!=null?false:true)" [ngClass]="{ 'is-invalid': submitted && formControls.causeOfDeath.errors &&formControls.dateOfDeath.value!=null}"
+                                    [required]="formControls.dateOfDeath.value!=null?true:false" />
+                                <mat-error *ngIf="formControls.causeOfDeath.errors &&formControls.dateOfDeath.value!=null">
+                                    Please enter cause of death
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <textarea matInput placeholder="Observation" maxlength="1000" formControlName="observation"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div formArrayName="patientMedicalFamilyHistoryDiseases">
+                        <div *ngFor="let X of patientMedicalFamilyHistoryDiseases['controls']; let ix=index">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div formGroupName="{{ix}}" class="Xs">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-select placeholder="Disease" formControlName="diseaseID" matInput required>
+                                                <mat-option *ngFor="let option of masterICD" [value]="option.id">
+                                                    {{option.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div formGroupName="{{ix}}" class="Xs">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-select placeholder="Disease Status" formControlName="diseaseStatus" matInput required>
+                                                <mat-option *ngFor="let option of masterStatus" [value]="option.id">
+                                                    {{option.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 pdl-40">
+                                    <div formGroupName="{{ix}}" class="Xs">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Age Of Diagnosis" maxlength="5" formControlName="ageOfDiagnosis" required appNumbersOnly/>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <button *ngIf="(ix > 0) || (patientMedicalFamilyHistoryDiseases['controls'].length > 1)" type="button" class="additem removeitem" title="Remove Disease" (click)=removeDiseaseFields(ix)>
+                                    <b class="fa fa-minus-square orangefont" aria-hidden="true"></b>
+                                </button>
+                                <button *ngIf="(ix + 1) === patientMedicalFamilyHistoryDiseases['controls'].length" type="button" class="additem" title="Add modifier" (click)=addDiseaseFields()>
+                                    <b class="fa fa-plus-square greenfont" aria-hidden="true"></b>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button class="cancel-btn" mat-raised-button (click)="closeDialog('close')">Close</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" form="familyHistoryForm" [disabled]="submitted" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+</div>

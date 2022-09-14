@@ -1,0 +1,22 @@
+<div class="fs-6 fw-bold text-gray-700">
+    Showing
+    <ng-container *ngIf="page == 1">
+        {{page}}
+    </ng-container>
+    <ng-container *ngIf="page > 1">
+        {{((page * itemsPerPage) - itemsPerPage) + 1 }}
+    </ng-container>
+    to 
+    <ng-container *ngIf="pageData.length < itemsPerPage">
+        {{pageData.length}}
+    </ng-container>
+    <ng-container *ngIf="pageData.length > itemsPerPage">
+        <ng-container *ngIf="(page * itemsPerPage) > pageData.length; else canCountPageData">
+            {{pageData.length}}
+        </ng-container>
+        <ng-template #canCountPageData> 
+            {{page * itemsPerPage}}
+        </ng-template>
+    </ng-container>
+    of {{pageData.length}} entries
+</div>

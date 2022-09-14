@@ -1,0 +1,34 @@
+.table.middletable {
+    margin: 0;
+    white-space: normal;
+}
+.multitable > tbody> table.middletable > tbody > tr > td {
+    border: 0 none;
+}
+
+.disease-detail span{font-weight: 500; display: block;}
+/* for row hide show */
+.show-row{
+    display: table-row;
+}
+.hide-row{
+    display: none;
+}
+.show {
+    display: block;
+}
+.hide {
+    display: none;
+}
+.bottom-label {
+    font-weight: 500;
+    font-size: 14px;
+    display: inline-block;
+    color: #2a3134;
+}
+
+.table tr td.pdr-40
+{
+    padding-right: 40px !important;
+}
+

@@ -1,0 +1,37 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Disease Management Program</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="diseaseProgramForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="diseaseProgramForm">
+          <div class="row">
+            <div class="col-sm-12 require">
+              <mat-form-field class="example-full-width" >
+                <input matInput autofocus placeholder="Description"  formControlName="description" 
+                   readonly />
+            
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 require">
+              <mat-checkbox formControlName="isActive">
+                Is Active
+              </mat-checkbox>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button color="accent" mat-raised-button (click)="closeDialog()">Close</button>
+    <!-- <button mat-raised-button color="primary" form="diseaseProgramForm" [disabled]="submitted || formControls.desciption.pending" cdkFocusInitial>
+      {{(submitted || formControls.desciption.pending) ? submitted ? 'Saving...' : formControls.desciption.pending ? 'Validating...' : 'Save' : 'Save'}}
+    </button> -->
+    <button mat-raised-button color="primary" form="diseaseProgramForm" [disabled]="submitted" cdkFocusInitial>
+      {{submitted ? 'Saving...' : 'Save'}}
+    </button>
+  </div>
+</div>

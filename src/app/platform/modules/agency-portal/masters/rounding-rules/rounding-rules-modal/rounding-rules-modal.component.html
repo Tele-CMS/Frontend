@@ -1,0 +1,66 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Rounding Rule</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="roundingRuleForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="roundingRuleForm">
+          <div class="row">
+            <div class="col-sm-12 col-md-6 require">
+              <mat-form-field class="example-full-width" hintLabel="{{formControls.ruleName.pending ? 'Validating...' : ''}}">
+                <input matInput autofocus placeholder="Rule Name" maxlength="50" formControlName="ruleName" [ngClass]="{ 'is-invalid': submitted && formControls.ruleName.errors }"
+                  required />
+                <mat-error *ngIf="formControls.ruleName.errors?.required">
+                  Please enter rule name
+                </mat-error>
+                <mat-error *ngIf="formControls.ruleName.errors?.uniqueName">
+                    Name is already taken.
+                  </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+              <div formArrayName="roundingRuleDetail">
+                <div *ngFor="let X of roundingRuleDetail['controls']; let ix=index">
+                  <div class="row">   
+                    <div class="col-sm-4">
+                        <div formGroupName="{{ix}}" class="Xs">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Start Range" maxlength="10" formControlName="startRange" appNumbersOnly [allowDecimals]="true" />
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div formGroupName="{{ix}}" class="Xs">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="End Range" maxlength="10" formControlName="endRange" appNumbersOnly [allowDecimals]="true"  />
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="col-sm-4 pdl-40">
+                          <div formGroupName="{{ix}}" class="Xs">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Unit" maxlength="5" formControlName="unit" appNumbersOnly />
+                          </mat-form-field>
+                        </div>
+                      
+                        <button *ngIf="(ix > 0) || (roundingRuleDetail['controls'].length > 1)" type="button" class="additem removeitem" title="Remove row" (click)=removeRoundingRuleFields(ix)>
+                            <b class="fa fa-minus-square orangefont" aria-hidden="true"></b>
+                          </button>
+                          <button *ngIf="(ix + 1) === roundingRuleDetail['controls'].length" type="button" class="additem" title="Add row" (click)=addRoundingRuleDetailFields()>
+                            <b class="fa fa-plus-square greenfont" aria-hidden="true"></b>
+                          </button>
+                      </div>
+                  </div>
+                </div>
+              </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button class="cancel-btn" mat-raised-button (click)="closeDialog()">Close</button>
+    <button mat-raised-button color="primary" form="roundingRuleForm" [disabled]="submitted || formControls.ruleName.pending" cdkFocusInitial>
+      {{(submitted || formControls.ruleName.pending) ? submitted ? 'Saving...' : formControls.ruleName.pending ? 'Validating...' : 'Save' : 'Save'}}
+    </button>
+  </div>
+</div>

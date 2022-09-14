@@ -1,0 +1,10 @@
+<!-- <app-client-header [clientId]="clientId" [headerText]="header" ></app-client-header> -->
+<div class="readmin-panel user-block">
+  <h2 class="page_title sm-title">History</h2>
+  <div class="clearfix"></div>
+  <mat-tab-group (selectedTabChange)="loadComponent($event)"  [selectedIndex]="selectedIndex">
+    <mat-tab *ngFor="let tab of clientTabs;let i=index" class="mat-tab-label-active" label={{tab}} [disabled]="(clientId==null && tab!='Demographic Info')?true:false">
+    </mat-tab>
+  </mat-tab-group>
+  <div #tabContent></div>
+</div>

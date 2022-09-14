@@ -1,0 +1,47 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Assign Question</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="patientDocumentForm" #documentForm="ngForm" class="readmin-form custom_form"
+          [formGroup]="patientDocumentForm">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Select Document" formControlName="documentId" matInput [ngClass]="{ 'is-invalid': submitted && formControls.documentId.errors }"
+                  required>
+                  <mat-option *ngFor="let option of masterDocuments" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.documentId.errors">
+                  Please select document
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Patient Name" formControlName="patientId" matInput [ngClass]="{ 'is-invalid': submitted && formControls.patientId.errors }"
+                  required>
+                  <mat-option *ngFor="let option of masterPatients" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.patientId.errors">
+                  Please select patient
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+    <button mat-raised-button color="primary" form="patientDocumentForm" [disabled]="submitted" cdkFocusInitial>
+      {{submitted ? 'Saving...' : 'Save'}}
+    </button>
+  </div>
+</div>

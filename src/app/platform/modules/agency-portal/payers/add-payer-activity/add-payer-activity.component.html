@@ -1,0 +1,31 @@
+<div class="container-fluid">
+  <div class="row mt-3">
+    <!-- *ngIf="!isFirstTimeLoad"  -->
+    <div class="col-md-7 justify-content-start pull-left">
+      <mat-form-field class="example-full-width">
+          <mat-select placeholder="Select Activity" (selectionChange)="getPayerActivityServiceCodes()" [(ngModel)]="activityId" name='activityId' matInput>
+              <mat-option *ngFor="let act of masterActivities" [value]="act.id">
+                  <span [ngStyle]='{color:act.colorCode}'>{{act.value}}</span>
+              </mat-option>
+          </mat-select>
+      </mat-form-field>
+  </div>
+    <div class="col-md-5 pull-right justify-content-md-end d-flex">
+        <button mat-raised-button color="primary" class="add-primary-btn" (click)="openDialog(null,null)" [disabled]="activityId?false:true">
+        <i class="fa fa-plus" aria-hidden="true"></i><span> Add Service Code</span></button>
+    </div>
+
+  </div>
+    <!-- *ngIf="!isFirstTimeLoad"  -->
+
+
+</div>
+<div class="clearfix"></div>
+<div class="text-center" *ngIf="!activityId">
+    <span>No Activity Selected.</span>
+</div>
+<div *ngIf="activityId">
+    <app-data-table [inputColumns]="displayedColumns" [inputSource]="activityServiceCodeData" [inputMeta]="metaData"
+        [inputButtons]='actionButtons' (onChange)="onPageOrSortChange($event)" (onTableActionClick)="onTableActionClick($event)">
+    </app-data-table>
+</div>

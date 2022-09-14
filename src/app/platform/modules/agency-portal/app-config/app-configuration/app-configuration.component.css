@@ -1,0 +1,47 @@
+.familydl {
+    color: #7a7a7a;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 0 15px;
+}
+/*Settings Page*/
+.setting_card li {
+    position: relative;
+    padding-right: 20px;
+    padding-top: 9px;
+}
+.setting_card .familydl span {
+    position: absolute;
+    right: -10px;
+    top: 5px;
+}
+
+.setting_card h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.87);
+    margin: 0px;
+}
+.setting_card .familydl{padding: 0px;}
+.familydl>ul {
+    list-style: outside none none;
+    margin: 0;
+    padding: 0;
+}
+
+.familydl span {
+    color: rgba(0, 0, 0, 0.8);
+    font-weight: 500;
+}
+
+.familydl span.ltrcont {
+    color: #7a7a7a;
+    display: block;
+    float: left;
+    font-weight: 400;
+    width: 50%;
+}
+
+.familydl li small {
+    font-size: 85%;
+}

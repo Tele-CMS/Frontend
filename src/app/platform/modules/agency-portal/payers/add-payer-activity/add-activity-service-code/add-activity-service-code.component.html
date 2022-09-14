@@ -1,0 +1,156 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>{{headerText}}</h3>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-sm-12">
+        <form id="activityServiceCodeForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="activityServiceCodeForm">
+          <div class="row">
+            <div *ngIf="!isEdit" class="col-sm-12">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Service Code" (selectionChange)="updateValue($event.value)" formControlName="payerServiceCodeId"
+                  matInput [ngClass]="{ 'is-invalid': submitted && formControls.payerServiceCodeId.errors }" required>
+                  <mat-option *ngFor="let serviceCode of activityServiceCodes" [value]="serviceCode.id">
+                    {{serviceCode.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.payerServiceCodeId.errors?.required">
+                  Please select service code
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div *ngIf="isEdit" class="col-sm-12">
+                <mat-form-field class="example-full-width">
+                    <input matInput value="{{activityServiceCodeModel.serviceCode}}" readonly />
+                  </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <mat-form-field class="example-full-width">
+                <textarea matInput autofocus placeholder="Description" maxlength="500" formControlName="description"
+                  readonly></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Unit Duration" maxlength="60" formControlName="unitDuration" readonly />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Unit Type" formControlName="unitType" matInput [disabled]='true'>
+                  <mat-option *ngFor="let unit of masterUnitType" [value]="unit.id">
+                    {{unit.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Rate Per Unit($)" formControlName="ratePerUnit" />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-checkbox formControlName="isBillable" [disabled]="true">
+                Billable
+              </mat-checkbox>
+            </div>
+          </div>
+          <!-- <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Modifier 1" formControlName="modifier1" matInput>
+                  <mat-option *ngFor="let mod of payerModifierModel" [value]="mod.id">
+                    {{mod.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Modifier 2" formControlName="modifier2" matInput [disabled]='formControls.modifier1.value?false:true'>
+                  <mat-option *ngFor="let mod of payerModifierModel" [value]="mod.id">
+                    {{mod.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Modifier 3" formControlName="modifier3" matInput [disabled]='formControls.modifier2.value?false:true'>
+                  <mat-option *ngFor="let mod of payerModifierModel" [value]="mod.id">
+                    {{mod.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Modifier 4" formControlName="modifier4" matInput [disabled]='formControls.modifier3.value?false:true'>
+                  <mat-option *ngFor="let mod of payerModifierModel" [value]="mod.id">
+                    {{mod.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div> -->
+          <!-- <div class="row">
+                <div class="col-sm-6">
+                    <mat-form-field class="example-full-width">
+                        <mat-select placeholder="Modifer" formControlName="unitType" matInput>
+                          <mat-option *ngFor="let mod of masterModifers" [value]="mod.id">
+                            {{mod.value}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                </div>
+                <div class="col-sm-6 require">
+                    <mat-form-field class="example-full-width">
+                        <mat-select placeholder="Unit Type" formControlName="unitType" matInput>
+                          <mat-option *ngFor="let mod of masterModifiers" [value]="mod.id">
+                            {{mod.value}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                  <div class="col-sm-6">
+                      <mat-form-field class="example-full-width">
+                          <mat-select placeholder="Unit Type" formControlName="unitType" matInput>
+                            <mat-option *ngFor="let mod of masterModifiers" [value]="mod.id">
+                              {{mod.value}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                  </div>
+                  <div class="col-sm-6 require">
+                      <mat-form-field class="example-full-width">
+                          <mat-select placeholder="Unit Type" formControlName="unitType" matInput>
+                            <mat-option *ngFor="let mod of masterModifiers" [value]="mod.id">
+                              {{mod.value}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                  </div>
+                </div> -->
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+    <div>
+      <button name="Save" mat-raised-button color="primary" (click)="onSubmit()" form="activityServiceCodeForm" class="text-uppercase"
+        [disabled]="submitted" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+    </div>
+  </div>
+</div>

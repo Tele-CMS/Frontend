@@ -1,0 +1,44 @@
+
+<div class="custom_modal">
+  <h3 mat-dialog-title>ICD Code</h3>
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="icdCodeForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="icdCodeForm">
+          <div class="row">
+            <div class="col-sm-12 require">
+              <mat-form-field class="example-full-width" hintLabel="{{formControls.code.pending ? 'Validating...' : ''}}">
+                <input matInput autofocus placeholder="ICD Code" maxlength="7" formControlName="code" [ngClass]="{ 'is-invalid': submitted && formControls.code.errors }"
+                  required />
+                <mat-error *ngIf="formControls.code.errors?.required">
+                  Please enter ICD code
+                </mat-error>
+                <mat-error *ngIf="formControls.code.errors?.uniqueName">
+                    Name is already taken.
+                  </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 require">
+              <mat-form-field class="example-full-width" hintLabel="{{formControls.description.value ? 1000 - formControls.description.value.length : 1000}} Characters Remaining">
+                <textarea matInput placeholder="Description" maxlength="1000" formControlName="description" [ngClass]="{ 'is-invalid': submitted && formControls.description.errors }"
+                  required ></textarea>
+                <mat-error *ngIf="formControls.description.errors">
+                  Please enter description
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+    <button mat-raised-button color="primary" form="icdCodeForm" [disabled]="submitted || formControls.code.pending" cdkFocusInitial>
+      {{(submitted || formControls.code.pending) ? submitted ? 'Saving...' : formControls.code.pending ? 'Validating...' : 'Save' : 'Save'}}
+    </button>
+  </div>
+</div>
