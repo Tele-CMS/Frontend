@@ -1,0 +1,10 @@
+<div class="schedule-modal">
+  <div mat-dialog-content>
+    <div>{{message}}</div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button *ngFor="let action of actions" (click)="handleClick(action.value)">
+      {{action.name}}
+    </button>
+  </div>
+</div>

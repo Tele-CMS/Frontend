@@ -1,0 +1,10 @@
+.frgtpwd a {
+  color: #1b323b !important;
+  cursor: pointer;
+  font-weight: 600;
+}
+button.example-full-width.login-btn.mat-raised-button.mat-primary {
+  box-shadow: none;
+  border-radius: 10px;
+  line-height: 45px;
+}

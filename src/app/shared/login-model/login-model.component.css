@@ -1,0 +1,110 @@
+.mat-dialog-container {
+  padding: 10px !important;
+  overflow: hidden;
+}
+.mat-form-field {
+  /* font-family: 'Raleway', sans-serif; */
+}
+.telelogin {
+  max-width: 600px;
+  /* font-family: 'Raleway', sans-serif; */
+  padding: 0px 15px 0px 15px;
+}
+.tele-bg {
+  background-image: url("../../../assets/img/tele-login-bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  color: var(--color-white);
+  z-index: 0;
+  padding: 30px 15px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.tele-bg:before {
+  background-color: #1b323b;
+  position: absolute;
+  left: 0;
+  opacity: .85;
+  height: 100%;
+  top: 0;
+  content: "";
+  z-index: -1;
+  width: 100%;
+}
+.telelogin h3 {
+  font-size: 16px;
+  margin: 20px 0px;
+}
+.tele-bg p {
+  color: var(--color-white);
+}
+.telelogin .mat-tab-nav-bar,
+.telelogin .mat-tab-header {
+  border: 0;
+}
+.telelogin .mat-tab-list .mat-tab-label {
+  margin: 0px;
+  border: 0px;
+  padding: 0px 15px 0px 0px;
+  height: auto;
+  position: relative;
+}
+.telelogin .mat-tab-list .mat-tab-label:first-child:before {
+  position: absolute;
+  content: "/";
+  right: 5px;
+  color: rgba(0, 0, 0, 0.44);
+}
+.telelogin .mat-tab-list .mat-tab-label .mat-tab-label-content {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.44);
+}
+.telelogin .mat-tab-list .mat-tab-label.mat-tab-label-active,
+.mat-tab-list .mat-tab-label:hover {
+  background-color: var(--color-white) !important;
+}
+.telelogin
+  .mat-tab-list
+  .mat-tab-label.mat-tab-label-active
+  .mat-tab-label-content {
+  color: #63d891;
+}
+
+.telelogin-form h3 {
+  margin: 0px;
+}
+.telelogin-form i {
+  font-size: 15px;
+  color: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+.frgtpwd {
+  margin-bottom: 15px;
+}
+.frgtpwd a {
+  color: rgba(0, 0, 0, 0.87);
+}
+.member-link {
+  padding-top: 30px;
+  padding-bottom: 20px;
+  font-size: 13px;
+}
+.member-link span {
+  color: #1b323b;
+  cursor: pointer;
+  font-weight: 600;
+}
+.member-link span:hover {
+  text-decoration: underline;
+}
+
+.mat-tab-list .mat-ripple-element {
+  display: none;
+}
+.cdk-overlay-pane {
+  min-width: auto !important;
+}

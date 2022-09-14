@@ -1,0 +1,7 @@
+<mat-form-field class="example-full-width">
+  <input ngx-google-places-autocomplete [options]='addressOptions' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"
+    matInput [placeholder]="placeholder" [formControl]="address" required/>
+    <mat-error *ngIf="address.errors?.required">
+        Please enter address
+      </mat-error>
+</mat-form-field>

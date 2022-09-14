@@ -1,0 +1,210 @@
+<form [formGroup]="recurrenceForm">
+  <div class="row mt-3">
+    <div class="col-sm-3">
+      <mat-radio-group class="example-radio-group" formControlName="rule">
+        <mat-radio-button value="Daily" class="mb-2">
+          Daily
+        </mat-radio-button>
+        <mat-radio-button value="Weekly" class="mb-2">
+          Weekly
+        </mat-radio-button>
+        <mat-radio-button value="Monthly" class="mb-2">
+          Monthly
+        </mat-radio-button>
+        <mat-radio-button value="Yearly" class="mb-2">
+          Yearly
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="col-sm-9">
+      <div [ngSwitch]="formControls.rule?.value">
+
+        <div class="col-sm-6" *ngSwitchCase="'Daily'">
+          <!-- Daily rule -->
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Every" maxlength="3" formControlName="interval" required />
+            <mat-error *ngIf="formControls.interval.errors">
+              Please enter interval
+            </mat-error>
+            <small matSuffix>day(s)</small>
+          </mat-form-field>
+        </div>
+        <div *ngSwitchCase="'Weekly'">
+          <!-- Weekly rule -->
+          <div class="col-sm-6">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Every" maxlength="3" formControlName="interval" required />
+              <mat-error *ngIf="formControls.interval.errors">
+                Please enter interval
+              </mat-error>
+              <small matSuffix>week(s)</small>
+            </mat-form-field>
+          </div>
+          <div formGroupName="weeksGroup" class="rec-weekly">
+            <mat-checkbox *ngFor="let week of weeksArray" formControlName="{{week.id}}">
+              {{ week.value }}
+            </mat-checkbox>
+          </div>
+        </div>
+        <div *ngSwitchCase="'Monthly'">
+          <!-- Monthly rule -->
+          <div class="col-sm-6">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Every" maxlength="3" formControlName="interval" required />
+            <mat-error *ngIf="formControls.interval.errors">
+              Please enter interval
+            </mat-error>
+            <small matSuffix>month(s)</small>
+          </mat-form-field>
+        </div>
+          <div formGroupName="monthsGroup">
+            
+              <mat-radio-group class="example-radio-group" formControlName="isOnDay">
+                <div class="col-12">
+              <div class="row">
+                <div class="col-sm-6">
+                  <mat-radio-button [value]="true">
+                    On day
+                  </mat-radio-button>
+                </div>
+                <div class="col-sm-6">
+                  <mat-radio-button [value]="false">
+                    On the
+                  </mat-radio-button>
+                </div>
+              </div></div>
+              </mat-radio-group>
+              <div class="col-sm-6">
+                <mat-form-field class="example-full-width" *ngIf="monthControls.isOnDay.value">
+                  <mat-select placeholder="" formControlName="byMonthDay" matInput>
+                    <mat-option *ngFor="let option of daysArray" [value]="option">
+                      {{option}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            <div *ngIf="!monthControls.isOnDay.value" class="row">
+              <mat-form-field class="col-sm-6">
+                <mat-select placeholder="" formControlName="bySetPos" matInput>
+                  <mat-option *ngFor="let option of weekPositionArray" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="col-sm-6">
+                <mat-select placeholder="" formControlName="byDay" matInput>
+                  <mat-option *ngFor="let option of weeksArray" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'Yearly'">
+          <!-- Yearly rule -->
+
+          <div formGroupName="yearsGroup">
+            <mat-radio-group class="example-radio-group" formControlName="isOnDay" class="col-12">
+            <div class="row">
+              <div class="col-sm-6">
+                <mat-radio-button [value]="true">
+                  On day
+                </mat-radio-button>
+              </div>
+              <div class="col-sm-6">
+                <mat-radio-button [value]="false">
+                  On the
+                </mat-radio-button>
+              </div>  
+            </div>
+            </mat-radio-group>
+
+            <div *ngIf="yearControls.isOnDay.value" class="row">
+              <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="" formControlName="byMonth" matInput>
+                  <mat-option *ngFor="let option of monthsArray" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                  <mat-select placeholder="" formControlName="byMonthDay" matInput>
+                    <mat-option *ngFor="let option of daysArray" [value]="option">
+                      {{option}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div *ngIf="!yearControls.isOnDay.value" class="row">
+              <div class="col-sm-3">
+                <mat-form-field class="example-full-width">
+                  <mat-select placeholder="" formControlName="bySetPos" matInput>
+                    <mat-option *ngFor="let option of weekPositionArray" [value]="option.id">
+                      {{option.value}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-3">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="" formControlName="byDay" matInput>
+                  <mat-option *ngFor="let option of weeksArray" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-3 d-flex align-items-center justify-content-center">
+              of
+            </div>
+              <div class="col-sm-3">
+              <mat-form-field class="example-full-width">
+                  <mat-select placeholder="" formControlName="byMonth" matInput>
+                    <mat-option *ngFor="let option of monthsArray" [value]="option.id">
+                      {{option.value}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              </div>
+            </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-sm-6">
+          <mat-form-field class="example-full-width">
+              <mat-select placeholder="" formControlName="endsOn" matInput>
+                <mat-option [value]="1">
+                  After
+                </mat-option>
+                <mat-option [value]="2">
+                    On Date
+                  </mat-option>
+              </mat-select>
+            </mat-form-field>
+      </div>
+      <div class="col-sm-6">
+          <mat-form-field class="example-full-width" *ngIf="formControls.endsOn.value == '1'">
+              <input matInput placeholder="Count" maxlength="3" formControlName="count" required />
+              <mat-error *ngIf="formControls.count.errors">
+                Please enter count
+              </mat-error>
+              <small matSuffix>time(s)</small>
+            </mat-form-field>
+            <mat-form-field class="example-full-width" *ngIf="formControls.endsOn.value == '2'">
+                <input matInput [matDatepicker]="until" [min]="minUntilDate" placeholder="Until" formControlName="until" readonly />
+                <mat-datepicker-toggle matSuffix [for]="until"></mat-datepicker-toggle>
+                <mat-datepicker #until></mat-datepicker>
+              </mat-form-field>
+        </div>
+  </div>
+</form>

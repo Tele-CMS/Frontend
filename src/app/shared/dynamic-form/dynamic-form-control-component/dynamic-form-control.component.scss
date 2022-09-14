@@ -1,0 +1,33 @@
+// .invalid-box{
+//     border: solid 1px #f44336;
+// }
+.invalid-txt{
+    color: #f44336;
+}
+.mat-checkbox, .mat-radio-button{
+     margin-right: 25px;
+}
+
+.numbertxt{
+    color: gray;
+}
+
+.mat-input-element:disabled, .mat-select-disabled .mat-select-value, .mat-checkbox-disabled, .mat-radio-button.mat-radio-disabled{
+    color: rgba(0, 0, 0, 0.87) !important;
+}
+.question-block{
+    background-color: var(--color-white);
+    padding: 14px;
+    border-left: 5px solid #264653;
+    padding-bottom: 0;
+    min-height: 105px;
+    margin-bottom: 7px;
+    box-shadow: 0px 0px 7px 0px #e8e8e8;
+}
+.question-block mat-label{
+    color: #2f2660;
+}
+.question-block .mat-form-field-infix,
+.question-block .mat-form-field-infix textarea{
+    width:100% !important;
+}

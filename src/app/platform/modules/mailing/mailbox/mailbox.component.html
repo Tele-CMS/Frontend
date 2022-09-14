@@ -1,0 +1,256 @@
+<h2 class="page_title">Mailbox</h2>
+<div class="clearfix"></div>
+<div class="readmin-panel mailwrap p-0">
+    <div class="mailcover">
+        <div class="leftmailbox" [ngClass]="{ 'openleftbox': leftMenu, 'collapseleft': !leftMenu }">
+            <div class="composebtn">
+                <button type="button" (click)="composeMessage(null,true)">
+          <i class="fa fa-pencil" aria-hidden="true">
+          </i> New Message</button>
+                <i class="material-icons d-xl-none" (click)="toggleLeftMenu()">close</i>
+            </div>
+            <div class="inbox_label">
+                <ul>
+                    <li [ngClass]="{'active':inboxMsg}" (click)="loadMessages('inbox')">
+                        <a>
+                            <i class="fa fa-inbox" aria-hidden="true"></i>Inbox
+                            <span *ngIf="messageCounts.inboxCount>0">({{messageCounts.inboxCount}})</span>
+                        </a>
+                    </li>
+                    <li [ngClass]="{'active':sentsg}" (click)="loadMessages('sent')">
+                        <a>
+                            <i class="fa fa-share-square-o" aria-hidden="true"></i>Sent
+                            <span *ngIf="messageCounts.sentboxCount>0">({{messageCounts.sentboxCount}})</span>
+                        </a>
+                    </li>
+                    <li [ngClass]="{'active':delMsg}" (click)="loadMessages('deleted')">
+                        <a>
+                            <i class="fa fa-trash" aria-hidden="true"></i>Deleted
+                            <span *ngIf="messageCounts.deletedMessageCount>0">({{messageCounts.deletedMessageCount}})</span>
+                        </a>
+                    </li>
+                    <li [ngClass]="{'active':favMsg}" (click)="loadMessages('fav')">
+                        <a>
+                            <i class="fa fa-star" aria-hidden="true"></i>Favourites
+                            <span *ngIf="messageCounts.favouriteMessageCount>0">({{messageCounts.favouriteMessageCount}})</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="mailwrap">
+            <div class="col-12 hgt100">
+                <div class="row hgt100">
+                    <div class="col-sm-12 col-md-5 maillist">
+                        <div class="allmails_head justify-content-between">
+                            <i class="material-icons d-xl-none" (click)="toggleLeftMenu()">format_indent_decrease</i>
+                            <div class="allmails_head-rigth">
+                                <button mat-icon-button [matMenuTriggerFor]="menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                                <mat-menu #menu="matMenu">
+                                    <button mat-menu-item (click)="refreshMessages('refresh')">
+                    <span>Refresh</span>
+                  </button>
+                                    <button mat-menu-item (click)="refreshMessages('date')">
+                    <span>Sort By Date</span>
+                  </button>
+                                    <button mat-menu-item (click)="refreshMessages('name')">
+                    <span>Sort By Name</span>
+                  </button>
+                                </mat-menu>
+                            </div>
+                        </div>
+                        <div class="maillist_control">
+                            <mat-checkbox (change)="parentClick($event)">{{messages!=undefined && messages.length>0?messages.length +(inboxMsg?' Inbox':sentsg?' Sent':delMsg?' Deleted':favMsg?' Favourite':''):''}}</mat-checkbox>
+                            <i class="fa fa-trash-o" aria-hidden="true" (click)="deleteMessages()"></i>
+                        </div>
+                        <div [ngStyle]>
+                            <ng-scrollbar>
+                                <div *ngFor="let msg of messages;let ix=index" [ngClass]="{'mail_noti d-flex justify-content-between':true,'readmail':msg.unread==false,'unreadmail':msg.unread==true}">
+                                    <div class="d-flex">
+                                        <div class="check_fav_imp d-flex align-items-center">
+                                            <mat-checkbox (change)="queueMessagesToRemove($event,msg.messageId)" [checked]="msg.isCheckBoxClicked"></mat-checkbox>
+                                            <!-- <i [ngClass]="{'fa':true,'fa-star-o':msg.isFavourite==false, 'yellowfont fa-star':msg.isFavourite==true}" aria-hidden="true" (click)="setMessageAsFavourite(msg.messageId,msg.parentMessageId, msg.isFavourite,'list',false)"></i> -->
+                                        </div>
+                                        <div class="mailitem">
+
+                                            <div class="mailimg">
+                                                <img class="img-fluid" alt="" src="{{msg.thumbnail}}" />
+                                            </div>
+                                            <h3 *ngIf="inboxMsg" (click)="getMessageById(msg.messageId,msg.parentMessageId)">{{msg.totalCount>1?msg.fromName +'('+msg.totalCount+')':msg.fromName}}
+                                            </h3>
+                                            <h3 *ngIf="sentsg" (click)="getMessageById(msg.messageId,msg.parentMessageId)">{{msg.totalCount>1?msg.toName +'('+msg.totalCount+')':msg.toName}}
+                                            </h3>
+                                            <h3 *ngIf="delMsg" (click)="getMessageById(msg.messageId,msg.parentMessageId)">{{msg.totalCount>1?msg.toName +'('+msg.totalCount+')':msg.toName}}
+                                            </h3>
+                                            <h3 *ngIf="favMsg" (click)="getMessageById(msg.messageId,msg.parentMessageId)">{{msg.totalCount>1?msg.toName +'('+msg.totalCount+')':msg.toName}}
+                                            </h3>
+                                            <p title="{{msg.subject}}">{{msg.subject && msg.subject.length>20?msg.subject.substring(0,20) + '...':msg.subject}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <span title="{{msg.messageDate}}">{{msg.title}}</span>
+                                </div>
+                                <div class="loadmail">
+                                </div>
+                            </ng-scrollbar>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-7 pdr-0">
+                        <p *ngIf="message==undefined || message==null || message.length==0" class="blank-cover"><i class="fa fa-envelope-o" aria-hidden="true"></i><span>No message selected!</span></p>
+                        <div class="hgt100 mail-text-blk" *ngIf="message!=undefined && message!=null && message.length>0">
+                            <div class="mailhead"><button class="close" mat-button (click)="onNoClick(close)">X</button>
+                                <div class="mailsubject">
+                                    <p>{{message[0].subject}}</p>
+                                </div>
+                            </div>
+                            <div [ngStyle]="{ 'height': '90%' }">
+                                <ng-scrollbar>
+                                    <div class="pr-3">
+                                        <div class="mailbox-cover" *ngFor="let thread of message;let ix=index;">
+                                            <div class="mailbox_detail d-flex align-items-center justify-content-between">
+                                                <div class="mailperson_detail">
+                                                    <div class="mailperson">
+                                                        <img class="img-fluid" alt="" src="{{thread.thumbnail}}" />
+                                                    </div>
+                                                    <div class="personname">
+                                                        <h4 (click)="toggleContent(thread.messageId,ix)">{{thread.fromName}}</h4>
+                                                        <p class="quickdetail" (click)="toggleMailDetail($event,thread.messageId)">Show Details</p>
+                                                        <div [ngClass]="{'personhide_detail':true,'hideCont':true}" class="{{'msgContent'+thread.messageId}}">
+                                                            <p><span>From : </span>{{thread.fromName}}</p>
+                                                            <p><span>To : </span>{{thread.toName}}</p>
+                                                            <p title="{{thread.messageDate}}"><span>Date : </span>{{thread.messageDate |date}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="actionsbtns">
+                                                    <button mat-raised-button title="Reply" type="button" (click)="replyMessage(thread.messageId)">
+                            <i class="fa fa-reply" aria-hidden="true"></i>
+                          </button>
+                                                    <button mat-raised-button title="Not a favourite" type="button">
+                            <i [ngClass]="{'fa':true,'fa-star-o':thread.isFavourite==false, 'yellowfont fa-star':thread.isFavourite==true}"
+                              (click)="setMessageAsFavourite(thread.messageId, thread.fromInbox, thread.parentMessageId, thread.isFavourite,'msgDetail',thread.isThreadType)"></i>
+                          </button>
+                                                    <button mat-raised-button title="Delete" type="button">
+                            <i class="fa fa-trash-o" aria-hidden="true" (click)="deleteMessage(thread.messageId,thread.parentMessageId,thread.isThreadType,thread.fromInbox)"></i>
+                          </button>
+                                                </div>
+                                            </div>
+                                            <div [ngClass]="{'mail_content':true,'showCont':(ix+1==message.length),'hideCont':(ix+1!=message.length)}" class="{{'contentClass'+thread.messageId}}" [innerHTML]="thread.text">
+                                            </div>
+                                            <div>
+                                                <a style="color: #4c9898;" *ngFor="let item of thread.attachedDocument" target="_blank" href="{{item}}">{{thread.attachedDocs}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="email-reply" *ngIf="message!=undefined && message!=null && message.length>0">
+                                        <div class="row justify-content-between">
+                                            <div class="col-4 text-center">
+                                                <a href="javascript:void(0)">
+                                                    <i class="material-icons" (click)="replyMessage(message[message.length-1].messageId)">reply</i>
+                                                </a>
+                                                <p>Reply</p>
+                                            </div>
+                                            <div class="col-4 text-center">
+                                                <a href="javascript:void(0)">
+                                                    <i class="material-icons" (click)="forwardMessage(message[message.length-1].messageId)">forward</i>
+                                                </a>
+                                                <p>Forward</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-scrollbar>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Compose mail -->
+        <div class="newmail" *ngIf="composeMessageFlag">
+            <div class="newmail_head">
+                <p>New Message</p>
+                <ul>
+                    <!-- <li><a><i class="fa fa-window-minimize" aria-hidden="true"></i></a></li> -->
+                    <li><a><i class="fa fa-close" aria-hidden="true" (click)="composeMessage(null,false)"></i></a></li>
+                </ul>
+            </div>
+            <div *ngIf="composeMessageObj!=undefined">
+                <div class="receipt">
+                    <div class="mailto">
+                        <label>To</label>
+                        <span class="receipt-name">
+              <mat-chip-list #chipList>
+                <mat-chip class="chiplist" *ngFor="let usr of users" [selectable]="selectable" [removable]="removable"
+                  (removed)="remove(usr)">
+                  {{usr.value}}
+                  <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+                <input #userInput [formControl]="userControl" [matAutocomplete]="auto" (matChipInputTokenEnd)="add($event)">
+              </mat-chip-list>
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                <mat-option *ngFor="let user of filteredUsers$ | async" [value]="user">
+                  {{user.value}}
+                </mat-option>
+              </mat-autocomplete>
+            </span>
+                    </div>
+                </div>
+
+                <div *ngIf="composeMessageObj!=undefined">
+                    <div class="receipt">
+                        <div class="mailto">
+                            <label>Cc</label>
+                            <span class="receipt-name">
+                <mat-chip-list #chipList>
+                  <mat-chip class="chiplist" *ngFor="let usr of ccusers" [selectable]="selectable" [removable]="removable"
+                    (removed)="ccremove(usr)">
+                    {{usr.value}}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+                  <input #userInput [formControl]="userControl" [matAutocomplete]="auto" (matChipInputTokenEnd)="add($event)">
+                </mat-chip-list>
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="OnCCselected($event)">
+                  <mat-option *ngFor="let user of filteredUsers$ | async" [value]="user">
+                    {{user.value}}
+                  </mat-option>
+                </mat-autocomplete>
+              </span>
+                        </div>
+                    </div>
+
+                    <div class="newsubject">
+                        <input placeholder="Subject" [(ngModel)]="composeMessageObj.subject">
+                    </div>
+                    <div [ngStyle]>
+                        <div class="maileditor">
+                            <angular-editor [(ngModel)]="composeMessageObj.text" [config]="editorConfig"></angular-editor>
+                        </div>
+
+                    </div>
+                    <div class="mailcontrols row">
+                        <div class="attach_btn col-sm-6">
+                            <i class="material-icons">attach_file</i>
+                            <input type="file" (change)="handleImageChange($event)" />
+                            <div class="attachment_join">
+                                <div class="attchmentname" *ngFor="let file of fileList;let i=index;">
+                                    <span>{{file.fileName}}
+                      <!-- <small>100kb</small> -->
+                                    </span>
+                                    <div class="text-right remove-attach" (click)="removeFile(i)">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mailsend_btn col-sm-6">
+                            <i class="fa fa-trash-o" aria-hidden="true" (click)="composeMessage(null,false)"></i>
+                            <button mat-raised-button (click)="sendMessage()" color="primary"> <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Compose mail -->
+        </div>
+    </div>

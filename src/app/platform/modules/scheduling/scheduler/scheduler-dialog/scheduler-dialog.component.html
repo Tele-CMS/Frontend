@@ -1,0 +1,242 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>{{pageHeader}}</h3>
+  
+  <div mat-dialog-content>
+
+    <div class="row" *ngIf="!isRecurrenceAppointmentsList">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="appointmentForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="appointmentForm">
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <!-- (dateChange)="onDateChange($event)" -->
+                <input matInput [matDatepicker]="picker" placeholder="Start Date" formControlName="startDate" (dateChange)="onStartDateSelected($event)"
+                  readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-3">
+              <input matInput aria-label="default time" [ngxTimepicker]="startTime" [value]="appointmentStartTime" readonly>
+              <!-- <ngx-material-timepicker-toggle [for]="startTime"></ngx-material-timepicker-toggle> -->
+              <ngx-material-timepicker #startTime (timeSet)="onStartOrEndTimeSelected('appointmentStartTime', $event)"></ngx-material-timepicker>
+              <!-- <input matInput placeholder="Start Time" formControlName="startTime" [ngClass]="{ 'is-invalid': submitted && formControls.startTime.errors }"
+                  required appNumbersOnly />
+                <mat-error *ngIf="formControls.startTime.errors">
+                  Please enter start time
+                </mat-error> -->
+            </div>
+            <div class="col-sm-3">
+              <input matInput aria-label="default time" [ngxTimepicker]="endTime" [value]="appointmentEndTime" readonly>
+              <!-- <ngx-material-timepicker-toggle [for]="endTime"></ngx-material-timepicker-toggle> -->
+              <ngx-material-timepicker #endTime (timeSet)="onStartOrEndTimeSelected('appointmentEndTime', $event)"></ngx-material-timepicker>
+              <!-- <input matInput placeholder="End Time" formControlName="endTime" [ngClass]="{ 'is-invalid': submitted && formControls.endTime.errors }"
+                    required appNumbersOnly />
+                  <mat-error *ngIf="formControls.endTime.errors">
+                    Please enter end time
+                  </mat-error> -->
+            </div>
+          </div>
+          <div class="row" *ngIf="!isPatientScheduler">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Location" formControlName="SelectedLocationID" (selectionChange)="onLocationSelected($event)" matInput
+                  [ngClass]="{ 'is-invalid': submitted && formControls.SelectedLocationID.errors }" required>
+                  <mat-option *ngFor="let option of selectedOfficeLocations" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.SelectedLocationID.errors">
+                  Please select Location
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input placeholder="Patient Name" aria-label="Patient Name" matInput formControlName="PatientID" [matAutocomplete]="auto" [ngClass]="{ 'is-invalid': submitted && formControls.PatientID.errors }"
+                  required>
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onPatientSelected($event)">
+                  <mat-option *ngIf="isloadingPatients" class="is-loading">
+                    <mat-spinner diameter="50"></mat-spinner>
+                  </mat-option>
+                  <ng-container>
+                    <mat-option *ngFor="let option of filteredPatients$ | async" [value]="option">
+                      <small>({{option.mrn}})</small>
+                      <span> {{option.value}}</span>
+                    </mat-option>
+                  </ng-container>
+                </mat-autocomplete>
+                <mat-error *ngIf="formControls.PatientID.errors">
+                  Please select Patient
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <!-- <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Appointment Type" formControlName="AppointmentTypeID" (selectionChange)="onAppointmentTypeSelected($event)"
+                  matInput [ngClass]="{ 'is-invalid': submitted && formControls.AppointmentTypeID.errors }" required>
+                  <mat-option *ngFor="let option of masterAppointmentTypes" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.AppointmentTypeID.errors?.required">
+                  Please select appointment type
+                </mat-error>
+                <mat-error *ngIf="formControls.AppointmentTypeID.errors?.notValid">
+                  {{authorizationMessage}}
+                </mat-error>
+              </mat-form-field>
+            </div>-->
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Staff" formControlName="StaffIDs" (selectionChange)="onStaffSelected($event)" matInput [ngClass]="{ 'is-invalid': submitted && formControls.StaffIDs.errors }"
+                  required>
+                  <mat-option *ngFor="let option of masterStaffs" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.StaffIDs.errors?.required">
+                  Please select staff
+                </mat-error>
+                <mat-error *ngIf="formControls.StaffIDs.errors?.notAvailable">
+                  {{availabilityMessage}}
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div> 
+          <!-- <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Service Location" formControlName="ServiceLocationID" (selectionChange)="onServiceLocationSelected($event)"
+                  matInput [ngClass]="{ 'is-invalid': submitted && formControls.ServiceLocationID.errors }" required>
+                  <mat-option *ngFor="let option of officeAndPatientLocations" [value]="option.rowNo">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.ServiceLocationID.errors">
+                  Please select service location
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width" *ngIf="selectedServiceLocation && (selectedServiceLocation.key || '').toUpperCase() === 'OTHER'">
+                <mat-select placeholder="Address Type" formControlName="CustomAddressID" matInput [ngClass]="{ 'is-invalid': submitted && formControls.CustomAddressID.errors }"
+                  required>
+                  <mat-option *ngFor="let option of masterPatientLocation" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.CustomAddressID.errors">
+                  Please select address type
+                </mat-error>
+              </mat-form-field>
+
+              <p *ngIf="selectedServiceLocation && (selectedServiceLocation.key || '').toUpperCase() !== 'OTHER'">
+                {{ selectedServiceLocation.fullAddress }}
+              </p>
+
+            </div>
+          </div> -->
+          <!-- <div class="row" *ngIf="selectedServiceLocation && (selectedServiceLocation.key || '').toUpperCase() === 'OTHER'">
+            <div class="col-sm-12"> -->
+              <!-- <mat-form-field class="example-full-width">
+                <input matInput placeholder="Custom Address" formControlName="CustomAddress" [ngClass]="{ 'is-invalid': submitted && formControls.CustomAddress.errors }"
+                  required />
+                <mat-error *ngIf="formControls.CustomAddress.errors">
+                  Please enter custom address
+                </mat-error>
+              </mat-form-field> -->
+          <!-- <app-google-address-input [placeholder]="'Custom Address'"  [control]="formControls.CustomAddress" (onAddressChange)="handleAddressChange($event)"></app-google-address-input>
+            </div>
+          </div> -->
+          <!-- <div class="row justify-content-center" *ngIf="!isRequestFromPatientPortal">
+            <div class="col-md-4 mt-2">
+              <mat-checkbox formControlName="IsTelehealthAppointment" (change)="onTelehealthCheckSelected($event)">
+                Is Telehealth Appointment
+              </mat-checkbox>
+            </div>
+            <div class="col-md-4">
+              <mat-radio-group class="example-radio-group" formControlName="IsDirectService" (change)="onDirectServiceSelected($event)">
+                <div class="row">
+                <div class="col-md-6 mt-2">
+                <mat-radio-button class="example-radio-button" [value]="true">
+                  Direct
+                </mat-radio-button>
+              </div>
+              <div class="col-md-6 mt-2">
+                <mat-radio-button class="example-radio-button" [value]="false">
+                  Indirect
+                </mat-radio-button>
+              </div>
+            </div>
+              </mat-radio-group>
+            </div>
+            <div class="col-md-4 mt-2">
+              <mat-checkbox formControlName="IsExcludedFromMileage" (change)="onExcludedFromMileageCheckSelected($event)">
+                Is Excluded From Mileage
+              </mat-checkbox>
+            </div>
+          </div> -->
+          <!-- <div class="row" *ngIf="!formControls.IsExcludedFromMileage.value && !isRequestFromPatientPortal">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Mileage" maxlength="6" formControlName="Mileage" appNumbersOnly /> -->
+                <!-- <mat-error *ngIf="formControls.Mileage.errors">
+                    Please enter mileage
+                  </mat-error> -->
+              <!-- </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Drive Time" maxlength="5" formControlName="DriveTime" mask='00:00' /> -->
+                <!-- <mat-error *ngIf="formControls.DriveTime.errors">
+                      Please enter Drive Time
+                    </mat-error> -->
+              <!-- </mat-form-field>
+            </div>
+          </div> -->
+          <div class="row">
+            <div class="col-sm-12">
+              <mat-form-field class="example-full-width" hintLabel="{{formControls.Notes.value ? 1000 - formControls.Notes.value.length : 1000}} Characters Remaining">
+                <textarea matInput placeholder="Notes" maxlength="1000" formControlName="Notes">
+                        </textarea>
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- <div class="row" *ngIf="!isRequestFromPatientPortal">
+              <div class="col-sm-12 mt-3">
+                <mat-checkbox formControlName="IsRecurrence" (change)="onRecurrenceSelected($event)" [disabled]="appointmentId > 0">
+                  Is Recurrence
+                </mat-checkbox>
+              </div>
+          </div> -->
+          <app-recurrence-rule *ngIf="formControls.IsRecurrence.value && !appointmentId" [minRecurrenceDate]="formControls.startDate.value" (onChangeRecurrenceRule)="onChangeRecurrenceRule($event)" ></app-recurrence-rule>
+        </form>
+      </div>
+    </div>
+
+
+    <!-- Recurrence Appointments List -->
+    <div class="row" *ngIf="isRecurrenceAppointmentsList">
+        <div class="col-sm-12">
+            <div class="clearfix"></div>
+            <form (ngSubmit)="onRecurrenceAppointmentSubmit()" id="recurrenceAppointmentForm" >
+              <app-data-table [inputColumns]="displayedColumns" [inputSource]="RecurrenceAppointmentsList" [inputMeta]="metaData" [inputButtons]='actionButtons'>
+              </app-data-table>
+            </form>
+        </div>
+    </div>
+
+  </div>
+  <div mat-dialog-actions>
+    <button class="cancel-btn" mat-raised-button (click)="onClose()">Close</button>
+    <button *ngIf="!isRecurrenceAppointmentsList"  mat-raised-button color="primary" form="appointmentForm" [disabled]="submitted || (isAppointmentInPendingStatus && !isRequestFromPatientPortal)" cdkFocusInitial>
+      {{(isAppointmentInPendingStatus && !isRequestFromPatientPortal) ? 'Pending' : submitted ? 'Saving...' : 'Save'}}
+    </button>
+    <button *ngIf="isRecurrenceAppointmentsList"  mat-raised-button color="primary" form="recurrenceAppointmentForm" [disabled]="submitted" cdkFocusInitial>
+        {{submitted ? 'Saving...' : 'Continue'}}
+      </button>
+  </div>
+</div>

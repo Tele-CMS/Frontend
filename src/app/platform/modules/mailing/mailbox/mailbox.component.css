@@ -1,0 +1,555 @@
+.mailwrap {
+    height: 100%;
+}
+.close.mat-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px;
+    line-height: 35px;
+    width: 48px;
+    color: blue;
+    min-width: auto;
+  }
+.mailwrap .hgt100{
+    padding-top: 0 !important;
+}
+.mailcover {
+    display: flex!important;
+    height: 100%;
+    /* overflow: hidden; */
+}
+.ng-scrollbar-view{
+    overflow: auto !important;
+}
+.leftmailbox {
+    /* position: absolute; */
+    background-color: var(--color-white);
+    width: 200px;
+    z-index: 2;
+    /* height: calc(100% + 15px); */
+    padding: 0;
+    box-shadow: 0px 1px 10px -5px rgba(0,0,0,.2);
+    -webkit-box-shadow: 0px 1px 10px -5px rgba(0,0,0,.2);
+    transition: all .2s ease;
+    -webkit-transition: all .2s ease;
+}
+.fa-trash-o{
+    color:#dc3545 !important;
+}
+.leftmailbox .composebtn {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    background-color: #666;
+}
+.leftmailbox .composebtn button {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-white);
+    border: 0;
+    cursor: pointer;
+    background-color: transparent;
+    width: 100%;
+    padding: 0 10px;
+    text-align: left;
+}
+.leftmailbox .composebtn button i{
+margin-right: 5px;
+}
+.inbox_label ul {
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+.inbox_label ul li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: block;
+}
+.inbox_label ul li a {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(0,0,0,.6);
+    margin: 10px;
+    cursor: pointer;
+}
+.inbox_label ul li.active a, .inbox_label ul li a:hover {
+    color: var(--yellow-color);
+}
+.inbox_label ul li i {
+    padding-right: 10px;
+}
+
+.inbox_label ul li.active span {
+    display: inline;
+}
+.mail-text-blk{
+    background-color: var(--color-white);
+    border: 1px solid #efefef;
+}
+.mail-text-blk .mailhead{
+    padding:10px;
+    background: #264653;
+    color: var(--color-white);
+    min-height: 42px;
+}
+.mailwrap {
+    /* padding-left: 180px; */
+    height: 100%;
+    width: 100%;
+}
+.actionsbtns button.mat-raised-button {
+    min-width: 20px;
+    border-right: 1px solid #efefef;
+    border-radius: 0px !important;
+    margin: 0;
+}
+.actionsbtns {
+    max-width: 170px;
+    display: flex;
+}
+.maillist {
+    padding: 0!important;
+    float: left;
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    height: 80vh;
+    overflow: auto;
+}
+.allmails_head, .maillist_control {
+    display: flex;
+    justify-content: space-between;
+}
+.allmails_head {
+    padding: 10px 15px 6px;
+    background-color: #f4f4f4;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-right: 0;
+}
+.allmails_head-rigth button {
+    background-color: transparent;
+    padding: 0px;
+    border: 0px;
+    height: 24px;
+}
+.maillist_control {
+    padding: 10px 15px;
+    background-color: #fafafa;
+    border-bottom: 1px solid #ddd;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.mail_noti {
+    width: 100%;
+    min-height: 72px;
+    border-bottom: 1px solid #ddd;
+    /* border-right: 1px solid #ddd; */
+    padding: 10px 15px;
+    background-color: #fafafa;
+    position: relative;
+}
+.mail_noti.readmail {
+    background: var(--color-white);
+}
+.check_fav_imp {
+    padding-right: 20px;
+}
+.check_fav_imp i {
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 10px;
+}
+.maillist .mat-checkbox-inner-container {
+    width: 15px;
+    height: 15px;
+}
+.mailitem .mailimg {
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.mailitem {
+    padding-left: 60px;
+    position: relative;
+    padding-right: 10px;
+}
+.mailitem h3 {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(0,0,0,.8);
+    margin: 5px 0 0;
+    cursor: pointer;
+}
+.mail_noti.readmail h3, .mail_noti.readmail p {
+    font-weight: 400;
+}
+.mailitem p {
+    font-size: 13px;
+    line-height: 15px;
+    font-weight: 400;
+    color: rgba(0,0,0,.5);
+    margin: 5px 0 0;
+}
+.mail_noti span {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(0,0,0,.4);
+}
+.actionsbtns button {
+    margin: 0 0 0 15px;
+    color: rgba(0,0,0,.6);
+    cursor: pointer;
+}
+.actionsbtns button, .quickdetail {
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+}
+.mail_content {
+    width: 100%;
+    height: 200px;
+    margin: 10px 0 0;
+    padding-top: 10px;
+    display: inline-block;
+    font-size: 14px;
+}
+.email-reply p {
+    margin: 0;
+    font-size: 13px;
+}
+/*No message*/
+.no-msg{padding:15px;
+    text-align: center !important;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.40);
+    font-weight: 400;
+}
+.blank-cover {
+    margin: 0px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.blank-cover i {
+    font-size: 80px;
+    color: rgba(0, 0, 0, 0.10);
+}
+.blank-cover span {
+    margin-top: 5px;
+    font-size: 20px;
+    line-height: 25px;
+    color: rgba(0, 0, 0, 0.40);
+}
+/*Mail Open*/
+.mailhead {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0px;
+
+}
+.mailsubject p {
+    margin: 0px;
+    font-size: 18px;
+    font-weight: 600;
+    display: block;
+    line-height: 25px;
+}
+.mailsubject ul{padding: 0px; margin: 0px;
+    list-style: none;
+    float: left; text-align: center;}
+.mailsubject ul li{padding:3px 5px; margin: 0px 10px 0px 0px;font-size: 12px; display: inline; background-color: rgba(9, 169, 220, 0.30); }
+.mailsubject ul li i{cursor: pointer; color: rgba(0, 0, 0, 0.30); margin-left: 10px;}
+.mailbox_detail{padding:5px 0px;
+  float: left;
+  width:100%;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.mailperson {
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    overflow: hidden;
+    float: left;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.personname {
+    float: left;
+    font-size: 13px;
+}
+.personname h4 {
+    font-size: 14px;
+    font-weight: 500;
+    line-height:16px;
+    margin: 0px 0px 2px;
+}
+.personhide_detail p {
+    margin: 0px;
+    font-size: 13px;
+    line-height: 20px;
+    display: block;
+}
+.personhide_detail span {
+    font-weight: 500;
+}
+.quickdetail {
+    margin: 0px;
+    font-size: 12px;
+    color: var(--yellow-color);
+}
+
+.mail_content{width:100%; height: 200px; margin: 10px 0px 0px; padding-top: 10px; display: inline-block; font-size: 14px;}
+.mail_attach {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    font-size: 13px;
+    padding: 20px 0px;
+    border-top: 1px solid #ddd;
+}
+.mail_attach .material-icons {
+    font-size: 16px;
+    padding-right: 5px;
+    padding-top: 1px;
+}
+.mail_attach a {
+    padding: 0px 5px;
+    color: #264653;
+}
+.email-reply p {
+    margin: 0px;
+    font-size: 13px;
+    color: #757575;
+}
+/*Compose mail*/
+.newmail{width:47.5%; background-color: var(--color-white); position: absolute; z-index: 1;min-height: 440px;
+      bottom: 10px; right: 0px; box-shadow: 0px 0px 20px 2px #ddd; -webkit-box-shadow: 0px 0px 20px 2px #ddd;}
+.newmail_head{background-color:#F4F4F4; display: flex; justify-content: space-between; font-size: 14px; color: rgba(0, 0, 0, 0.80);; padding: 10px 15px;}
+.newmail_head p{margin: 0px;}
+.newmail_head ul{padding: 0px; margin: 0px; text-align: right;}
+.newmail_head ul li{margin: 0px; padding: 0px; list-style: none; display: inline-block;}
+.newmail_head ul li a{display: block; color:rgba(0, 0, 0, 0.40);; padding-left: 10px;}
+.receipt{display: flex; width: 100%;
+    font-size: 14px;
+    padding: 10px 15px 3px;
+    border-bottom: 1px solid #ddd;
+}
+.mailto{color: rgba(0, 0, 0, 0.50); display: flex; width:100%; }
+.mailto label{font-weight: 500; padding-right: 5px; margin: 0px;}
+.chiplist {
+    margin: 0px 5px 5px 0px !important;
+    border-radius: 0px !important;
+    background-color: #F4F4F4 !important;
+    padding: 0px 5px!important;
+}
+.chiplist.mat-chip .mat-chip-remove.mat-icon {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+}
+.receipt-name > div > div {
+    height: auto !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+    font-weight: 500;
+}
+.ccbcc a {
+    color: rgba(0, 0, 0, 0.50);
+    padding-left: 10px;
+    font-weight: 500;
+}
+.newsubject{
+    padding: 10px 15px !important;
+    border-bottom: 1px solid #ddd;
+
+}
+.newsubject input {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    border: 0px;
+    width: 100%;
+}
+.messagebox{margin:10px 15px 10px;
+    font-size: 14px;
+    border:0px !important;
+    border-radius: 0px !Important; -webkit-border-radius: 0px !Important;
+    font-family: inherit !Important;
+    font-size: 14px !important; position: relative; min-height: 150px;}
+.msgedit-editor {position: absolute; top: 0px; width: 100%; border:1px solid #ddd; height: 120px; font-size: 13px !important;}
+.msgedit-editor .public-DraftEditorPlaceholder-root{padding: 0px !important;}
+.msgedit-editor > div > div >  div > div > div{margin: 0px 0px 5px 0px !important;}
+.attachment_join {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 0px 10px;
+}
+.attchmentname {
+    display: flex;
+    align-items: center;
+    margin: 10px 0px;
+}
+.attchmentname span {
+    font-size: 14px;
+    color: #264653;
+    line-height: 14px;
+}
+.attchmentname span small{display: block; color:rgba(0, 0, 0, 0.60);}
+.attachslider {
+    display: flex;
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.50);
+    font-weight: 500;
+    justify-content: space-between;
+    align-items: center;
+}
+.mailcontrols{display: flex; justify-content: space-between; padding:0px 15px 15px 15px;}
+.controlbtn {
+    position: absolute;
+    bottom: 0px;
+    padding: 0px !important;
+    margin:0px !important;
+    border: 0px !important;
+}
+.controlbtn > div{margin: 0px;}
+.controlbtn > div button {
+    cursor: pointer;
+    border:0px !important;
+    height: auto !important;
+    line-height: normal!important;
+    padding:0px !important;
+    background: none !important;
+}
+
+.mailsend_btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.mailsend_btn i.fa-trash-o {
+    cursor: pointer;
+    font-size: 25px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+.mailsend_btn button i.fa {
+    color: var(--color-white);
+    font-size: 18px;
+}
+.remove-attach {
+    margin-top: -15px;
+}
+.remove-attach i {
+    color: rgba(0, 0, 0, 0.30);
+    padding-left: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.attach_btn i.material-icons {
+    font-size: 25px;
+    padding: 6px;
+    border-radius: 10px;
+    /* border: 2px solid #264653; */
+    color: #264653;
+    cursor: pointer;
+}
+.attach_btn input[type=file]{
+    cursor: pointer;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    width: 100%;
+    opacity: 0;
+}
+.maileditor{ padding: 10px 15px;}
+.maileditor .angular-editor-textarea {
+    height: 20vh;
+}
+.maileditor .angular-editor-toolbar-set {
+    display: none !important;
+}
+.maileditor .angular-editor-toolbar-set:nth-child(2) {
+    display: inline-block !important;
+    margin: 0px !important;
+    border: 0px !important;
+}
+.maileditor .angular-editor .angular-editor-toolbar {
+    background-color: transparent;
+    border: 0px;
+    padding: 0px;
+}
+.maileditor .angular-editor-toolbar-set button:nth-child(4), .maileditor .angular-editor-toolbar-set button:nth-child(5), .maileditor .angular-editor-toolbar-set button:nth-child(6) {
+    display: none;
+}
+.receipt-name .mat-chip-list-wrapper {
+    margin: 0px;
+}
+.receipt-name .mat-chip-list-wrapper input {
+    margin: 0px 0px 5px 0px;
+    border: 0px;
+}
+@media (max-width: 1199px) {
+    /*mailbox*/
+
+.mailwrap{padding-left: 0px;}
+.mailitem .mailimg{width: 40px; height: 40px;}
+.mailitem{padding-left: 45px;}
+
+.openleftbox .composebtn{text-align: left;}
+.openleftbox .composebtn{display: flex; justify-content: space-between; align-items: center; padding: 0px 10px;}
+.composebtn i.material-icons{color: var(--color-white); font-size: 18px;}
+.collapseleft{width:0px; overflow: hidden;}
+
+}
+@media (max-width: 767px) {
+/*mailbox*/
+.mail_noti:last-child{border-bottom: 1px solid #ddd;}
+.email-reply{padding-bottom: 20px;}
+.newmail{bottom: inherit; top:0px; width:90%;}
+.scroll-fix > div {
+  height: 230px !important;
+}
+.mail_content{height: 180px;}
+
+}
+@media(max-width: 480px) {
+
+    /*Mailbox*/
+.newmail {
+    top: 52px;
+    width: 100%;
+}
+}
+
+.hideCont
+{
+    display:none;
+}
+.showCont
+{
+    display:inline-block;
+    padding: 10px;
+}
+.maillist .ng-scrollbar-view{
+    width: 100% !important;
+}

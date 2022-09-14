@@ -1,0 +1,419 @@
+<div class="row no-gutters" *ngIf="isProfileLoaded">
+    <div class="col-sm-4 p-3 appt-drpanel" *ngIf="isShow">
+        <div class="drpanel-block">
+            <div class="doctor-img">
+                <img class="img-fluid profile-img" src="{{userInfo.photoThumbnailPath || '../../../assets/img/noimage.png'}}" alt="doctor">
+            </div>
+            <h4 class="doc-name"><a href="doctor-profile.html">Dr. {{fullname}}</a></h4>
+            <h5 class="doc-department" *ngFor="let spl of staffSpecialities">{{spl.speciality}}</h5>
+            <!-- <p class="doc-speciality">{{spl.speciality}}</p> -->
+            <div class="rating">
+                <i class="fa fa-star filled" aria-hidden="true"></i>
+                <i class="fa fa-star filled" aria-hidden="true"></i>
+                <i class="fa fa-star filled" aria-hidden="true"></i>
+                <i class="fa fa-star filled" aria-hidden="true"></i>
+                <i class="fa fa-star"></i>
+                <span class="d-inline-block average-rating"> (17)</span>
+            </div>
+        </div>
+
+        <div class="clini-infos">
+            <ul>
+                <li><label>Phone  </label> {{userInfo.phoneNumber}}</li>
+                <li><label>Email  </label> <a href="mailto:userInfo.email" target="_top">{{userInfo.email}}</a></li>
+                <!-- <li *ngIf="confirmation.type=='Free'"><label>Consultation Fee  </label> {{0.00 | currency:'USD':'symbol-narrow'}}</li> -->
+                <li *ngIf="confirmation.type=='New' && confirmation.mode=='Online'"><label>Consultation Fee  </label> {{userInfo.payRate | currency:'USD':'symbol-narrow'}}</li>
+                <li *ngIf="confirmation.type=='New' && confirmation.mode=='Face to Face'"><label>Consultation Fee  </label> {{userInfo.ftFpayRate | currency:'USD':'symbol-narrow'}}</li>
+                <li *ngIf="confirmation.type=='Followup'"><label>Consultation Fee  </label> {{userInfo.followUpPayRate | currency:'USD':'symbol-narrow'}}</li>
+
+
+                <li><label>Location  </label> {{userInfo.address}} <a herf="#" class="direction">Get Directions.</a></li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="col-sm-12">
+
+        <div class="appointment-panel">
+            <div [class.hidden]="!loading">
+                <div class="full_loader">
+                    <div class="circle_loader page_loader">
+                        <img src="/assets/loader.gif" alt="" />
+                    </div>
+                </div>
+            </div>
+            <div class="title pb-0">
+                <div class="col-md-12 pd-0" *ngIf="isNotBooked">
+                    Book an appointment
+
+
+                    <!-- <span *ngIf="isClientLogin">    <small>Greatttt please select a date and time, we will also request that you needs to pay to confirm your appointment.</small></span> -->
+                    <div class="cstm-radio-btn" *ngIf="!isAdminLogin && !isClientLogin && !payMode && isNewAppointment">
+                        <mat-radio-group class="example-radio-button" [disabled]="disableRadio" #radioGroup="matRadioGroup">
+                            <mat-radio-button style="padding-right:10px;margin-top:0px;" class="radio-label" [checked]="c.checked" [value]="c.id" (change)="radioChange(c.id)" *ngFor="let c of choices">{{c.label}}</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div class="row appointmnt-select" *ngIf="isNewAppointment && !payMode">
+                        <div class="col-sm-6 require" *ngIf="isAdminLogin || !isSelf">
+                            <mat-form-field class="example-full-width">
+                                <mat-select placeholder="{{!selectedOfficeStaffs.length ? 'Select Staff' : ''}}" [(value)]="selectedOfficeStaffs" id="officeStaffs" #selectStaff (selectionChange)="onDropdownSelectionChange($event)">
+                                    <mat-option *ngFor="let option of officeStaffs" [value]="option.id">
+                                        {{option.value}}
+                                    </mat-option>
+                                </mat-select>
+                                <!-- <mat-error *ngIf="formControls.alcohalID.errors">
+                                Please select this option
+                              </mat-error> -->
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6 require">
+                            <mat-form-field class="example-full-width">
+                                <mat-select *ngIf="!isClientLogin" placeholder="{{!selectedOfficeClients.length ? 'Select Patient' : ''}}" [(value)]="selectedOfficeClients" id="officeClients" #selectClient (selectionChange)="onDropdownSelectionChange($event)">
+                                    <mat-option *ngFor="let option of officeClients" [value]="option.id">
+                                        {{option.value}}
+                                    </mat-option>
+                                </mat-select>
+                                <!-- <mat-error *ngIf="formControls.alcohalID.errors">
+                              Please select this option
+                            </mat-error> -->
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div *ngIf="!isNotBooked">
+                        Appointment Booked
+                    </div>
+                    <div class="policy-blk cstm-tp cstm-cross">
+                        <i class="fa fa-close" aria-hidden="true" (click)="closeDialog('close')"></i>
+                    </div>
+
+                </div>
+            </div>
+            <div class="appointment-content" *ngIf="isNotBooked">
+                <!-- <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+        {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+      </button> -->
+                <mat-horizontal-stepper [linear]="isLinear" #stepper>
+                    <mat-step [stepControl]="firstFormGroup">
+                        <form [formGroup]="firstFormGroup">
+                            <ng-template matStepLabel>Select Date/Time</ng-template>
+
+
+                            <!-- <div class="row mt-3 mb-1">
+                                <div class="col-md-7">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Select day for booking</mat-label>
+                                        <input matInput [matDatepicker]="picker" placeholder="Please select date" [min]="todayDate" (dateChange)="onDateChange($event)" readonly formControlName="appointmentDate">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker opened="true"></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div> -->
+
+                            <mat-card>
+                                <mat-calendar #calendar [selected]="firstFormGroup.get('appointmentDate').value" (selectedChange)="onDateChange($event)"></mat-calendar>
+                            </mat-card>
+                            <!-- <div class="text-center" *ngIf="showLoader"><span class="more-load"></span></div> -->
+                            <ng-scrollbar>
+                              <!-- [ngStyle]="{ 'height': '115px' }" -->
+                                <div>
+                                    <div *ngIf="!providerAvailiabilitySlots.length && !showLoader && this.formGroup1.appointmentDate.value!=''" class="alert alert-danger">Provider not available on this date, please choose other..</div>
+                                    <div class="text-center" *ngIf="showLoader "><span class="more-load"></span></div>
+                                    <div class="timing-slot">
+                                        <div class="indicate-slot" *ngIf="providerAvailiabilitySlots.length">
+                                            <label class="pr-2"><i class="fa fa-circle-o" aria-hidden="true"></i> Available</label>
+                                            <label class="pr-2"><i class="fa fa-circle" aria-hidden="true"></i> Selected</label>
+                                            <label class="pr-2"><i class="fa fa-circle" aria-hidden="true"></i> Reserved</label>
+                                            <label class="pr-2"><i class="fa fa-circle" aria-hidden="true"></i> Unavailable</label>
+                                        </div>
+                                        <ul class="pl-0">
+                                            <li *ngFor="let slot of providerAvailiabilitySlots" [class.available-slot]="slot.isAvailable" [class.selected-slot]="slot.isSelected" [class.reserved-slot]="slot.isReserved" [class.unavail-slot]="slot.isPassed"><button [disabled]="!slot.isAvailable" mat-raised-button type="button" (click)="onSlotSelect(slot)">{{slot.startTimeftm}} to {{slot.endTimeftm}}</button></li>
+                                            <!-- <li class="selected-slot"><button mat-raised-button type="button">1.00pm to 2.00pm</button></li>
+                      <li class="unavail-slot"><button mat-raised-button type="button">1.00pm to 2.00pm</button></li>
+                      <li class="reserved-slot"><button mat-raised-button type="button">1.00pm to 2.00pm</button></li>
+                      <li class="available-slot"><button mat-raised-button type="button">1.00pm to 2.00pm</button></li>
+                      <li class="available-slot"><button mat-raised-button type="button">1.00pm to 2.00pm</button></li>
+                      <li class="reserved-slot"><button mat-raised-button type="button">1.00pm to 2.00pm</button></li>
+                      <li class="reserved-slot"><button mat-raised-button type="button">1.00pm to 2.00pm</button></li> -->
+                                        </ul>
+                                    </div>
+
+                                    <!-- <div class="row book-appointment-slot" *ngFor="let slot of providerAvailiabilitySlots">
+                    <div class="col sm-10">
+                      <div class="clinic-services">
+                        <span>{{slot.startTime}} - {{slot.endTime}}</span>
+                      </div>
+                    </div>
+                    <div class="col sm-7">
+                      {{slot.location}}
+                    </div>
+                    <div class="col sm-2">
+                      <button mat-raised-button color="primary" [disabled]="!slot.isAvailable" (click)="onSlotSelect(slot)">{{slot.isAvailable ? (slot.selected?"Selected":"Select"):(slot.isPassed?"Unavailable":"Reserved") }}</button>
+                    </div>
+                  </div> -->
+
+                                </div>
+                            </ng-scrollbar>
+                            <!-- <div class="d-flex justify-content-end">
+                <button mat-raised-button matStepperNext [disabled]="(confirmation.startTime==undefined || confirmation.endTime==undefined) || (confirmation.startTime==null || confirmation.endTime==null)"
+                  color="primary" (click)="checkIsValidAppointment()">Next</button>
+              </div> -->
+
+
+                            <div class="d-flex justify-content-end">
+                                <button (click)="closeModal()" class="link-btn mr-3 min-w-100" mat-button>Close</button>
+                                <button (click)="hideDropDown(true)" mat-raised-button matStepperNext [disabled]="(confirmation.startTime==undefined || confirmation.endTime==undefined) || (confirmation.startTime==null || confirmation.endTime==null)" color="primary">Next</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <!-- <mat-step [stepControl]="secondFormGroup">
+            <form [formGroup]="secondFormGroup">
+              <ng-template matStepLabel>Upload documents</ng-template>
+
+              <input type="file">
+            </form>
+            <label class="upload-button">
+              <input type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" multiple>
+              or choose file(s)
+            </label>
+            <label for="singleFile">Upload file</label>
+<input id="singleFile" type="file" [fileUploadInputFor]= "fileUploadQueue"/>
+<br>
+
+<mat-file-upload-queue #fileUploadQueue
+    [fileAlias]="'file'"
+    [httpUrl]="'http://localhost:8180/jax-rs-jersey-application-sample'">
+
+    <mat-file-upload [file]="file" [id]="i" *ngFor="let file of fileUploadQueue.files; let i = index"></mat-file-upload>
+</mat-file-upload-queue>
+            <div class="d-flex justify-content-between">
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-raised-button matStepperNext color="primary">Next</button>
+              </div>
+            </form>
+          </mat-step> -->
+
+
+
+
+
+                    <mat-step>
+                        <form [formGroup]="thirdFormGroup">
+                            <ng-template matStepLabel>Book</ng-template>
+                            <div *ngIf="(confirmation.startTime==undefined || confirmation.endTime==undefined) || (confirmation.startTime==null || confirmation.endTime==null)" class="alert alert-danger">Please select appointment slot first to book in previous step,then after pay here.
+                            </div>
+                            <div class="pay-step hgt-scroll" *ngIf="(confirmation.startTime!=undefined && confirmation.endTime!=undefined) && (confirmation.startTime!=null || confirmation.endTime!=null)">
+                                <h3>You are requesting a booking for <span *ngFor="let spl of staffSpecialities">{{spl.speciality}}</span>
+                                    <br/> {{confirmation.date | date:'fullDate'}} between {{confirmation.startTime}} to {{confirmation.endTime}}</h3>
+                                <!-- <h6>Once you complete the payment we will send you an Email with a booking confirmation.</h6> -->
+                                <h6><b>we will send you an Email with a booking confirmation.</b></h6>
+                                <div class="book-appt-type" [ngClass]="{'hideDiv':!isNewAppointment }">
+                                    <label>Appointment Type : </label>
+                                    <div>
+                                        <mat-radio-group>
+                                            <mat-radio-button (change)="onTypeChange(type)" [checked]="type==='New'" class="example-radio-button" *ngFor="let type of appointmenType" [value]="type">
+                                                {{type}}
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                        <div *ngIf="lastFollowupData" style="display: inline;">
+                                            <a title="click to see details" href="javascript:void(0k)" (click)="openLastFollowup()">
+                                                Last Followup : {{lastFollowupData.startDateTime|date:'MM/dd/yyyy'}}
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="book-appt-type mt-3" [ngClass]="{'hideDiv':!isNewAppointment }">
+                                    <label>Appointment Mode : </label>
+                                    <div>
+                                        <mat-radio-group>
+                                            <mat-radio-button (change)="onModeChange(mode)" [checked]="mode==='Online'" class="example-radio-button" *ngFor="let mode of appointmentMode" [value]="mode">
+                                                {{mode}}
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+
+
+
+                                <!-- <div class="book-appt-type mt-3">
+                                    <label>Appointment Type :</label> {{confirmation.type}}
+                                </div>
+                                <div class="book-appt-type mt-3">
+                                    <label>Appointment Mode :</label> {{confirmation.mode}}
+                                </div> -->
+                                <!-- <div *ngIf="confirmation.type=='Free'" class="book-appt-type mt-3">
+                                    <label>Consultation Fee :</label> {{0.00 | currency:'USD':'symbol-narrow'}}
+                                </div> -->
+                                <div [ngClass]="{'hideDiv':!isNewAppointment }" *ngIf=" confirmation.type=='New' && confirmation.mode=='Online'" class="book-appt-type mt-3">
+                                    <label>Consultation Fee :</label> {{userInfo.payRate | currency:'USD':'symbol-narrow'}}
+                                </div>
+                                <div [ngClass]="{'hideDiv':!isNewAppointment }" *ngIf="confirmation.type=='New' && confirmation.mode=='Face to Face'" class="book-appt-type mt-3">
+                                    <label>Consultation Fee :</label> {{userInfo.ftFpayRate | currency:'USD':'symbol-narrow'}}
+                                </div>
+                                <div [ngClass]="{'hideDiv':!isNewAppointment }" *ngIf=" confirmation.type=='Followup'" class="book-appt-type mt-3">
+                                    <label>Consultation Fee :</label> {{userInfo.followUpPayRate | currency:'USD':'symbol-narrow'}}
+                                </div>
+
+                                <!-- <li><span> </span> </li>
+                    <li><span>Appointment Mode : </span> {{confirmation.mode}}</li> -->
+                                <!-- <li><span>Date : </span> {{confirmation.date | date:'fullDate'}}</li>
+                    <li><span>Time : </span> {{confirmation.startTime}} - {{confirmation.endTime}}</li> -->
+
+
+                                <div class="row" *ngIf="isClientLogin">
+                                    <div class="col-sm-6 mt-3">
+                                        <div class="uplaod_pic browse-doc">
+                                            <label class="browse">
+                  <i class="la la-upload la-2x" aria-hidden="true"></i>
+                  <span>Upload Files</span>
+                  <input type="file" (change)="handleImageChange($event)">
+                </label>
+                                        </div>
+                                        <!-- <p class="ins_photo">(Browse any jpg, jpeg, bmp, png file.)</p> -->
+                                    </div>
+                                    <div class="col-sm-6 mt-3">
+                                        <!-- <h6 class="mt-0">Files to be uploaded are:</h6> -->
+
+                                        <div class="uploading-data d-flex justify-content-start align-items-start" *ngFor="let file of fileList;let i=index;">
+                                            <img src="../../../assets/img/pdf.png" alt="" />
+                                            <p class="d-flex justify-content-between">
+                                                <span class="d-flex flex-column align-items-start fnt-sze">
+                                                    {{file.fileName}}
+                                                    <small>134 kb</small>
+                                                </span>
+                                                <button type="button" title="Delete" class="tbactionbtn cstm-cancel-btn" (click)="removeFile(i)">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                </button>
+                                            </p>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <!-- <div class="col-md-3 pull-right justify-content-md-end d-flex mb-3">
+                                    <button mat-raised-button color="primary" (click)="createModal()">
+                                  <i class="fa fa-plus" aria-hidden="true"></i> Upload Document</button>
+                                </div> -->
+
+                                <div class="row">
+                                    <!-- <div class="col-md-12 mt-2 mb-2 custom-txtarea">
+                                        <mat-form-field class="example-full-width" hintLabel="{{formGroup3.Notes.value ? 1000 - formGroup3.Notes.value.length : 1000}} Characters Remaining">
+                                            <textarea matInput placeholder="What is your chiefff complaint" maxlength="1000" formControlName="Notes">
+                                </textarea>
+                                        </mat-form-field>
+                                    </div> -->
+                                    <div class="receipt cstm-add">
+                                        <div class="mailto">
+                                            <span class="receipt-name">
+                                        <mat-chip-list #chipList>
+                                          <div class="select-box col-md-12 pd-0">
+                                            <input  #userInput [formControl]="userControl"  class=" search__input" [matAutocomplete]="auto" placeholder="State your symptom or Ailment for which you wish to contact the Doctor"
+                                            (matChipInputTokenEnd)="add($event)">
+                                            <!-- <button disableRipple="true" mat-icon-button (click)="userInput.focus()">
+                                              <mat-icon>search</mat-icon>
+                                            </button> -->
+                                          </div>
+                                          <br />
+                                          <!-- <div class="col-md-12 pd-0">
+                                            <mat-chip class="chiplist" *ngFor="let spt of symptoms" [selectable]="selectable"
+                                            [removable]="removable" (removed)="remove(spt)">
+                                            {{spt.value}}
+                                            <mat-icon matChipRemove>cancel</mat-icon>
+                                          </mat-chip>
+                                          </div> -->
+                                        </mat-chip-list>
+                                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                                          <mat-option *ngFor="let fts of filteredSymptoms$ | async" [value]="fts">
+                                            {{fts.label}}
+                                          </mat-option>
+                                        </mat-autocomplete>
+
+
+                                      </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="d-flex flex-column mb-4 terms-check">
+                                    <mat-checkbox (change)="opentermconditionmodal($event)">
+                                        Terms & Conditions
+                                    </mat-checkbox>
+
+                                </div>
+
+                                <!-- <div class="row">
+                                    <div class="col-sm-6 mt-3">
+                                        <div class="uplaod_pic browse-doc">
+                                            <label class="browse">
+                                        <i class="la la-upload la-2x" aria-hidden="true"></i>
+                                        Upload Files
+                                        <input type="file" (change)="handleImageChange($event)">
+                                      </label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-6 mt-3">
+                                        <h6>Files to be uploaded are:</h6>
+
+                                        <div class="uploading-data d-flex justify-content-start align-items-start" *ngFor="let file of fileList;let i=index;">
+                                            <img src="../../../assets/img/pdf.png" alt="" />
+                                            <p class="d-flex justify-content-between">
+                                                <span class="d-flex flex-column align-items-start">
+                                          {{file.fileName}}
+                                          <small>134 kb</small>
+                                        </span>
+                                                <button type="button" title="Delete" class="tbactionbtn" (click)="removeFile(i)">
+                                          <i class="fa fa-times" aria-hidden="true"></i>
+                                        </button>
+                                            </p>
+                                        </div>
+
+
+                                    </div>
+                                </div> -->
+
+                                <!-- <div *ngIf="!isNotBooked" class="alert alert-success">Thank you, Your appointment has been successfully booked with us, please contact administation for further
+                  assistance.
+                </div> -->
+                                <div class="d-flex justify-content-between">
+                                    <button (click)="hideDropDown(false)" class="link-btn" mat-button matStepperPrevious>Back</button>
+                                    <span class="followupError" *ngIf="confirmation.type.toLowerCase()=='followup' && !IsPreviousFollowup">You do not have any previous appointment within allowed days</span>
+                                    <!-- <button mat-raised-button color="primary" form="thirdFormGroup" (click)="openCheckout()" [disabled]="submitted"> {{submitted ? 'Please wait...' : 'Pay Now'}}</button> -->
+                                    <button mat-raised-button color="primary" form="thirdFormGroup" (click)="openCheckout()" [disabled]="submitted"> {{submitted ? 'Please wait...' : 'Book Now'}}</button>
+                                </div>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <!-- <mat-step [stepControl]="forthFormGroup" *ngIf="Message!=null">
+            <form [formGroup]="forthFormGroup">
+              <ng-template matStepLabel>Success</ng-template>
+              <div class="app-booked" style="text-align:center;">
+
+                <h3 class="greenfont">{{Message.title}}</h3>
+                <p>{{Message.message}}</p>
+                <img src="{{Message.imgSrc}}" alt="user-register-icon" />
+              </div>
+            </form>
+          </mat-step>  -->
+                </mat-horizontal-stepper>
+            </div>
+
+            <div *ngIf="!isNotBooked">
+                <div class="app-booked" style="text-align:center;">
+
+                    <h3>Thank you</h3>
+                    <p>Your appointment has been successfully booked with us,<br/> <span *ngFor="let spl of staffSpecialities">{{spl.speciality}}</span> {{confirmation.date | date:'fullDate'}} between {{confirmation.startTime}} to {{confirmation.endTime}}</p>
+                    <p class="mt-3">Please Check you email for further assistance. We will contact you as soon as possible.</p>
+                    <div class="d-flex justify-content-center mt-3">
+                        <button mat-raised-button color="primary" (click)="closeDialog('close')">Done</button>
+                    </div>
+                    <!-- <img src="{{Message.imgSrc}}" alt="user-register-icon" /> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,88 @@
+<!-- <mat-nav-list *ngIf="sidebarInfo.userPermission">
+  <ng-container *ngFor="let module of sidebarInfo.userPermission.modulePermissions">
+    <mat-list-item>
+      <a matLine routerLink="[module.navigationLink]">
+        <mat-icon>info</mat-icon>
+        <span>{{ module.moduleName }}</span>
+      </a>
+    </mat-list-item>
+    <mat-nav-list *ngIf="!module.navigationLink" style="margin-left:30px;">
+      <div *ngFor="let screen of sidebarInfo.userPermission.screenPermissions">
+          <mat-list-item>
+              <a matLine routerLink="[screen.navigationLink]">
+                <mat-icon>info</mat-icon>
+                <span>{{ screen.screenName }}</span>
+              </a>
+            </mat-list-item>
+      </div>
+    </mat-nav-list>
+  </ng-container>
+</mat-nav-list> -->
+
+<mat-nav-list>
+    <div class="logo-blk">
+        <div class="example-app-name">
+            <a href="/" title="Go To Home">
+                <!-- <img src="../../../assets/logo-4.png" alt="" /> -->
+
+                <img [src]="isLogo ? logoBase64 : '../../../assets/logo-4.png'" alt="" />
+            </a>
+
+            <label *ngIf="isEditable" class="edit" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
+
+            <i class="fa fa-pencil logo-icon"></i>
+
+            <input type="file" name="profile_avatar" class="d-none" accept=".png, .jpg, .jpeg" (change)="handleImageChange($event)"  />
+
+            <input type="hidden" name="profile_avatar_remove"  />
+
+          </label>
+
+            <!-- <a href="/" title="Go To Home"><img src="../../../assets/logo-4.png" alt="" /></a> -->
+        </div>
+        <div class="mob-hide">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+        </div>
+
+        <button mat-button class="app-menu-button menu-btn" (click)="toggleSidebar()">
+      <mat-icon>menu</mat-icon>
+    </button>
+        <div class="mob-show">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+        </div>
+        <!-- <button mat-button class="app-menu-button" (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button> -->
+    </div>
+    <div>
+
+        <app-menu-list-item *ngFor="let item of navItems" [item]="item"></app-menu-list-item>
+        <a href="/">&nbsp;</a>
+    </div>
+</mat-nav-list>
+
+
+<!--
+
+<mat-sidenav #sidenav opened="true" mode="side" class="app-sidenav" color="primary" >
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <span>Settings</span>
+      <span class="app-toolbar-filler"></span>
+      <mat-icon class="example-icon">build</mat-icon>
+    </mat-toolbar-row>
+
+    <mat-toolbar-row>
+      <button mat-button (click)="isDarkTheme = !isDarkTheme" class="app-sidebar-button">TOGGLE THEME</button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+    <mat-nav-list>
+      <mat-list-item *ngFor="let link of Links">
+        <button mat-icon-button>
+          <mat-icon>info</mat-icon>
+       </button>
+       <a matLine routerLink="[link.navigationLink]">{{ link.name }}</a>
+      </mat-list-item>
+    </mat-nav-list>
+</mat-sidenav> -->

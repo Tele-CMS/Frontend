@@ -1,0 +1,922 @@
+.mailwrap {
+    height: 100%;
+}
+.mailwrap .hgt100{
+    padding-top: 0 !important;
+}
+.mailcover {
+    display: flex!important;
+    height: 100%;
+    /* overflow: hidden; */
+}
+.ng-scrollbar-view{
+    overflow: auto !important;
+}
+.leftmailbox {
+    /* position: absolute; */
+    background-color: var(--color-white);
+    width: 200px;
+    z-index: 2;
+    /* height: calc(100% + 15px); */
+    padding: 0;
+    box-shadow: 0px 1px 10px -5px rgba(0,0,0,.2);
+    -webkit-box-shadow: 0px 1px 10px -5px rgba(0,0,0,.2);
+    transition: all .2s ease;
+    -webkit-transition: all .2s ease;
+}
+.fa-trash-o{
+    color:#dc3545 !important;
+}
+.leftmailbox .composebtn {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    background-color: #666;
+}
+.leftmailbox .composebtn button {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-white);
+    border: 0;
+    cursor: pointer;
+    background-color: transparent;
+    width: 100%;
+    padding: 0 10px;
+    text-align: left;
+}
+.leftmailbox .composebtn button i{
+margin-right: 5px;
+}
+.inbox_label ul {
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+.inbox_label ul li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: block;
+}
+.inbox_label ul li a {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(0,0,0,.6);
+    margin: 10px;
+    cursor: pointer;
+}
+.inbox_label ul li.active a, .inbox_label ul li a:hover {
+    color: #264653;
+}
+.inbox_label ul li i {
+    padding-right: 10px;
+}
+
+.inbox_label ul li.active span {
+    display: inline;
+}
+.mail-text-blk{
+    background-color: var(--color-white);
+    border: 1px solid #efefef;
+}
+.mail-text-blk .mailhead{
+    padding:10px;
+    background: #264653;
+    color: var(--color-white);
+}
+.mailwrap {
+    /* padding-left: 180px; */
+    height: 100%;
+    width: 100%;
+}
+.actionsbtns button.mat-raised-button {
+    min-width: 20px;
+    border-right: 1px solid #efefef;
+    border-radius: 0px !important;
+    margin: 0;
+}
+.actionsbtns {
+    max-width: 170px;
+    display: flex;
+}
+.maillist {
+    padding: 0!important;
+    float: left;
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    height: 80vh;
+    overflow: auto;
+}
+.allmails_head, .maillist_control {
+    display: flex;
+    justify-content: space-between;
+}
+.allmails_head {
+    padding: 10px 15px 6px;
+    background-color: #f4f4f4;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-right: 0;
+}
+.allmails_head-rigth button {
+    background-color: transparent;
+    padding: 0px;
+    border: 0px;
+    height: 24px;
+}
+.maillist_control {
+    padding: 10px 15px;
+    background-color: #fafafa;
+    border-bottom: 1px solid #ddd;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.mail_noti {
+    width: 100%;
+    min-height: 72px;
+    border-bottom: 1px solid #ddd;
+    /* border-right: 1px solid #ddd; */
+    padding: 10px 15px;
+    background-color: #fafafa;
+    position: relative;
+}
+.mail_noti.readmail {
+    background: var(--color-white);
+}
+.check_fav_imp {
+    padding-right: 20px;
+}
+.check_fav_imp i {
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 10px;
+}
+.maillist .mat-checkbox-inner-container {
+    width: 15px;
+    height: 15px;
+}
+.mailitem .mailimg {
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.mailitem {
+    padding-left: 60px;
+    position: relative;
+    padding-right: 10px;
+}
+.mailitem h3 {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(0,0,0,.8);
+    margin: 5px 0 0;
+    cursor: pointer;
+}
+.mail_noti.readmail h3, .mail_noti.readmail p {
+    font-weight: 400;
+}
+.mailitem p {
+    font-size: 13px;
+    line-height: 15px;
+    font-weight: 400;
+    color: rgba(0,0,0,.5);
+    margin: 5px 0 0;
+}
+.mail_noti span {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(0,0,0,.4);
+}
+.actionsbtns button {
+    margin: 0 0 0 15px;
+    color: rgba(0,0,0,.6);
+    cursor: pointer;
+}
+.actionsbtns button, .quickdetail {
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+}
+.mail_content {
+    width: 100%;
+    height: 200px;
+    margin: 10px 0 0;
+    padding-top: 10px;
+    display: inline-block;
+    font-size: 14px;
+}
+.email-reply p {
+    margin: 0;
+    font-size: 13px;
+}
+/*No message*/
+.no-msg{padding:15px;
+    text-align: center !important;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.40);
+    font-weight: 400;
+}
+.blank-cover {
+    margin: 0px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.blank-cover i {
+    font-size: 80px;
+    color: rgba(0, 0, 0, 0.10);
+}
+.blank-cover span {
+    margin-top: 5px;
+    font-size: 20px;
+    line-height: 25px;
+    color: rgba(0, 0, 0, 0.40);
+}
+/*Mail Open*/
+.mailhead {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0px;
+
+}
+.mailsubject p {
+    margin: 0px;
+    font-size: 18px;
+    font-weight: 600;
+    display: block;
+    line-height: 25px;
+}
+.mailsubject ul{padding: 0px; margin: 0px;
+    list-style: none;
+    float: left; text-align: center;}
+.mailsubject ul li{padding:3px 5px; margin: 0px 10px 0px 0px;font-size: 12px; display: inline; background-color: rgba(9, 169, 220, 0.30); }
+.mailsubject ul li i{cursor: pointer; color: rgba(0, 0, 0, 0.30); margin-left: 10px;}
+.mailbox_detail{padding:5px 0px;
+  float: left;
+  width:100%;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.mailperson {
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    overflow: hidden;
+    float: left;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.personname {
+    float: left;
+    font-size: 13px;
+}
+.personname h4 {
+    font-size: 14px;
+    font-weight: 500;
+    line-height:16px;
+    margin: 0px 0px 2px;
+}
+.personhide_detail p {
+    margin: 0px;
+    font-size: 13px;
+    line-height: 20px;
+    display: block;
+}
+.personhide_detail span {
+    font-weight: 500;
+}
+.quickdetail {
+    margin: 0px;
+    font-size: 12px;
+    color: #264653;
+}
+
+.mail_content{width:100%; height: 200px; margin: 10px 0px 0px; padding-top: 10px; display: inline-block; font-size: 14px;}
+.mail_attach {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    font-size: 13px;
+    padding: 20px 0px;
+    border-top: 1px solid #ddd;
+}
+.mail_attach .material-icons {
+    font-size: 16px;
+    padding-right: 5px;
+    padding-top: 1px;
+}
+.mail_attach a {
+    padding: 0px 5px;
+    color: #264653;
+}
+.email-reply p {
+    margin: 0px;
+    font-size: 13px;
+    color: #757575;
+}
+/*Compose mail*/
+.newmail{width:47.5%; background-color: var(--color-white); position: absolute; z-index: 1;height: 420px;
+      bottom: 10px; right: 0px; box-shadow: 0px 0px 20px 2px #ddd; -webkit-box-shadow: 0px 0px 20px 2px #ddd;}
+.newmail_head{background-color:#F4F4F4; display: flex; justify-content: space-between; font-size: 14px; color: rgba(0, 0, 0, 0.80);; padding: 10px 15px;}
+.newmail_head p{margin: 0px;}
+.newmail_head ul{padding: 0px; margin: 0px; text-align: right;}
+.newmail_head ul li{margin: 0px; padding: 0px; list-style: none; display: inline-block;}
+.newmail_head ul li a{display: block; color:rgba(0, 0, 0, 0.40);; padding-left: 10px;}
+.receipt{display: flex; width: 100%;
+    font-size: 14px;
+    padding: 10px 15px 3px;
+    /* border-bottom: 1px solid #ddd; */
+}
+.select-box{
+    display: block;
+    border: 1px solid #d4d4d4;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+.select-box input{
+    width:84%;
+}
+.mailto{color: rgba(0, 0, 0, 0.50); display: block; width:100%; }
+.mailto label{font-weight: 500; padding-right: 5px; margin: 0px;}
+.chiplist {
+    margin: 0px 5px 5px 0px !important;
+    border-radius: 0px !important;
+    background-color: #F4F4F4 !important;
+    padding: 0px 5px!important;
+}
+.chiplist.mat-chip .mat-chip-remove.mat-icon {
+    font-size: 18px;
+    width: 15px;
+    height: 18px;
+}
+.receipt-name > div > div {
+    height: auto !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+    font-weight: 500;
+}
+.ccbcc a {
+    color: rgba(0, 0, 0, 0.50);
+    padding-left: 10px;
+    font-weight: 500;
+}
+.newsubject{
+    padding: 10px 15px !important;
+    border-bottom: 1px solid #ddd;
+
+}
+.newsubject input {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    border: 0px;
+    width: 100%;
+}
+.messagebox{margin:10px 15px 10px;
+    font-size: 14px;
+    border:0px !important;
+    border-radius: 0px !Important; -webkit-border-radius: 0px !Important;
+    font-family: inherit !Important;
+    font-size: 14px !important; position: relative; min-height: 150px;}
+.msgedit-editor {position: absolute; top: 0px; width: 100%; border:1px solid #ddd; height: 120px; font-size: 13px !important;}
+.msgedit-editor .public-DraftEditorPlaceholder-root{padding: 0px !important;}
+.msgedit-editor > div > div >  div > div > div{margin: 0px 0px 5px 0px !important;}
+.attachment_join {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 0px 10px;
+}
+.attchmentname {
+    display: flex;
+    align-items: center;
+    margin: 10px 0px;
+}
+.attchmentname span {
+    font-size: 14px;
+    color: #264653;
+    line-height: 14px;
+}
+.attchmentname span small{display: block; color:rgba(0, 0, 0, 0.60);}
+.attachslider {
+    display: flex;
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.50);
+    font-weight: 500;
+    justify-content: space-between;
+    align-items: center;
+}
+.mailcontrols{display: flex; justify-content: space-between; padding:0px 15px 15px 15px;}
+.controlbtn {
+    position: absolute;
+    bottom: 0px;
+    padding: 0px !important;
+    margin:0px !important;
+    border: 0px !important;
+}
+.controlbtn > div{margin: 0px;}
+.controlbtn > div button {
+    cursor: pointer;
+    border:0px !important;
+    height: auto !important;
+    line-height: normal!important;
+    padding:0px !important;
+    background: none !important;
+}
+
+.mailsend_btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.mailsend_btn i.fa-trash-o {
+    cursor: pointer;
+    font-size: 25px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+.mailsend_btn button i.fa {
+    color: var(--color-white);
+    font-size: 18px;
+}
+.remove-attach {
+    margin-top: -15px;
+}
+.remove-attach i {
+    color: rgba(0, 0, 0, 0.30);
+    padding-left: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.attach_btn i.material-icons {
+    font-size: 25px;
+    padding: 6px;
+    border-radius: 10px;
+    /* border: 2px solid #264653; */
+    color: #264653;
+}
+.attach_btn input[type=file]{
+    cursor: pointer;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    width: 100%;
+    opacity: 0;
+}
+.maileditor{ padding: 10px 15px;}
+.maileditor .angular-editor-textarea {
+    height: 20vh;
+}
+.maileditor .angular-editor-toolbar-set {
+    display: none !important;
+}
+.maileditor .angular-editor-toolbar-set:nth-child(2) {
+    display: inline-block !important;
+    margin: 0px !important;
+    border: 0px !important;
+}
+.maileditor .angular-editor .angular-editor-toolbar {
+    background-color: transparent;
+    border: 0px;
+    padding: 0px;
+}
+.maileditor .angular-editor-toolbar-set button:nth-child(4), .maileditor .angular-editor-toolbar-set button:nth-child(5), .maileditor .angular-editor-toolbar-set button:nth-child(6) {
+    display: none;
+}
+.receipt-name .mat-chip-list-wrapper {
+    margin: 0px;
+}
+.receipt-name .mat-chip-list-wrapper input {
+    margin: 0px 0px 5px 0px;
+    border: 0px;
+}
+@media (max-width: 1199px) {
+    /*mailbox*/
+
+.mailwrap{padding-left: 0px;}
+.mailitem .mailimg{width: 40px; height: 40px;}
+.mailitem{padding-left: 45px;}
+
+.openleftbox .composebtn{text-align: left;}
+.openleftbox .composebtn{display: flex; justify-content: space-between; align-items: center; padding: 0px 10px;}
+.composebtn i.material-icons{color: var(--color-white); font-size: 18px;}
+.collapseleft{width:0px; overflow: hidden;}
+
+}
+@media (max-width: 767px) {
+/*mailbox*/
+.mail_noti:last-child{border-bottom: 1px solid #ddd;}
+.email-reply{padding-bottom: 20px;}
+.newmail{bottom: inherit; top:0px; width:90%;}
+.scroll-fix > div {
+  height: 230px !important;
+}
+.mail_content{height: 180px;}
+
+}
+@media(max-width: 480px) {
+
+    /*Mailbox*/
+.newmail {
+    top: 52px;
+    width: 100%;
+}
+}
+
+.hideCont
+{
+    display:none;
+}
+.showCont
+{
+    display:inline-block;
+    padding: 10px;
+}
+.maillist .ng-scrollbar-view{
+    width: 100% !important;
+}
+
+.search__input {
+    border: black 0;
+    background-color: transparent;
+    margin: 8px;
+    font-size: 16px;
+  }
+
+  .search__input:focus {
+    outline: 0;
+  }
+
+  .search__container {
+    width: 100%;
+    text-align:right;
+    background-color:white;
+    color: black;
+    border-radius: 3px;
+  }
+  .mat-chip.chiplist.mat-chip.mat-primary.mat-standard-chip{
+    background-color: #1576d1 !important;
+    color: var(--color-white);
+    padding: 5px 10px !important;
+    border-radius: 20px !important;
+  }
+
+.mat-radio-group {
+    display: flex;
+    flex-flow: column nowrap;
+    color: #797979;
+    font-size: 15px;
+
+  }
+  .mat-radio-group .phone-option {
+    padding-bottom: 1.25em;
+    padding: .4375em 0;
+    border-top: .84375em solid transparent;
+  }
+  .mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: #63d891 !important;
+}
+.mat-radio-button{
+    padding: 5px 0 0 5px;
+}
+
+.lineheader {
+    border-bottom: 1px solid #ddd;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 8px 12px 0px;
+}
+.lineheader p {
+    color: #4c9898;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 15px;
+    margin: 0 !important;
+    padding: 0px;
+    position: relative;
+    text-transform: uppercase;
+}
+.lineheader p a {
+    color: #264653;
+}
+.lineheader p a:hover {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.lineheader span {
+    font-size: 13px;
+    line-height: 13px;
+}
+.lineheader i {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 13px;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}
+.disabled{
+    pointer-events: none !important;
+    cursor: not-allowed !important;
+    opacity: 1 !important;
+    background-color: #dbe1e6 !important;
+
+}
+.mb-120{
+    margin-bottom: 115px;
+}
+.blue-clr{
+    color: #2f2660;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: rgba(243, 243, 243, .80);;
+    padding: 9px 7px;
+}
+.result-blk label{
+    color: #2f2660;
+    font-size: 18px;
+    display: block;
+}
+.page_title{
+    font-weight: 500;
+    margin:10px;
+    font-size: 21px;
+    color: var(--color-white);
+}
+.mat-autocomplete-panel{
+    max-height: 400px !important;
+}
+.screen-text-header h3{
+    font-size: 18px;
+    margin: 20px 0;
+}
+.mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary{
+    border-radius: 10px;
+}
+.result-value{
+    margin-top: 15px;
+    margin-bottom: 70px;
+}
+.result-value p{
+    font-size: 16px;
+    line-height: 18px;
+    margin-top:12px;
+}
+.radio-label:hover {
+    background-color: #F3F5F7;
+}
+.screen-sex label {
+    display: inline-block;
+    width: 132px;
+    margin: 0 10px;
+    font-weight: 400;
+    max-width: 100%;
+    cursor: pointer;
+}
+
+.screen-sex label .placeholder {
+    display: block;
+    padding: 30px 35px 14px 35px;
+}
+.screen-sex label.female .placeholder {
+    width: 29px;
+    height: 58px;
+    background-image: url(data:image/svg+xml;charset=UTF-8,%3Csvg%20version%3D%221.1%22%20viewBox%3D%220%200%2029%2058%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%220%22%20fill%3D%22%23555555%22%20stroke%3D%22%23555555%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M26.55%2032.831l-1.592.438c.595%202.19%201.095%204.211%201.457%205.76.198.85.03%201.748-.462%202.467a3.097%203.097%200%200%201-2.117%201.316c-.742.106-1.622.218-2.604.32.001%201.905-.04%207.404-.53%2010.953-.317%202.306-2.017%203.915-4.13%203.915h-4.143c-2.08%200-3.778-1.603-4.13-3.9-.546-3.552-.553-9.046-.537-10.965a66.883%2066.883%200%200%201-2.62-.323%203.107%203.107%200%200%201-2.11-1.308%203.115%203.115%200%200%201-.472-2.446%20154.47%20154.47%200%200%201%201.43-5.792l-1.596-.58a3.25%203.25%200%200%201-2.067-3.664c.827-4.32%203.238-13.625%208.931-15.957a3.46%203.46%200%200%201-.347-.305c-1.279-1.288-1.263-3.268-1.25-5.013l.003-.498C7.664%203.252%2010.731%200%2014.5%200s6.836%203.252%206.836%207.249c0%20.279.008.565.016.856.045%201.597.096%203.405-1.091%204.625a3.283%203.283%200%200%201-.431.373c5.619%202.406%208.12%2011.652%208.997%2015.956a3.234%203.234%200%200%201-2.276%203.772zm-7.899%2020.971c.452-3.273.506-8.47.509-10.485a64.187%2064.187%200%200%201-3.624.17V55.93h1.035c1.234%200%201.934-1.068%202.08-2.127zm-8.305-.015c.163%201.065.87%202.142%202.083%202.142h1.035V43.488a65.088%2065.088%200%200%201-3.63-.17c-.012%202.008.011%207.203.512%2010.469zm16.451-24.314c-.71-3.491-3.52-14.88-9.811-14.88a1.036%201.036%200%200%201-1.036-1.036v-.722c0-.572.464-1.036%201.036-1.036.856%200%201.459-.173%201.79-.513.576-.593.54-1.879.505-3.122-.008-.311-.017-.618-.017-.915%200-2.807-2.182-5.178-4.764-5.178-2.583%200-4.764%202.371-4.764%205.178l-.003.514c-.01%201.34-.022%202.861.649%203.538.332.335.867.498%201.632.498.572%200%201.036.464%201.036%201.036v.727c0%20.571-.464%201.035-1.036%201.035-6.326%200-8.987%2011.34-9.652%2014.814a1.181%201.181%200%200%200%20.748%201.331l1.437.522c1.056-3.702%202.364-7.632%203.847-10.6a1.036%201.036%200%201%201%201.853.928C7.584%2026.92%205.397%2035.9%204.581%2039.515c-.064.284-.008.573.157.814.164.238.413.392.698.434%202.117.303%205.407.666%209.064.666%203.606%200%206.908-.363%209.044-.667.288-.04.535-.196.699-.435.168-.244.222-.538.154-.827-.83-3.552-3.04-12.409-5.655-17.928a1.036%201.036%200%200%201%201.873-.887c1.438%203.037%202.729%206.94%203.781%2010.59l1.589-.437c.58-.17.936-.759.812-1.365z%22/%3E%3C/svg%3E);
+    background-repeat: no-repeat;
+    border-radius: 0;
+}
+.screen-sex label.male .placeholder {
+    width: 28px;
+    height: 58px;
+    background-image: url(data:image/svg+xml;charset=UTF-8,%3Csvg%20version%3D%221.1%22%20viewBox%3D%220%200%2028%2058%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%220%22%20fill%3D%22%23555555%22%20stroke%3D%22%23555555%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M25.495%2033.559c-.869.929-1.973%201.404-3.272%201.431-.11%2011.19-1.12%2018.452-1.227%2019.185A3.98%203.98%200%200%201%2017%2058h-6a3.979%203.979%200%200%201-3.996-3.823c-.111-.738-1.129-7.86-1.229-19.188-1.219-.028-2.269-.495-3.117-1.406C.142%2030.878.012%2024.8.347%2020.177c.184-2.538%201.686-6.768%209.397-7.888C8.332%2010.981%207.5%209.073%207.5%206.999%207.5%203.14%2010.416%200%2014%200s6.5%203.14%206.5%206.999c0%202.069-.828%203.972-2.234%205.28%207.337%201.028%209.18%204.799%209.387%207.904.47%207.049-.216%2011.299-2.158%2013.376zm.162-13.243c-.247-3.71-3.386-5.805-9.329-6.229a1%201%200%200%201-.928-.997v-.698c0-.37.204-.71.531-.883%201.561-.828%202.569-2.599%202.569-4.51C18.5%204.243%2016.481%202%2014%202S9.5%204.243%209.5%206.999c0%201.911%201.008%203.682%202.569%204.51a.999.999%200%200%201%20.531.883v.702a1%201%200%200%201-.926.997c-4.074.303-8.999%201.63-9.332%206.231-.426%205.887.223%2010.224%201.781%2011.899.465.501.994.741%201.647.768.003-3.456.089-7.24.313-11.344.031-.551.51-.969%201.054-.943.551.03.974.501.943%201.053-1.063%2019.398.889%2032.047.909%2032.172.006.043.01.086.011.129A1.99%201.99%200%200%200%2011%2056h2V34a1%201%200%200%201%202%200v22h2a1.989%201.989%200%200%200%201.999-1.944%201.02%201.02%200%200%201%20.011-.124c.02-.13%201.972-13.186.909-32.176a1%201%200%200%201%201.997-.112c.229%204.081.314%207.872.314%2011.346.736-.026%201.316-.275%201.804-.797%202.255-2.411%201.78-9.536%201.623-11.877z%22/%3E%3C/svg%3E);
+    background-repeat: no-repeat;
+    border-radius: 0;
+}
+input[type="radio" i] {
+    background-color: initial;
+    cursor: default;
+    appearance: auto;
+    border: initial;
+}
+.more-load {
+    border: 4px solid #cccccc;
+    border-radius: 50%;
+    border-top: 4px solid #63d891;
+    width: 30px;
+    height: 30px;
+    -webkit-animation: spin 1s linear infinite;
+    /* Safari */
+    animation: spin 1s linear infinite;
+    display: inline-block;
+}
+/* loader css */
+.full_loader {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: -6px;
+    background-color: rgba(255, 255, 255, 0.8);
+    height: 100%;
+    width: 100%;
+    z-index: 1001;
+  }
+
+  .circle_loader {
+    left: 0;
+    right: 0 !important;
+    margin: 0px auto !important;
+    display: block !important;
+    top: 50%;
+    position: fixed !important;
+    text-align: center;
+  }
+
+  .circle_loader.search_loader {
+    top: 15%;
+  }
+  .top0 {
+    top: 0px;
+  }
+  .circle_loader.page_loader {
+    left: 19%;
+  }
+  .circle_loader.tag_laoder {
+    position: absolute !important;
+    top: 15% !important;
+  }
+  /*select filed*/
+  .cdk-overlay-pane {
+    transform: translateX(-0px) !important;
+  }
+  /*Fields bottom border*/
+  .mat-form-field-appearance-legacy .mat-form-field-underline {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  .mat-select-arrow {
+    color: rgba(0, 0, 0, 0.1);
+  }
+  .mat-datepicker-toggle-default-icon {
+    color: rgba(0, 0, 0, 0.3);
+  }
+  /*Client list toggle*/
+  .srach-pt[class*=" flaticon-"]:after,
+  .srach-pt[class*=" flaticon-"]:before,
+  .srach-pt[class^="flaticon-"]:after,
+  .srach-pt[class^="flaticon-"]:before {
+    line-height: 40px;
+  }
+  .custom-card .mat-card-header{
+      width:100%;
+      background-color:#264653 !important ;
+  }
+  .blue-bg{
+    width:100%;
+    background-color:#264653 !important ;
+    padding: 10px;
+    margin: 0;
+}
+.pl-10{
+    padding-left: 10px;
+}
+  .mat-card label{
+      padding:8px 10px;
+      margin: 0;
+  }
+  .mat-card .result-value label{
+      padding: 0;
+      font-weight: 500;
+      background-color: rgba(243, 243, 243, .80);
+    padding: 7px;
+  }
+  .custom-card,
+  .mat-card{
+      font-family: 'Raleway', sans-serif !important;
+  }
+  .mat-card-content p{
+      font-size: 17px;
+  }
+  .alrmng-symp ul{
+    padding-left: 18px;
+    list-style: circle;
+    font-size: 16px;
+  }
+  #contentToConvert{
+       margin-bottom: 70px;
+  }
+  #contentToConvert ul{
+        padding-left: 10px;
+        list-style: circle;
+        font-size: 16px;
+  }
+  .mat-primary{
+      font-size: 16px;
+  }
+  .mb10{margin-bottom: 10px;}
+  .consult-btn{
+    margin-top: 15px;
+    height: 50px !important;
+    min-width: 270px;
+    margin-bottom: 15px;
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-weight: 400;
+  }
+  .custom-card-header{
+      margin: 0 auto;
+  }
+  .custom-card-header .mat-card{
+    border-left: 4px solid #264653 !important;
+    margin:40px 0;
+  }
+  .custom-card .mat-card{
+      padding:25px 15px;
+  }
+  .mat-raised-button:not([class*=mat-elevation-z]){
+      box-shadow: none;
+      height: 42px;
+  }
+  .btn-group{
+    position: absolute;
+    bottom: 25px;
+    left: 25px;
+  }
+  .covid-consult{
+      padding: 15px;
+  }
+  .covid-consult .col-lg-12 p{
+    font-weight: 500;
+    font-size: 18px;
+    background-color: rgba(243, 243, 243, .80);
+    padding: 6px 10px;
+    margin-top: 15px;
+  }
+  .covid-consult .mat-radio-button{
+      padding:10px  20px 5px 10px;
+      margin-bottom: 4px;
+
+  }
+  .covid-consult .mat-radio-group{
+    flex-flow: initial;
+    font-size: 16px;
+    text-transform: capitalize;
+    display: block;
+  }
+  .dblock{display: block!Important;}
+  .covid-report h2{
+    background-color: #efefef;
+    padding: 10px;
+    color: #2f2660;
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+  .covid-report h4{
+    font-size: 20px;
+    margin: 20px 0;
+    font-weight: 600;
+    color: #2f2660;
+  }
+  .symptom-report{
+    display: block;
+    height: 70vh;
+    overflow: auto;
+    padding: 0 15px;
+  }
+  .symptom-report p, .symptom-report ul li{
+      font-size: 17px;
+  }
+  .fw-600{
+      font-weight: 600;
+  }
+  .fw-500{
+      font-weight: 500;
+  }
+  .pd-cstm{
+      padding: 12px 15px;
+      font-weight: 600;
+  }
+  .custom_modal .pd-0{
+      padding: 0 !important;
+  }
+
+  @media (max-width: 991px) {
+    .circle_loader.page_loader {
+      left: 0px;
+      right: 0px;
+    }
+  }

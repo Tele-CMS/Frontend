@@ -1,0 +1,131 @@
+main {
+    padding: 1em;
+    /* font-family: Arial, Helvetica, sans-serif; */
+    text-align: center;
+    margin-top: 50px;
+    display: block;
+    color: greenyellow;
+}
+
+label {
+    color: black;
+}
+
+.upload-drop-zone {
+    height: 200px;
+    border-width: 2px;
+    margin-bottom: 20px;
+}
+
+
+/* skin.css Style*/
+
+.upload-drop-zone {
+    color: #ccc;
+    border-style: dashed;
+    border-color: #ccc;
+    line-height: 200px;
+    text-align: center
+}
+
+.upload-drop-zone.drop {
+    color: #222;
+    border-color: #222;
+}
+
+.browse-doc {
+    border-radius: 0px;
+}
+
+.browse-doc .browse {
+    line-height: normal;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.uploading-data {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0px;
+}
+
+.uploading-data img {
+    padding-right: 15px;
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+    opacity: 0.8;
+    padding-top: 5px;
+}
+
+.uploading-data p {
+    width: 90%;
+    font-size: 14px;
+    color: rgba( 0, 0, 0, 0.80);
+    font-weight: 500;
+    margin: 0px;
+}
+
+.custom_modal {
+    height: 400vh;
+}
+
+.mat-dialog-actions {
+    padding: 15px 18px !important;
+}
+
+.uplaod_pic i {
+    font-size: 24px;
+}
+
+.cancel-btn {
+    background-color: var(--color-white);
+    color: #264653 !important;
+    min-width: 80px;
+    text-align: center;
+    line-height: 32px;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 3px 5px;
+    color: var(--color-white);
+    display: inline-block;
+    cursor: pointer;
+    border: 2px solid #264653;
+    border-radius: 10px;
+}
+
+.uplaod_pic span {
+    font-size: 14px;
+}
+
+.ml-auto,
+.mat-dialog-actions .mat-primary {
+    margin-left: auto;
+}
+
+.tbactionbtn .fa {
+    color: red;
+}
+
+.policy-blk .fa {
+    position: absolute;
+    top: -6px;
+    right: -7px;
+    background-color: #2f2660;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: var(--color-white);
+    padding: 6px 10px;
+    cursor: pointer;
+    z-index: 9999;
+}
+
+.mat-dialog-actions {
+    display: block !important;
+}
+
+.txt-css {
+    font-size: 22px;
+    font-weight: 500;
+    color: #2f2660;
+}

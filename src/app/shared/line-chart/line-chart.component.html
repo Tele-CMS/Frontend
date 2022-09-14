@@ -1,0 +1,16 @@
+<!-- <div>
+<canvas baseChart height="80"
+[datasets]="lineChartData"
+[labels]="lineChartLabels"
+[chartType]="lineChartType"></canvas>
+</div>  -->
+
+<div>
+    <canvas #baseChart="base-chart" baseChart 
+    [datasets]="lineChartData"
+    [labels]="lineChartLabels"
+    [chartType]="lineChartType"
+    [options]="lineChartOptions"
+    [colors]="lineChartColors"
+    (chartClick)="onChartClicked($event)"></canvas>
+</div>

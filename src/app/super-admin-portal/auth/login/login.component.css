@@ -1,0 +1,193 @@
+.login-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.login-fields {
+    width: 400px;
+    background: var(--color-white);
+    margin: 0 auto;
+    display: block;
+    padding:0px;
+    -webkit-box-shadow: 0 6px 25px 0 rgba(38, 50, 56, 0.90);
+    -moz-box-shadow: 0 6px 25px 0 rgba(38, 50, 56, 0.90);
+    box-shadow: 0 6px 25px 0 rgba(38, 50, 56, 0.90);
+}
+.login-fields form{padding: 10px 30px 30px;}
+.login-fields h3 a {
+    font-size: 13px;
+    font-weight: 400;
+    padding-left: 30px;
+    color: #2a3134;
+    opacity: .7;
+}
+
+.login-fields h3 a:hover {
+    color: #258df2;
+}
+
+.login-fields h3 i {
+    font-size: 5rem;
+}
+
+.login-fields h3.title-404 {
+    font-size: 7.5rem;
+}
+.login_bg {
+    height: 100%;
+    display: table;
+    width: 100%;
+    background-image: url('../../../../assets/login_bg.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.loginlogo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.login-headtabs{display: flex; justify-content: space-between; align-items: center;}
+.login-headtab {
+    margin: 0px;
+    background-color: rgba(15, 216, 239, 0.70);
+    text-align: center;
+    display: flex;
+    width: 50%;
+    justify-content: center;
+}
+.login-headtab a {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--color-white);
+    display: block;
+    padding: 11px 0px;
+    text-transform: uppercase;
+}
+.login-headtab.active{background-color: #264653; box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.02); -webkit-box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.02);}
+
+.mat-raised-button.login-btn{
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    width: 80%;
+    height: 40px;
+    line-height: 40px;
+    text-transform: uppercase;
+}
+
+.login-content {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    color: var(--color-white);
+    font-size: 15px;
+    text-align: left;
+}
+.login-content p {
+    text-align: left !important;
+    width: 100%;
+    line-height: 23px;
+}
+.login-content .smartlink{color:#D92029;}
+.login-content span{font-weight: 500;font-size: 16px;}
+.rem {
+    float: left;
+    width: 50% !important;
+    font-size: 14px !important;
+    margin: 0px !important;
+}
+
+.frgtpwd {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    padding: 0rem 0rem 1rem;
+}
+
+a.frgtpwd  {
+    color: rgba(0, 0, 0, 0.87);
+}
+.resetmail_msg {
+    padding: 10px;
+}
+.resetmail_msg i {
+    font-size: 50px;
+    color: #264653;
+}
+.spradmpnlpwd {
+    float: left;
+    text-align: right;
+    width: auto;
+    font-size: 14px;
+}
+
+.spradmpnlpwd a {
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.createnew {
+    border-top: 1px solid #f5f5f5;
+    color: #7a7a7a;
+    display: flex;
+    font-size: 14px;
+    font-weight: 400;
+    justify-content: center;
+    margin-top: 20px;
+    padding-top: 10px;
+    width: 100%;
+}
+
+.createnew a {
+    padding-left: 10px;
+    color: #264653;
+}
+
+.createnew a:hover {
+    text-decoration: underline;
+}
+
+.frgtcont {
+    color: #7a7a7a;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    margin: 20px 0 0;
+    text-align: center;
+}
+.loginas {
+    text-align: center;
+    color:rgba(0, 0, 0, 0.87);
+}
+.loginas span {
+    display: block;
+    font-size: 14px;
+    margin: 10px 0px 5px;
+}
+.loginas p {
+    margin: 0px;
+    font-size: 14px;
+}
+.loginas p a{color:#264653; }
+.loginas p a:hover, .frgtpwd a:hover, .backtologin a:hover{text-decoration: underline;}
+.backtologin {
+    display: block;
+    margin-top: 20px;
+}
+.backtologin a {
+    display: inline-block;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 14px;
+}
+
+.custom_form .backtologin i {
+    position: inherit;
+    float: left;
+    padding-top: 1px;
+    padding-right: 10px;
+    color: rgba(0, 0, 0, 0.70);
+}
+/*Files Common*/
+.example-full-width {
+  width: 100%;
+}
+.btn-link{color: #264653;}
+.btn-link:hover{color: rgba(0, 0, 0, 0.87);}

@@ -1,0 +1,54 @@
+<div class="custom_modal">
+  <div class="readmin-panel">
+    <div id="contentToConvert">
+      <h2 class="page_title blue-bg mb10 pd-cstm">Symptom Checker Report</h2>
+      
+    <div class="symptom-report">
+      <div class="row pd-0">
+        <div class="col-lg-6 col-sm-6 pd-0">
+          <label class="fw-500">Sex : </label>
+          <label class="pl-2"> {{result.sex}}</label>
+        </div>
+        <div class="col-lg-6 col-sm-6 pd-0">
+          <label class="fw-500">Age : </label>
+          <label class="pl-2"> {{result.age}}</label>
+        </div>
+
+      </div>
+      <h6 class="blue-clr mt-2">Reported symptoms</h6>
+      <!-- <p class="mt-2 mb-3 ml-2"> -->
+      <ul class="ml-4">
+        <li *ngFor="let r of result.patientReportedSymptoms">{{r}}
+        </li>
+      </ul>
+      <!-- </p> -->
+      <h6 class="blue-clr">Other symptoms</h6>
+      <p class="ml-2 fw-600" *ngIf="result.patientPresentSymptoms && result.patientPresentSymptoms.length>0">Present:</p>
+      <ul class="ml-4">
+        <li *ngFor="let p of result.patientPresentSymptoms">{{p}}
+
+        </li>
+      </ul>
+      <p class="ml-2 fw-600" *ngIf="result.patientAbsentSymptoms && result.patientAbsentSymptoms.length>0">Absent:</p>
+      <ul class="ml-4" *ngIf="result.absentSymptoms!=''">
+        <li *ngFor="let a of result.patientAbsentSymptoms">{{a}}
+
+        </li>
+      </ul>
+      <p class="ml-2 fw-600" *ngIf="result.patientUnknownSymptoms && result.patientUnknownSymptoms.length>0">Unknown:</p>
+      <ul class="ml-4" *ngIf="result.unknownSymptoms!=''">
+        <li *ngFor="let u of result.patientUnknownSymptoms">{{u}}
+
+        </li>
+      </ul>
+      <h6 class="blue-clr">Possible Conditions:</h6>
+      <p class="ml-2 mb-0" *ngFor="let c of result.patientFinalConditions">{{c}}</p>
+     
+    </div>
+    <div class="clearfix"></div>
+    <div mat-dialog-actions class="float-right">
+      <button class="cancel-btn" mat-raised-button (click)="onClose()">Close</button>
+    </div>
+  </div>
+  </div>
+</div>

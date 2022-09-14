@@ -1,0 +1,60 @@
+<div class="telelogin">
+  <div class="row">
+    <div class="col-sm-5 tele-bg">
+      <h2>Welcome!</h2>
+      <h3 *ngIf="firstTimeLogin">Seems your are new, Please tell us something more about yourself .</h3>
+      <h3 *ngIf="!firstTimeLogin">Seems you are using new machine, we need more for log in</h3>
+      <p>Discover the best doctors, the city nearest to you.</p>
+    </div>
+    <div class="col-sm-7 telelogin-form pr-0">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Security Questions</h3>
+        <i (click)="closeDialog('close')" class="fa fa-close" aria-hidden="true"></i>
+      </div>
+
+
+
+      <form *ngIf="!firstTimeLogin" class="readmin-form" [formGroup]="securityQuestionOptionsForm" (ngSubmit)="onSubmitQuestionAnswer()">
+        <div *ngIf="errorMessage" class="alert-danger">{{errorMessage}}</div>
+        <div class="form-group">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Select a Question" formControlName="question" aria-label="Question" matInput [ngClass]="{ 'is-invalid': submitted}">
+              <mat-option *ngFor="let option of securityQuestionOptions" [value]="option.id">
+                {{option.value}}
+              </mat-option>
+            </mat-select>
+            <!-- <mat-error *ngIf="g.question.errors.required">
+                      Please select a question
+                    </mat-error> -->
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Answer" formControlName="answer" [ngClass]="{ 'is-invalid': submitted}" />
+            <!-- <mat-error *ngIf="g.answer.errors.required">
+                      Please enter answer
+                    </mat-error> -->
+          </mat-form-field>
+        </div>
+        <div class="col-6 d-flex mx-auto justify-content-between">
+          <button class="example-full-width login-btn" mat-raised-button color="accent" [disabled]="loading">{{!loading ? 'Log in' : 'Loading...'}}</button>
+        </div>
+      </form>
+
+      <!-- Security Questions when firsttimelogin is true -->
+      <form *ngIf="firstTimeLogin" [formGroup]="securityQuestionForm" class="security-question" (ngSubmit)="onSubmit()">
+        <div *ngIf="errorMessage" class="alert-danger">{{errorMessage}}</div>
+        <div class="form-group">
+          <mat-form-field *ngFor="let question of securityQuestions" class="example-full-width">
+            <input matInput placeholder="{{question.question}}" formControlName="question{{question.id}}" [ngClass]="{ 'is-invalid': submitted}"
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-6 d-flex mx-auto justify-content-between">
+          <!-- <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button> -->
+          <button class="example-full-width login-btn" mat-raised-button color="accent" [disabled]="loading">{{!loading ? 'Save & Log In' : 'Loading...'}}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

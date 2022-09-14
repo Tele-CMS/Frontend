@@ -1,0 +1,95 @@
+<app-call-button></app-call-button>
+<div [class.example-is-mobile]="mobileQuery.matches">
+  <!-- layout-header -->
+  <mat-toolbar class="main-header">
+    <div>
+      <!-- <div class="example-app-name">
+        <a href="/" title="Go To Home"><img src="{{ logoUrl }}" alt="" /></a>
+      </div>
+      <button mat-button class="app-menu-button" (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>-->
+      <p class="doc-txt">{{fullName}}</p>
+    </div>
+    <div>
+      <app-layout-header
+        *ngIf="!isPatient"
+        [headerInfo]="headerInfo"
+        (eventChangePassword)="createModal()"
+      ></app-layout-header>
+      <app-client-header-layout
+        *ngIf="isPatient"
+        [headerInfo]="headerInfo"
+        (eventChangePassword)="createModal()"
+      ></app-client-header-layout>
+    </div>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="example-sidenav-container" style="min-height: 100vh;">
+    <!-- sidebar -->
+    <mat-sidenav
+      #sidenav
+      [mode]="mobileQuery.matches ? 'side' : 'over'"
+      [opened]="mobileQuery.matches"
+      [fixedInViewport]="mobileQuery.matches"
+      fixedTopGap="0"
+    >
+      <ng-scrollbar>
+        <app-layout-sidebar [sidebarInfo]="sidebarInfo"></app-layout-sidebar>
+      </ng-scrollbar>
+    </mat-sidenav>
+
+    <!-- right drawer for client listing -->
+    <mat-sidenav
+      #clientDrawer
+      mode="over"
+      class="client-drag"
+      opened="false"
+      position="end"
+      [class.toggle]="isOpenClientDrawer"
+    >
+      <button
+        *ngIf="!isPatient"
+        mat-button
+        class="app-menu-button client-list"
+        (click)="onClientToggle(clientDrawer)"
+      >
+        <!-- <mat-icon>home</mat-icon> -->
+        <i class="srach-pt flaticon-symbol"></i>
+      </button>
+      <app-client-listing *ngIf="!isPatient"></app-client-listing>
+    </mat-sidenav>
+    <!-- sidenav-content -->
+    <mat-sidenav-content class="content_page123">
+      <div class="content_page">
+        <div [class.hidden]="!loading">
+          <div class="full_loader">
+            <div class="circle_loader page_loader">
+              <img src="{{ loaderImage }}" alt="" />
+            </div>
+          </div>
+        </div>
+        <div *ngIf="moduleTabs && moduleTabs.length > 0" class="mod-tabs">
+          <div class="readmin-panel pt-0">
+            <mat-tab-group [(selectedIndex)]="selectedTabIndex" (click)="onTabChange(selectedTabIndex)">
+              <mat-tab *ngFor="let tab of moduleTabs; let index = index">
+                <ng-template mat-tab-label>
+                    <span>{{tab.displayName}}</span>
+                </ng-template>
+            </mat-tab>
+            </mat-tab-group>
+          </div>
+          <!-- <div class="tabBox d-inline-block mr-4" *ngFor="let tab of moduleTabs">
+            <div class="tabBoxInner d-inline-block"  *ngIf="!tab.disabled">
+              <a [ngClass]="{'active' : isActiveTab(tab)}" (click)="onItemSelected(tab)" >{{tab.displayName}}</a>
+            </div>
+
+          </div> -->
+        </div>
+        <router-outlet *ngIf="headerInfo && headerInfo.user"></router-outlet>
+      </div>
+    </mat-sidenav-content>
+    <!-- layout-footer -->
+    <app-layout-footer></app-layout-footer>
+  </mat-sidenav-container>
+</div>

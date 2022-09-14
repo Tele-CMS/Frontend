@@ -1,0 +1,4 @@
+<app-data-table class="d-inline-block sticky-table fixed-table no-table" [ngClass]="{'no-fixed':invitedPatientAppointment && invitedPatientAppointment.length == 0,'':invitedPatientAppointment && invitedPatientAppointment.length > 0}"
+  stickyHeader="true" [inputColumns]="invitedDisplayedColumns" [inputSource]="invitedPatientAppointment" [inputMeta]="invitedAppointmentMeta"
+  [inputButtons]='invitedActionButtons'>
+</app-data-table>

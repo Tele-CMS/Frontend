@@ -1,0 +1,188 @@
+
+
+
+
+    <div class="mt-2 question-block"  [formGroup]="form">
+
+
+        <div  *ngIf="control && control.controlType">
+    
+            <mat-label *ngIf="control.questionText" class="mt-2"  [ngClass]="{'invalid-txt': hasErrors}" [attr.for]="control.formControlName">{{control.order +'.  '+control.questionText}}
+          <span class="numbertxt">{{control.type == 'number' ? '(Number)' : ''}} </span> </mat-label>
+            <code *ngIf="control.isRequired">*</code>
+             <div  *ngIf="control.controlType == 'textbox'">
+    
+               
+                    <mat-label class="form-label" *ngIf="!control.questionText" [attr.for]="control.formControlName">{{control.order +' '+control.label}}
+                    </mat-label>
+                    <mat-form-field class="example-full-width">
+    
+                    <input matInput [type]="control.type"  [ngClass]="{'invalid-box': hasErrors}"  [type]="control.type" placeholder="{{control.label}}"
+                        [formControlName]="control.formControlName" [id]="control.formControlName" />
+                    <mat-error *ngIf="hasError('required')">
+                        {{control.label}} is required
+                    </mat-error>
+                </mat-form-field>
+              
+            </div>
+    
+            <div  *ngIf="control.controlType == 'dropdown'">
+    
+               
+                    <mat-label class="form-label" *ngIf="!control.questionText" [attr.for]="control.formControlName">{{control.order +' '+control.label}}
+                    </mat-label>
+    
+                    <mat-form-field class="example-full-width">
+                    <mat-select matInput class="" [ngClass]="{'invalid-box': hasErrors}"   [id]="control.formControlName"
+                        [formControlName]="control.formControlName">
+                        <mat-option *ngFor="let opt of control.options" [value]="opt.key">
+                            {{opt.value}}
+                        </mat-option>
+                    </mat-select>
+                
+                    <mat-error *ngIf="hasError('required')">
+                        {{control.label}} is required
+                    </mat-error>
+                </mat-form-field>
+    
+             
+            </div>
+    
+    
+            <div *ngIf="control.controlType == 'textarea'">
+    
+              
+                    <mat-label class="form-label" *ngIf="!control.questionText" [attr.for]="control.formControlName">{{control.order +' '+control.label}}
+                    </mat-label>
+                    <mat-form-field matInput class="example-full-width">
+                    <textarea matInput  [ngClass]="{'invalid-box': hasErrors}"   [formControlName]="control.formControlName" cdkTextareaAutosize #autosizetestarea="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+                        cdkAutosizeMaxRows="5"></textarea>
+    
+                    <mat-error *ngIf="hasError('required')">
+                        {{control.label}} is required
+                    </mat-error>
+    
+                </mat-form-field>
+            </div>
+    
+    
+            <div class="mt-3 mb-2"  *ngIf="control.controlType == 'radiobutton'">
+    
+                    <mat-label class="form-label" *ngIf="!control.questionText" [attr.for]="control.formControlName">{{control.order +' '+control.label}}
+                    </mat-label>
+
+                    <mat-radio-group [formControlName]="control.formControlName">
+                        <mat-radio-button  *ngFor="let opt of control.options" [value]="opt.value">{{opt.key}}</mat-radio-button>
+                        <mat-error  *ngIf="hasError('required')">
+                            {{control.label}} is required
+                        </mat-error>
+                      </mat-radio-group>
+
+               
+                   
+            </div>
+    
+            <div class="mt-3 mt-2" *ngIf="control.controlType == 'checkbox'">
+    
+                <mat-label class="form-label" *ngIf="!control.questionText" [attr.for]="control.formControlName">{{control.order +' '+control.label}}
+                </mat-label>
+                <mat-checkbox *ngFor="let cb of form.controls[control.formControlName].controls; let i = index"
+                [formControl]="cb">{{ control.options[i].key }}</mat-checkbox>
+                <mat-error *ngIf="hasError('required')">
+                    {{control.label}} is required
+                </mat-error>
+    
+        </div>
+    
+    
+<!--      
+        <div [formGroup]="form">
+
+
+            <div *ngIf="control && control.controlType" class="m-4">
+        
+                <mat-label *ngIf="control.questionText"  [ngClass]="{'invalid-txt': hasErrors}" [attr.for]="control.formControlName">{{control.order +'.  '+control.questionText}}
+                </mat-label>
+                <code *ngIf="control.isRequired">*</code>
+                 <div class="form-group mt-2"  *ngIf="control.controlType == 'textbox'">
+        
+                   
+                        <mat-label class="form-label" *ngIf="!control.questionText" [attr.for]="control.formControlName">{{control.order +' '+control.label}}
+                        </mat-label>
+        
+        
+                        <input class="" [ngClass]="{'invalid-box': hasErrors}"  [type]="control.type" placeholder="{{control.label}}"
+                            [formControlName]="control.formControlName" [id]="control.formControlName" />
+                        <mat-error *ngIf="hasError('required')">
+                            {{control.label}} is required
+                        </mat-error>
+        
+                  
+                </div>
+        
+                <div class="form-group mt-2" *ngIf="control.controlType == 'dropdown'">
+        
+                   
+                        <mat-label class="form-label" *ngIf="!control.questionText" [attr.for]="control.formControlName">{{control.order +' '+control.label}}
+                        </mat-label>
+        
+        
+                        <select class="" [ngClass]="{'invalid-box': hasErrors}"  placeholder="Select" [id]="control.formControlName"
+                            [formControlName]="control.formControlName">
+                            <option *ngFor="let opt of control.options" [value]="opt.key">
+                                {{opt.value}}
+                            </option>
+                        </select>
+                        <mat-error *ngIf="hasError('required')">
+                            {{control.label}} is required
+                        </mat-error>
+        
+        
+                 
+                </div>
+        
+        
+                <div class="form-group mt-2" *ngIf="control.controlType == 'textarea'">
+        
+                  
+                        <mat-label class="form-label" *ngIf="!control.questionText" [attr.for]="control.formControlName">{{control.order +' '+control.label}}
+                        </mat-label>
+        
+                        <textarea class=" hgt-40" [ngClass]="{'invalid-box': hasErrors}"   [formControlName]="control.formControlName" cdkTextareaAutosize #autosizetestarea="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+                            cdkAutosizeMaxRows="5"></textarea>
+        
+                        <mat-error *ngIf="hasError('required')">
+                            {{control.label}} is required
+                        </mat-error>
+        
+                 
+                </div>
+        
+        
+                <div class="form-group mt-2"  *ngIf="control.controlType == 'radiobutton'">
+        
+                        <mat-label class="form-label" *ngIf="!control.questionText" [attr.for]="control.formControlName">{{control.order +' '+control.label}}
+                        </mat-label>
+                        <div class="d-float" *ngFor="let opt of control.options">
+                            <input [formControlName]="control.formControlName" type="radio" [value]="opt.value"> {{opt.key}}
+                        </div>
+                        <div class="clearfix"></div>
+                        <mat-error  *ngIf="hasError('required')">
+                            {{control.label}} is required
+                        </mat-error>
+                </div>
+        
+                <div class="form-group mt-2" *ngIf="control.controlType == 'checkbox'">
+        
+                    <mat-label class="form-label" *ngIf="!control.questionText" [attr.for]="control.formControlName">{{control.order +' '+control.label}}
+                    </mat-label>
+                    <div class="d-float" *ngFor="let cb of form.controls[control.formControlName].controls; let i = index">
+                        <input [ngClass]="{'invalid-box': hasErrors}"  type="checkbox" [formControl]="cb">
+                    <label>{{ control.options[i].key }}</label>
+                    </div>
+                    <div class="clearfix"></div>
+                    <mat-error *ngIf="hasError('required')">
+                        {{control.label}} is required
+                    </mat-error>
+        
+            </div> -->

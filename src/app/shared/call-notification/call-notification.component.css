@@ -1,0 +1,37 @@
+.buttons {
+    text-align: center;
+}
+
+.accept {
+    margin-right: 10px;
+    min-width: 120px;
+    border-radius: 30px;
+    color: #fff;
+}
+
+.modal-design-sec-inner {
+    margin: 24px 0 10px 0 !important;
+}
+
+.payment-btn-sec {
+    margin-bottom: 30px;
+}
+
+.payment-btn-sec button {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.strip {
+    width: 820px !important;
+}
+
+::ng-deep .cdk-overlay-pane.notication-modalbox {
+    max-width: 500px !important;
+    width: 96% !important;
+    min-width: unset !important;
+}
+
+::ng-deep .notication-modalbox .imgStyle.strip {
+    width: 100% !important;
+}

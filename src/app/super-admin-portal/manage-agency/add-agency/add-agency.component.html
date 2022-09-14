@@ -1,0 +1,428 @@
+<div class="readmin-page-content">
+  <div>
+    <h2 class="page_title">Add Agency Details</h2>
+  </div>
+  <div class="clearfix"></div>
+  <div class="readmin-panel">
+    <div class="panel-body">
+      <form (ngSubmit)="onSubmit()" id="agencyForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="agencyForm">
+        <div class="row">
+          <div class="col-sm-6">
+            <mat-form-field class="example-full-width">
+              <input matInput autofocus placeholder="Agency Name" maxlength="50" formControlName="organizationName"
+                [ngClass]="{ 'is-invalid': submitted && formControls.organizationName.errors }" required />
+              <mat-error *ngIf="formControls.organizationName.errors">
+                Please enter agency name
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6">
+            <mat-form-field class="example-full-width">
+              <input matInput autofocus placeholder="Business Name" maxlength="50" formControlName="businessName"
+                [ngClass]="{ 'is-invalid': submitted && formControls.businessName.errors }" required />
+              <mat-error *ngIf="formControls.businessName.errors">
+                Please enter business name
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <mat-form-field class="example-full-width" hintLabel="{{formControls.description.value ? 1000 - formControls.description.value.length : 1000}} Characters Remaining">
+              <textarea matInput placeholder="Description" maxlength="1000" formControlName="description"></textarea>
+            </mat-form-field>
+            <small class="blackfont font12"></small>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-8">
+            <mat-form-field class="example-full-width">
+              <input matInput autofocus placeholder="Address" maxlength="50" formControlName="address1" [ngClass]="{ 'is-invalid': submitted && formControls.address1.errors }"
+                required />
+              <mat-error *ngIf="formControls.address1.errors">
+                Please enter address
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input matInput autofocus placeholder="Apt/Unit" maxlength="50" formControlName="apartmentNumber" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input matInput autofocus placeholder="City" maxlength="50" formControlName="city" [ngClass]="{ 'is-invalid': submitted && formControls.city.errors }"
+                required />
+              <mat-error *ngIf="formControls.city.errors">
+                Please enter city
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input appZipcode matInput autofocus placeholder="Zip" maxlength="10" formControlName="zip" [ngClass]="{ 'is-invalid': submitted && formControls.zip.errors }"
+                required />
+              <mat-error *ngIf="formControls.zip.errors">
+                Please enter zip
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input matInput appPhoneNumber autofocus placeholder="Phone" formControlName="phone" [ngClass]="{ 'is-invalid': submitted && formControls.phone.errors }"
+                required />
+              <mat-error *ngIf="formControls.phone.errors">
+                Please enter phone number
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input matInput autofocus placeholder="Email" maxlength="60" formControlName="email" [ngClass]="{ 'is-invalid': submitted && formControls.email.errors }"
+                required />
+              <mat-error *ngIf="formControls.email.errors?.required">
+                Please enter email
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input appPhoneNumber matInput autofocus placeholder="Fax" formControlName="fax" [ngClass]="{ 'is-invalid': submitted && formControls.fax.errors }"
+                required />
+              <mat-error *ngIf="formControls.fax.errors?.required">
+                Please enter fax
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+            <mat-checkbox formControlName="isActive">
+              Is Active
+            </mat-checkbox>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="panel_title">
+              <h3>Agency Logo And Favicon</h3>
+              <i class="flaticon flaticon-picture">
+              </i>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="uplaod_pic">
+              <label class="browse">
+                <img *ngIf="LogoBase64" [src]="LogoBase64" alt="" />
+                <span *ngIf="LogoBase64">Change</span>
+                <i *ngIf="!LogoBase64" class="fa fa-upload fa-2x" aria-hidden="true"></i>
+                <input type="file" (change)="handleImageChange($event, 'logo')">
+              </label>
+            </div>
+            <p class="ins_photo">Logo Size (186 x 35)
+              (jpg, jpeg, bmp, png)</p>
+          </div>
+          <div class="col-sm-6">
+            <div class="uplaod_pic">
+              <label class="browse">
+                <img *ngIf="FaviconBase64" [src]="FaviconBase64" alt="" />
+                <span *ngIf="FaviconBase64">Change</span>
+                <i *ngIf="!FaviconBase64" class="fa fa-upload fa-2x" aria-hidden="true"></i>
+                <input type="file" (change)="handleImageChange($event, 'favicon')">
+              </label>
+            </div>
+            <p class="ins_photo">Favicon Icon Size (16 x 16)
+              (ico, jpg, jpeg, bmp, png)</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="panel_title">
+              <h3>Contact Person Details</h3>
+              <i class="flaticon flaticon-phone-call"></i>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="First Name" formControlName="contactPersonFirstName" [ngClass]="{ 'is-invalid': submitted && formControls.contactPersonFirstName.errors }"
+                required />
+              <mat-error *ngIf="formControls.contactPersonFirstName.errors?.required">
+                Please enter contact person first name
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Middle Name" formControlName="contactPersonMiddleName" />
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input matInput autofocus placeholder="Last Name" formControlName="contactPersonLastName"
+                [ngClass]="{ 'is-invalid': submitted && formControls.contactPersonLastName.errors }" required />
+              <mat-error *ngIf="formControls.contactPersonLastName.errors?.required">
+                Please enter contact person last name
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input matInput appPhoneNumber autofocus placeholder="Phone Number" formControlName="contactPersonPhoneNumber"
+                [ngClass]="{ 'is-invalid': submitted && formControls.contactPersonPhoneNumber.errors }" required />
+              <mat-error *ngIf="formControls.contactPersonPhoneNumber.errors">
+                Please enter contact person phone number
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="panel_title">
+              <h3>Admin Login Details</h3>
+              <i class="flaticon flaticon-padlock">
+              </i>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input matInput autofocus placeholder="User Name" maxlength="60" formControlName="userName" [ngClass]="{ 'is-invalid': submitted && formControls.userName.errors }"
+                required />
+              <mat-error *ngIf="formControls.userName.errors?.required">
+                Please enter username
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input matInput autofocus type="password" placeholder="Password" maxlength="30" formControlName="password"
+                [ngClass]="{ 'is-invalid': submitted && formControls.password.errors }" required />
+                <mat-error *ngIf="formControls.password.errors?.required && formControls.password.errors?.strong">
+                    Please enter password
+                  </mat-error>
+                  <mat-error *ngIf="formControls.password.errors?.required==undefined && formControls.password.errors?.strong">
+                      Password should have number,special character lowercase and uppercase letters
+                    </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input matInput autofocus type="password" placeholder="Confirm Password" formControlName="confirmPassword"
+                [ngClass]="{ 'is-invalid': submitted && formControls.confirmPassword.errors }" required />
+              <mat-error *ngIf="formControls.confirmPassword.errors?.required">
+                Please re-enter password
+              </mat-error>
+              <mat-error *ngIf="formControls.confirmPassword.errors?.notSame">
+                Password doesn't match
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="panel_title">
+              <h3>Vendor Details</h3>
+              <i class="flaticon flaticon-interface-1">
+              </i>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Vendor Id Direct" formControlName="VendorIdDirect" />
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Vendor Name Direct" formControlName="VendorNameDirect" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Vendor Id Indirect" formControlName="VendorIdIndirect" />
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Vendor Name Indirect" formControlName="VendorNameIndirect" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div *ngIf="formControls2" formGroupName="organizationSubscriptionPlans">
+          <div class="row">
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <input matInput autofocus placeholder="Subscription Plan Name" maxlength="60" formControlName="planName"
+                  [ngClass]="{ 'is-invalid': submitted && formControls2.planName.errors }"
+                  required />
+                <mat-error *ngIf="formControls2.planName.errors?.required">
+                  Please enter subscription plan name
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <input matInput readonly [matDatepicker]="picker" placeholder="Subscription Start Date" formControlName="startDate"
+                  [ngClass]="{ 'is-invalid': submitted && formControls2.startDate.errors }"
+                  required />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="formControls2.startDate.errors?.required">
+                  Please enter subscription start date
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-select placeholder="Subscription Plan Type" formControlName="planType" matInput [ngClass]="{ 'is-invalid': submitted && formControls2.planType.errors }"
+                  required>
+                  <mat-option *ngFor="let option of subscriptionPlanTypes" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls2.planType.errors">
+                  Please select plan type
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <input matInput autofocus placeholder="Price Per Patient($)" maxlength="10" formControlName="amountPerClient"
+                  [ngClass]="{ 'is-invalid': submitted && formControls2.amountPerClient.errors }"
+                  required />
+                <mat-error *ngIf="formControls2.amountPerClient.errors?.required">
+                  Please enter amount per patient
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="panel_title">
+              <h3>Database Details (Microsoft SQL Server)</h3><i class="flaticon flaticon-technology-2"></i>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-8">
+            <mat-form-field>
+              <mat-select placeholder="Database Name" formControlName="databaseDetailId" matInput [ngClass]="{ 'is-invalid': submitted && formControls.databaseDetailId.errors }"
+                required>
+                <mat-option *ngFor="let option of masterDatabase" [value]="option.id">
+                  {{option.databaseName}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="formControls.databaseDetailId.errors">
+                Please select plan type
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="panel_title">
+              <h3>SMTP Details (For Email)</h3><i class="flaticon flaticon-email"></i>
+            </div>
+          </div>
+        </div>
+        <div formGroupName="organizationSMTPDetail">
+          <div class="row">
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <input matInput autofocus placeholder="Server Name" maxlength="50" formControlName="serverName"
+                  [ngClass]="{ 'is-invalid': submitted && formControls1.serverName.errors }"
+                  required />
+                <mat-error *ngIf="formControls1.serverName.errors?.required">
+                  Please enter server name
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <input matInput autofocus placeholder="Port" maxlength="10" formControlName="port" [ngClass]="{ 'is-invalid': submitted && formControls1.port.errors }"
+                  required />
+                <mat-error *ngIf="formControls1.port.errors?.required">
+                  Please enter port number
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <input matInput autofocus placeholder="Connection Security" maxlength="10" formControlName="connectionSecurity"
+                  [ngClass]="{ 'is-invalid': submitted && formControls1.connectionSecurity.errors }"
+                  required />
+                <mat-error *ngIf="formControls1.connectionSecurity.errors?.required">
+                  Please enter connection security
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <input matInput autofocus placeholder="User Name" maxlength="60" formControlName="smtpUserName"
+                  [ngClass]="{ 'is-invalid': submitted && formControls1.smtpUserName.errors }"
+                  required />
+                <mat-error *ngIf="formControls1.smtpUserName.errors?.required">
+                  Please enter smtp username
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <input matInput autofocus type="password" placeholder="Password" maxlength="30" formControlName="smtpPassword"
+                  [ngClass]="{ 'is-invalid': submitted && formControls1.smtpPassword.errors }"
+                  required />
+                <mat-error *ngIf="formControls1.smtpPassword.errors?.required">
+                  Please enter password
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <input matInput autofocus type="password" placeholder="Confirm Password" formControlName="smtpConfirmPassword"
+                  [ngClass]="{ 'is-invalid': submitted && formControls1.smtpConfirmPassword.errors }"
+                  required />
+                <mat-error *ngIf="formControls1.smtpConfirmPassword.errors?.required">
+                  Please re-enter password
+                </mat-error>
+                <mat-error *ngIf="formControls1.smtpConfirmPassword.errors?.notSame">
+                  Password doesn't match
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <button class="cancel-btn" mat-raised-button routerLink="/webadmin/agency">Back</button>
+          </div>
+          <div class="col-sm-6 pt20 text-right">
+            <button mat-raised-button color="primary" form="agencyForm" [disabled]="submitted" cdkFocusInitial>
+              {{submitted ? 'Saving...' : 'Save'}}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- <footer class="readmin-footer">
+    <p class="no_margin">Copyright © smartData HealthCare 2018
+    </p>
+  </footer> -->
+</div>

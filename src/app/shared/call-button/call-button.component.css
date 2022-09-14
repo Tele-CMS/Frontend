@@ -1,0 +1,232 @@
+.div-call {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 900;
+  text-align: center;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background: #0006;
+  display: none;
+}
+.div-call.active {
+  display: flex;
+}
+.div-call .div-call-container {
+  background-color: #131212;
+  text-align: center;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  position: relative;
+  padding: 10px 10px 32px 10px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 13px #2e403c;
+}
+
+.div-call button {
+  background: none;
+  min-width: auto;
+}
+
+.div-call button span.material-icons {
+  padding: 10px;
+  border-radius: 50%;
+  top: 12px;
+  position: relative;
+  color: var(--color-white);
+}
+
+.div-call button span.material-icons.call {
+  background: #148814;
+}
+
+.div-call button span.material-icons.call-end {
+  background: #d00;
+}
+
+.div-call button span.call-text {
+  position: relative;
+  top: 12px;
+  left: 8px;
+  color: #148814;
+  display: none;
+}
+
+.div-call button.btn-call {
+  position: relative;
+  animation-name: shake;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in;
+  cursor: pointer;
+}
+
+.div-call button.btn-call:hover {
+  animation-name: none;
+}
+
+.div-call button.btn-call-end {
+  position: relative;
+  animation-name: shake1;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in;
+  cursor: pointer;
+}
+
+.div-call button.btn-call-end:hover {
+  animation-name: none;
+}
+
+@keyframes shake {
+  0% {
+    top: 0;
+  }
+  10% {
+    top: -2px;
+  }
+  20% {
+    top: 2px;
+  }
+  30% {
+    top: -4px;
+  }
+  40% {
+    top: 4px;
+  }
+  50% {
+    top: -6px;
+  }
+  60% {
+    top: 6px;
+  }
+  70% {
+    top: -4px;
+  }
+  80% {
+    top: 4px;
+  }
+  90% {
+    top: -2px;
+  }
+  100% {
+    top: 0;
+  }
+}
+
+@keyframes shake1 {
+  0% {
+    top: 0;
+  }
+  10% {
+    top: -1px;
+  }
+  20% {
+    top: 1px;
+  }
+  30% {
+    top: -3px;
+  }
+  40% {
+    top: 3px;
+  }
+  50% {
+    top: -5px;
+  }
+  60% {
+    top: 5px;
+  }
+  70% {
+    top: -3px;
+  }
+  80% {
+    top: 3px;
+  }
+  90% {
+    top: -1px;
+  }
+  100% {
+    top: 0;
+  }
+}
+
+/**********************User Image ripple effect*********************/
+.request-loader {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+  width: 150px;
+  border-radius: 100%;
+  /* background: var(--color-white); */
+  /* box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.25); */
+}
+/* .request-loader img {
+  position: relative;
+  font-size: 72px;
+  top: 5px;
+  left: -5px;
+} */
+.request-loader::after {
+  opacity: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0;
+  bottom: 0;
+  content: "";
+  height: 100%;
+  width: 100%;
+  border: 8px solid rgba(255, 255, 255, 0.2);
+  border-radius: 100%;
+  animation-name: ripple;
+  animation-duration: 3s;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.34, 1);
+  /* z-index: -1; */
+}
+.request-loader::before {
+  opacity: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0;
+  bottom: 0;
+  content: "";
+  height: 100%;
+  width: 100%;
+  border: 8px solid rgba(255, 255, 255, 0.2);
+  border-radius: 100%;
+  animation-name: ripple;
+  animation-duration: 3s;
+  animation-delay: 0.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.34, 1);
+  /* z-index: -1; */
+}
+@keyframes ripple {
+  from {
+    opacity: 1;
+    transform: scale3d(0.75, 0.75, 1);
+  }
+  to {
+    opacity: 0;
+    transform: scale3d(1.5, 1.5, 1);
+  }
+}

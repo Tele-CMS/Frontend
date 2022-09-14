@@ -1,0 +1,17 @@
+<div class="custom_modal">
+    <div class="text-center mt-4">
+        <h4 mat-dialog-title>Appointment Rescheduling</h4>
+    </div>
+    <div class="policy-blk cstm-tp">
+        <i class="fa fa-close" aria-hidden="true" (click)="closeDialog('close')"></i>
+    </div>
+
+    <div class="text-center" mat-dialog-container>
+
+        <p class="txt-css">Choose one of the below options for appointment rescheduling</p>
+    </div>
+    <div class="col-md-12 mt-2 text-center" mat-dialog-actions>
+        <button mat-raised-button class="cancel-btn" (click)="openPreponeDialog()">Preponement</button>
+        <button class="ml-2" name="Save" (click)="openPostPoneDialog()" mat-raised-button color="primary" class="text-uppercase">Postponement</button>
+    </div>
+</div>

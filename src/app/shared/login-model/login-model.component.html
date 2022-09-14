@@ -1,0 +1,27 @@
+<div class="telelogin">
+    <div class="row">
+        <div class="col-sm-5 tele-bg">
+            <h2>Welcome!</h2>
+            <h3>Login into your account.</h3>
+            <p>Discover the best doctors, the city nearest to you.</p>
+        </div>
+        <div class="col-sm-7 telelogin-form pr-0">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3>Sign in</h3>
+                <i (click)="closeDialog('close')" class="fa fa-close" aria-hidden="true"></i>
+            </div>
+            <!-- <mat-tab-group (selectedTabChange)="loadComponent($event)" [selectedIndex]="selectedIndex">
+                <mat-tab *ngFor="let tab of profileTabs;let i=index" class="mat-tab-label-active" label={{tab}}>
+                </mat-tab>
+            </mat-tab-group> -->
+
+            <div *ngIf="selectedIndex==0">
+                <app-agency-login></app-agency-login>
+            </div>
+            <div *ngIf="selectedIndex==1">
+                <app-client-login></app-client-login>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+<div
+  class="div-call align-items-center"
+  [class.active]="callInitModel.CallStatus == 1"
+  id="divCallButton"
+>
+  <div class="div-call-container">
+    <span style="color:white"> {{loggedInUserName}}</span>
+    <div>
+     
+      <div class="request-loader" style="margin: auto;">
+        <img
+          style="width: 64%; margin-bottom: 17px;"
+          src="{{ '../assets/img/noimage1.png' }}"
+          alt="user"
+          class="profile-pic img-fluid"
+        />
+        
+      </div>
+    </div>
+    <!-- <h6 style="color: #fff; font-size: 15px;">
+      Rishi Pal, David Cross<small><br />Jun 16, 2020 04:00 PM - 04:30PM</small>
+    </h6> -->
+    <button mat-raised-button class="btn-call" (click)="pickCall()">
+      <span class="material-icons call" color="accent ">
+      <span class="call-text">Join Call</span>
+        call
+      </span>
+      <span class="call-text">Join Call</span>
+    </button>
+
+    <button mat-raised-button class="btn-call-end" (click)="declineCall()">
+      <span class="material-icons call-end" color="warn "> call_end </span
+      ><span class="call-text" style="color: #d00;">End Call</span>
+    </button>
+  </div>
+</div>

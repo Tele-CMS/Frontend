@@ -1,0 +1,52 @@
+<div class="login_bg">
+  <div class="login-wrapper">
+    <div class="col-sm-9 mx-auto">
+      <div class="row">
+        <div class="col-xl-7 col-lg-6 col-sm-12 login-content">
+          <div class="loginlogo">
+            <img src={{logoUrl}} alt="" />
+          </div>
+          <p><span>smartTelehealth</span> system (SH) is a Cloud Based system that facilitates managing the functioning of the
+            Agencies. <span>smartTelehealth</span> system will help in making the whole functioning paperless. It integrates
+            all the information regarding patients, doctors, staff, agency administrative details etc. into one place</p>
+          <p>Safe and Secure Process to safe guard patients privacy and rights by following <span>HIPAA.</span></p>
+          <p>smartTelehealth is a Product of <a class="smartlink" href="https://www.smartdatainc.com/" target="_blank"><span
+                className="smartlink">smartData Enterprises.</span></a> </p>
+          <p>Copyright @ 2018 All Right Reserved.</p>
+        </div>
+        <div class="col-xl-5 col-lg-12 col-sm-12">
+          <div class="login-fields">
+            <div class="login-headtabs">
+              <div class="login-headtab active col-sm-12">
+                <a class="active" aria-current="page" routerLink="/webadmin/login">SUPERADMIN</a>
+              </div>
+            </div>
+            <form [formGroup]="loginForm" class="readmin-form" (ngSubmit)="onSubmit()">
+              <div *ngIf="errorMessage" class="alert-danger">{{errorMessage}}</div>
+              <div class="form-group">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Username" formControlName="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
+                  />
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Password" type="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+                  />
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <a [routerLink]="['/register']" class="btn btn-link frgtpwd">Forgot Password?</a>
+
+              </div>
+              <div class="d-flex justify-content-center">
+                <button class="example-full-width login-btn" mat-raised-button color="primary" [disabled]="loading">{{!loading
+                  ? 'Log in' : 'Loading...'}}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

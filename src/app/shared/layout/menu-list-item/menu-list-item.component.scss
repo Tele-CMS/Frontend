@@ -1,0 +1,28 @@
+@import '~@angular/material/theming';
+$app-primary: mat-palette($mat-indigo);
+
+:host {
+  display: block;
+  outline: none;
+
+  .mat-list-item.active {
+    background-color: var(--color-white);
+    .mat-list-item-content{
+      color: var(--color-white) !important;
+    }
+  }
+
+  &:hover,
+  &:focus {
+    >.mat-list-item:not(.expanded) {
+      background-color:  rgba(255, 255, 255, 0.15) !important;
+      color: var(--color-white);
+    }
+  }
+}
+
+.mat-list-item {
+  .routeIcon {
+    margin-right: 40px;
+  }
+}

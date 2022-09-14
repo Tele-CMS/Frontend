@@ -1,0 +1,14 @@
+
+.is-loading ::ng-deep .mat-option-text {
+  display: flex;
+  justify-content: center;
+}
+.example-radio-group {
+    display: inline-flex;
+    flex-direction: column;
+  }
+  
+  
+  .example-selected-value {
+    margin: 15px 0;
+  }

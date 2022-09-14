@@ -1,0 +1,8 @@
+<div mat-dialog-actions style="padding-left: 0px !important;margin-top:10px !important;">
+  <button *ngIf="showReport" class="cancel-btn" mat-raised-button (click)="showInfermedicaReport()">Show Report</button>
+  
+</div>
+<div *ngIf="controls">
+    <app-dynamic-form [controls]="controls" [isFormDisabled]="isFormDisabled" (onSubmitEmitter)="onSubmitData($event)" ></app-dynamic-form>
+  </div>
+  <button (click)="backto()" mat-raised-button color="primary">Back</button>

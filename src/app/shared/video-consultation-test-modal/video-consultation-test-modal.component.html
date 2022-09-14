@@ -1,0 +1,69 @@
+<div class="schedule-modal">
+    <div mat-dialog-title>
+        <div class="dialog_head">
+            <h4>Please verify video settings before continuing</h4>
+            <!-- <button mat-raised-button class="close_icon" mat-dialog-close>
+          <mat-icon aria-label="Example home icon">close</mat-icon>
+      </button> -->
+
+        </div>
+    </div>
+    <div mat-dialog-content>
+        <!-- <div>You are about to schedule a video consultation with a doctor. You must have a working webcam, speakers and microphone in order to conduct this consultation.</div> -->
+        <div>Before conducting a video consultation make sure to test that your microphone, speakers, and video (web camera) work properly using the buttons below. </div>
+        <div class="media-buttons">
+
+
+            <div class="row mt-4">
+                <div class="col-md-5">
+                    <button mat-raised-button color="primary" class="text-uppercase mr-3 cta-secondary-btn" (click)="handleClick('videotest')">
+                        Test Video
+                      </button>
+                    <button mat-raised-button color="primary" class="text-uppercase cta-secondary-btn" (click)="handleClick('audiotest')">
+                        Test Audio
+                      </button>
+                </div>
+                <div class="col-md-7">
+                    <div [hidden]="!isVideoError">
+                        <p>Video: Unavailable</p>
+                    </div>
+                    <div [hidden]="!isCameraInit">
+
+                        <button (click)="stopVideo()" class="btn-primary" style="min-width: 150px;">Stop</button>&nbsp;
+                        <button (click)="resumeVideo()" class="btn-primary" style="min-width: 150px;">Resume</button>&nbsp;
+                        <button (click)="pauseVideo()" class="btn-primary" style="min-width: 150px;">Pause</button>&nbsp;
+                        <button (click)="playWithSound()" class="btn-primary" style="min-width: 150px;">Play with Sound</button>
+                        <h3>
+                            <video #videoElement></video>
+                        </h3>
+                    </div>
+
+                    <div [hidden]="!isAudioInit">
+                        <button mat-raised-button color="accent" *ngIf="!isAudioRecording && !audioBlobUrl" (click)="startAudioRecording()">Start Recording</button>
+                        <button mat-raised-button color="accent" *ngIf="isAudioRecording && !audioBlobUrl" (click)="stopAudioRecording()">Stop Recording</button>
+                        <button mat-raised-button color="accent" *ngIf="!isAudioRecording && audioBlobUrl" (click)="clearAudioRecordedData()">Clear Recording</button>
+                        <div id="audioTimer" *ngIf="isAudioRecording && !audioBlobUrl"> {{ audioRecordedTime }} </div>
+                        <h3>
+                            <!-- <audio controls #audioElement></audio> -->
+                            <audio *ngIf="!isAudioRecording && audioBlobUrl" controls>
+                                    <source [src]="audioBlobUrl" type="audio/mp3">
+                                  </audio>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <button mat-raised-button class="text-uppercase cta-secondary-btn" (click)="handleClick('microphonetest')">
+            Test Microphone
+          </button>&nbsp;<span>OK</span> -->
+        </div>
+    </div>
+    <div>
+        <!-- <button class="btn-primary" (click)="continue()">
+      Continue
+    </button> -->
+        <button  mat-raised-button class="cancel-btn float-right m-2" (click)="continue()">
+      Close
+    </button>
+    </div>
+</div>

@@ -1,0 +1,224 @@
+<div class="container mb-120">
+<div class="readmin-panel">
+  <div class="col-md-3 pull-right justify-content-md-end d-flex mt-15 mb-3">
+
+  </div>
+  <div class="clearfix"></div>
+  <div class="row">
+    <div class="col-lg-12 col-sm-6 mt-20 custom-card custom-card-header">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            <h2  class="page_title" *ngIf="covidConsulation || (!preliminaryOptions && !should_stop)" > {{covidConsulation?covidPageTitle:symptomPageTitle}}
+            </h2>
+          </mat-card-title>
+          <mat-card-actions>
+
+          </mat-card-actions>
+        </mat-card-header>
+        <mat-card-content>
+<div class="text-center mt-4 mb-4" *ngIf="preliminaryOptions && !covidConsulation">
+ <div> <button class="consult-btn" (click)="preliminaryOptions=false" mat-raised-button color="primary">Regular Consultation</button></div>
+  <div><button class="consult-btn" (click)="getCovidSymptoms([]);" mat-raised-button color="primary">COVID-19 Consultation</button></div>
+
+</div>
+<div class="text-left covid-consult" *ngIf="covidConsulation" >
+  <div *ngIf="!should_stop && result.question.type!='group_single'">
+  <p *ngIf="result.question.type=='group_multiple'">{{result.question.text}}</p>
+  <div *ngFor="let r of result.question.items">
+  <div class="row">
+    <div class="col-lg-12 col-sm-12">
+   <p>{{ result.question.type=='group_multiple'?r.name:result.question.text}}?</p>
+    </div>
+  </div>
+    <div class="row">
+      <div class="col-lg-12 col-sm-6">
+        <mat-radio-group  class="example-radio-button"     #radioGroup="matRadioGroup">
+          <mat-radio-button class="radio-label"   [value]="c.id"  (change)="radioChange(c.id,r.id)" *ngFor="let c of r.choices" >{{c.label}}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="row">
+<div class="col-lg-12" *ngIf="!should_stop && result.question.type=='group_single'">
+  <p>{{result.question.text}}?</p>
+  <div class="row">
+    <div class="col-lg-12 col-sm-6">
+      <mat-radio-group  *ngIf="result.question.type=='group_single'" class="example-radio-button"     #radioGroup="matRadioGroup">
+        <mat-radio-button  class="radio-label dblock"   [value]="c.name"  (change)="radioChange('present',c.id)" *ngFor="let c of result.question.items" >{{c.name}}</mat-radio-button>
+      </mat-radio-group>
+
+    </div>
+  </div>
+</div>
+</div>
+  <button   *ngIf="!should_stop" style="margin-top:30px;" (click)="covidNext();" mat-raised-button color="primary">Next</button>
+    </div>
+    <div class="covid-report" *ngIf="should_stop && covidConsulation">
+      <h2>Your last Covid 19 summary assessment is:-</h2>
+      <p>{{conclusion.description}}</p>
+      <h4>{{conclusion.label}}</h4>
+      <h6>Want to take test Again ?</h6>
+      <div>
+        <button   style="margin-top:30px;" (click)="testAgain('yes');" mat-raised-button color="primary">Yes</button>
+        <button    style="margin-top:30px;margin-left:10px;" (click)="testAgain('no');" mat-raised-button color="primary">No</button>
+
+    </div>
+  </div>
+
+<div *ngIf="!preliminaryOptions">
+          <div class="text-left"  *ngIf="!showQuest && !viewSummary">
+
+      <label>Please use the search. Add as many symptoms as you can for the most accurate results.</label>
+
+            <div class="receipt">
+              <div class="mailto">
+                <span class="receipt-name">
+                  <mat-chip-list #chipList>
+                    <div class="select-box col-md-5 pd-0">
+                      <input  #userInput [formControl]="userControl"  class=" search__input" [matAutocomplete]="auto" placeholder="Search, e.g. headache"
+                      (matChipInputTokenEnd)="add($event)">
+                      <button disableRipple="true" mat-icon-button (click)="userInput.focus()">
+                        <mat-icon>search</mat-icon>
+                      </button>
+                    </div>
+                    <br />
+                    <div class="col-md-12 pd-0">
+                      <mat-chip class="chiplist" *ngFor="let spt of symptoms" [selectable]="selectable"
+                      [removable]="removable" (removed)="remove(spt)">
+                      {{spt.value}}
+                      <mat-icon matChipRemove>cancel</mat-icon>
+                    </mat-chip>
+                    </div>
+                  </mat-chip-list>
+                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                    <mat-option *ngFor="let fts of filteredSymptoms$ | async" [value]="fts">
+                      {{fts.label}}
+                    </mat-option>
+                  </mat-autocomplete>
+
+
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="text-left" style="height:auto; padding: 0 10px;" *ngIf="!should_stop && !viewSummary">
+
+            <div *ngIf="showQuest">
+            <div   class="screen-text-header" *ngIf="result && result.question"><h3>{{result.question.text}}</h3></div>
+            <mat-radio-group *ngIf="result && result.question && result.question.items " class="example-radio-button" [(ngModel)]="isSelected"    #radioGroup="matRadioGroup">
+              <mat-radio-button class="radio-label"   [value]="c.id"  (change)="radioChange(c.id,'')" *ngFor="let c of result.question.items[0].choices" >{{c.label}}</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <div class="text-left">
+            <button  [ngClass]="{'disabled':!optionChecked}"  style="margin-top:30px;" (click)="moveNext();" mat-raised-button color="primary">Next</button>
+          </div>
+
+             </div>
+             <div class="text-left result-blk" style="height:auto;" *ngIf="should_stop">
+            <div *ngIf="!viewSummary">
+              <div class="">
+                <h2 class="page_title blue-bg">Your  Results</h2>
+              </div>
+              <div class="clearfix"></div>
+              <div class="pl-10">
+                    <p class="mt-2 mb-3">{{this.observation}}</p>
+                  <div class="alrmng-symp">
+                    <h6 class="blue-clr">Alarming Symptoms</h6>
+                    <ul *ngIf="conclusion">
+                      <li *ngFor="let c of conclusion.serious">{{c.common_name}}</li>
+                    </ul>
+                    <!-- <P  *ngFor="let c of conclusion.serious" >{{c.common_name}}</P> -->
+                  </div>
+
+                  <!-- <p>- Fever between 100.4 and 104 F (38 and 40 C)</p> -->
+                  <div class="row result-value">
+                    <div class="col-md-6">
+                      <label>Possible Conditions </label>
+                      <div class="" *ngFor="let f of conditions">
+                        <p>{{f.common_name}}</p>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Rates</label>
+                        <div class="" *ngFor="let f of conditions">
+                          <p><span>{{ f.probability |percent }}</span></p>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+              <div class="text-center btn-group">
+                <button *ngIf="!viewSummary" style="margin-top:15px;margin-right:30px;position:relative;" (click)="getSummary(true);" mat-raised-button color="primary">View Summary</button>
+                <button  style="margin-top:15px;margin-right:30px;position:relative;" (click)="bookAppointment();" mat-raised-button color="primary">Book Appointment</button>
+                <button  style="margin-top:15px;position:relative;" (click)="AddSymptomateReport();"  mat-raised-button color="primary">Save Report</button>
+
+              </div>
+
+            </div>
+            <div class="text-left result-blk" style="height:auto;" id="content" #content *ngIf="viewSummary">
+              <div class="text-right mb-2">
+                <button id="btncapture" mat-raised-button color="primary" (click)="captureScreen();">Download</button>
+              </div>
+
+            <div id="contentToConvert">
+              <h2 class="page_title blue-bg mb10">Summary</h2>
+              <div class="row">
+              <div class="lg-6 sm-6">
+              <label>Sex:</label>
+              <label>{{gender}}</label>
+              </div>
+              <div class="lg-6 sm-6">
+                <label>Age:</label>
+              <label>{{age}}</label>
+              </div>
+
+              </div>
+              <h6 class="blue-clr mt-3">Reported symptoms</h6>
+              <!-- <p class="mt-2 mb-3 ml-2"> -->
+                <ul class="ml-4">
+                  <li *ngFor="let r of selectedSymptomValue">{{r}}
+               </li>
+                </ul>
+              <!-- </p> -->
+              <h6 class="blue-clr">Other symptoms</h6>
+              <p class="ml-2" *ngIf="presentArray && presentArray.length>0">Present:</p>
+              <ul class="ml-4">
+                <li *ngFor="let p of presentArray">{{p}}
+
+                </li>
+              </ul>
+              <p *ngIf="absentArray && absentArray.length>0">Absent:</p>
+              <ul>
+                <li *ngFor="let a of absentArray">{{a}}
+
+                </li>
+              </ul>
+              <p *ngIf="unknownArray && unknownArray.length>0">Unknown:</p>
+              <ul>
+                <li *ngFor="let u of unknownArray">{{u}}
+
+                </li>
+              </ul>
+              <h6 class="blue-clr">Possible Conditions:</h6>
+              <p class="ml-2" *ngFor="let c of conditions">{{c.common_name}}</p>
+            </div>
+
+          </div>
+</div>
+        </mat-card-content>
+
+      </mat-card>
+    </div>
+  </div>
+</div>
+<div [class.hidden]="!loading">
+  <div class="full_loader">
+    <div class="circle_loader page_loader">
+      <img src="{{ loaderImage }}" alt="" />
+    </div>
+  </div>
+</div>
+</div>

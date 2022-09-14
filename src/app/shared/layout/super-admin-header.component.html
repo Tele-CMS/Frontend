@@ -1,0 +1,12 @@
+<div class="user-dropdown">
+    <button [matMenuTriggerFor]="profile"> <img src="../../../assets/profile.png" alt="user" class="profile-pic">
+    </button>
+    <mat-menu #profile="matMenu">
+        <div class="setting_menu">
+            <button mat-menu-item *ngFor='let item of userNavigations' (click)="onSelectUserMenu(item)">
+                <span [innerHtml]="item.iconName"></span>
+                {{item.displayName}}
+            </button>
+        </div>
+    </mat-menu>
+</div>

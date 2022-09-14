@@ -1,0 +1,246 @@
+<div class="container-fluid h-100" *ngIf="!isWindowHide">
+  <div class="row justify-content-center h-100">
+    <!-- <div class="col-md-4 col-xl-3 chat">
+      <div class="card mb-sm-3 mb-md-0 contacts_card">
+        <div class="card-header">
+          <div class="input-group">
+            <input type="text" placeholder="Search..." name="" class="form-control search">
+            <div class="input-group-prepend">
+              <span class="input-group-text search_btn"><i class="fa fa-search"></i></span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body contacts_body">
+          <ul class="contacts">
+            <li class="active">
+              <div class="d-flex bd-highlight">
+                <div class="img_cont">
+                  <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
+                  <span class="online_icon"></span>
+                </div>
+                <div class="user_info">
+                  <span>Khalid</span>
+                  <p>Kalid is online</p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="d-flex bd-highlight">
+                <div class="img_cont">
+                  <img src="https://2.bp.blogspot.com/-8ytYF7cfPkQ/WkPe1-rtrcI/AAAAAAAAGqU/FGfTDVgkcIwmOTtjLka51vineFBExJuSACLcBGAs/s320/31.jpg"
+                    class="rounded-circle user_img">
+                  <span class="online_icon offline"></span>
+                </div>
+                <div class="user_info">
+                  <span>Taherah Big</span>
+                  <p>Taherah left 7 mins ago</p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="d-flex bd-highlight">
+                <div class="img_cont">
+                  <img src="https://i.pinimg.com/originals/ac/b9/90/acb990190ca1ddbb9b20db303375bb58.jpg" class="rounded-circle user_img">
+                  <span class="online_icon"></span>
+                </div>
+                <div class="user_info">
+                  <span>Sami Rafi</span>
+                  <p>Sami is online</p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="d-flex bd-highlight">
+                <div class="img_cont">
+                  <img src="http://profilepicturesdp.com/wp-content/uploads/2018/07/sweet-girl-profile-pictures-9.jpg" class="rounded-circle user_img">
+                  <span class="online_icon offline"></span>
+                </div>
+                <div class="user_info">
+                  <span>Nargis Hawa</span>
+                  <p>Nargis left 30 mins ago</p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="d-flex bd-highlight">
+                <div class="img_cont">
+                  <img src="https://static.turbosquid.com/Preview/001214/650/2V/boy-cartoon-3D-model_D.jpg" class="rounded-circle user_img">
+                  <span class="online_icon offline"></span>
+                </div>
+                <div class="user_info">
+                  <span>Rashid Samim</span>
+                  <p>Rashid left 50 mins ago</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="card-footer"></div>
+      </div>
+    </div> -->
+    <div class="col-md-12 chat">
+      <div class="chat-card card">
+        <div class="card-header msg_head" id="chatHeader">
+          <div class="d-flex bd-highlight">
+            <div class="img_cont">
+              <img
+                src="{{
+                  textChatModel.CalleeImage || '../assets/img/patient-default-user.svg'
+                }}"
+                class="rounded-circle user_img"
+              />
+              <span class="online_icon"></span>
+            </div>
+            <div class="user_info">
+              <span>{{ textChatModel.Callee }}</span>
+              <!-- <p>Total Chat User : {{userInChatRoom.length}}</p> -->
+            </div>
+            <div class="video_cam">
+              <span
+                title="Minimize chat window"
+                *ngIf="!isMinimalView"
+                (click)="addClassMinimal()"
+                ><i class="fa fa-window-minimize"></i
+              ></span>
+              <span
+                title="Maximize chat window"
+                *ngIf="isMinimalView"
+                (click)="removeClassMinimal()"
+                ><i class="fa fa-window-maximize"></i
+              ></span>
+              <span title="Close chat window" (click)="hideChatWindow()"
+                ><i class="fa fa-times"></i
+              ></span>
+            </div>
+          </div>
+          <!-- <span id="action_menu_btn"><i class="fa fa-ellipsis-v"></i></span>
+          <div class="action_menu">
+            <ul>
+              <li><i class="fa fa-user-circle"></i> View profile</li>
+              <li><i class="fa fa-users"></i> Add to close friends</li>
+              <li><i class="fa fa-plus"></i> Add to group</li>
+              <li><i class="fa fa-ban"></i> Block</li>
+            </ul>
+          </div> -->
+        </div>
+        <ng-scrollbar class="text-chat" #scrollbar>
+          <div class="card-body msg_card_body">
+            <div [class.hidden]="!isLoading">
+              <div
+                class="full_loader"
+                style="margin: auto; background: #000; top: 0;"
+              >
+                <div class="circle_loader page_loader" style="left: 0;">
+                  <img src="{{ loaderImage }}" alt="" />
+                </div>
+              </div>
+            </div>
+            <div *ngFor="let m of allMessageArray" #item>
+              <div
+                *ngIf="m.isRecieved"
+                class="d-flex justify-content-start mb-4"
+              >
+                <div class="img_cont_msg">
+                  <img
+                    src="{{ m.fromUserId | textChatUserImage: userInChatRoom }}"
+                    class="rounded-circle user_img_msg"
+                  />
+                </div>
+                <div class="msg_cotainer">
+                  <app-text-message-format
+                    [message]="m"
+                    (videoRecordPlayback)="videoRecordPlayback($event)"
+                  ></app-text-message-format>
+                  <!-- <span>{{ m.message | chatMessage: m }}</span> -->
+                  <span class="msg_time"
+                    >{{ m.fromUserId | userChatName: userInChatRoom }},&nbsp;{{
+                      m.chatDate | date: "MMM d, y, h:mm a"
+                    }}</span
+                  >
+                </div>
+              </div>
+              <div
+                *ngIf="!m.isRecieved"
+                class="d-flex justify-content-end mb-4"
+              >
+                <div class="msg_cotainer_send">
+                  <app-text-message-format
+                    [message]="m"
+                    (videoRecordPlayback)="videoRecordPlayback($event)"
+                  ></app-text-message-format>
+                  <!-- <span>{{ m.message | chatMessage: m }}</span> -->
+                  <span class="msg_time_send">{{
+                    m.chatDate | date: "MMM d, y, h:mm a"
+                  }}</span>
+                </div>
+                <div class="img_cont_msg">
+                  <img
+                    src="{{ m.fromUserId | textChatUserImage: userInChatRoom }}"
+                    class="rounded-circle user_img_msg"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-scrollbar>
+        <div class="card-footer">
+          <form
+            (ngSubmit)="sendMessage()"
+            [class.hidden]="isLoading || this.currentRoomId == 0"
+          >
+            <div class="input-group">
+              <div class="input-group-append">
+                <span class="input-group-text attach_btn">
+                  <!-- <i class="fa fa-paperclip" style="font-size:25px;"> -->
+                  <app-upload-file
+                    (onUploadFinished)="uploadFinished($event)"
+                    *ngIf="currentRoomId > 0"
+                    [roomId]="currentRoomId"
+                    [userId]="chatInitModel.UserId"
+                  ></app-upload-file>
+                  <!-- <input
+                      #fileInput
+                      name="uploadedFile"
+                      id="fileInput"
+                      type="file"
+                      (click)="fileInput.value = null"
+                      value=""
+                      (change)="onSelectFile($event.target.files)"/> -->
+                  <!-- </i> -->
+                </span>
+              </div>
+              <input
+                type="text"
+                class="form-control type_msg"
+                placeholder="Type your message..."
+                [(ngModel)]="message"
+                name="message"
+                id="message"
+              />
+              <div class="input-group-append">
+                <button
+                  class="input-group-text send_btn"
+                  (click)="sendMessage()"
+                >
+                  <i class="fa fa-location-arrow" style="font-size: 25px;"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="video-container" [class.active]="isPlay" *ngIf="isPlay">
+  <div class="video-container-header">
+    <i class="fa fa-times" (click)="isPlay = !isPlay">&nbsp;Close</i>
+  </div>
+  <div class="video-container-body">
+    <video controls="" autoplay="" name="media">
+      <source src="{{ videoUrl }}" type="video/mp4" />
+    </video>
+    <!-- <video src="{{ videoUrl }}"></video> -->
+  </div>
+  <div class="video-container-footer"></div>
+</div>

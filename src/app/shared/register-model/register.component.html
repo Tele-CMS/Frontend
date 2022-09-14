@@ -1,0 +1,189 @@
+<div *ngIf="isTokenValid; then registerDiv else messageDiv"></div>
+
+<ng-template #registerDiv>
+  <div class="telelogin">
+    <div class="row">
+      <div class="col-sm-4 tele-bg">
+        <h2>Sign up today!</h2>
+        <h3>Get started.</h3>
+        <p>Discover the best doctors, the city nearest to you.</p>
+      </div>
+      <div class="col-sm-8 telelogin-form  pr-0">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h3>Sign up</h3>
+          <i (click)="closeDialog('close')" class="fa fa-close" aria-hidden="true"></i>
+        </div>
+        <form id="userForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="userForm">
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field require class="example-full-width">
+                <input matInput autofocus placeholder="" maxlength="40" formControlName="firstName" [ngClass]="{ 'is-invalid': submitted && formControls.firstName.errors }"
+                  required/>
+                <mat-error *ngIf="formControls.firstName.errors?.required">
+                  Please enter first Name
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field require class="example-full-width">
+                <input matInput autofocus placeholder="" maxlength="40" formControlName="middleName" />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field require class="example-full-width">
+                <input matInput autofocus placeholder="" maxlength="40" formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && formControls.lastName.errors }"
+                  required />
+                <mat-error *ngIf="formControls.lastName.errors?.required">
+                  Please enter last Name
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field require class="example-full-width">
+                <input matInput readonly [matDatepicker]="dob" [max]="maxDate" placeholder="Date of Birth" formControlName="dob" required>
+                <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                <mat-datepicker #dob></mat-datepicker>
+                <mat-error *ngIf="formControls.dob.errors?.required">
+                  Please enter dob
+                </mat-error>
+                <mat-error *ngIf="formControls.dob.errors?.age">
+                  Age should be greater than 18 years
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="" formControlName="gender" matInput [ngClass]="{ 'is-invalid': submitted && formControls.gender.errors }">
+                  <mat-option *ngFor="let genderVal of masterGender" [value]="genderVal.id">
+                    {{genderVal.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.gender.errors?.required">
+                  Please select gender
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field require class="example-full-width">
+                <input appPhoneNumber matInput autofocus placeholder="" formControlName="phone" [ngClass]="{ 'is-invalid': submitted && formControls.phone.errors }"
+                  required />
+                <mat-error *ngIf="formControls.phone.errors?.required">
+                  Please enter phone number
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Role" (selectionChange)="onRoleChange($event)" formControlName="roleId" matInput [ngClass]="{ 'is-invalid': submitted && formControls.roleId.errors }">
+                  <mat-option *ngFor="let masterRole of masterRoles" [value]="masterRole.id">
+                    {{masterRole.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.roleId.errors?.required">
+                  Please select user role
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Location" formControlName="locationId" matInput [ngClass]="{ 'is-invalid': submitted && formControls.locationId.errors }">
+                  <mat-option *ngFor="let loc of masterLocation" [value]="loc.id">
+                    {{loc.locationName}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.locationId.errors?.required">
+                  Please select location
+                </mat-error>
+              </mat-form-field>
+            </div> --> 
+            <!-- agencyremove -->
+            
+
+            <div class="col-sm-6">
+              <mat-form-field require class="example-full-width">
+                <input matInput autofocus placeholder="" maxlength="60" formControlName="" [ngClass]="{ 'is-invalid': submitted && formControls.email.errors }"
+                  required />
+                <mat-error *ngIf="formControls.email.errors?.required">
+                  Please enter email
+                </mat-error>
+                <mat-error *ngIf="formControls.email.errors?.email">
+                  Please enter a valid email address
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width" hintLabel="{{formControls.userName.pending ? 'Validating...' : ''}}">
+                <input matInput autofocus autocomplete="username" placeholder="" maxlength="60" formControlName="userName" [ngClass]="{ 'is-invalid': submitted && formControls.userName.errors }"
+                  required />
+                <mat-error *ngIf="formControls.userName.errors?.required">
+                  Please enter username
+                </mat-error>
+                <mat-error *ngIf="formControls.userName.errors?.uniqueName">
+                  Username '{{formControls.userName.value}}' already exists
+                </mat-error>
+                <mat-error *ngIf="formControls.userName.errors?.pattern">
+                  Username '{{formControls.userName.value}}' not valid, allowed only alphanumeric characters.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field require class="example-full-width">
+                <input matInput autofocus autocomplete="new-password" type="password" placeholder="" maxlength="30" formControlName="password"
+                  [ngClass]="{ 'is-invalid': submitted && formControls.password.errors }" required />
+                <mat-error *ngIf="formControls.password.errors?.required && formControls.password.errors?.strong">
+                  Please enter password
+                </mat-error>
+                <mat-error *ngIf="formControls.password.errors?.required==undefined && formControls.password.errors?.strong">
+                  Password should have number,special character lowercase and uppercase letters
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field require class="example-full-width">
+                <input matInput autofocus autocomplete="new-password" type="password" placeholder="" formControlName="confirmPassword"
+                  [ngClass]="{ 'is-invalid': submitted && formControls.confirmPassword.errors }" required />
+                <mat-error *ngIf="formControls.confirmPassword.errors?.required">
+                  Please re-enter password
+                </mat-error>
+                <mat-error *ngIf="formControls.confirmPassword.errors?.notSame">
+                  Password doesn't match
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6"></div>
+            <div class="col-6 mx-auto d-flex justify-content-between">
+              <button name="Save" style="margin-top:20px;" class="example-full-width" mat-raised-button color="accent" (click)="onSubmit($event)"
+                form="userForm" [disabled]="submitted">{{submitted ? 'Please Wait...' : 'Register'}}</button>
+            </div>
+
+
+          </div>
+        </form>
+        <div class="col-12 text-center member-link">
+          Already have an account?<span (click)="openDialogLogin()"> Sign in here</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ng-template>
+
+
+
+<ng-template #messageDiv>
+  <div class="user-registed">
+    <!--for already register users-->
+    <h3 class="redfont">{{Message.title}}</h3>
+    <p>{{Message.message}}</p>
+    <img src="{{Message.imgSrc}}" alt="user-register-icon" />
+    <div class="col-12 text-center member-link">
+      <span (click)="openDialogLogin()"> Sign in here</span>
+    </div>
+  </div>
+</ng-template>
+<!-- <div class="user-registed">
+          <h3 class="greenfont">success!</h3>
+          <p>This email address has already used to register for this event and <br/>cannot be registered again.</p>
+          <img src="../assets/img/user-success-icon.png" alt="user-success-icon"/>
+        </div> -->

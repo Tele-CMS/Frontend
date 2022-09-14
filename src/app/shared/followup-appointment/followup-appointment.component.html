@@ -1,0 +1,61 @@
+
+  <div class="appointment-panel">
+    <div class="title pb-0">
+     
+<div class="custom_modal" >
+  <h3 mat-dialog-title style="text-align: center !important;">Patient Last FollowUp</h3>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-sm-12">
+        <form  id="FollowupForm" #documentForm="ngForm" class="readmin-form custom_form" >
+         <div class="row">
+          <div class="col-md-6">
+            <label> Appoint Start Time</label>
+          </div>
+          <div class="col-md-6">
+            {{lastAppointmentStartTime|date:'MM/dd/yyyyhh:mm a'}}
+          </div>
+         </div>
+         <div class="row">
+          <div class="col-md-6">
+            <label> Appoint End Time</label>
+          </div>
+          <div class="col-md-6">
+            {{lastAppointmentEndTime|date:'MM/dd/yyyyhh:mm a'}}
+          </div>
+         </div>
+         <div class="row">
+          <div class="col-md-6">
+            <label>Booking Mode</label>
+          </div>
+          <div class="col-md-6">
+            {{bookingMode}}
+          </div>
+         </div>
+         <div class="row">
+          <div class="col-md-6">
+            <label>Notes</label>
+          </div>
+          <div class="col-md-6">
+            {{notes}}
+          </div>
+         </div>
+         <div class="row">
+          <div class="col-md-6">
+            <label>Appointed Staff</label>
+          </div>
+          <div class="col-md-6" *ngIf="lastAppointment && lastAppointment.appointmentStaffs">
+            {{lastAppointment.appointmentStaffs[0].staffName}}
+          </div>
+         </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+ 
+  </div>
+</div>
+    </div>
+  </div>

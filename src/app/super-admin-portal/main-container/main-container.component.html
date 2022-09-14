@@ -1,0 +1,35 @@
+<div [class.example-is-mobile]="mobileQuery.matches">
+  <!-- layout-header -->
+  <mat-toolbar class="main-header">
+    <div>
+      <h1 class="example-app-name">smartTelehealth</h1>
+      <button mat-button class="app-menu-button" (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+    </div>
+    <div>
+      <app-layout-super-admin-header [headerInfo]="headerInfo"></app-layout-super-admin-header>
+    </div>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="example-sidenav-container" style="min-height: 100vh;">
+    <!-- sidebar -->
+    <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'side' : 'over'" [opened]="mobileQuery.matches" [fixedInViewport]="mobileQuery.matches"
+      fixedTopGap="0">
+      <app-layout-sidebar [sidebarInfo]="sidebarInfo"></app-layout-sidebar>
+
+    </mat-sidenav>
+
+    <!-- sidenav-content -->
+    <mat-sidenav-content class="content_page123">
+      <div class="content_page">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+    <!-- layout-footer -->
+    <app-layout-footer></app-layout-footer>
+  </mat-sidenav-container>
+
+
+
+</div>

@@ -1,0 +1,8 @@
+<div>
+    <h2 class="page_title">{{templateFormName}}</h2>
+    <div class="clearfix"></div>
+    <div class="readmin-panel">
+        <formio [form]='jsonFormData' [submission]="initialFormValues"
+        [options]="formioOptions" (submit)="onSubmitTemplate($event)"></formio>
+    </div>
+</div>

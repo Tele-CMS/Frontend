@@ -1,0 +1,74 @@
+<!-- chat -->
+<button mat-raised-button color="primary" class="chat-btn" (click)="onToggleChatModal()">
+  <img *ngIf="!showChatModal" class="chat-showicon" src="../../../assets/img/chat-icon.svg" alt="" />
+  <img *ngIf="showChatModal" class="chat-hideicon" src="../../../assets/img/chat-close.svg" alt="" />
+</button>
+<div class="chat-box" *ngIf="showChatModal">
+  <nav class="nav" id="nav">
+    <div class="default-nav">
+      <div class="main-nav">
+        <div class="main-nav-item">
+          <ng-container *ngIf="imgSource; else noImageOF">
+            <img src="{{imgSource}}" alt="" class="fluid-img" />
+          </ng-container>
+          <ng-template #noImageOF>
+            <img src="../../../../../assets/img/patient-default-user.svg" alt="" class="fluid-img" />
+          </ng-template> 
+          <a class="main-nav-item-link" href="javascript:void(0)"> {{title}}</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="inner" id="inner">
+    <ng-scrollbar #scrollbar>
+      <div class="content" id="content">
+        <!-- <div *ngIf="pageNo < (meta && meta.totalPages)" class="message-wrapper client-chat text-center">
+          <div class="text-wrapper load-chat-msg" (click)="loadEarlierMessages()">
+            {{ loadingEarlierMsg ? 'Loading please wait...' : 'Show older messages' }}
+          </div>
+        </div> -->
+        <div *ngFor="let value of allMessageArray; let i = index">
+          <div class="date-phase" *ngIf="compareDate(value.chatDate, i)">
+            {{value.chatDateForWebApp | date}}
+          </div>
+          <div class="message-wrapper" [ngClass]="{'client-chat text-left': !value.isRecieved, 'response-chat text-left': value.isRecieved }">
+
+            <div class="text-wrapper" *ngIf="value.message?.length > 0 &&  value.message.indexOf('(LinktoScheduler)') === -1 ">
+              <p>
+                {{value.message}}
+                <a *ngIf="value.patientCareGapID?.toString().length > 0 && value.isConfirmType == null && isChecked == false " color="primary" style="cursor:pointer; color:dodgerblue;" (click)="onConfirm(value.id,'Yes')">Yes / </a>
+                <a *ngIf="value.patientCareGapID?.toString().length > 0 && value.isConfirmType == null && isChecked == false " color="primary" style="cursor:pointer; color:dodgerblue;" (click)="onConfirm(value.id,'No')">No</a>
+                <a *ngIf="value.actionTypeId?.toString() == '6'" href={{link}}>please click here</a>
+              </p>
+          
+              <span>{{ value.chatDateForWebApp | date:'h:mm a'}}</span>
+            </div>
+          
+            <div class="text-wrapper" *ngIf="value.message?.length > 0 && value.message.includes('(LinktoScheduler)')">
+              <p>
+                {{value.message.replace('(LinktoScheduler)','')}}
+                <a href={{link}}>please click here</a>
+              </p>
+          
+              <span>{{ value.chatDateForWebApp | date:'h:mm a'}}</span>
+            </div>
+          
+          </div>
+        </div>
+
+        <!-- <div *ngIf="value.isRecieved" class="text-left">
+        {{value.message}}
+      </div>
+      <div *ngIf="!value.isRecieved" class="text-right">
+        {{value.message}}
+      </div> -->
+      </div>
+    </ng-scrollbar>
+  </div>
+  <div class="send-chat" id="bottom">
+    <form (ngSubmit)="sendMessage()">
+      <input class="input" type="text" placeholder="Type a message" [(ngModel)]="message" name="message" id="message" />
+      <button class="send" (click)="sendMessage()"></button>
+    </form>
+  </div>
+</div>

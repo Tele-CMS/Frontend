@@ -1,0 +1,68 @@
+<div>
+  <h2 class="page_title">Manage Template</h2>
+  <div class="clearfix"></div>
+  <div class="readmin-panel">
+    <div class="no-gutters">
+      <div class="col-md-5 pull-right justify-content-md-end d-flex">
+        <button mat-raised-button color="primary" class="add-primary-btn" form="templateForm" [disabled]="submitted"
+          (click)="SaveTemplateForm()">
+          <span>{{ submitted ? 'Saving Template...' : 'Save Template'}}</span>
+        </button>
+      </div>
+      <div class="col-md-12 justify-content-start pull-left">
+        <div class="row">
+          <div class="col-sm-12 mtm-27">
+            <form class="readmin-form custom_form" id="templateForm" #documentForm="ngForm">
+              <div class="row">
+                <div class="col-sm-6">
+                  <mat-form-field class="example-full-width">
+                    <input matInput [(ngModel)]="templateName" name="templateName" #name="ngModel"
+                      placeholder="Template Name" required />
+                    <mat-error *ngIf="name.invalid && name.errors.required">
+                      Please enter template name
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <mat-form-field class="example-full-width">
+                    <mat-select placeholder="Select Template Category" [(ngModel)]="templateCategoryId"
+                      (selectionChange)='onMasterCategorySelect($event)' matInput name="templateCategoryId"
+                      #name="ngModel">
+                      <mat-option *ngFor="let option of masterTemplateCategory" [value]="option.id">
+                        {{option.masterCategoryName}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="name.invalid && name.errors.required">
+                      Please enter template category
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-6" *ngIf="templateCategoryId>0">
+                  <mat-form-field class="example-full-width">
+                    <mat-select placeholder="Select Template SubCategory" [(ngModel)]="templateSubCategoryId" matInput
+                      name="templateSubCategoryId" #name="ngModel">
+                      <mat-option *ngFor="let option of masterTemplateSubCategory" [value]="option.id">
+                        {{option.masterSubCategoryName}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="name.invalid && name.errors.required">
+                      Please enter template subcategory
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <form-builder [form]="form" (change)="onChange($event)" [options]="formioOptions"></form-builder>
+    <!-- <div class="well jsonviewer">
+      <pre id="json"><code class="language-json" #json></code></pre>
+    </div> -->
+  </div>
+</div>

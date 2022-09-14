@@ -1,0 +1,40 @@
+<span *ngIf="msg.messageType == 0">{{ msg.message }}</span>
+<span *ngIf="msg.messageType != 0">
+  <span *ngIf="imageExtension.indexOf(msg.fileType) > -1"
+    ><a href="{{ msg.message }}" target="blank" title="Click to open"
+      ><img src="{{ msg.message }}" class="msg-img" /></a
+  ></span>
+  <span *ngIf="pdfExtension.indexOf(msg.fileType) > -1"
+    ><a href="{{ msg.message }}" target="blank" title="Click to open"
+      ><i class="fa fa-file-pdf-o msg-icon"
+        ><span class="msg-file-text">{{ msg.fileName }}</span></i
+      ></a
+    ></span
+  >
+  <span *ngIf="excelExtension.indexOf(msg.fileType) > -1"
+    ><a href="{{ msg.message }}" target="blank" title="Click to open"
+      ><i class="fa fa-file-excel-o msg-icon"
+        ><span class="msg-file-text">{{ msg.fileName }}</span></i
+      ></a
+    ></span
+  >
+  <span *ngIf="docExtension.indexOf(msg.fileType) > -1"
+    ><a href="{{ msg.message }}" target="blank" title="Click to open"
+      ><i class="fa fa-file-text-o msg-icon"
+        ><span class="msg-file-text">{{ msg.fileName }}</span></i
+      ></a
+    ></span
+  >
+  <span *ngIf="recExtension.indexOf(msg.fileType) > -1"
+    ><a
+      (click)="playRecording(msg)"
+      class="a-recording-play"
+      title="Click to play"
+      ><i class="fa fa-play msg-icon"></i
+      ><span class="msg-file-text">
+        Call Recording
+        <!-- {{ msg.fileName }} -->
+      </span></a
+    ></span
+  >
+</span>

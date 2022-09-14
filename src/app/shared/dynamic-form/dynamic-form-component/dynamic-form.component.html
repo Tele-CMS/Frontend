@@ -1,0 +1,18 @@
+<div>
+    <form class="reschedule-form" (ngSubmit)="onSubmit()" [formGroup]="form">
+        <div *ngFor="let control of controls" class="row">
+            <div class="col-sm-12">
+                <div>
+                    <app-dynamic-form-control [isSubmitted]=isSubmitted [control]="control" [form]="form"></app-dynamic-form-control>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="controls && controls.length && !isFormDisabled" class="row">
+            <div class="col-md-12 mt-3">
+                <button mat-raised-button color="primary" type="submit" >Save</button>
+            </div>
+        </div>
+        
+
+    </form>
+</div>

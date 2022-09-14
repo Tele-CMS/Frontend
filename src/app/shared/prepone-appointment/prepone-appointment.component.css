@@ -1,0 +1,652 @@
+.mat-dialog-container {
+    padding: 0px;
+}
+
+.appt-drpanel {
+    border-right: 2px dotted #ddd;
+}
+
+.drpanel-block {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    border-bottom: 2px dotted #ddd;
+    /* font-family: 'Rafleway', sans-serif; */
+}
+
+.drpanel-block .doctor-img {
+    margin: 0px auto;
+    width: 150px;
+    height: 150px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    /* display: flex; */
+    /* flex: 0 150; */
+}
+
+.cstm-cross.policy-blk .fa {
+    top: -24px;
+    right: -24px;
+}
+
+.pay-step.hgt-scroll {
+    height: 410px !important;
+}
+
+.drpanel-block .doctor-img .profile-img {
+    height: auto;
+}
+
+.drpanel-block .doc-name {
+    font-size: 18px;
+    margin-top: 10px;
+    color: #2f2660;
+}
+
+.drpanel-block .doc-name a {
+    color: #2f2660;
+}
+
+.drpanel-block .doc-department {
+    color: #0fd8ef;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.rating {
+    list-style: none;
+    margin: 0 0 7px;
+    padding: 0;
+    width: 100%;
+}
+
+.rating i {
+    font-size: 14px;
+}
+
+.rating i {
+    color: #dedfe0;
+}
+
+.rating i.filled {
+    color: #f4c150;
+}
+
+.rating span {
+    /* font-family: 'Raleway', sans-serif; */
+    font-size: 12px;
+}
+
+.appt-drpanel .clini-infos {
+    margin: 15px 0px;
+}
+
+.appt-drpanel .clini-infos ul {
+    font-size: 13px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.appt-drpanel .clini-infos ul li {
+    margin: 10px 0px;
+    font-weight: 500;
+    display: block;
+    color: #4e4852;
+    padding: 0px;
+}
+
+.appt-drpanel .clini-infos ul li label {
+    display: block;
+    margin: 0px;
+    line-height: 14px;
+    font-weight: 600;
+    color: #2f2660;
+    font-size: 16px;
+}
+
+.appt-drpanel .clini-infos ul li a {
+    color: #4e4852;
+}
+
+.appt-drpanel .clini-infos ul li span {
+    font-weight: 400;
+}
+
+.appointment-panel {
+    background-color: var(--color-white);
+    /* font-family: 'Raleway', sans-serif; */
+}
+
+.appointment-panel .title {
+    color: #2f2660;
+    font-size: 20px;
+    /* font-family: 'Raleway', sans-serif; */
+    display: flex;
+    font-weight: 600;
+    justify-content: space-between;
+    padding: 15px;
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    -webkit-box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.appointment-panel small {
+    display: block;
+    color: rgba(0, 0, 0, 0.60);
+    font-size: 14px;
+    margin: 0px;
+}
+
+.appointment-panel i {
+    color: var(--color-white);
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.appointment-panel i.fa-times {
+    color: red;
+}
+
+.appointment-content {
+    padding: 15px;
+}
+
+.book-appt-type {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-weight: 500;
+}
+
+.book-appt-type label {
+    margin: 0px 10px 0px 0px;
+    font-weight: 500;
+    font-size: 14px;
+    width: 135px;
+}
+
+.book-appt-type button {
+    margin-right: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 3px 10px;
+    font-size: 13px;
+    background-color: var(--color-white);
+    cursor: pointer;
+}
+
+.book-appt-type .mat-radio-button label {
+    font-weight: 500;
+}
+
+.book-appt-type button.active {
+    background-color: #0fd8ef;
+    border-color: #0fd8ef;
+    color: var(--color-white);
+}
+
+.book-appointment-slot {
+    border-bottom: solid 1px #d3efec;
+    margin-top: 10px;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    padding-top: 5px;
+}
+
+.highlight-dates {
+    background: red;
+    border-radius: 100%;
+}
+
+.appointment-panel .mat-horizontal-content-container {
+    padding: 0px;
+}
+
+.mat-horizontal-stepper-header:first-child {
+    padding: 0px 24px 0px 0px;
+}
+
+.appointment-panel .mat-horizontal-stepper-header {
+    height: auto;
+}
+
+.appointment-panel .mat-step-header:hover,
+.cdk-focused,
+.cdk-mouse-focused {
+    background-color: transparent;
+}
+
+.book-appt-type label.mat-radio-label {
+    width: auto;
+}
+
+.appointment-panel .mat-horizontal-stepper-header-container {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.book-appt-type .mat-radio-container,
+.book-appt-type .mat-radio-inner-circle,
+.book-appt-type .mat-radio-outer-circle {
+    width: 15px;
+    height: 15px;
+}
+
+.appointment-panel .ng-scrollbar-view {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.timing-slot li {
+    display: inline;
+}
+
+.timing-slot button {
+    border: 1px solid #63d891;
+    border-radius: 0;
+    display: inline-block;
+    font-size: 15px !important;
+    padding: 5px 10px;
+    height: auto;
+    margin: 5px 10px 5px 0px;
+    line-height: normal;
+    color: #63d891;
+    cursor: pointer;
+    height: 36px !important;
+}
+
+.timing-slot .reserved-slot button:disabled {
+    border-color: #0fd8ef;
+    color: var(--color-white);
+    background-color: #0fd8ef;
+    cursor: not-allowed;
+}
+
+.timing-slot .unavail-slot button:disabled {
+    border-color: rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: not-allowed;
+}
+
+.timing-slot .selected-slot button:disabled {
+    background-color: #63d891;
+    color: var(--color-white);
+    cursor: not-allowed;
+}
+
+.indicate-slot {
+    display: flex;
+    align-items: center;
+}
+
+.indicate-slot label {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 12px;
+}
+
+.indicate-slot label i {
+    color: rgba(0, 0, 0, 0.2);
+    font-size: 12px;
+}
+
+.indicate-slot label:first-child,
+.indicate-slot label:first-child i {
+    color: #63d891;
+}
+
+.indicate-slot label:nth-child(2),
+.indicate-slot label:nth-child(2) i {
+    color: #63d891;
+}
+
+.indicate-slot label:nth-child(3),
+.indicate-slot label:nth-child(3) i {
+    color: #0fd8ef;
+}
+
+.indicate-slot label:nth-child(4) i {
+    color: rgba(0, 0, 0, 0.3);
+}
+
+.indicate-slot label:nth-child(4) {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.app-booked {
+    padding: 20px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.appointment-panel .mat-stepper-horizontal-line {
+    flex: 0;
+}
+
+.pay-step h3 {
+    margin: 0px;
+    font-size: 16px;
+    margin: 10px 0px 0px;
+    line-height: 24px;
+}
+
+.pay-step h6 {
+    font-size: 14px;
+    font-weight: 400;
+    margin: 15px 0px 20px;
+    line-height: 20px;
+}
+
+.fnt-sze {
+    font-size: 14px;
+    margin-right: 12px;
+    margin-left: 5px;
+}
+
+.custom-txtarea textarea.mat-input-element {
+    height: 35px;
+}
+
+.custom-txtarea label {
+    font-size: 16px;
+}
+
+.mat-radio-label-content {
+    font-weight: 400;
+}
+
+.terms-check {
+    font-size: 14px;
+}
+
+
+/* .mat-datepicker-content .mat-calendar{
+  width:550px !important;
+  height: auto !important;
+} */
+
+.followupError {
+    color: #f44336;
+}
+
+.hgt-scroll {
+    height: 465px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.uploading-data {
+    width: 100%;
+}
+
+.uploading-data img {
+    margin-top: 6px;
+}
+
+.policy-blk .fa {
+    position: absolute;
+    top: -6px;
+    right: -7px;
+    background-color: #2f2660;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: var(--color-white);
+    padding: 6px 10px;
+    cursor: pointer;
+    z-index: 9999;
+}
+
+.cstm-cancel-btn i {
+    color: red !important;
+}
+
+.link-btn.min-w-100 {
+    min-width: 100px;
+    margin-right: auto !important;
+}
+
+.link-btn {
+    background-color: var(--color-white);
+    color: #264653 !important;
+    min-width: 120px;
+    text-align: center;
+    line-height: 32px;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 3px 5px;
+    color: var(--color-white);
+    display: inline-block;
+    cursor: pointer;
+    border: 2px solid #264653;
+    border-radius: 10px;
+}
+
+.appointment-panel .appointment-content {
+    padding: 12px 15px;
+}
+
+.appointment-content .mat-calendar-body-label {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    visibility: hidden !important;
+}
+
+.appointment-content .mat-calendar-body-cell {
+    padding: 15px 0 !important;
+}
+
+.appointment-content .mat-calendar-body-cell-content {
+    width: 30px !important;
+    left: 36% !important;
+    font-weight: 600 !important;
+    height: 30px;
+}
+
+
+/* .appointment-content .mat-calendar-body-today:selected(.mat-calendar-body-selected) {
+    border-color: #f87515;
+    background-color: #f87515;
+    color: var(--color-white);
+} */
+
+.appointment-content .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover>.mat-calendar-body-cell-content:not(.mat-calendar-body-selected) {
+    border-color: rgba(0, 0, 0, 0.04);
+    color: var(--color-black);
+}
+
+.appointment-content .mat-calendar-controls {
+    margin: 0 10px !important
+}
+
+.appointment-content .mat-calendar-spacer {
+    display: none !important;
+}
+
+.appointment-content .mat-calendar-header {
+    background-color:#264653!important;
+    color: var(--color-white) !important;
+}
+
+.appointment-content .mat-calendar-period-button {
+    margin: 0 auto !important;
+    color: var(--color-white) !important;
+    font-size: 16px !important;
+    letter-spacing: 3px;
+}
+
+.appointment-content .mat-calendar-content {
+    padding: 0 !important;
+}
+
+
+.appointment-content .mat-calendar-table-header th {
+    font-size: 13px !important;
+    padding-bottom: 0;
+}
+
+.appointment-content .mat-card {
+    box-shadow: none !important;
+    padding: 0 !important;
+    border: 1px solid #efefef !important;
+    margin-bottom: 10px;
+}
+
+.appointment-content .mat-calendar-table-header-divider {
+    display: none !important;
+}
+
+.appointment-content .mat-calendar-previous-button {
+    position: absolute !important;
+    left: 0 !important;
+}
+
+.appointment-content .mat-calendar-arrow {
+    border-top-color: var(--color-white) !important;
+}
+
+
+/* scroller hide css */
+
+
+/* .appointment-content .ng-scrollbar-container{
+    display: none;
+} */
+
+.stfselection {
+    background-color: #fafafa;
+    padding-bottom: 6px;
+    margin-bottom: 0px;
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-top: 15px;
+}
+
+.stfselection div {
+    color: #2f2660 !important;
+}
+
+.stfselection label {
+    color: #2f2660 !important;
+}
+
+.stfselection hr {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.stfselection small {
+    float: right;
+    cursor: pointer;
+    line-height: 13px;
+    padding-top: 8px;
+}
+
+.stfselection .mat-form-field-infix {
+    border-top: 0px;
+}
+
+.stfselection .mat-form-field-appearance-legacy .mat-form-field-underline {
+  background-color:#264653;
+}
+
+.stfselection .mat-select-arrow {
+    color: #2f2660 !important;
+}
+
+.schedule-btn {
+    margin: 15px 0px;
+}
+
+.schedule-btn .btn {
+    border: 1px solid #ccc;
+    background-color: transparent;
+    background-color: #b9b9b9;
+    color: var(--color-white);
+}
+
+.schedule-btn .btn:hover {
+    background-color: #11d3e9;
+    color: var(--color-white);
+}
+
+.calnedar-dropdown.mat-form-field {
+    width: 0px;
+    visibility: hidden;
+}
+
+.schedule-date h3 {
+    margin: 0px;
+    /* font-weight: 600; */
+    font-size: 22px;
+    padding-left: 5px;
+    color: #2f2660;
+}
+
+.hideDiv {
+    visibility: hidden !important;
+}
+
+.cstm-radio-btn .mat-radio-button label {
+    margin-bottom: 0;
+    font-size: 18px;
+}
+
+.receipt {
+    display: flex;
+    width: 100%;
+    font-size: 14px;
+    padding: 10px 15px 3px;
+    /* border-bottom: 1px solid #ddd; */
+}
+
+.cstm-add {
+    display: block;
+    width: 75%;
+}
+
+.cstm-add input:focus-visible {
+    outline: none !important
+}
+
+.receipt-name .mat-chip-list-wrapper {
+    margin: 0px;
+}
+
+.receipt-name .mat-chip-list-wrapper input {
+    margin: 0px 0px 5px 0px;
+    border: 0px;
+}
+
+.receipt-name>div>div {
+    height: auto !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+    font-weight: 500;
+}
+
+.select-box {
+    display: block;
+    border: 1px solid #d4d4d4;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.select-box input {
+    width: 100%;
+    margin: 0 !important;
+    padding: 10px;
+}
+
+.pt-7 {
+    padding-top: 7px;
+}
+
+.blue-clr {
+    color: #2f2660;
+}
+
+.cstm-thnk-blk {
+    margin-top: -32px;
+    background-color: var(--color-white);
+}

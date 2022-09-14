@@ -1,0 +1,26 @@
+<div>
+  <div class="col-md-3">
+    <input
+      type="file"
+      #file
+      placeholder="Choose file"
+      (change)="uploadFile(file.files)"
+      style="display:none;"
+      multiple
+    />
+    <i
+      class="fa fa-paperclip"
+      style="font-size:25px;"
+      (click)="file.click()"
+    ></i>
+    <!-- <button type="button" class="btn btn-success" (click)="file.click()">
+      Upload File
+    </button> -->
+  </div>
+  <div class="col-md-4" style="display: none;">
+    <span class="upload" *ngIf="progress > 0"> {{ progress }}% </span>
+    <span class="upload" *ngIf="message">
+      {{ message }}
+    </span>
+  </div>
+</div>

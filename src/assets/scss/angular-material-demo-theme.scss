@@ -1,0 +1,20 @@
+@import '~@angular/material/theming';
+@include mat-core();
+$my-blue: ( 50: #264653, 100: #264653, 200: #264653, 300: #264653, 400: #264653, 500: #264653, 600: #264653, 700: #264653, 800: #264653, 900: #264653, A100: #264653, A200: #264653, A400: #264653, A700: #264653, contrast: ( 400: #ffffff, 500: #ffffff, ));
+$my-grey: ( 50: #f4f4f4, 100: #f4f4f4, 200: #f4f4f4, 300: #f4f4f4, 400: #f4f4f4, 500: #f4f4f4, 600: #f4f4f4, 700: #f4f4f4, 800: #f4f4f4, 900: #f4f4f4, A100: #f4f4f4, A200: #f4f4f4, A400: #f4f4f4, A700: #f4f4f4, );
+$my-green: ( 50: #63d891, 100: #63d891, 200: #63d891, 300: #63d891, 400: #63d891, 500: #63d891, 600: #63d891, 700: #63d891, 800: #63d891, 900: #63d891, A100: #63d891, A200: #63d891, A400: #63d891, A700: #63d891, contrast: ( 400: #ffffff, 500: #ffffff, ));
+$primary: mat-palette($my-blue);
+$accent: mat-palette($my-green);
+$warn: mat-palette($mat-grey);
+$theme: mat-light-theme($primary, $accent);
+@include angular-material-theme($theme);
+.m2app-dark {
+    $primary: mat-palette($mat-pink, 700, 500, 900);
+    $accent: mat-palette($mat-blue-grey, A200, A100, A400);
+    $warn: mat-palette($mat-red, A700);
+    $theme: mat-dark-theme($primary, $accent, $warn);
+    @include angular-material-theme($theme);
+}
+
+$primary-color:#264673;
+$secondary-color:#4c9898;

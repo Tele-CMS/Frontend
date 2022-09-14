@@ -1,0 +1,14 @@
+<div>
+    <div>
+      <div style="display: block">
+        <canvas #pieChart="base-chart" baseChart
+          [data]="pieChartData"
+          [labels]="pieChartLabels"          
+          [chartType]="pieChartType" [colors]="pieColors"
+          [options]="pieChartOptions"
+          (chartClick)="onChartClicked($event)"
+          (chartHover)="chartHovered($event)">
+        </canvas>
+      </div>
+    </div>
+  </div>

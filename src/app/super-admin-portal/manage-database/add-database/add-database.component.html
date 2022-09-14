@@ -1,0 +1,76 @@
+<div class="custom_modal">
+    <h3 mat-dialog-title>{{headerText}}</h3>
+    <div mat-dialog-content>
+        <div class="row">
+            <div class="col-sm-12">
+                <form (ngSubmit)="onSubmit()" id="addDatabaseForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="addDatabaseForm">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autofocus placeholder="Database Name" maxlength="100" formControlName="databaseName" [ngClass]="{ 'is-invalid': submitted && formControls.databaseName.errors }"
+                                    required />
+                                <mat-error *ngIf="formControls.databaseName.errors?.required">
+                                    Please enter database name
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autofocus placeholder="Server Name" maxlength="100" formControlName="serverName" [ngClass]="{ 'is-invalid': submitted && formControls.serverName.errors }"
+                                    required />
+                                <mat-error *ngIf="formControls.serverName.errors?.required">
+                                    Please enter server name
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autofocus placeholder="User Name" maxlength="40" formControlName="userName" [ngClass]="{ 'is-invalid': submitted && formControls.userName.errors }"
+                                    required />
+                                <mat-error *ngIf="formControls.userName.errors?.required">
+                                    Please enter user name
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autofocus type="password" placeholder="Password" maxlength="30" formControlName="password"
+                                  [ngClass]="{ 'is-invalid': submitted && formControls.password.errors }" required />
+                                <mat-error *ngIf="formControls.password.errors?.required">
+                                  Please enter password
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autofocus type="password" placeholder="Confirm Password" formControlName="confirmPassword"
+                                  [ngClass]="{ 'is-invalid': submitted && formControls.confirmPassword.errors }" required />
+                                <mat-error *ngIf="formControls.confirmPassword.errors?.required">
+                                  Please re-enter password
+                                </mat-error>
+                                <mat-error *ngIf="formControls.confirmPassword.errors?.notSame">
+                                  Password doesn't match
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+                        <div class="col-sm-6">
+                            <mat-checkbox formControlName="isCentralised">
+                                Is Centralized
+                              </mat-checkbox>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+            <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+        <div>
+            <button name="Save" mat-raised-button color="primary" form="addDatabaseForm" class="text-uppercase" [disabled]="submitted" cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+        </div>
+    </div>
+</div>

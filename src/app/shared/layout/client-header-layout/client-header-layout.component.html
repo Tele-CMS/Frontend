@@ -1,0 +1,65 @@
+<div class="d-flex align-items-center">
+    <div class="brdr-lght theme-switcher-right">
+        <div class="theme-switcher">
+            <div class="theme-switcher-main">
+                <input type="checkbox" [checked]="isDarkMode" (change)="handleSwitchTheme()" id="themeSwitcher">
+                <label for="themeSwitcher"></label>
+            </div>
+        </div>
+    </div> 
+    
+    <div class="brdr-lght">
+        <button class="bell-icon" mat-icon-button [matMenuTriggerFor]="message">
+    <i class="fa fa-bell faa-ring animated-hover" aria-hidden="true"></i>
+    <span *ngIf="documentNotifications.length>0" class="no_noti">{{documentNotifications.length}}</span>
+</button>
+        <mat-menu #message="matMenu" class="natification_box">
+            <div class="main-head">
+                <h3>Notification</h3>
+                <button type="button"><i class="zmdi zmdi-format-clear-all"></i></button>
+            </div>
+            <div [ngStyle]="{ 'height': '300px' }">
+                <ng-scrollbar>
+                    <div mat-menu-item class="read-noti" *ngFor="let doc of documentNotifications">
+
+                        <div>{{doc.notificationAction}}</div>
+                        <div>
+                            {{doc.message}}
+                            <span class="block"><i class="fa fa-clock-o">&nbsp;{{doc.timeStamp | date:'MMM d, y, h:mm a'}}</i></span>
+                        </div>
+                        <!-- <i class="zmdi zmdi-close"></i> -->
+                    </div>
+                </ng-scrollbar>
+            </div> 
+            <!-- <div class="main-head show-all"><button type="button">Show all notifications</button></div> -->
+            <div *ngIf="documentNotifications.length==0" class="main-head show-all"><button type="button">No notifications</button></div>
+        </mat-menu>
+    </div>
+
+    <!-- <div>
+        <a title="Book New Appointment" [routerLink]="['/doctor-list']"  class="book-new-app" ><span class="material-icons" >
+        bookmarks
+        </span>&nbsp;Book New</a>
+    </div> -->
+    <span class="welcomeName" *ngIf="patientData" style="
+  text-decoration: underline;
+  text-underline-position: under;
+">
+<!-- {{patientData.firstName+' '+patientData.lastName}}</span> -->
+    </span>
+
+    <div class="user-dropdown">
+        <button [matMenuTriggerFor]="profile">
+          <img src="{{userInfo.photoThumbnailPath || '../assets/img/patient-default-user.svg'}}" alt="user" class="profile-pic"/>
+          <i class="fa fa-chevron-down"></i>
+      </button>
+        <mat-menu #profile="matMenu">
+            <div class="setting_menu">
+                <button mat-menu-item *ngFor='let item of userNavigations' (click)="onSelectUserMenu(item)">
+                  <span [innerHtml]="item.iconName"></span>
+                  {{item.displayName}}
+              </button>
+            </div>
+        </mat-menu>
+    </div>
+</div>

@@ -1,0 +1,262 @@
+<!-- <mwl-demo-utils-calendar-header
+  [(view)]="view"
+  [(viewDate)]="viewDate"
+  (viewDateChange)="fetchEvents()"
+  (viewChange)="fetchEvents()">
+</mwl-demo-utils-calendar-header> -->
+
+<div class="col-md-8 " id="divVideoTool" *ngIf="flag">
+    <!-- <app-video-chat *ngIf="encounterId==0 && patientAppointmentDetails && patientAppointmentDetails.isTelehealthAppointment" [patientAppointmentDetails]="patientAppointmentDetails" [patientAppointmentId]="appointmentId"></app-video-chat> -->
+    <app-video-chat [patientAppointmentDetails]="patientAppointmentDetails" [patientAppointmentId]="appointmentId"></app-video-chat>
+</div>
+
+<div>
+
+    <div class="readmin-panel pt-0">
+        <h2 class="page_title">{{isPatientScheduler ? 'My Appointments' : 'Manage Scheduling'}} </h2>
+        <div class="clearfix"></div>
+        <div *ngIf="!isPatientScheduler && !isWaitingRoomScreen">
+            <div class="stfselection">
+                <div class="container-fluid">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-sm-4 cushgt">
+                                <div class="sech_item">
+                                    <p>Location : </p>
+                                    <span [ngClass]="{'active' : officeLocations.length && selectedOfficeLocations.length == officeLocations.length }" (click)="onSelectOrDeselectChange('Locations', 'SelectAll')">Select All </span>
+                                    <span [ngClass]="{'active' : officeLocations.length && selectedOfficeLocations.length == 0 }" (click)="onSelectOrDeselectChange('Locations', 'DeselectAll')">
+                  Deselect All</span>
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <mat-select placeholder="{{!selectedOfficeLocations.length ? 'Select Location' : ''}}" [(value)]="selectedOfficeLocations" id="officeLocations" multiple (selectionChange)="onDropdownSelectionChange($event)">
+                                        <mat-option *ngFor="let option of officeLocations" [value]="option.id">
+                                            {{option.value}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-4 cushgt" *ngIf="isAdminLogin">
+                                <div class="sech_item">
+                                    <p>Staff : </p>
+                                    <span [ngClass]="{'active' : officeStaffs.length && selectedOfficeStaffs.length == officeStaffs.length }" (click)="onSelectOrDeselectChange('Staffs', 'SelectAll')">Select All </span>
+                                    <span [ngClass]="{'active' : officeStaffs.length && selectedOfficeStaffs.length == 0 }" (click)="onSelectOrDeselectChange('Staffs', 'DeselectAll')">
+                  Deselect All </span>
+                                    <!-- <span class="">Tag</span> -->
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <mat-select placeholder="{{!selectedOfficeStaffs.length ? 'Select Staff' : ''}}" [(value)]="selectedOfficeStaffs" id="officeStaffs" multiple #selectStaff (selectionChange)="onDropdownSelectionChange($event)">
+                                        <mat-option *ngFor="let option of officeStaffs" [value]="option.id">
+                                            {{option.value}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-4 cushgt" *ngIf="schedulerPermissions && schedulerPermissions.SCHEDULING_LIST_VIEW_CLIENT_SCHEDULES">
+                                <div class="sech_item">
+                                    <p>Patient: </p>
+                                    <span [ngClass]="{'active' : officeClients.length && selectedOfficeClients.length == officeClients.length }" (click)="onSelectOrDeselectChange('Clients', 'SelectAll')">Select All </span>
+                                    <span [ngClass]="{'active' : officeClients.length && selectedOfficeClients.length == 0 }" (click)="onSelectOrDeselectChange('Clients', 'DeselectAll')">
+                  Deselect All </span>
+                                    <!-- <span class="">Tag</span> -->
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <mat-select placeholder="{{!selectedOfficeClients.length ? 'Select Client' : ''}}" [(value)]="selectedOfficeClients" id="officeClients" multiple #selectClient (selectionChange)="onDropdownSelectionChange($event)">
+                                        <!-- <mat-select-trigger>
+                        {{selectClient.value ? selectClient.value[0] : 'No Client Selected'}}
+                        <span *ngIf="selectClient.value?.length > 1">
+                          (+{{selectClient.value.length - 1}} {{selectClient.value?.length === 2 ? 'other' : 'others'}})
+                        </span>
+                      </mat-select-trigger> -->
+                                        <mat-option *ngFor="let option of officeClients" [value]="option.id">
+                                            {{option.value}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- scheduler layout -->
+
+
+        <div class="row">
+            <div class="col-sm-5 d-flex justify-content-sm-start align-items-center schedule-date justify-content-center">
+                <mat-form-field class="calnedar-dropdown">
+                    <input matInput readonly [matDatepicker]="picker" placeholder="Choose a date" [value]="viewDate" (dateChange)="onDateChange($event)">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <button class="dateicon" (click)="picker.open()">
+          <i class="material-icons">date_range</i>
+        </button>
+                <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+            </div>
+            <div class="col-sm-7 d-flex justify-content-sm-end align-items-center justify-content-center">
+                <div class="btn-group schedule-btn justify-content-end d-flex">
+
+                    <div class="btn" mwlCalendarToday [(viewDate)]="viewDate" (viewDateChange)="fetchEvents()">
+                        Today
+                    </div>
+
+                    <div class="btn" (click)="view = CalendarView.Month;fetchEvents();" [class.active]="view === CalendarView.Month">
+                        Month
+                    </div>
+                    <div class="btn" (click)="view = CalendarView.Week;fetchEvents();" [class.active]="view === CalendarView.Week">
+                        Week
+                    </div>
+                    <div class="btn" (click)="view = CalendarView.Day;fetchEvents();" [class.active]="view === CalendarView.Day">
+                        Day
+                    </div>
+                    <button class="btn" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="fetchEvents();activeDayIsOpen = false">
+            <i class="fa fa-angle-left" aria-hidden="true"></i>
+          </button>
+                    <button class="btn" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="fetchEvents();activeDayIsOpen = false">
+            <i class="fa fa-angle-right" aria-hidden="true"></i>
+          </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- <ng-template #loading>
+      <div class="text-center">
+        <i class="fa fa-spin fa-spinner fa-5x"></i>
+        <br> Loading appointments...
+      </div>
+    </ng-template> -->
+        <!-- ng-disabled="!appointId==0" -->
+        <div class="custom-dropdown" *ngIf="events$ | async; let events">
+            <div [ngSwitch]="view">
+                <context-menu #basicMenu>
+                    <ng-template *ngIf="!isClientLogin" [enabled]="appointId==0" contextMenuItem (execute)="addEvent($event.item,'1')">New appointment
+                    </ng-template>
+                    <ng-template [enabled]="!appointId==0" contextMenuItem let-item (execute)="addEvent($event,'2')"> View appointment
+                    </ng-template>
+                    <ng-template [enabled]="!appointId==0 || isRescheduleShow" contextMenuItem (execute)="addEvent($event.item,'3')">
+                        <span class="disabled"> Reschedule</span>
+                    </ng-template>
+                    <ng-template [enabled]="!appointId==0" contextMenuItem (execute)="addEvent($event.item,'4')">Cancel Appointment
+                    </ng-template>
+                    <ng-template [enabled]="!appointId==0" contextMenuItem (execute)="addEvent($event.item,'5')">Set Reminder
+                    </ng-template>
+                    <ng-template *ngIf="!isClientLogin" contextMenuItem (execute)="addEvent($event.item,'6')">
+                        Set availability
+                    </ng-template>
+                    <ng-template [enabled]="!appointId==0" contextMenuItem (execute)="addEvent($event.item,'7')">
+                        Send Invitation
+                    </ng-template>
+                </context-menu>
+
+
+                <mwl-calendar-month-view [cellTemplate]="monthViewTemplate" *ngSwitchCase="CalendarView.Month" [refresh]="refresh" [viewDate]="viewDate" [events]="events" [activeDayIsOpen]="activeDayIsOpen" (eventTimesChanged)="eventTimesChanged($event)" (eventClicked)="eventClicked($event.event)"
+                    (beforeViewRender)="beforeMonthViewRender($event)">
+
+                </mwl-calendar-month-view>
+                <mwl-calendar-week-view (click)="onContextMenu($event)" *ngSwitchCase="CalendarView.Week" [refresh]="refresh" [viewDate]="viewDate" [events]="events" [hourSegments]="2" [dayStartHour]="officeTime.dayStartHour" [dayStartMinute]="officeTime.dayStartMinute"
+                    [dayEndHour]="officeTime.dayEndHour" [dayEndMinute]="officeTime.dayEndMinute" (hourSegmentClicked)="hourSegmentClicked($event)" (eventClicked)="eventClicked($event.event)" (beforeViewRender)="beforeWeekViewRender($event)" (eventTimesChanged)="eventTimesChanged($event)">
+                </mwl-calendar-week-view>
+                <mwl-calendar-day-view (click)="onContextMenu($event)" *ngSwitchCase="CalendarView.Day" [refresh]="refresh" [viewDate]="viewDate" [events]="events" [hourSegments]="2" [dayStartHour]="officeTime.dayStartHour" [dayStartMinute]="officeTime.dayStartMinute"
+                    [dayEndHour]="officeTime.dayEndHour" [dayEndMinute]="officeTime.dayEndMinute" (hourSegmentClicked)="hourSegmentClicked($event)" (eventClicked)="eventClicked($event.event)" (beforeViewRender)="beforeDayViewRender($event)" (eventTimesChanged)="eventTimesChanged($event)">
+                </mwl-calendar-day-view>
+
+
+                <!--
+        <ng-template #weakViewTemplate let-weekEvent="weekEvent">
+
+          [eventTemplate]="weakViewTemplate"
+
+          <span [matTooltip]="weekEvent.event.title" [matTooltipPosition]="'above'" class="  cal-day-badge month-slots-custom"
+          [ngClass]="getBgClassForWeek()">
+          <span *ngFor="let a of weekEvent.event.actions">
+            <span (click)=monthViewActionCliked(a,weekEvent.event) [innerHtml]="a.label"></span>
+          </span>
+
+          <span  (click)="onContextMenu($event,weekEvent.event)" class="month-event-txt-s">
+            {{weekEvent.event.title}}  </span></span>
+
+
+
+        </ng-template>  -->
+
+
+
+                <ng-template #monthViewTemplate let-day="day">
+
+                    <div (click)="onContextMenu($event, null, day.date)" [ngClass]="{'is-available-cell-re': isBoolingDateAvailable(day.date)}">
+
+                        <div class="custom-month-evnts-box" *ngIf="day.events &&  day.events.length >0">
+                            <span class="month-day-num" (click)="dayClicked(day)">{{toDateString(day.date)}}</span>
+
+                            <div *ngFor=" let e of day.events; let i = index;">
+
+                                <div *ngIf="isDayOpened(day.date)">
+                                    <span [tooltip]="monthEvntsToolTip(e.title)" tooltip-class="month-title-tip-view" content-type="html" placement="top" class="  cal-day-badge month-slots-custom" [ngClass]="getBgClass(i)">
+                  <span *ngFor="let a of e.actions">
+                    <span (click)=monthViewActionCliked(a,e) [innerHtml]="a.label"></span>
+                                    </span>
+
+                                    <span (click)="onContextMenu($event,e)" class="month-event-txt-s crsr-ptr">
+                    {{e.title}} </span></span>
+                                    <div *ngIf="i === (day.events.length - 1)" class="cal-day-badge month-slots-custom show-more" [ngClass]="getBgClass(i)" (click)="closeShowAllEvents(day.date)">
+                                        <div class="show-blk">
+                                            <span class="show-more-text">  Show less  </span>
+                                            <span class="material-icons bg-dark-icon"> arrow_drop_up </span>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div *ngIf="!isDayOpened(day.date)">
+                                    <ng-template *ngIf="i < EVENT_LIMIT; then showEventsBlock; else showMoreBlock">
+                                    </ng-template>
+
+                                    <ng-template #showEventsBlock>
+                                        <span [tooltip]="monthEvntsToolTip(e.title)" content-type="html" tooltip-class="month-title-tip-view" placement="top" class="  cal-day-badge month-slots-custom" [ngClass]="getBgClass(i)">
+                    <span *ngFor="let a of e.actions">
+                      <span (click)=monthViewActionCliked(a,e) [innerHtml]="a.label"></span>
+                                        </span>
+
+                                        <span (click)="onContextMenu($event,e)" class="month-event-txt-s crsr-ptr" [innerHtml]="e.title">
+                       </span></span>
+                                    </ng-template>
+
+                                    <ng-template #showMoreBlock>
+                                        <ng-container *ngIf="i === EVENT_LIMIT">
+
+                                            <div class="cal-day-badge month-slots-custom show-more" [ngClass]="getBgClass(i)" (click)="openShowAllEvents(day.date)">
+                                                <div class="show-blk">
+                                                    <span class="show-more-text">  {{day.events.length - EVENT_LIMIT}} more</span>
+                                                    <span class="material-icons bg-dark-icon">arrow_drop_down </span>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </ng-template>
+
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="crsr-ptr" *ngIf="day.events &&  day.events.length ==0">
+
+                            <div class="w-100 text-center">
+                                <span class="custom-blank">{{toDateString(day.date)}}</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </ng-template>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,5 @@
+<div style="display: block">
+  <canvas #barChart="base-chart" baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+    [chartType]="barChartType" [colors]="barChartColors" (chartClick)="onChartClicked($event)">
+  </canvas>
+</div>

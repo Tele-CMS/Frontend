@@ -1,0 +1,29 @@
+.checkin-block{
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    width: 50%;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: var(--color-white);
+    box-shadow: 0 0 7px #ccc;
+    border-left: 4px solid #264653 !important;
+}
+.checkin-txt{
+    padding: 10px 20px 20px 20px;
+}
+.checkin-txt div{
+    font-size: 25px;
+    font-weight: 600;
+    color: #2f2660;
+}
+.checkin-btns{
+    padding-bottom: 10px;
+}
+.Educationmaterial-block h3{
+    background-color: #efefef;
+    padding: 12px 10px;
+    font-size: 20px;
+    border-left: 4px solid #264653 !important;
+    margin-bottom: 20px;
+}

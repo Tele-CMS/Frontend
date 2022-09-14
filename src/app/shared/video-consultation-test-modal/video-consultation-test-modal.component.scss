@@ -1,0 +1,31 @@
+.schedule-modal {
+    padding: 24px;
+}
+
+.schedule-modal .mat-dialog-content {
+    margin-bottom: 10px;
+}
+
+.schedule-modal .mat-dialog-actions,
+.schedule-modal .mat-dialog-content {
+    margin-left: -24px !important;
+    margin-right: -24px !important;
+}
+
+.mat-dialog-actions {
+    padding: 18px 24px 0 !important;
+}
+
+.btn {
+    border: 1px solid #FE7F2D;
+    padding: 5px 15px;
+    text-transform: uppercase;
+    border-radius: 2px;
+    color: var(--color-white);
+    background-color: #FE7F2D;
+    margin-bottom: 1rem;
+    float: right
+}
+.dialog_head h4{
+    font-weight: 400;
+}

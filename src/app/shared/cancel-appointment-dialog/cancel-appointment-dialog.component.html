@@ -1,0 +1,45 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>Cancel Appointment</h3>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" id="cancelAppointmentForm" #documentForm="ngForm" class="readmin-form custom_form"
+          [formGroup]="cancelAppointmentForm">
+          <div class="row">
+            <div class="col-sm-12">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Cancel Type" formControlName="cancelTypeId" matInput
+                  [ngClass]="{ 'is-invalid': submitted && formControls.cancelTypeId.errors }" required>
+                  <mat-option *ngFor="let option of masterCancelType" [value]="option.id">
+                    {{option.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formControls.cancelTypeId.errors">
+                  Please select cancel type
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <mat-form-field class="example-full-width"
+                hintLabel="{{formControls.cancelReason.value ? 1000 - formControls.cancelReason.value.length : 1000}} Characters Remaining">
+                <textarea matInput placeholder="Cancellation Reason" maxlength="1000" formControlName="cancelReason">
+                </textarea>
+                <mat-error *ngIf="formControls.cancelReason.errors">
+                  Please select cancellation reason
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button class="cancel-btn" color="accent" mat-raised-button (click)="onClose()">Close</button>
+    <button mat-raised-button color="primary" form="cancelAppointmentForm" [disabled]="submitted" cdkFocusInitial>
+      {{submitted ? 'Saving...' : 'Submit'}}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,227 @@
+<div class="d-flex align-items-center">
+    <!-- <mat-form-field class="example-full-width">
+    <mat-select [value]="currentLocationId" (selectionChange)="onDropdownSelectionChange($event.value)">
+      <mat-option *ngFor="let option of userLocations" [value]="option.id">
+        {{option.locationName}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field> -->
+    <!-- agencyremove -->
+    <div class="brdr-lght theme-switcher-right">
+        <div class="theme-switcher">
+            <div class="theme-switcher-main">
+                <input type="checkbox" [checked]="isDarkMode" (change)="handleSwitchTheme()" id="themeSwitcher">
+                <label for="themeSwitcher"></label>
+            </div>
+        </div>
+    </div> 
+
+    <!-- app setting sidebar start -->
+    <ng-container *ngIf="isDisplay">
+        <div class="brdr-lght">
+            <button class="bell-icon" (click)="showSettings(true)"  mat-icon-button>
+                <i class="fa fa-cog faa-ring animated-hover" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div [ngClass]="isSettingsSidebar ? 'openSetting' : 'hideSettings'"  class="app-setting-sidebar">
+            <div class="seeting-sidebar-inner">
+                <div class="seeting-sidebar-header d-flex align-items-center justify-content-between">
+                    <h2>
+                        <i class="fa fa-cog faa-ring animated-hover" aria-hidden="true"></i>
+                        Settings
+                    </h2>
+                    <button class="sidebarClose-btn" (click)="showSettings(false)" mat-icon-button>
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="appSettings-content-row">
+                    <h3 class="appSettings-content-heading">Theme</h3>
+                    <div class="appSettings-labels-cover appSettings-theme-labels">
+                         <span class="appSettings-labels appSettings-default-labels" (click)="handleThemeColor('appSettings-default-border-labels')"
+                         [class.appSettings-default-border-labels]="themeColorValue == 'appSettings-default-border-labels'"
+                         >
+                             <span class="appSettings-theme-color"></span>
+                             <span>Default</span>
+                         </span>
+                         <span class="appSettings-labels appSettings-brand-labels" (click)="handleThemeColor('appSettings-brand-border-labels')"
+                         [class.appSettings-brand-border-labels]="themeColorValue == 'appSettings-brand-border-labels'"
+                         >
+                            <span class="appSettings-theme-color"></span>
+                            <span>Brand</span>
+                        </span>
+                        <span class="appSettings-labels appSettings-teal-labels" (click)="handleThemeColor('appSettings-teal-border-labels')"
+                        [class.appSettings-teal-border-labels]="themeColorValue == 'appSettings-teal-border-labels'"
+                        >
+                            <span class="appSettings-theme-color"></span>
+                            <span>Teal</span>
+                        </span>
+                        <span class="appSettings-labels appSettings-rose-labels" (click)="handleThemeColor('appSettings-rose-border-labels')"
+                        [class.appSettings-rose-border-labels]="themeColorValue == 'appSettings-rose-border-labels'"
+                        >
+                            <span class="appSettings-theme-color"></span>
+                            <span>Rose</span>
+                        </span>
+                        <span class="appSettings-labels appSettings-purple-labels" (click)="handleThemeColor('appSettings-purple-border-labels')"
+                        [class.appSettings-purple-border-labels]="themeColorValue == 'appSettings-purple-border-labels'"
+                        >
+                            <span class="appSettings-theme-color"></span>
+                            <span>Purple</span>
+                        </span>
+                        <span class="appSettings-labels appSettings-amber-labels" (click)="handleThemeColor('appSettings-amber-border-labels')"
+                        [class.appSettings-amber-border-labels]="themeColorValue == 'appSettings-amber-border-labels'"
+                        >
+                            <span class="appSettings-theme-color"></span>
+                            <span>Amber</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="appSettings-content-row">
+                    <h3 class="appSettings-content-heading">Scheme</h3>
+                    <div class="appSettings-labels-cover appSettings-scheme-labels">
+                         <span class="appSettings-labels appSettings-auto-labels" (click)="handleThemeScheme(1)" 
+                         [ngClass]="[themeSchemeValue == 1 ? themeColorValue : '']" 
+                         >
+                            <i class="fa fa-bolt" aria-hidden="true"></i>
+                             <span>Auto</span>
+                         </span>
+                         <span class="appSettings-labels appSettings-dark-labels" (click)="handleThemeScheme(2)"
+                         [ngClass]="[themeSchemeValue == 2 ? themeColorValue : '']"
+                         >
+                            <i class="fa fa-moon-o" aria-hidden="true"></i>
+                            <span>Brand</span>
+                        </span>
+                        <span class="appSettings-labels appSettings-light-labels" (click)="handleThemeScheme(3)"
+                        [ngClass]="[themeSchemeValue == 3 ? themeColorValue : '']"
+                        >
+                            <i class="fa fa-sun-o" aria-hidden="true"></i>
+                            <span>Teal</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="appSettings-content-row">
+                    <h3 class="appSettings-content-heading">Layout</h3>
+                    <div class="appSettings-labels-cover appSettings-layout-labels">
+                         <span class="appSettings-labels appSettings-blank-labels" (click)="handleThemeLayout(1)">
+                            <span class="setting-layout-box"
+                            [ngClass]="[themeLayoutValue == 1 ? themeColorValue : '']"
+                            ></span>
+                            <p>Empty</p>
+                         </span>
+                         <span class="appSettings-labels appSettings-classic-labels" (click)="handleThemeLayout(2)">
+                            <span class="setting-layout-box"
+                            [ngClass]="[themeLayoutValue == 2 ? themeColorValue : '']"
+                            >
+                                <img src="assets/layout2.png" alt="img">
+                             </span>
+                             <p>Classic</p>
+                        </span>
+                        <span class="appSettings-labels appSettings-classy-labels" (click)="handleThemeLayout(3)">
+                            <span class="setting-layout-box"
+                            [ngClass]="[themeLayoutValue == 3 ? themeColorValue : '']"
+                            >
+                                <img src="assets/layout3.png" alt="img">
+                            </span>
+                            <p>Classy</p>
+                        </span>
+                        <span class="appSettings-labels appSettings-compact-labels" (click)="handleThemeLayout(4)">
+                            <span class="setting-layout-box"
+                            [ngClass]="[themeLayoutValue == 4 ? themeColorValue : '']"
+                            >
+                                <img src="assets/layout4.png" alt="img">
+                            </span>
+                            <p>Compact</p>
+                        </span>
+                        <span class="appSettings-labels appSettings-dense-labels" (click)="handleThemeLayout(5)">
+                            <span class="setting-layout-box"
+                            [ngClass]="[themeLayoutValue == 5 ? themeColorValue : '']"
+                            >
+                                <img src="assets/layout5.png" alt="img">
+                            </span>
+                            <p>Dense</p>
+                        </span>
+                    </div>
+                </div>
+    
+                <div class="save-heme-settings-btn">
+                    <button class="add-primary-btn mat-raised-button mat-primary" (click)="handleUpdateThemeSettings($event)">
+                        Save Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    
+    <!-- app setting sidebar end -->
+
+    <div class="brdr-lght">
+        <button class="bell-icon" mat-icon-button [matMenuTriggerFor]="message">
+            <i class="fa fa-bell faa-ring animated-hover" aria-hidden="true"></i>
+            <span *ngIf="documentNotifications.length>0" class="no_noti">{{documentNotifications.length}}</span>
+        </button>
+        <mat-menu #message="matMenu" class="natification_box">
+            <div class="main-head">
+                <h3>Notification</h3>
+                <button type="button"><i class="zmdi zmdi-format-clear-all"></i></button>
+            </div>
+            <div [ngStyle]="{ 'height': '300px' }">
+                <ng-scrollbar>
+                    <div mat-menu-item class="read-noti" *ngFor="let doc of documentNotifications">
+
+                        <div>{{doc.notificationAction}}</div>
+                        <div>
+                            {{doc.message}}
+                            <span class="block"><i class="fa fa-clock-o">&nbsp;{{doc.timeStamp | date:'MMM d, y, h:mm a'}}</i></span>
+                        </div>
+                        <!-- <i class="zmdi zmdi-close"></i> -->
+                    </div>
+                </ng-scrollbar>
+            </div>
+            <!-- <div class="main-head show-all"><button type="button">Show all notifications</button></div> -->
+            <div *ngIf="documentNotifications.length==0" class="main-head show-all"><button type="button">No notifications</button></div>
+        </mat-menu>
+    </div>
+    <!--
+    <div class="brdr-lght">
+        <button class="bell-icon" mat-icon-button [matMenuTriggerFor]="document">
+            <i class="fa fa-envelope faa-horizontal animated-hover" aria-hidden="true"></i>
+            <span *ngIf="messageNotifications.length>0" class="no_noti">{{messageNotifications.length}}</span>
+        </button>
+        <mat-menu #document="matMenu" class="message_box natification_box">
+            <div class="main-head">
+                <h3>Message</h3>
+                <button type="button"><i class="zmdi zmdi-format-clear-all"></i></button>
+            </div>
+
+            <div [ngStyle]="{ 'height': '300px' }">
+                <ng-scrollbar>
+                    <div mat-menu-item class="read-noti" *ngFor="let msg of messageNotifications">
+                        <div (click)="openMailbox(msg.messageId,msg.parentMessageId)">
+                            <div class="mailimg">
+                                <img class="img-fluid" alt="" src="{{msg.thumbnail}}" />
+                            </div>
+                            {{msg.fromName}}
+                            <span class="block">{{msg.subject}}</span>
+                        </div>
+                        <i class="zmdi zmdi-close" (click)="changeNotificationStatus(msg.messageId,msg.parentMessageId)"></i>
+                    </div>
+                </ng-scrollbar>
+            </div>
+            <div *ngIf="messageNotifications.length>0" class="main-head show-all"><button type="button" (click)="openMailbox()">Show all messages</button></div>
+            <div *ngIf="messageNotifications.length==0" class="main-head show-all"><button type="button">No messages</button></div>
+        </mat-menu>
+    </div> -->
+    <span class="welcomeName" (click)="openUser(userInfo)">{{userInfo.firstName+' '+(userInfo.middleName||'')+' '+userInfo.lastName}}</span>
+    <div class="user-dropdown">
+        <button [matMenuTriggerFor]="profile">
+            <img src="{{userInfo.photoThumbnailPath || '../assets/img/provider-default-user.svg'}}" alt="user" class="profile-pic"/>
+        </button>
+        <mat-menu #profile="matMenu" class="profile-menu">
+            <div class="setting_menu">
+                <button mat-menu-item *ngFor='let item of userNavigations' (click)="onSelectUserMenu(item)">
+                    <span [innerHtml]="item.iconName"></span>
+                    {{item.displayName}}
+                </button>
+            </div>
+        </mat-menu>
+    </div>
+</div>

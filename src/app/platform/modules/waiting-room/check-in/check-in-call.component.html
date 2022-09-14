@@ -1,0 +1,72 @@
+<div class="checkin-block">
+    <div class="checkin-txt">
+        <div *ngIf="patientAppointment && patientAppointment.startDateTime && isShowTimer">
+            <app-count-down [inputDate]="patientAppointment.startDateTime"> </app-count-down>
+
+        </div>
+
+        <div *ngIf="isEnded">
+            Past Appointment
+        </div>
+        <!-- <div *ngIf="isStarted">
+        Start Call
+    </div> -->
+    </div>
+
+    <div class="checkin-btns">
+        <button class="mr-3" mat-raised-button color="primary" (click)="onAudioVideoTest()">
+        Test Audio-Video
+    </button>
+        <button mat-raised-button color="primary" (click)="call()">
+        Call
+    </button>
+    </div>
+</div>
+<br>
+<div *ngIf="isPatient" class="Educationmaterial-block">
+    <h3>Educational Materials</h3>
+    <div class="clearfix"></div>
+    <div *ngIf="documentList!=null && documentList.length>0" class="row">
+        <div class="col-lg-4 col-md-6 mb-3 custom-card custom-card-header" *ngFor="let doc of documentList">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>
+                        {{doc.documentTitle}}
+                    </mat-card-title>
+                    <mat-card-actions>
+                      
+                        <!-- <button mat-button *ngIf="doc.extenstion!='.jpg' || doc.extenstion!='.jpeg'|| doc.extenstion!='.png'||doc.extenstion!='.mp4'" (click)="onOpenDocViewer(doc)" title="view" style="font-size: 24px;">
+                            <i class="fa fa-eye"></i>
+                          </button> -->
+
+                          <button mat-button  (click)="openFileViewer(doc)" title="view" style="font-size: 24px;">
+                            <i class="fa fa-eye"></i>
+                          </button>
+
+
+                    </mat-card-actions>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="text-left">
+                       
+                        <p>Uploaded Date:
+                            <span>{{doc.createdDate |date:'MM/dd/yyyy'}}</span>
+                        </p>
+                       
+                    </div>
+
+                    <div class="text-right">
+                        <img *ngIf="doc.extenstion=='.pdf'" src="../../../../../../assets/img/pdf.png" />
+                        <img *ngIf="doc.extenstion=='.doc' || doc.extenstion=='.docx'" src="../../../../../../assets/img/doc.png" />
+                        <img *ngIf="doc.extenstion=='.ppt' || doc.extenstion=='.pptx'" src="../../../../../../assets/img/ppt.png" />
+                        <img *ngIf="doc.extenstion=='.xls' || doc.extenstion=='.xlsx'" src="../../../../../../assets/img/excel.png" />
+                        <img *ngIf="doc.extenstion=='.jpg' || doc.extenstion=='.jpeg'" src="../../../../../../assets/img/jpg.png" />
+                        <img *ngIf="doc.extenstion=='.png'" src="../../../../../../assets/img/jpg.png" />
+                        <img *ngIf="doc.extenstion=='.txt'" src="../../../../../../assets/img/txt.png" />
+                    </div>
+                </mat-card-content>
+
+            </mat-card>
+        </div>
+    </div>
+</div>
