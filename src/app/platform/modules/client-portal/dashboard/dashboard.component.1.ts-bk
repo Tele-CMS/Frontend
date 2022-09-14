@@ -1,0 +1,765 @@
+import { Component, OnInit } from "@angular/core";
+import {
+  ResponseModel,
+  FilterModel,
+  Metadata
+} from "../../core/modals/common-model";
+import { merge, Subscription, Subject } from "rxjs";
+import { ViewChild, ViewEncapsulation } from "@angular/core";
+import { MatPaginator, MatDialog } from "@angular/material";
+import { ClientDashboardService } from "./dashboard.service";
+import { CommonService } from "../../core/services";
+import { LoginUser } from "../../core/modals/loginUser.modal";
+import { format, addDays, addYears } from "date-fns";
+import * as moment from "moment";
+@Component({
+  selector: "app-dashboard",
+  templateUrl: "./dashboard.component.html",
+  styleUrls: ["./dashboard.component.css"]
+})
+export class ClientDashboardComponent implements OnInit {
+  lineChartData: Array<any> = [
+    { data: [10, 15, 25, 30], label: "Jan" },
+    { data: [25, 51, 52, 51], label: "Feb" },
+    { data: [22, 88, 55, 22], label: "Mar" },
+    { data: [33, 15, 25, 25], label: "Apr" }
+  ];
+  lineChartLabels: Array<any> = ["Jan", "Feb", "Mar", "Apr"];
+  lineChartType: string = "line";
+  encFilterModel: FilterModel;
+  // tasks
+  tasksFilterModel: FilterModel;
+  taskMeta: Metadata;
+  tasksList: Array<any> = [];
+  // all appointments
+  allAppointmentsFilterModel: FilterModel;
+  allAppointmentsMeta: Metadata;
+  todayAppointmentMeta: Metadata;
+
+  allAppointmentsList: Array<any> = [];
+  allTodayAppointmentsList: Array<any> = [];
+  allAppointmentsDisplayedColumns: Array<any>;
+  allAppointmentsActionButtons: Array<any>;
+  filterModel: FilterModel;
+<<<<<<< Updated upstream
+  pendingAptfilterModel:FilterModel;
+  CancelledAptfilterModel:FilterModel;
+  TodayAptfilterModel:FilterModel;
+  upcomingAptfilterModel:FilterModel;
+=======
+  pendingAptfilterModel: FilterModel;
+  CancelledAptfilterModel: FilterModel;
+  upcomingAptfilterModel: FilterModel;
+>>>>>>> Stashed changes
+  subscription: Subscription;
+  status: boolean = false;
+  passwordExpiryColorCode: string = "";
+  passwordExpiryMessage: string = "";
+  showMessage: boolean = true;
+  message: Subject<any> = new Subject();
+  currentLoginUserId: number;
+  currentLocationId: number;
+  userRoleName: string;
+  pendingAppointmentMeta: Metadata;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  pendingDisplayedColumns: Array<any>;
+<<<<<<< Updated upstream
+  cancelledDisplayedColumns:Array<any>
+  todayDisplayedColumns:Array<any>
+=======
+  cancelledDisplayedColumns: Array<any>;
+>>>>>>> Stashed changes
+  pendingActionButtons: Array<any>;
+  urlSafe: any;
+  imageBlobUrl: string;
+
+  patientDocumentData: any[];
+  pendingPatientAppointment: Array<any> = [];
+  CancelledPatientAppointment: Array<any> = [];
+  CancelledAppointmentMeta: Metadata;
+  metaData: any;
+  headerText: string;
+  MissedPatientAppointment: Array<any> = [];
+  MissedAppointmentMeta: Metadata;
+  MissedAptfilterModel: FilterModel;
+  AttendedPatientAppointment: Array<any> = [];
+  AttendedAppointmentMeta: Metadata;
+  AttendedAptfilterModel: FilterModel;
+  HRADisplayedColumns: Array<any> = [
+    {
+      displayName: "Assigned By",
+      key: "assignedBy",
+      class: "",
+      width: "140px"
+    },
+    {
+      displayName: "STATUS",
+      key: "status",
+      class: "",
+      width: "80px",
+      type: ["Assigned", "Complete", "Past Due"]
+    },
+    {
+      displayName: "COMPLETION DATE",
+      key: "completionDate",
+      class: "",
+      width: "120px",
+      type: "date"
+    },
+    {
+      displayName: "Due Date",
+      key: "expirationDate",
+      class: "",
+      width: "120px",
+      type: "date"
+    },
+    {
+      displayName: "Actions",
+      key: "Actions",
+      class: "",
+      width: "100px",
+      sticky: true,
+      type: "memberportalhra"
+    }
+  ];
+
+  HRAActionButtons: Array<any> = [
+    {
+      displayName: "Click to Start",
+      key: "questionnaire",
+      class: "font500",
+      title: "Fill Assessment"
+    },
+    {
+      displayName: "Download Individual Report",
+      key: "viewreport",
+      class: "bluefont",
+      title: "Download Report"
+    },
+    {
+      displayName: "Preview Individual Report",
+      key: "previewreport",
+      class: "bluefont",
+      title: "Preview Report"
+    }
+  ];
+  selectedIndex: number = 0;
+  constructor(
+    private dashoboardService: ClientDashboardService,
+    private commonService: CommonService,
+    public dialogModal: MatDialog
+  ) {
+    this.encFilterModel = new FilterModel();
+    this.tasksFilterModel = new FilterModel();
+    this.pendingAptfilterModel = new FilterModel();
+    this.CancelledAptfilterModel = new FilterModel();
+    this.MissedAptfilterModel = new FilterModel();
+    this.AttendedAptfilterModel = new FilterModel();
+    this.upcomingAptfilterModel = new FilterModel();
+    this.taskMeta = new Metadata();
+    this.allAppointmentsFilterModel = new FilterModel();
+    this.allAppointmentsMeta = null;
+
+    this.cancelledDisplayedColumns = [
+      { displayName: "Care Manager", key: "staffName", width: "140px" },
+      {
+        displayName: "Appointment Type",
+        key: "appointmentType",
+        width: "140px"
+      },
+      { displayName: "Date Time", key: "dateTimeOfService", width: "200px" },
+      { displayName: "Cancel Type", key: "cancelType", width: "120px" },
+      { displayName: "Cancel Reason", key: "cancelReason", width: "120px" },
+      { displayName: "Actions", key: "Actions", width: "80px", sticky: true }
+    ];
+    this.pendingDisplayedColumns = [
+      { displayName: "Care Manager", key: "staffName", width: "140px" },
+      {
+        displayName: "Appointment Type",
+        key: "appointmentType",
+        width: "140px"
+      },
+      { displayName: "Date Time", key: "dateTimeOfService", width: "250px" },
+      { displayName: "Actions", key: "Actions", width: "80px", sticky: true }
+    ];
+    this.pendingActionButtons = [];
+<<<<<<< Updated upstream
+    this.allAppointmentsDisplayedColumns =[     
+      { displayName: 'Care Manager', key: 'staffName', class: '', width: '140px', sticky: true  }, 
+      { displayName: 'Appointment Type', key: 'appointmentTypeName', width: '140px' },  
+      { displayName: 'Date Time', key: 'dateTimeOfService', width: '250px' },   
+      { displayName: 'Actions', key: 'Actions', width: '80px' }
+    ]
+    
+    this.allAppointmentsActionButtons = [];
+    this.todayDisplayedColumns =[     
+      { displayName: 'Care Manager', key: 'staffName', class: '', width: '140px', sticky: true  }, 
+      { displayName: 'Appointment Type', key: 'appointmentTypeName', width: '140px' },  
+      { displayName: 'Date Time', key: 'dateTimeOfService', width: '250px' },   
+      { displayName: 'Actions', key: 'Actions', width: '80px' }
+    ]
+=======
+    this.allAppointmentsDisplayedColumns = [
+      {
+        displayName: "Care Manager",
+        key: "staffName",
+        class: "",
+        width: "140px",
+        sticky: true
+      },
+      {
+        displayName: "Appointment Type",
+        key: "appointmentTypeName",
+        width: "140px"
+      },
+      { displayName: "Date Time", key: "dateTimeOfService", width: "250px" },
+      { displayName: "Actions", key: "Actions", width: "80px" }
+    ];
+    this.allAppointmentsActionButtons = [];
+>>>>>>> Stashed changes
+  }
+
+
+  ngOnInit() {
+    this.subscription = this.commonService.currentLoginUserInfo.subscribe(
+      (user: any) => {
+        if (user) {
+          this.currentLoginUserId = user.id;
+          this.currentLocationId = user.currentLocationId;
+          this.userRoleName =
+            user && user.users3 && user.users3.userRoles.userType;
+        }
+      }
+    );
+
+    this.filterModel = new FilterModel();
+
+<<<<<<< Updated upstream
+  this.filterModel = new FilterModel();
+
+  this.getPasswordExpiryMessage();
+  this.headerText = 'Assessments'
+  this.getAllPatientAppointmentList();
+  this.getPendignPatientAppointmentList();
+  this.getCancelledPatientAppointmentList();
+  this.getMissedPatientAppointmentList();
+  this.getAttendedPatientAppointmentList();
+  this.getTodayPatientAppointmentList();
+}
+onPageChanges() {
+  merge(this.paginator.page)
+    .subscribe(() => {
+
+=======
+    this.getPasswordExpiryMessage();
+    this.headerText = "Assessments";
+    this.getAllPatientAppointmentList();
+    //this.getAllPatientAppointmentList();
+    //this.getMissedPatientAppointmentList();
+    //this.getAttendedPatientAppointmentList();
+  }
+  onTabChanged(event: any) {
+    this.selectedIndex = event.value;
+    if (event.index == 0) {
+      this.getAllPatientAppointmentList();
+    } else if (event.index == 1) {
+      this.getPendignPatientAppointmentList();
+    } else if (event.index == 2) {
+      this.getCancelledPatientAppointmentList();
+    }
+  }
+  onPageChanges() {
+    merge(this.paginator.page).subscribe(() => {
+>>>>>>> Stashed changes
+      const changeState = {
+        pageNumber: this.paginator.pageIndex + 1,
+        pageSize: this.paginator.pageSize
+      };
+      this.setTasksPaginatorModel(changeState.pageNumber, changeState.pageSize);
+      this.getTasksList();
+    });
+  }
+  setTasksPaginatorModel(pageNumber: number, pageSize: number) {
+    this.filterModel.pageNumber = pageNumber;
+    this.filterModel.pageSize = pageSize;
+  }
+  hideMessageClick() {
+    this.showMessage = false;
+  }
+  getTasksList() {
+    this.tasksFilterModel.sortColumn = "Status";
+    this.tasksFilterModel.sortOrder = "desc";
+    this.dashoboardService
+      .GetTasksList(this.tasksFilterModel)
+      .subscribe((response: ResponseModel) => {
+        if (response != null && response.statusCode == 200) {
+          this.tasksList = (response.data || []).map(x => {
+            x["disableActionButtons"] = (x.status || "").toUpperCase() ==
+              "CLOSED" && ["closed"];
+            return x;
+          });
+          this.taskMeta = response.meta;
+        } else {
+          this.tasksList = [];
+          this.taskMeta = null;
+        }
+      });
+  }
+  getAllPatientAppointmentList(pageNumber: number = 1, pageSize: number = 5) {
+    const filters = {
+      locationIds: this.currentLocationId,
+      staffIds:
+        !((this.userRoleName || "").toUpperCase() == "ADMIN") &&
+        (this.userRoleName || "").toUpperCase() == "STAFF"
+          ? this.currentLoginUserId
+          : "",
+      patientIds:
+        !((this.userRoleName || "").toUpperCase() == "ADMIN") &&
+        (this.userRoleName || "").toUpperCase() == "CLIENT"
+          ? this.currentLoginUserId
+          : "",
+      fromDate: format(new Date(), "YYYY-MM-DD"),
+      toDate: format(addDays(new Date(), 720), "YYYY-MM-DD"),
+      status: "Approved",
+      pageNumber,
+      pageSize
+    };
+    this.dashoboardService
+      .GetOrganizationAppointments(filters)
+      .subscribe((response: ResponseModel) => {
+        if (response != null && response.statusCode == 200) {
+          this.allAppointmentsList =
+            response.data != null && response.data.length > 0
+              ? response.data
+              : [];
+          this.allAppointmentsList = (this.allAppointmentsList || []).map(x => {
+            const staffsArray = (x.appointmentStaffs || []).map(
+              y => y.staffName
+            );
+            const staffIds = (x.appointmentStaffs || []).map(y => y.staffId);
+            x.staffName = staffsArray.join(", ");
+            x.dateTimeOfService =
+              format(x.startDateTime, "MM/DD/YYYY") +
+              " (" +
+              format(x.startDateTime, "h:mm A") +
+              " - " +
+              format(x.endDateTime, "h:mm A") +
+              ")";
+            return x;
+          });
+          this.allAppointmentsMeta = response.meta;
+        }
+      });
+  }
+  getPendignPatientAppointmentList() {
+    const fromDate = moment().format("YYYY-MM-DDTHH:mm:ss"),
+      toDate = null;
+    this.dashoboardService
+      .getPendingPatientAppointment(
+        this.pendingAptfilterModel,
+        fromDate,
+        toDate
+      )
+      .subscribe((response: ResponseModel) => {
+        if (response != null && response.statusCode == 200) {
+          this.pendingPatientAppointment =
+            response.data != null && response.data.length > 0
+              ? response.data
+              : [];
+          this.pendingPatientAppointment = (this.pendingPatientAppointment || []
+          ).map(x => {
+            const staffsArray = (x.pendingAppointmentStaffs || []).map(
+              y => y.staffName
+            );
+            const staffIds = (x.pendingAppointmentStaffs || []).map(
+              y => y.staffId
+            );
+            x.staffName = staffsArray.join(", ");
+            x.dateTimeOfService =
+              format(x.startDateTime, "MM/DD/YYYY") +
+              " (" +
+              format(x.startDateTime, "h:mm A") +
+              " - " +
+              format(x.endDateTime, "h:mm A") +
+              ")";
+            return x;
+          });
+          this.pendingAppointmentMeta = response.meta;
+        } else {
+          this.pendingPatientAppointment = [];
+          this.pendingAppointmentMeta = null;
+        }
+      });
+  }
+<<<<<<< Updated upstream
+  this.dashoboardService.GetOrganizationAppointments(filters).subscribe((response: ResponseModel) => {
+    if (response != null && response.statusCode == 200) {
+      this.AttendedPatientAppointment = response.data != null && response.data.length > 0 ? response.data : [];
+      this.AttendedPatientAppointment = (this.AttendedPatientAppointment || []).map(x => {
+        const staffsArray = (x.appointmentStaffs || []).map(y => y.staffName);
+        const staffIds = (x.appointmentStaffs || []).map(y => y.staffId);
+        x.staffName = staffsArray.join(', ');
+        x.dateTimeOfService = format(x.startDateTime, 'MM/DD/YYYY') + " (" + format(x.startDateTime, 'h:mm A') + " - " + format(x.endDateTime, 'h:mm A') + ")";
+        return x;
+      })
+      this.AttendedAppointmentMeta = response.meta;
+    }
+  });
+}
+getTodayPatientAppointmentList(pageNumber: number = 1, pageSize: number = 5){
+  const filters = {
+    locationIds: this.currentLocationId,
+    staffIds: !((this.userRoleName || '').toUpperCase() == 'ADMIN') && (this.userRoleName || '').toUpperCase() == 'STAFF' ? this.currentLoginUserId : "",
+    patientIds: !((this.userRoleName || '').toUpperCase() == 'ADMIN') && (this.userRoleName || '').toUpperCase() == 'CLIENT' ? this.currentLoginUserId : "",
+    fromDate: format(new Date(), 'YYYY-MM-DD'),
+    toDate: format(new Date(), 'YYYY-MM-DD'),
+    status: 'Approved',
+    pageNumber,
+    pageSize,
+  }
+  this.dashoboardService.GetOrganizationAppointments(filters).subscribe((response: ResponseModel) => {
+    if (response != null && response.statusCode == 200) {
+      this.allTodayAppointmentsList = response.data != null && response.data.length > 0 ? response.data : [];
+      this.allTodayAppointmentsList = (this.allTodayAppointmentsList || []).map(x => {
+        const staffsArray = (x.appointmentStaffs || []).map(y => y.staffName);
+        const staffIds = (x.appointmentStaffs || []).map(y => y.staffId);
+        x.staffName = staffsArray.join(', ');
+        x.dateTimeOfService = format(x.startDateTime, 'MM/DD/YYYY') + " (" + format(x.startDateTime, 'h:mm A') + " - " + format(x.endDateTime, 'h:mm A') + ")";
+        return x;
+      })
+      this.todayAppointmentMeta = response.meta;
+    }
+  });
+}
+
+getPasswordExpiryMessage() {
+  this.subscription = this.commonService.loginUser.subscribe((user: LoginUser) => {
+    if (user.passwordExpiryStatus) {
+      this.passwordExpiryColorCode = user.passwordExpiryStatus.colorCode;
+      this.passwordExpiryMessage = user.passwordExpiryStatus.message;
+      this.status = user.passwordExpiryStatus.status;
+    }
+  });
+}
+
+=======
+>>>>>>> Stashed changes
+
+  getCancelledPatientAppointmentList() {
+    const fromDate = null,
+      toDate = null;
+    this.dashoboardService
+      .getCancelledPatientAppointment(
+        this.CancelledAptfilterModel,
+        fromDate,
+        toDate
+      )
+      .subscribe((response: ResponseModel) => {
+        if (response != null && response.statusCode == 200) {
+          this.CancelledPatientAppointment =
+            response.data != null && response.data.length > 0
+              ? response.data
+              : [];
+          this.CancelledPatientAppointment = (this
+            .CancelledPatientAppointment || []
+          ).map(x => {
+            const staffsArray = (x.pendingAppointmentStaffs || []).map(
+              y => y.staffName
+            );
+            const staffIds = (x.pendingAppointmentStaffs || []).map(
+              y => y.staffId
+            );
+            x.staffName = staffsArray.join(", ");
+            x.dateTimeOfService =
+              format(x.startDateTime, "MM/DD/YYYY") +
+              " (" +
+              format(x.startDateTime, "h:mm A") +
+              " - " +
+              format(x.endDateTime, "h:mm A") +
+              ")";
+            return x;
+          });
+          this.CancelledAppointmentMeta = response.meta;
+        } else {
+          this.CancelledPatientAppointment = [];
+          this.CancelledAppointmentMeta = null;
+        }
+      });
+  }
+  getMissedPatientAppointmentList() {
+    const fromDate = null,
+      toDate = moment().format("YYYY-MM-DDTHH:mm:ss");
+    this.dashoboardService
+      .getPendingPatientAppointment(this.MissedAptfilterModel, fromDate, toDate)
+      .subscribe((response: ResponseModel) => {
+        if (response != null && response.statusCode == 200) {
+          this.MissedPatientAppointment =
+            response.data != null && response.data.length > 0
+              ? response.data
+              : [];
+          this.MissedPatientAppointment = (this.MissedPatientAppointment || []
+          ).map(x => {
+            const staffsArray = (x.pendingAppointmentStaffs || []).map(
+              y => y.staffName
+            );
+            const staffIds = (x.pendingAppointmentStaffs || []).map(
+              y => y.staffId
+            );
+            x.staffName = staffsArray.join(", ");
+            x.dateTimeOfService =
+              format(x.startDateTime, "MM/DD/YYYY") +
+              " (" +
+              format(x.startDateTime, "h:mm A") +
+              " - " +
+              format(x.endDateTime, "h:mm A") +
+              ")";
+            return x;
+          });
+          this.MissedAppointmentMeta = response.meta;
+        } else {
+          this.MissedPatientAppointment = [];
+          this.MissedAppointmentMeta = null;
+        }
+      });
+  }
+  getAttendedPatientAppointmentList() {
+    const filters = {
+      locationIds: this.currentLocationId,
+      staffIds:
+        !((this.userRoleName || "").toUpperCase() == "ADMIN") &&
+        (this.userRoleName || "").toUpperCase() == "STAFF"
+          ? this.currentLoginUserId
+          : "",
+      patientIds:
+        !((this.userRoleName || "").toUpperCase() == "ADMIN") &&
+        (this.userRoleName || "").toUpperCase() == "CLIENT"
+          ? this.currentLoginUserId
+          : "",
+      fromDate: format(addYears(new Date(), -100), "YYYY-MM-DD"),
+      toDate: format(new Date(), "YYYY-MM-DD"),
+      status: "Approved",
+      pageNumber: this.AttendedAptfilterModel.pageNumber,
+      pageSize: this.AttendedAptfilterModel.pageSize
+    };
+    this.dashoboardService
+      .GetOrganizationAppointments(filters)
+      .subscribe((response: ResponseModel) => {
+        if (response != null && response.statusCode == 200) {
+          this.AttendedPatientAppointment =
+            response.data != null && response.data.length > 0
+              ? response.data
+              : [];
+          this.AttendedPatientAppointment = (this.AttendedPatientAppointment ||
+            []
+          ).map(x => {
+            const staffsArray = (x.appointmentStaffs || []).map(
+              y => y.staffName
+            );
+            const staffIds = (x.appointmentStaffs || []).map(y => y.staffId);
+            x.staffName = staffsArray.join(", ");
+            x.dateTimeOfService =
+              format(x.startDateTime, "MM/DD/YYYY") +
+              " (" +
+              format(x.startDateTime, "h:mm A") +
+              " - " +
+              format(x.endDateTime, "h:mm A") +
+              ")";
+            return x;
+          });
+          this.AttendedAppointmentMeta = response.meta;
+        }
+      });
+  }
+
+<<<<<<< Updated upstream
+onPendingPageOrSortChange(changeState?: any) {
+  this.setPendingPaginatorModel(changeState.pageNumber, changeState.pageSize, changeState.sort, changeState.order);
+  this.getPendignPatientAppointmentList();
+}
+onCancelledPageOrSortChange(changeState?: any) {
+  this.setCancelledPaginatorModel(changeState.pageNumber, changeState.pageSize, changeState.sort, changeState.order);
+  this.getCancelledPatientAppointmentList();
+}
+onTodayPageOrSortChange(changeState?: any) {
+  this.setTodayPaginatorModel(changeState.pageNumber, changeState.pageSize, changeState.sort, changeState.order);
+  this.getTodayPatientAppointmentList(changeState.pageNumber, 5);
+}
+onMissedPageOrSortChange(changeState?: any) {
+  this.setMissedPaginatorModel(changeState.pageNumber, changeState.pageSize, changeState.sort, changeState.order);
+  this.getMissedPatientAppointmentList();
+}
+onAttendedPageOrSortChange(changeState?: any) {
+  this.setAttendedPaginatorModel(changeState.pageNumber, changeState.pageSize, changeState.sort, changeState.order);
+  this.getAttendedPatientAppointmentList();
+}
+onUpcomingAptPageOrSortChange(changeState?: any){
+  this.setUpcomingPaginatorModel(changeState.pageNumber, changeState.pageSize, changeState.sort, changeState.order);
+  this.getAllPatientAppointmentList(changeState.pageNumber, 5);
+}
+
+    setPendingPaginatorModel(pageNumber: number, pageSize: number, sortColumn: string, sortOrder: string) {
+      this.pendingAptfilterModel.pageNumber = pageNumber;
+      this.pendingAptfilterModel.pageSize = pageSize;
+      this.pendingAptfilterModel.sortOrder = sortOrder;
+      this.pendingAptfilterModel.sortColumn = sortColumn;
+    }
+    setCancelledPaginatorModel(pageNumber: number, pageSize: number, sortColumn: string, sortOrder: string) {
+      this.CancelledAptfilterModel.pageNumber = pageNumber;
+      this.CancelledAptfilterModel.pageSize = pageSize;
+      this.CancelledAptfilterModel.sortOrder = sortOrder;
+      this.CancelledAptfilterModel.sortColumn = sortColumn;
+    }
+    setTodayPaginatorModel(pageNumber: number, pageSize: number, sortColumn: string, sortOrder: string) {
+      this.TodayAptfilterModel.pageNumber = pageNumber;
+      this.TodayAptfilterModel.pageSize = pageSize;
+      this.TodayAptfilterModel.sortOrder = sortOrder;
+      this.TodayAptfilterModel.sortColumn = sortColumn;
+    }
+    setMissedPaginatorModel(pageNumber: number, pageSize: number, sortColumn: string, sortOrder: string) {
+      this.MissedAptfilterModel.pageNumber = pageNumber;
+      this.MissedAptfilterModel.pageSize = pageSize;
+      this.MissedAptfilterModel.sortOrder = sortOrder;
+      this.MissedAptfilterModel.sortColumn = sortColumn;
+    }
+    setAttendedPaginatorModel(pageNumber: number, pageSize: number, sortColumn: string, sortOrder: string) {
+      this.AttendedAptfilterModel.pageNumber = pageNumber;
+      this.AttendedAptfilterModel.pageSize = pageSize;
+      this.AttendedAptfilterModel.sortOrder = sortOrder;
+      this.AttendedAptfilterModel.sortColumn = sortColumn;
+    }
+setUpcomingPaginatorModel(pageNumber: number, pageSize: number, sortColumn: string, sortOrder: string) {
+  this.upcomingAptfilterModel.pageNumber = pageNumber;
+  this.upcomingAptfilterModel.pageSize = pageSize;
+  this.upcomingAptfilterModel.sortOrder = sortOrder;
+  this.upcomingAptfilterModel.sortColumn = sortColumn;
+}
+=======
+  getPasswordExpiryMessage() {
+    this.subscription = this.commonService.loginUser.subscribe(
+      (user: LoginUser) => {
+        if (user.passwordExpiryStatus) {
+          this.passwordExpiryColorCode = user.passwordExpiryStatus.colorCode;
+          this.passwordExpiryMessage = user.passwordExpiryStatus.message;
+          this.status = user.passwordExpiryStatus.status;
+        }
+      }
+    );
+  }
+
+  onPendingPageOrSortChange(changeState?: any) {
+    this.setPendingPaginatorModel(
+      changeState.pageNumber,
+      changeState.pageSize,
+      changeState.sort,
+      changeState.order
+    );
+    this.getPendignPatientAppointmentList();
+  }
+  onCancelledPageOrSortChange(changeState?: any) {
+    this.setCancelledPaginatorModel(
+      changeState.pageNumber,
+      changeState.pageSize,
+      changeState.sort,
+      changeState.order
+    );
+    this.getCancelledPatientAppointmentList();
+  }
+  onMissedPageOrSortChange(changeState?: any) {
+    this.setMissedPaginatorModel(
+      changeState.pageNumber,
+      changeState.pageSize,
+      changeState.sort,
+      changeState.order
+    );
+    this.getMissedPatientAppointmentList();
+  }
+  onAttendedPageOrSortChange(changeState?: any) {
+    this.setAttendedPaginatorModel(
+      changeState.pageNumber,
+      changeState.pageSize,
+      changeState.sort,
+      changeState.order
+    );
+    this.getAttendedPatientAppointmentList();
+  }
+  onUpcomingAptPageOrSortChange(changeState?: any) {
+    this.setUpcomingPaginatorModel(
+      changeState.pageNumber,
+      changeState.pageSize,
+      changeState.sort,
+      changeState.order
+    );
+    this.getAllPatientAppointmentList(changeState.pageNumber, 5);
+  }
+>>>>>>> Stashed changes
+
+  setPendingPaginatorModel(
+    pageNumber: number,
+    pageSize: number,
+    sortColumn: string,
+    sortOrder: string
+  ) {
+    this.pendingAptfilterModel.pageNumber = pageNumber;
+    this.pendingAptfilterModel.pageSize = pageSize;
+    this.pendingAptfilterModel.sortOrder = sortOrder;
+    this.pendingAptfilterModel.sortColumn = sortColumn;
+  }
+  setCancelledPaginatorModel(
+    pageNumber: number,
+    pageSize: number,
+    sortColumn: string,
+    sortOrder: string
+  ) {
+    this.CancelledAptfilterModel.pageNumber = pageNumber;
+    this.CancelledAptfilterModel.pageSize = pageSize;
+    this.CancelledAptfilterModel.sortOrder = sortOrder;
+    this.CancelledAptfilterModel.sortColumn = sortColumn;
+  }
+  setMissedPaginatorModel(
+    pageNumber: number,
+    pageSize: number,
+    sortColumn: string,
+    sortOrder: string
+  ) {
+    this.MissedAptfilterModel.pageNumber = pageNumber;
+    this.MissedAptfilterModel.pageSize = pageSize;
+    this.MissedAptfilterModel.sortOrder = sortOrder;
+    this.MissedAptfilterModel.sortColumn = sortColumn;
+  }
+  setAttendedPaginatorModel(
+    pageNumber: number,
+    pageSize: number,
+    sortColumn: string,
+    sortOrder: string
+  ) {
+    this.AttendedAptfilterModel.pageNumber = pageNumber;
+    this.AttendedAptfilterModel.pageSize = pageSize;
+    this.AttendedAptfilterModel.sortOrder = sortOrder;
+    this.AttendedAptfilterModel.sortColumn = sortColumn;
+  }
+  setUpcomingPaginatorModel(
+    pageNumber: number,
+    pageSize: number,
+    sortColumn: string,
+    sortOrder: string
+  ) {
+    this.upcomingAptfilterModel.pageNumber = pageNumber;
+    this.upcomingAptfilterModel.pageSize = pageSize;
+    this.upcomingAptfilterModel.sortOrder = sortOrder;
+    this.upcomingAptfilterModel.sortColumn = sortColumn;
+  }
+
+  setPaginatorModel(
+    pageNumber: number,
+    pageSize: number,
+    sortColumn: string,
+    sortOrder: string,
+    searchText: string
+  ) {
+    this.filterModel.pageNumber = pageNumber;
+    this.filterModel.pageSize = pageSize;
+    this.filterModel.sortOrder = sortOrder;
+    this.filterModel.sortColumn = sortColumn;
+    this.filterModel.searchText = searchText;
+  }
+}

@@ -1,0 +1,195 @@
+
+.crop {
+    overflow: hidden;
+}
+.lineheader {
+    border-bottom: 1px solid #ddd;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 8px 7px 8px;
+}
+.lineheader p {
+    /* color: #4c9898; */
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 15px;
+    margin: 0 !important;
+    padding: 0px;
+    position: relative;
+    text-transform: uppercase;
+}
+.lineheader p a {
+    color: #264653;
+}
+.lineheader p a:hover {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.lineheader span {
+    font-size: 13px;
+    line-height: 13px;
+}
+.lineheader i {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 13px;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}
+.clientdetail{ margin-top: 20px; border-top: 1px solid #ddd; padding-top: 15px;}
+.clientdetail p {
+    float: left;
+    width: 33.33%;
+    margin: 0px 0px 5px 0px;
+    padding-left: 15px;
+}
+.clientdetail address, .viewdiagnosis .client-title{ padding-left: 15px;}
+.clientdetail label, .clientdetail span{margin: 0px; color: #7a7a7a; font-size: 14px;font-weight: 600;}
+.clientdetail span{color: var(--color-black); font-weight: 500;}
+.clientdetail p{width:50%;}
+.viewdiagnosis.clientdetail span {
+    font-weight: 400;
+}
+.pd-0{ padding: 0 !important;}
+.viewdiagnosis .carditems{padding: 15px 15px 0px;}
+.carditems ul, .carditem ul {
+    list-style: outside none none;
+    margin: 0;
+    padding: 0;
+}
+.statusbox {
+    background: none !important;
+    padding: 0px !important;
+    width: 100%;
+    height: auto !important;
+}
+.history_card>div {
+    position: relative;
+    min-height: 94px;
+}
+.history_card>div>div {
+    padding: 0px !important;
+}
+.client-title {
+    font-size: 17px;
+    font-weight: 500;
+    margin: 0px;
+}
+.lastdr {
+    margin-top: 15px;
+    font-size: 14px;
+}
+.lastdr h3 {
+    color: #7a7a7a;
+    font-size: 13px;
+    font-weight: 400;
+    margin: 0 0 10px;
+    text-align: left;
+    text-transform: uppercase;
+}
+.lastdr h3 {
+    font-size: 14px;
+    margin-bottom: 13px;
+    font-weight: 600;
+}
+.cstm-clr{
+    color: #7a7a7a !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+}
+
+.latestcontent {
+    float: left;
+}
+.latestcontent>ul {
+    list-style: outside none none;
+    padding: 0;
+    margin: 0px;
+}
+
+.latestcontent>ul li {
+    color: var(--color-black);
+    font-size: 14px;
+    line-height: 20px;
+    list-style: outside none none;
+    padding: 0;
+    margin: 0px;
+}
+
+.latestcontent a {
+    color: #666;
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14px;
+    padding-top: 5px;
+}
+
+.latestcontent a:hover {
+    text-decoration: underline;
+}
+.vitald>p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 16px;
+    margin: 15px 0 0;
+    color: #7a7a7a;
+}
+
+.vitald>ul {
+    list-style: outside none none;
+    margin: 0;
+    padding: 0;
+    padding-left: 15px;
+}
+.vitald ul li {
+    display: inline-block;
+    font-size: 15px;
+    width: 33.33%;
+    margin: 17px 0px 0px 0px;
+    position: relative;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.vitald li>span {
+    color: rgba(0, 0, 0, 0.8);
+    display: block;
+    line-height: 20px;
+    float: left;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 400;
+    width: 100%;
+}
+.vitald font {
+    display: block;
+    font-weight: 500;
+}
+.vitald li i {
+    float: left;
+    width: 30px;
+    text-align: left;
+}
+
+.vitald [class^="flaticon-"]::before, .vitald [class*=" flaticon-"]::before, .vitald [class^="flaticon-"]::after, .vitald [class*=" flaticon-"]::after {
+    font-size: 25px !important;
+    line-height: 25px;
+}
+.border0 {
+    border: 0;
+}
+.profile-edit-nw{
+    margin-top: 0 !important;
+    border-top: none !important;
+}
+.profile-edit-nw .clientpic{
+    margin:5px 15px !important;
+}
+.w-50{
+    width:100%;
+}
+.mat-card-content p span{
+    word-break: break-all;
+}

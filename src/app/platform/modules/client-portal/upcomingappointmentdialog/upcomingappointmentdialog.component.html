@@ -1,0 +1,23 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>{{headerText}}</h3>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="dash-table">
+        <ng-scrollbar [trackX]="true" [autoHide]="true">
+          <app-data-table class="d-inline-block sticky-table fixed-table no-table"
+            [ngClass]="{'no-fixed':allAppointmentsList && allAppointmentsList.length == 0,'':allAppointmentsList && allAppointmentsList.length > 0}"
+            stickyHeader="true" [inputColumns]="allAppointmentsDisplayedColumns" [inputSource]="allAppointmentsList"
+            [inputMeta]="allAppointmentsMeta" (onChange)="onUpcomingAptPageOrSortChange($event)"
+            [inputButtons]="upcomingAppointmentsActionButtons"
+            (onTableActionClick)="onUpcomingTableActionClick($event)">
+          </app-data-table>
+        </ng-scrollbar>
+      </div>
+    </div>
+    <div class="row text-right">
+      <div mat-dialog-actions>
+        <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+
+  <div class="readmin-panel">
+    <div class="d-flex justify-content-between panel-title align-items-center col-12">
+      <h2 class="page_title">My Health-e Score</h2>
+    </div>
+    <div class="panel-body">
+  <div [class.hidden]="!isDialogLoading">
+    <div class="full_loader">
+      <div class="loader">
+        <div class='loader--dot'></div>
+        <div class='loader--dot'></div>
+        <div class='loader--dot'></div>
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+  <app-data-table class="mt-3 d-block table-responsive" [inputColumns]="displayedColumns"
+    [inputSource]="healtheScoresData" [inputMeta]="metaData" [inputButtons]='actionButtons'
+    (onChange)="onPageOrSortChange($event)" (onTableActionClick)="onTableActionClick($event)">
+  </app-data-table>
+     </div>

@@ -1,0 +1,25 @@
+.login-container form.small-input .group {
+    position: relative;
+    margin-bottom: 32px;
+    width: 45%;
+    display: inline-block;
+}
+.login-container .group mat-datepicker-toggle {
+    position: absolute;
+    right: 0px;
+    top: 0;
+}
+.login-container button.mat-icon-button {
+    width: 40px;
+    padding: 0;
+}
+.login-container .group .mat-select {
+    line-height: 42px;
+    border-bottom: 1px solid #c2c2c2;
+}
+
+.form-style form.small-input{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}

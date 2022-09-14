@@ -1,0 +1,30 @@
+.del-cont {
+  float: left;
+}
+.del-cont > button {
+  background: none;
+  border: 0px;
+  color: #7a7a7a;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+.del-cont i {
+  color: #7a7a7a;
+  float: left;
+  font-size: 15px;
+  padding-right: 5px;
+  position: inherit;
+}
+
+.del-cont button span {
+  float: left;
+}
+
+.del-cont > button:hover,
+.del-cont > button:hover i {
+  color: var(--color-black);
+}

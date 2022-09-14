@@ -1,0 +1,22 @@
+<!-- <app-client-header *ngIf="clientId!=null && clientId!=undefined && clientId>0" [clientId]="clientId" [headerText]="header"></app-client-header> -->
+
+
+
+<div class="readmin-panel">
+    <div class="d-flex justify-content-between">
+        <h2 class="page_title">Manage Profile</h2>
+        <div class="top-btns mr-3">
+            <button *ngIf="isBBEnabled" class="link-btn" color="primary" class="text-uppercase" mat-raised-button (click)="patientAuthorization();" title="Approve for Medicare Data" [disabled]="isProcessing">
+              <i *ngIf ="!isProcessing" class="fa fa-check-circle" aria-hidden="true"></i> <p *ngIf="isProcessing">Processing...</p></button>
+            <button class="link-btn" color="primary" class="text-uppercase" mat-raised-button matStepperNext (click)="moveBack();">
+          Back</button>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <mat-tab-group (selectedTabChange)="loadComponent($event)" [selectedIndex]="selectedIndex">
+            <mat-tab *ngFor="let tab of clientTabs;let i=index" class="mat-tab-label-active" label={{tab}} [disabled]="(clientId==null && tab!='Demographic Info')?true:false">
+            </mat-tab>
+        </mat-tab-group>
+        <div #tabContent></div>
+    </div>
+</div>

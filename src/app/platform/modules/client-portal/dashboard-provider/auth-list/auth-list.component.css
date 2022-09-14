@@ -1,0 +1,11 @@
+.remain-unit-circle {
+    color: #fff;
+    border: 1px solid transparent;
+    width: 80px;
+    text-align: center;
+    display: block;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    font-size: 13px;
+  }
+  

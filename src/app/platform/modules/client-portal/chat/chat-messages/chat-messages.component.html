@@ -1,0 +1,62 @@
+<div class="readmin-panel hgt100" *ngIf="!(chatUserId > 0); else chatUser">
+  <div class="chat-mobile-header d-flex flex-cloumn align-items-center">
+    <div class="chat-list-mb">
+      <i (click)="showHide()" class="zmdi zmdi-view-list-alt"></i>
+    </div>
+    Welcome to chat
+  </div>
+  <div class="blank-chat">
+    <img src="../../../../../../assets/img/chat-icon.png" />
+  </div>
+</div>
+
+<ng-template #chatUser>
+  <div class="readmin-panel hgt100">
+    <div class="user-chat">
+      <div class="chat-list-mb">
+        <i (click)="showHide()" class="zmdi zmdi-view-list-alt"></i>
+      </div>
+      <img src="{{chatUserImage || thumbnailImage}}" />
+      <div>
+        <p>{{chatUserName}}</p>
+        <small><i class="fa fa-circle" [ngClass]="{'greenfont': isOnline, 'orangefont': !isOnline}"
+            aria-hidden="true"></i> {{isOnline ? 'Online' : 'Offine'}}</small>
+      </div>
+    </div>
+    <div class="chat-history-box" [ngStyle]="{ 'height': 'Calc(100vh - 265px)' }">
+      <ng-scrollbar #scrollbarRef>
+        <div class="blank-chat hgt100" *ngIf="!chatMessages || chatMessages.length == 0 || isMessageLoading">
+          {{ isMessageLoading ? 'Loading...' : 'No Messages' }}
+        </div>
+        <div *ngIf="chatMessages && chatMessages.length > 0  && pageNo < (meta && meta.totalPages)">
+          <div class="load-history-msg" (click)="loadEarlierMessages()">
+            {{ loadingEarlierMsg ? 'Loading please wait...' : 'Show older messages' }}
+          </div>
+        </div>
+        <div *ngFor="let msg of chatMessages; let i = index">
+          <div class="date-phase" *ngIf="compareDate(msg.chatDateForWebApp, i)">
+            {{msg.chatDateForWebApp | date}}
+          </div>
+          <div [ngClass]="{'receive-chat': msg.isRecieved, 'send-chat': !msg.isRecieved }">
+            <div>
+              {{msg.message}}
+              <small>{{ msg.chatDateForWebApp | date:'h:mm a'}}</small>
+            </div>
+          </div>
+        </div>
+      </ng-scrollbar>
+    </div>
+    <div class="chat-text-panel d-flex p-2">
+      <textarea matInput placeholder="Type here..." #inputBox [(ngModel)]="message" name="message"
+        maxlength="1000"></textarea>
+      <div class="d-flex justify-content-between align-item-center mt-1">
+        <div class="uplaod_pic">
+        </div>
+        <span *ngIf="message && message.length >= 1000">Message exceeds maximum length.</span>
+        <button type="button" mat-raised-button color="primary" (click)="onInputMessage(inputBox)">
+          <i class="fa fa-paper-plane" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

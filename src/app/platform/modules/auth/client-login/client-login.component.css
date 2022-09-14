@@ -1,0 +1,8 @@
+@media (max-width:575px){
+.mobile-space {
+    flex-wrap: wrap;
+}
+.mobile-space .frgt-txt {
+    margin-top: 20px;
+}
+}

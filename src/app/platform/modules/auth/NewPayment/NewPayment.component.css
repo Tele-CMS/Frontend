@@ -1,0 +1,17 @@
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    padding: 10px;
+    margin-bottom: 14px;
+    border-radius: 3px;
+}
+
+.alert-success {
+    color: #08571d;
+    background-color: #ddfbdf;
+    border-color: #51e55b;
+    padding: 10px;
+    margin-bottom: 14px;
+    border-radius: 3px;
+}

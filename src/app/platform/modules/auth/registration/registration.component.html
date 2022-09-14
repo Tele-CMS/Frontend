@@ -1,0 +1,155 @@
+<app-auth>
+
+
+    <div class="row doclogin no-gutters form-block">
+        <div class="col-md-12">
+            <div  class="logo mb-4 crsr-pntr">
+                <a routerLink='/' title="Go To Home"><img src="../../../../../assets/logo-4.png" alt="" /></a>
+            </div>
+            <h3 class="pb-3 fw-300">Sign Up</h3>
+            <div *ngIf="registrationForm" class="form-style">
+                <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="small-input">
+                    <div *ngIf="errorMessage" class="alert-danger">{{errorMessage}}</div>
+
+                    <div class="group">
+                        <input type="text" autofocus formControlName="firstName" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" required>
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label>First Name</label>
+                        <mat-error *ngIf="f.firstName.errors && submitted">
+                            Please enter first name
+                        </mat-error>
+
+                    </div>
+
+                    <div class="group">
+                        <input type="text" autofocus formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" required>
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label>Last Name</label>
+                        <mat-error *ngIf="f.lastName.errors && submitted">
+                            Please enter last name
+                        </mat-error>
+
+                    </div>
+
+                    <div class="group">
+                        <input type="text" autofocus formControlName="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" required>
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label>Email</label>
+                        <mat-error *ngIf="f.username.errors && submitted">
+                            Please enter email
+                        </mat-error>
+
+                    </div>
+
+                    <div class="group">
+                        <input type="text" autofocus formControlName="phone" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" required>
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label>Phone</label>
+                        <mat-error *ngIf="f.phone.errors && submitted">
+                            Please enter phone
+                        </mat-error>
+
+                    </div>
+
+                <div class="group">
+                    <input  type="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" required>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>Password</label>
+
+                    <mat-error *ngIf="f.password.errors?.required && submitted">
+                        Please enter password
+                    </mat-error>
+                    <mat-error *ngIf="f.password.errors?.strong && submitted && f.password.value">
+                        Please enter strong password
+                    </mat-error>
+
+                </div>
+
+                <div class="group">
+                    <input   type="password" formControlName="confirmPassword" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" required>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>Re-enter Password</label>
+
+                    <mat-error *ngIf="f.confirmPassword.errors?.required && submitted">
+                        Please enter password
+                    </mat-error>
+                    <mat-error *ngIf="f.confirmPassword.errors?.notSame && submitted">
+                        Confirm password not matched
+                    </mat-error>
+                </div>
+
+                    <div class="group">
+
+                        <!-- <span class="highlight"></span>
+                    <span class="bar"></span> -->
+                        <label *ngIf="!f.dob.value">Date of Birth</label>
+
+
+
+                        <input matInput readonly [matDatepicker]="dob" [max]="maxDate" formControlName="dob" [ngClass]="{ 'is-invalid': submitted && f.dob.errors }" required>
+                        <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                        <mat-datepicker startView="multi-year" #dob></mat-datepicker>
+
+                        <mat-error *ngIf="f.dob.errors?.age">
+                            Age should be greater than 18 years
+                        </mat-error>
+
+
+                        <mat-error *ngIf="f.dob.errors && submitted">
+                            Please enter DOB
+                        </mat-error>
+                    </div>
+
+
+
+                    <div class="group">
+
+                        <label *ngIf="!f.gender.value">Gender</label>
+
+
+                        <mat-select formControlName="gender" matInput [ngClass]="{ 'is-invalid': submitted && f.gender.errors }" required>
+                            <mat-option *ngFor="let genderVal of masterGender" [value]="genderVal.id">
+                                {{genderVal.value}}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error *ngIf="f.gender.errors && submitted">
+                            Please enter Gender
+                        </mat-error>
+                    </div>
+
+
+
+
+                    <!-- <div *ngIf="isProvider" class="group">
+                    <label class="df-lbl">CV/Resume</label>
+								<div class="file-upload-wrapper">
+								  <input name="file-upload-field" formControlName="resume" type="file" class="file-upload-field" value="">
+									<i class="fa fa-upload"></i>
+								</div>
+                </div> -->
+
+                    <div class="pb-4 mt-5 btn-group w-100">
+                        <button type="submit" class="btn btn-blue font-weight-bold" [disabled]="loading">Sign Up</button>
+
+                        <a href="javascript:void(0);" (click)="toSignInpage()">
+                            <button type="button" class="btn btn-white font-weight-bold">Sign In</button>
+                        </a>
+                    </div>
+                </form>
+
+                <div class="pt-4 terms-txt">
+                    By signing up you agree to Telehealth's <a href="javascript:void(0);" (click)="opentermconditionmodal()">Terms and Condition</a> & <a href="javascript:void(0);" (click)="opentermconditionmodal()">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</app-auth>

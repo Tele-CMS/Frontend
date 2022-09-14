@@ -1,0 +1,35 @@
+<div [ngClass]=" { 'readmin-panel': isRoleClient }" class="readmin-panel">
+<h1 class="page_title">My Diagnosis</h1>
+<div class="clearfix"></div>
+        <!-- <form class="readmin-form custom_form" *ngIf="!isRoleClient">
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field class="example-full-width">
+                    <input matInput [(ngModel)]="searchText" name="searchText" (input)="applyFilter()" placeholder="Search">
+                </mat-form-field>
+            </div>
+            <div class="col-md-8 filter-btn d-flex align-items-center justify-content-between flex-row">
+                <div> <button type="button" class="clear-btn mr-5" color="accent" (click)="clearFilters()"
+                        mat-raised-button>Clear
+                        All</button>
+                    <mat-checkbox *ngIf="!isRoleClient" color="primary" (change)="isAlertChecked($event)">
+                        Show Alerts
+                    </mat-checkbox>
+                </div>
+
+                <button type="button" *ngIf="addPermission" mat-raised-button color="primary"
+                    class="add-primary-btn add-new-btn" (click)="openDialog()">
+                    <span>Add New</span>
+                </button>
+
+
+            </div>
+        </div>
+    </form> -->
+    <div class="clearfix"></div>
+    <app-data-table class="d-block table-responsive" [inputColumns]="DiagnosisColumns" [inputSource]="diagnosisList"
+        [inputMeta]="metaData" [inputButtons]='actionButtons' (onTableActionClick)="onTableActionClick($event)"
+        (onChange)="onPageOrSortChange($event)">
+    </app-data-table>
+
+</div>

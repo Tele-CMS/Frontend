@@ -1,0 +1,296 @@
+<div>
+  <div class="readmin-panel">
+    <h2 class="page_title">My Details</h2>
+    <div class="top-btns">
+
+        <!-- <button name="ccda" mat-raised-button color="primary" class="text-uppercase" (click)="getPatientCCDA()"
+      cdkFocusInitial>
+      <i class="fa fa fa-download" aria-hidden="true"></i> CCDA</button> -->
+        <button name="Save" mat-raised-button color="primary" (click)="editProfile($event)" class="text-uppercase mr-3" cdkFocusInitial>
+      <i class="fa fa fa-pencil" aria-hidden="true"></i> Profile</button>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+    <div class="">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="readmin-panel crop">
+                    <div class="panel-body pd15">
+                        <div class="lineheader">
+                            <p>Basic Information</p>
+                        </div>
+                        <div class="flex-row d-flex clientdetail profile-edit-nw">
+                            <div class="clientpic">
+                                <img src="{{ clientProfileModel && clientProfileModel.patientInfo[0] !=undefined ? clientProfileModel.patientInfo[0].photoThumbnailPath || '../assets/img/patient-default-user.svg':'../assets/img/patient-default-user.svg'}}" alt="" />
+                            </div>
+                            <div class="">
+                                <p><label>Name : </label> &nbsp; <span>{{ clientProfileModel &&
+                    clientProfileModel.patientInfo[0] !=undefined ?clientProfileModel.patientInfo[0].name:''}}</span></p>
+                                <p><label>Age : </label> &nbsp; <span>{{clientProfileModel &&
+                    clientProfileModel.patientInfo[0].age+' yrs'||''}}</span></p>
+                                <p><label>Gender : </label> &nbsp; <span>{{clientProfileModel &&
+                    clientProfileModel.patientInfo[0].gender||''}}</span></p>
+                                <p><label>SSN : </label> &nbsp; <span>{{clientProfileModel &&
+                    clientProfileModel.patientInfo[0].ssn||''}}<i aria-hidden="true"></i></span></p>
+                                <p><label>MRN : </label> &nbsp; <span>{{clientProfileModel &&
+                    clientProfileModel.patientInfo[0].mrn||''}}</span></p>
+                                <p><label>Status : </label> &nbsp; <span [ngClass]="{'greenfont': clientProfileModel && clientProfileModel.patientInfo[0].status=='Active', 'redfont': clientProfileModel &&  clientProfileModel.patientInfo[0].status=='Inactive'}">{{clientProfileModel
+                    &&
+                    clientProfileModel.patientInfo[0].status||''}}</span></p>
+                                <p><label>Phone : </label> &nbsp; <span>{{clientProfileModel &&
+                    clientProfileModel.patientInfo[0].phone + ' (Mobile)'||''}}</span></p>
+                                <p><label>Email : </label> &nbsp; <span>{{clientProfileModel &&
+                    clientProfileModel.patientInfo[0].email||''}}</span></p>
+                                <address class="w-50"><label>Address : </label> &nbsp; <span>{{clientProfileModel &&
+                    clientProfileModel.patientInfo[0].address|| ''}}</span></address>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div *ngIf="clientProfileModel && clientProfileModel.patientDiagnosisDetails[0]">
+
+                                    <div class="clientdetail viewdiagnosis">
+                                        <div class="client-title">Diagnosis</div>
+                                        <div class="row">
+                                            <div class="history_card col-12">
+                                                <div class="carditems"><span><label>Last Updated Diagnosis :</label>&nbsp; {{(clientProfileModel &&
+                            clientProfileModel.patientDiagnosisDetails[0].diagnosisDate) | date:'MM/dd/yyyy'}}</span>
+                                                    <ul>
+                                                        <li><label>Code : </label>&nbsp; <span>{{clientProfileModel
+                                && clientProfileModel.patientDiagnosisDetails[0] !=undefined &&
+                                clientProfileModel.patientDiagnosisDetails[0].code|| ''}}</span></li>
+                                                        <li class="mb-2"><label>Description : </label>&nbsp; <span>{{clientProfileModel
+                                &&clientProfileModel.patientDiagnosisDetails[0] !=undefined &&
+                                clientProfileModel.patientDiagnosisDetails[0].description|| ''}}</span></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="clientdetail viewdiagnosis">
+                                    <div class="client-title">Eligibility Details</div>
+                                    <div class="row">
+                                        <div class="history_card col-12">
+                                            <div class="carditems">
+                                                <ul *ngIf="getPatientEligibilityModel != null;else noEligibility">
+                                                    <li class="mb-2"><label>Health Plan : </label>&nbsp;
+                                                        <span>{{getPatientEligibilityModel.planName || '-'}}</span>
+                                                    </li>
+                                                    <li class="mb-2"><label>Issued Date : </label>&nbsp; <span>
+                            {{(getPatientEligibilityModel.issuedDate | date:'MM/dd/yyyy') || '-'}}</span></li>
+                                                    <li class="mb-2"><label>Insurance Company : </label>&nbsp; <span>
+                            {{getPatientEligibilityModel.company || '-'}}
+                          </span></li>
+                                                    <li class="mb-2"><label>Eligibility Status : </label>&nbsp; <span>
+                            {{getPatientEligibilityModel.status || '-'}}
+                          </span></li>
+                                                </ul>
+                                                <ng-template #noEligibility>
+                                                    <div class="col-sm-12 eligibility-panel">
+                                                        No data found.
+                                                    </div>
+                                                </ng-template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 mt-30">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="readmin-panel crop appoint">
+                            <div class="panel-body">
+                                <div class="lineheader">
+                                    <p>Appointment Details</p>
+                                </div>
+                                <div class="d-flex">
+                                    <div *ngIf="showupcomingappts" class="col-lg-6 col-xl-6 lastdr">
+                                        <h3>Upcoming Appointment</h3>
+                                        <div class="latestdoctor mb-4"><img src="{{clientProfileModel && clientProfileModel.upcomingAppointmentDetails[0] !=undefined && clientProfileModel.upcomingAppointmentDetails[0].staffImageUrl|| '../assets/img/provider-default-user.svg'}}" alt=""></div>
+                                        <div class="latestcontent">
+                                            <ul>
+                                                <li>{{clientProfileModel && clientProfileModel.upcomingAppointmentDetails[0] !=undefined && clientProfileModel.upcomingAppointmentDetails[0].upcomingAppointmentStaff|| ''}}
+                                                </li>
+                                                <li>{{clientProfileModel && clientProfileModel.upcomingAppointmentDetails[0] !=undefined && clientProfileModel.upcomingAppointmentDetails[0].upcomingAppointment|date:'MM/dd/yyyy' || ''}}</li>
+                                                <li>{{clientProfileModel && clientProfileModel.upcomingAppointmentDetails[0] !=undefined && clientProfileModel.upcomingAppointmentDetails[0].upcomingAppointment|date:'shortTime' || ''}}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="showlastappts" class="col-lg-6 col-xl-6 lastdr">
+                                        <h3>Last Appointment</h3>
+                                        <div class="latestdoctor"><img src="{{clientProfileModel && clientProfileModel.lastAppointmentDetails[0] !=undefined && clientProfileModel.lastAppointmentDetails[0].staffImageUrl|| '../assets/img/provider-default-user.svg'}}" alt=""></div>
+                                        <div class="latestcontent">
+                                            <ul>
+                                                <li>{{clientProfileModel && clientProfileModel.lastAppointmentDetails[0] !=undefined && clientProfileModel.lastAppointmentDetails[0].lastAppointmentStaff|| ''}}
+                                                </li>
+                                                <li>{{clientProfileModel && clientProfileModel.lastAppointmentDetails[0] !=undefined && clientProfileModel.lastAppointmentDetails[0].lastAppointment|date:'MM/dd/yyyy' || ''}}
+                                                </li>
+                                                <li>{{clientProfileModel && clientProfileModel.lastAppointmentDetails[0] !=undefined && clientProfileModel.lastAppointmentDetails[0].lastAppointment|date:'shortTime' || ''}}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 mt-30">
+                <div class="readmin-panel crop vitalbox">
+                    <div class="panel-body pd15">
+                        <div class="lineheader">
+                            <p>Vitals</p><span>Last Updated -{{(clientProfileModel && clientProfileModel.patientVitals[0] !=undefined
+                &&
+                clientProfileModel.patientVitals[0].vitalDate)|date:'MM/dd/yyyy'}}</span>
+                        </div>
+                        <div class="vitald">
+                            <ul>
+                                <li><span class="cstm-clr">Heart Beat</span>
+                                    <span>
+                    <font>{{clientProfileModel && clientProfileModel.patientVitals[0] !=undefined &&
+                      clientProfileModel.patientVitals[0].heartRate|| ''}}</font>
+                  </span></li>
+                                <li><span class="cstm-clr">Blood pressure</span>
+                                    <span>
+                    <font>{{(clientProfileModel && clientProfileModel.patientVitals[0] !=undefined &&
+                      clientProfileModel.patientVitals[0].bpSystolic +'/'+
+                      clientProfileModel.patientVitals[0].bpDiastolic )|| ''}}</font>
+                  </span></li>
+                                <li><span class="cstm-clr">BMI</span>
+                                    <span>
+                    <font>{{clientProfileModel && clientProfileModel.patientVitals[0] !=undefined &&
+                      clientProfileModel.patientVitals[0].bmi||''}}</font>
+                  </span></li>
+                                <li><span class="cstm-clr">Temperature</span>
+                                    <span>
+                    <font>{{clientProfileModel && clientProfileModel.patientVitals[0] !=undefined &&
+                      clientProfileModel.patientVitals[0].temperature||''}}</font>
+                  </span></li>
+                                <li><span class="cstm-clr">Height</span>
+                                    <span>
+                    <font>{{clientProfileModel && clientProfileModel.patientVitals[0] !=undefined &&
+                      clientProfileModel.patientVitals[0].heightIn ||''}}(IN)</font>
+                  </span></li>
+                                <li><span class="cstm-clr">Weight</span>
+                                    <span>
+                    <font>{{clientProfileModel && clientProfileModel.patientVitals[0] !=undefined &&
+                      clientProfileModel.patientVitals[0].weightLbs ||''}}(LB)
+                    </font>
+                  </span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 mt-30">
+                <div class="readmin-panel">
+                    <div>
+                        <div class="lineheader">
+                            <p>Current Overview</p>
+                        </div>
+                    </div>
+                    <div>
+                        <mat-tab-group class="mb-0" (selectedTabChange)="loadComponent($event)" [selectedIndex]="selectedIndex">
+                            <mat-tab *ngFor="let tab of profileTabs;let i=index" class="mat-tab-label-active" label={{tab}}>
+                            </mat-tab>
+                        </mat-tab-group>
+                        <div *ngIf="selectedIndex==0">
+                            <app-data-table [inputColumns]="immunizationColumns" [inputSource]="clientImmunizationModel" [inputMeta]="ClientImmunizationFilterModelMetaData" [inputButtons]='actionButtons' (onChange)="onClientImmunizationPageOrSortChange($event)">
+                            </app-data-table>
+                        </div>
+                        <div *ngIf="selectedIndex==1">
+                            <app-data-table [inputColumns]="medicationColumns" [inputSource]="clientMedicationModel" [inputMeta]="ClientMedicationFilterModelMetaData" [inputButtons]='actionButtons' (onChange)="onClientMedicationPageOrSortChange($event)">
+                            </app-data-table>
+                        </div>
+                        <!-- <div *ngIf="selectedIndex==2">
+              No record found
+            </div> -->
+                        <div *ngIf="selectedIndex==2" class="row">
+                            <div class="col-sm-6 mt-20 custom-card custom-card-header" *ngFor="let appointmentData of clientAppointmentListModel ">
+                                <mat-card>
+                                    <mat-card-header>
+                                        <mat-card-title>
+                                            {{appointmentData.appointmentStaffs && appointmentData.appointmentStaffs[0].staffName}}
+                                        </mat-card-title>
+                                    </mat-card-header>
+                                    <mat-card-content>
+                                        <p>Appointment:
+                                            <span> {{appointmentData.appointmentTypeName}}</span>
+                                        </p>
+                                        <p>Date:
+                                            <span>{{appointmentData.startDateTime | date:'MM/dd/yyyy'}}</span>
+                                        </p>
+                                        <p>Time:
+                                            <span> {{appointmentData.startDateTime | date:'hh:mm a'}} </span>
+                                        </p>
+                                        <p>Note :
+                                            <span> {{appointmentData.notes}} </span>
+                                        </p>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 mt-30">
+                <div class="readmin-panel">
+                    <div>
+                        <div class="lineheader">
+                            <p>Patient History</p>
+                        </div>
+                    </div>
+                    <div>
+                        <mat-tab-group (selectedTabChange)="loadComponentForHistoryTabs($event)" [selectedIndex]="selectedIndexForHistoryTabs">
+                            <mat-tab *ngFor="let tab of historyTabs;let i=index" class="mat-tab-label-active" label={{tab}}>
+                            </mat-tab>
+                        </mat-tab-group>
+                        <div *ngIf="selectedIndexForHistoryTabs==0">
+                            <app-data-table [inputColumns]="allergyColumns" [inputSource]="clientAllergyListModel" [inputMeta]="PatientAllergyListFilterModelMetaData" [inputButtons]='actionButtons' (onChange)="onPatientAllergyPageOrSortChange($event)">
+                            </app-data-table>
+                        </div>
+                        <div *ngIf="selectedIndexForHistoryTabs==1">
+                            <app-data-table [inputColumns]="insuranceColumns" [inputSource]="clientInsuranceListModel" [inputMeta]="PatientInsuranceListFilterModelMetaData" [inputButtons]='actionButtons' (onChange)="ongetPatientInsurancePageOrSortChange($event)">
+                            </app-data-table>
+                        </div>
+                        <div *ngIf="selectedIndexForHistoryTabs==4">
+                            <app-data-table [inputColumns]="authorizationColumns" [inputSource]="clientAthorizationListModel" [inputMeta]="PatientAuthorizationListFilterModelMetaData" [inputButtons]='actionButtons' (onChange)="onPatientAuthorizationPageOrSortChange($event)">
+                            </app-data-table>
+                        </div>
+                        <div *ngIf="selectedIndexForHistoryTabs==2">
+                            <div class="col-sm-6 mt-20 custom-card custom-card-header" *ngFor="let medicalHistory of patientMedicalFamilyHistoryModel ">
+                                <mat-card>
+                                    <mat-card-title>
+                                        {{medicalHistory.firstName + ' ' + medicalHistory.lastName}}
+                                    </mat-card-title>
+                                    <mat-card-content>
+                                        <p>Relationship:
+                                            <span>{{medicalHistory.relationShipName}}</span>
+                                        </p>
+                                        <p>D.O.B:
+                                            <span> {{medicalHistory.dob | date:'MM/dd/yyyy'}} </span>
+                                        </p>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div *ngIf="clientProfileModel && clientProfileModel.patientInfo[0]">
+        <app-chat-widget [title]="this.clientProfileModel.patientInfo[0].renderingProviderName" [imgSource]="clientProfileModel.patientInfo[0].renderingProviderThumbnail"
+          [fromUserId]="fromUserId" [toUserId]="this.clientProfileModel.patientInfo[0].renderingProviderId" [allMessageArray]="chatHistoryData"></app-chat-widget>
+      </div> -->
+            </div>
+        </div>
+    </div>

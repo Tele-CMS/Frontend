@@ -1,0 +1,37 @@
+
+.uplaod_pic img {
+    height: 150px;
+    max-width: 100%;
+    width: auto;
+}
+
+
+.uplaod_pic span {
+    background: rgba(0, 0, 0, 0.20);
+    color: var(--color-white);
+    font-weight: 300;
+    font-size: 13px;
+    left: 0;
+    right: 0;
+    bottom: 5px;
+    border-radius: 0;
+    position: absolute;
+    height: 30px;
+    line-height: 30px;
+}
+.nw-demographic-form{
+    background-color: var(--color-white);
+}
+.nw-demographic-form .mt-30{
+    margin-top: 30px !important;
+}
+.nw-demographic-form .panel_title{
+    margin-top: 0;
+}
+.nw-demographic-form .panel_title h3{
+    background-color: #efefef;
+    width: 100%;
+    padding: 10px 15px !important;
+    border-left: 2px solid #264653;
+    margin-right: 0;
+}

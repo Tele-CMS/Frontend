@@ -1,0 +1,8 @@
+
+ <div class="readmin-panel">
+ <h2 class="page_title">{{headerText}}</h2>
+ <div class="clearfix"></div>
+  <app-data-table class="d-block table-responsive" [inputColumns]="displayedColumns"
+    [inputSource]="assessmentListingData" [inputMeta]="metaData" [inputButtons]='actionButtons'
+    (onChange)="onPageOrSortChange($event)" (onTableActionClick)="onTableActionClick($event)"></app-data-table>
+</div>

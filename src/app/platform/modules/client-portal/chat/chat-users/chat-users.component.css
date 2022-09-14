@@ -1,0 +1,135 @@
+.chat-user-search
+{
+display: flex;
+
+}
+.chat-user-search .input-group-text {
+    border: none;
+    background-color: #F4F6F9;
+    padding: 10px;
+    border-radius: .25rem 0rem 0rem .25rem;
+    -webkit-border-radius: .25rem 0rem 0rem .25rem;
+}
+.chat-user-search .form-control {
+    border: none;
+    background-color: #F4F6F9;
+    padding: 0;
+    font-size: 13px;
+}
+.chat-user-search .form-control:focus
+{
+    box-shadow: none;
+    border: 0px;
+}
+.chat-user-search .input-group-text .kt-svg-icon {
+    height: 20px;
+    width: 20px;
+}
+.chat-user-list {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0px;
+    padding-right: 8px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+.chat-user-list:last-child
+{
+    border:0px;
+}
+.chat-user-list img {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #ddd;
+    border-radius: 100px;
+}
+.chat-user-name, .chat-time {
+    display: flex;
+    align-items: center;
+    color: var(--color-black);
+}
+.chat-user-name > div {
+    margin-left: 10px;
+}
+.chat-user-name p
+{
+    margin-bottom: 0px;
+    cursor: pointer;
+    color: #264653;
+    font-size: 18px;
+}
+.chat-user-name span {
+    display: flex;
+    align-items:center;
+    color: rgba(0, 0, 0, 0.60);
+}
+.chat-user-name span a {
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.80);
+}
+.chat-time
+{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+}
+.chat-time label
+{
+    font-size: 12px;
+}
+.chat-time span
+{
+    background-color: #264653;
+    font-size: 10px;
+    font-weight: 500;
+    width: 20px;
+    height: 20px;
+    color: var(--color-white);
+    border-radius: 100px;
+    -webkit-border-radius: 100px;
+    line-height: 20px;
+    text-align: center;
+}
+/*responsive css*/
+.close-btn {
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    cursor: pointer;
+}
+.close-btn i {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--color-black);
+}
+@media (max-width: 767px)
+{
+    .hidelist {
+        display: none;
+    }
+    .showlist
+    {
+        position: absolute;
+        left: 0;
+        width: 260px;
+        z-index: 1;
+        transition: opacity 0.4s ease-in-out;
+    }
+    .chat-user-list
+    {
+        flex-direction: column;
+    }
+    .chat-time{
+    align-items: flex-start;
+    padding-left: 60px;}
+}
+
+@media (min-width: 767px)
+    {
+        .chat-list-mb, .user-chat-list, .close-btn
+        {
+            display: none;
+        }
+
+    }

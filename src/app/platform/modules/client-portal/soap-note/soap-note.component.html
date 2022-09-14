@@ -1,0 +1,104 @@
+<div>
+  <h2 class="page_title">Appointment Details</h2>
+  <div class="clearfix"></div>
+  <div>
+    <div class="client_profile" *ngIf="patientAppointmentDetails && staffDetails">
+      <div class="clientbox">
+        <div class="user_pic activec">
+          <img src="{{staffDetails.photoThumbnail|| '../assets/img/provider-default-user.svg'}}" alt="" />
+          <i class="fa fa-circle" aria-hidden="true"></i>
+        </div>
+        <div class="userlinks">
+          <p>
+            <a aria-current="false" href="javascript:void(0);">Dr.&nbsp;{{staffDetails.staffName}}</a>
+          </p>
+        </div>
+        <div class="client_detail">
+          <p>
+            <b>Appointment Date</b>&nbsp;:&nbsp;
+            <span>{{patientAppointmentDetails.startDateTime||'' | date:'mediumDate'}}</span>
+          </p>
+          <p>
+            <b>Time</b>&nbsp;:&nbsp;
+            <span>{{patientAppointmentDetails.startDateTime||''| date:'shortTime'}}&nbsp;-&nbsp;{{patientAppointmentDetails.endDateTime||''| date:'shortTime'}}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="readmin-panel">
+      <div class="row" style="margin-bottom:35px;">
+        <div [ngClass]="{'col-md-12':encounterId > 0, 'col-md-4':encounterId == 0}">
+          <form id="soapForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="soapForm">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="panel_title">
+                  <h3>Soap Notes</h3>
+                  <i class="flaticon flaticon-bathroom"></i>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <ng-scrollbar class="formio-form-div">
+                  <formio [form]='jsonFormData' class="soap-note-client" [submission]="initialFormValues" [options]="formioOptions" [viewOnly]="true"
+                    [hideComponents]="['button']" [readOnly]="true"></formio>
+                </ng-scrollbar>
+              </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+      <div class=" clearfix "></div>
+      <div class="row ">
+        <div class="col-md-12 d-flex justify-content-between align-items-center ">
+          <div class="panel_title m-0 ">
+            <h3 class="m-0 ">Diagnosis</h3>
+            <i class="flaticon flaticon-gym "></i>
+          </div>
+
+        </div>
+        <div class="col-md-12 ">
+          <div class="table-responsive ">
+            <table class="table table-hover customtable group-table ">
+              <thead>
+                <tr>
+                  <th width="35% ">
+                    <span>DIAGNOSIS</span>
+                  </th>
+                  <th width="35% ">
+                    <span>DIAGNOSIS DATE</span>
+                    <!-- </th>
+                  <th width="30% ">
+                    <span>ACTION</span>
+                  </th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="!patientEncounterDiagnosisCodes && !patientEncounterDiagnosisCodes.length ">
+                  <td colspan="3 " class="text-center ">
+                    No record found.
+                  </td>
+                </tr>
+                <tr *ngFor="let code of patientEncounterDiagnosisCodes; let x=i ndex ">
+                  <td>
+                    <span>{{code.description}}</span>
+                  </td>
+                  <td>
+                    <span>{{code.diagnosisDate | date:"MM/dd/yyyy "}}</span>
+                  </td>
+                  <!-- <td>
+                    <button type="button " title="Edit " class="tbactionbtn " (click)="openDiagnosisDialog(code.id) ">
+                                      <i class="fa fa-pencil " aria-hidden="true "></i>
+                                    </button>
+                    <button type="button " title="Delete " class="tbactionbtn " (click)="deleteDiagnosisCode(code.id) ">
+                                <i class="fa fa-times " aria-hidden="true "></i>
+                              </button>
+                  </td> -->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>

@@ -1,0 +1,53 @@
+.additionalAddressBtn {
+    padding-left: 10px;
+    padding-top: 2px;
+    display: flex;
+    align-items: center;
+}
+.addnum {
+    background: transparent none repeat scroll 0 0;
+    border: 0 none;
+    float: left;
+    font-size: 18px;
+    line-height: 14px;
+    padding: 0;
+    cursor: pointer;
+    color: #7a7a7a;
+}
+.remove-btn{
+    bottom:32px !important;
+}
+.parent_div {
+    position: relative;
+}
+.additem {
+    right: 15px;
+    top:55px;
+}
+.removeitem {
+    right: 35px;
+    top:55px;
+}
+.tp-30{
+    top:30px !important;
+}
+.nw-adress-form{
+    background-color: var(--color-white);
+}
+.nw-adress-form .mt-30{
+    margin-top: 30px !important;
+}
+.nw-adress-form .panel_title{
+    margin-top: 0;
+}
+.nw-adress-form .panel_title h3{
+    background-color: #efefef;
+    width: 100%;
+    padding: 10px 15px !important;
+    border-left: 2px solid #264653;
+    margin-right: 0;
+}
+.plus-minus-btn {
+  position: absolute;
+  right: -10%;
+}

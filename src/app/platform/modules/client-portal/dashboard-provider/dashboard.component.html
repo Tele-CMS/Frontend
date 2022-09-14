@@ -1,0 +1,1041 @@
+<div class="hgt100">
+  <span *ngIf="showMessage && passwordExpiryMessage && status">
+    <div class="alert {{passwordExpiryColorCode}} update-pwd">
+      {{passwordExpiryMessage}}
+      <i (click)="hideMessageClick()" class="fa fa-times" aria-hidden="true"></i>
+    </div>
+  </span>
+  <h2 class="page_title">Dashboard</h2>
+  <div class="clearfix"></div>
+  <div class="row dashboardchart">
+    <div class="col-sm-12">
+      <div class="readmin-panel pt-0">
+        <mat-tab-group (selectedTabChange)="onTabChanged($event)">
+          <mat-tab>
+            <ng-template mat-tab-label>
+              APPOINTMENTS GRAPH
+              <i title="Appointments" routerLink="/web/scheduling" class="fa fa-link pl-2" aria-hidden="true"></i>
+            </ng-template>
+            <div class="col-md-12 mb-3">
+              <div class="row">
+                <div class="col-sm-4 mt-3 refresh cushgt">
+                  <div class="sech_item caregap-sl-dt">
+                    <p>Provider: </p>
+                    <span [ngClass]="{'active' : filterParamsForAppointent && filterParamsForAppointent.CareManagerIds.length == masterStaffs.length }"
+                          (click)="onAppointmentCMSelectOrDeselect('SelectAll')">Select All </span>
+                    <span [ngClass]="{'active' : filterParamsForAppointent && filterParamsForAppointent.CareManagerIds.length == 0 }"
+                          (click)="onAppointmentCMSelectOrDeselect()">
+                      Deselect All
+                    </span>
+                  </div>
+                  <mat-form-field class="example-full-width" floatLabel="never">
+                    <mat-select multiple placeholder="Select Provider" [(ngModel)]="filterParamsForAppointent && filterParamsForAppointent.CareManagerIds"
+                                (selectionChange)="onApptGraphCMSelect()" matInput>
+                      <mat-option *ngFor="let obj of masterStaffs" [value]="obj.id">
+                        {{obj.value}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <!-- <i (click)="onAppointmentCMSelectOrDeselect()" class="fa fa-refresh field-clear" aria-hidden="true"
+      title="Clear All"></i> -->
+                </div>
+                <div class="col-sm-4 mt-3">
+                  <mat-form-field class="example-full-width">
+                    <mat-select multiple placeholder="Select Status" [(ngModel)]="filterParamsForAppointent && filterParamsForAppointent.statusIds"
+                                (selectionChange)="onStatusSelect($event)" matInput>
+                      <mat-option *ngFor="let obj of masterAppointmentStatus" [value]="obj.id">
+                        {{obj.value}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-4 mt-3">
+                  <mat-form-field class="example-full-width">
+                    <mat-select placeholder="Chart View" [(ngModel)]="filterParamsForAppointent && filterParamsForAppointent.appointmentTimeIntervalId"
+                                (selectionChange)="onAppointmenttimeInterval($event)" matInput>
+                      <mat-option *ngFor="let obj of masterAppointmenttimeIntervalData" [value]="obj.id">
+                        {{obj.value}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <!--<div class="col-md-3 refresh">
+                  <mat-form-field class="example-full-width">
+                    <mat-select matInput [(ngModel)]="filterParamsForAppointent && filterParamsForAppointent.nextAppointmentPresent"
+                                (selectionChange)="onNextAppSelect($event)" placeholder="Next Appointment">
+                      <mat-option *ngFor="let option of nextAppointmentList" [value]="option.id">
+                        {{option.value}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <i (click)="onNextAppRefersh()" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+                </div>-->
+              </div>
+              <div *ngIf="showGraphAppointment">
+                <!-- <app-line-chart [lineChartData]="lineChartData_appointments" [lineChartLabels]="lineChartLabels_appointments"
+              [lineChartOptions]="lineChartOptions_appointments"></app-line-chart> -->
+
+                <app-bar-chart class="bar-dash" [barChartData]="lineChartData_appointments" [barChartLabels]="lineChartLabels_appointments"
+                  [barChartOptions]="lineChartOptions_appointments" [barChartColors]="barChartColors_appointments"
+                  (chartClicked)="onAppointmentChartClick($event)">
+                </app-bar-chart>
+
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              ACCEPTED/APPROVED APPOINTMENTS
+              <!-- <i title="Appointments" routerLink="/web/scheduling" class="fa fa-link pl-2" aria-hidden="true"></i> -->
+            </ng-template>
+            <!-- <div style="margin-top: 5px">
+            <mat-checkbox class="checkbox-sm" color="primary" (change)="showPastAppointment($event)">
+              Show past appointments
+            </mat-checkbox>
+          </div> -->
+            <div class="dash-table mt-3">
+             
+              <ng-scrollbar [trackX]="true" [autoHide]="true">
+                <app-data-table class="d-inline-block sticky-table fixed-table no-table" [ngClass]="{'no-fixed':allAppointmentsList && allAppointmentsList.length == 0,'':allAppointmentsList && allAppointmentsList.length > 0}"
+                  stickyHeader="true" [inputColumns]="allAppointmentsDisplayedColumns" [inputSource]="allAppointmentsList"
+                  [inputMeta]="allAppointmentsMeta" (onChange)="onUpcomingAptPageOrSortChange($event)" [inputButtons]='allAppointmentsActionButtons'>
+                </app-data-table>
+              </ng-scrollbar>
+            </div>
+          </mat-tab>
+          <mat-tab label="PENDING APPOINTMENTS">
+            <div class="dash-table mt-3">
+              <ng-scrollbar [trackX]="true" [autoHide]="true">
+                <app-data-table class="d-inline-block sticky-table fixed-table no-table" [ngClass]="{'no-fixed':pendingPatientAppointment && pendingPatientAppointment.length == 0,'':pendingPatientAppointment && pendingPatientAppointment.length > 0}"
+                  stickyHeader="true" [inputColumns]="pendingDisplayedColumns" [inputSource]="pendingPatientAppointment"
+                  [inputMeta]="pendingAppointmentMeta" [inputButtons]='pendingActionButtons' (onChange)="onPendingPageOrSortChange($event)"
+                  (onTableActionClick)="onTableActionClick($event)">
+                </app-data-table>
+              </ng-scrollbar>
+            </div>
+          </mat-tab>
+          <mat-tab label="CANCELLED APPOINTMENTS">
+            <div class="dash-table mt-3">
+              <ng-scrollbar [trackX]="true" [autoHide]="true">
+                <app-data-table class="d-inline-block sticky-table fixed-table no-table" [ngClass]="{'no-fixed':cancelledPatientAppointment && cancelledPatientAppointment.length == 0,'':cancelledPatientAppointment && cancelledPatientAppointment.length > 0}"
+                  stickyHeader="true" [inputColumns]="cancelledDisplayedColumns" [inputSource]="cancelledPatientAppointment"
+                  [inputMeta]="cancelledAppointmentMeta" [inputButtons]='cancelledActionButtons' (onChange)="onCancelledPageOrSortChange($event)"
+                  (onTableActionClick)="onTableActionClick($event)">
+                </app-data-table>
+              </ng-scrollbar>
+            </div>
+          </mat-tab>
+          <mat-tab label="TENTATIVE APPOINTMENTS">
+            <div class="dash-table mt-3">
+              <ng-scrollbar [trackX]="true" [autoHide]="true">
+                <app-data-table class="d-inline-block sticky-table fixed-table no-table" [ngClass]="{'no-fixed':tentativePatientAppointment && tentativePatientAppointment.length == 0,'':tentativePatientAppointment && tentativePatientAppointment.length > 0}"
+                  stickyHeader="true" [inputColumns]="tentativeDisplayedColumns" [inputSource]="tentativePatientAppointment"
+                  [inputMeta]="tentativeAppointmentMeta" [inputButtons]='tentativeActionButtons' (onChange)="onTentativeAptPageOrSortChange($event)">
+                </app-data-table>
+              </ng-scrollbar>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+      <div class="col-sm-12">
+        <div class="readmin-panel pt-0">
+          <div class="panel-heading">
+            <h5>Hugs messages GRAPH</h5>
+          </div>
+          <div class="col-md-12 mb-3">
+            <div class="row">
+              <div class="col-sm-3 mt-3 refresh cushgt">
+                <div class="sech_item caregap-sl-dt">
+                  <p>Provider: </p>
+                  <span [ngClass]="{'active' : filterParamsForHugsMessage && filterParamsForHugsMessage.CareManagerIds.length == masterStaffs.length }"
+                        (click)="onHugsMessageCMSelectOrDeselect('SelectAll')">Select All </span>
+                  <span [ngClass]="{'active' : filterParamsForHugsMessage && filterParamsForHugsMessage.CareManagerIds.length == 0 }"
+                        (click)="onHugsMessageCMSelectOrDeselect()">
+                    Deselect All
+                  </span>
+                </div>
+                <mat-form-field class="example-full-width" floatLabel="never">
+                  <mat-select multiple placeholder="Select Provider" [(ngModel)]="filterParamsForHugsMessage && filterParamsForHugsMessage.CareManagerIds"
+                              (selectionChange)="onHugsMessageGraphCMSelect()" matInput>
+                    <mat-option *ngFor="let obj of masterStaffs" [value]="obj.id">
+                      {{obj.value}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-3 mt-3">
+                <mat-form-field class="example-full-width">
+                  <mat-select multiple placeholder="Select Status" [(ngModel)]="filterParamsForHugsMessage && filterParamsForHugsMessage.statusIds"
+                              (selectionChange)="onHugsMessageStatusSelect($event)" matInput>
+                    <mat-option *ngFor="let obj of masterHugsMessageStatus" [value]="obj.id">
+                      {{obj.value}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-3 mt-3">
+                <mat-form-field class="example-full-width">
+                  <mat-select placeholder="Chart View" [(ngModel)]="filterParamsForHugsMessage && filterParamsForHugsMessage.hugsMessageTimeIntervalId"
+                              (selectionChange)="onHugsMessagetimeInterval($event)" matInput>
+                    <mat-option *ngFor="let obj of masterhugsMessagetimeIntervalData" [value]="obj.id">
+                      {{obj.value}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-3 mt-3">
+                <mat-form-field class="example-full-width">
+                  <mat-select placeholder="POC Type" [(ngModel)]="filterParamsForHugsMessage && filterParamsForHugsMessage.pocHugsTypeId"
+                              (selectionChange)="onPOCHugsTypeSelected($event)" matInput>
+                    <mat-option *ngFor="let obj of masterPOCHugsType" [value]="obj.id">
+                      {{obj.value}}
+                    </mat-option>
+                    <mat-option [value]=-1>All</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div *ngIf="showHugsMessageGraph">
+              <app-bar-chart class="bar-dash" [barChartData]="lineChartData_hugsMessage" [barChartLabels]="lineChartLabels_hugsMessage"
+                             [barChartOptions]="lineChartOptions_hugsMessage"  [barChartColors]="barChartColors_hugsMessage"
+                             (chartClicked)="onhugsMessageChartClick($event)">
+               
+              </app-bar-chart>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="row mt-3">
+    <div class="col-md-6 mb-3">
+      <div class="readmin-panel pt-0 righticonmenu">
+        <div class="panel-heading">
+          <h5>Provider/Patient Tasks</h5>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 mt-3 refresh cushgt">
+            <div class="sech_item caregap-sl-dt">
+              <p>Provider: </p>
+              <span [ngClass]="{'active' : filterTaskParams && filterTaskParams.careManagerIds.length == masterStaffs.length }"
+                (click)="onTaskCMSelectOrDeselect('SelectAll')">Select All </span>
+              <span [ngClass]="{'active' : filterTaskParams && filterTaskParams.careManagerIds.length == 0 }" (click)="onTaskCMSelectOrDeselect()">
+                Deselect All</span>
+            </div>
+            <mat-form-field class="example-full-width" floatLabel="never">
+              <mat-select multiple placeholder="Select Provider" [(ngModel)]="filterTaskParams && filterTaskParams.careManagerIds"
+                (selectionChange)="onTaskTypeOrTimeIntervalSelect()" matInput>
+                <mat-option *ngFor="let obj of masterStaffs" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!-- <i (click)="onTaskCMSelectOrDeselect()" class="fa fa-refresh field-clear" aria-hidden="true"
+              title="Clear All"></i> -->
+          </div>
+          <div class="col-sm-3 mt-3">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Task view" [(ngModel)]="filterTaskParams && filterTaskParams.AllTasks"
+                (selectionChange)="onTaskTypeOrTimeIntervalSelect()" matInput>
+                <mat-option *ngFor="let obj of masterTaskViewOptions" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4 mt-3">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Time period" [(ngModel)]="filterTaskParams && filterTaskParams.timeIntervalFilterId"
+                (selectionChange)="onTaskTypeOrTimeIntervalSelect()" matInput>
+                <mat-option *ngFor="let obj of masterTaskTimeIntervalData" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- <div class="col-sm-3 d-flex align-items-center mt-3">
+            <mat-checkbox color="primary" (change)='onTaskTypeOrTimeIntervalSelect()'
+              [(ngModel)]="filterTaskParams && filterTaskParams.AllTasks">
+              All Tasks
+            </mat-checkbox>
+          </div> -->
+        </div>
+        <div *ngIf="showTaskGraph">
+          <!-- <app-line-chart [lineChartData]="lineChartData_tsk" [lineChartLabels]="lineChartLabels_tsk"
+            [lineChartOptions]="lineChartOptions_tsk"></app-line-chart> -->
+
+          <app-bar-chart [barChartData]="lineChartData_tsk" [barChartLabels]="lineChartLabels_tsk" [barChartOptions]="lineChartOptions_tsk"
+            (chartClicked)="onCMTasksChartClick($event)" [barChartColors]="lineChartColors_tsk"></app-bar-chart>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-md-6 mb-3">
+      <div class="readmin-panel pt-0 righticonmenu">
+        <div class="panel-heading">
+          <h5>Provider Alerts</h5>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 mt-3 refresh cushgt">
+            <div class="sech_item caregap-sl-dt">
+              <p>Provider: </p>
+              <span [ngClass]="{'active' : filterAlerts && filterAlerts.CareManagerIds.length == masterStaffs.length }"
+                    (click)="onAlertCMSelectOrDeselect('SelectAll')">Select All </span>
+              <span [ngClass]="{'active' : filterAlerts && filterAlerts.CareManagerIds.length == 0 }" (click)="onAlertCMSelectOrDeselect()">
+                Deselect All
+              </span>
+            </div>
+            <mat-form-field class="example-full-width" floatLabel="never">
+              <mat-select multiple placeholder="Select Provider" [(ngModel)]="filterAlerts && filterAlerts.CareManagerIds"
+                          (selectionChange)="onAlertCMSelect()" matInput>
+                <mat-option *ngFor="let obj of masterStaffs" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!-- <i (click)="onAlertCMSelectOrDeselect()" class="fa fa-refresh field-clear" aria-hidden="true"
+      title="Clear All"></i> -->
+          </div>
+          <div class="col-sm-6 mt-3">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Enrollment Type" [(ngModel)]="filterAlerts && filterAlerts.EnrollmentId"
+                          (selectionChange)="onAlertCMSelect()" matInput>
+                <mat-option *ngFor="let obj of masterEnrollmentTypeFilter" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3 refresh">
+            <mat-form-field class="example-full-width">
+              <mat-select matInput [(ngModel)]="filterAlerts && filterAlerts.nextAppointmentPresent"
+                            (selectionChange)="onAlertCMSelect()" placeholder="Next Appointment">
+                <mat-option *ngFor="let option of nextAppointmentList" [value]="option.id">
+                  {{option.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <i (click)="onAlertNextAppRefersh()" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div *ngIf="showAlertChart">
+          <app-bar-chart [barChartData]="barChartData_Alert" [barChartLabels]="barChartLabels_Alert" [barChartOptions]="barChartOptions_Alert"
+            [barChartColors]="barChartColors_Alert" (chartClicked)="onAlertChartClick($event)">
+          </app-bar-chart>
+        </div>
+      </div>
+    </div>
+
+    <!-- Care plan/gap Status -->
+    <div class="col-md-6 mb-3">
+      <div class="readmin-panel pt-0 righticonmenu">
+        <div class="panel-heading">
+          <h5>Care Gaps</h5>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 mt-3 refresh cushgt">
+            <div class="sech_item caregap-sl-dt">
+              <p>Provider: </p>
+              <span [ngClass]="{'active' : filterCareGapGraph && filterCareGapGraph.CareManagerIds.length == masterStaffs.length }"
+                    (click)="onCareGapCMSelectOrDeselect('SelectAll')">Select All </span>
+              <span [ngClass]="{'active' : filterCareGapGraph && filterCareGapGraph.CareManagerIds.length == 0 }"
+                    (click)="onCareGapCMSelectOrDeselect()">
+                Deselect All
+              </span>
+            </div>
+            <mat-form-field class="example-full-width" floatLabel="never">
+              <mat-select multiple placeholder="Select Provider" [(ngModel)]="filterCareGapGraph && filterCareGapGraph.CareManagerIds"
+                          (selectionChange)="onCareGapSelect($event)" matInput [disabled]="isCareGapFilterDisabled">
+                <mat-option *ngFor="let obj of masterStaffs" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!-- <i (click)="onCareGapCMSelectOrDeselect()" class="fa fa-refresh field-clear" aria-hidden="true"
+      title="Clear All"></i> -->
+          </div>
+          <div class="col-sm-6 mt-3">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Chart View" [(ngModel)]="filterCareGapGraph && filterCareGapGraph.TimeIntervalId"
+                          (selectionChange)="onCareGapSelect($event)" matInput [disabled]="isCareGapFilterDisabled">
+                <mat-option *ngFor="let obj of masterCareGapsTimeIntervalData" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- <div class="col-sm-6 mt-3">
+      <mat-form-field class="example-full-width">
+          <mat-select multiple placeholder="Select Care Gaps"
+            [(ngModel)]="filterCareGapGraph && filterCareGapGraph.CareGapIds" (selectionChange)="onCareGapSelect($event)"
+            matInput>
+            <mat-option *ngFor="let obj of masterCareGapsList" [value]="obj.id">
+              {{obj.careGapName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+  </div> -->
+          <div class="col-sm-3">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Select Status" [(ngModel)]="filterCareGapGraph && filterCareGapGraph.StatusIds"
+                          (selectionChange)="onCareGapStatusSelect($event)" matInput>
+                <mat-option *ngFor="let obj of masterCareGapsStatus" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-3">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Enrollment Type" [(ngModel)]="filterCareGapGraph && filterCareGapGraph.EnrollmentId"
+                          (selectionChange)="onCareGapStatusSelect($event)" matInput>
+                <mat-option *ngFor="let obj of masterEnrollmentTypeFilter" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Care Gap View" [(ngModel)]="filterCareGapGraph && filterCareGapGraph.CareGapsViewId"
+                          (selectionChange)="onCareGapStatusSelect($event)" matInput>
+                <mat-option *ngFor="let obj of masterCareGapsGraphViewFilter" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- <div class="col-sm-4 d-flex align-items-center">
+    <mat-checkbox color="primary" (change)='onCareGapStatusSelect($event)'
+      [(ngModel)]="filterCareGapGraph && filterCareGapGraph.AllPatients">
+      All Patients
+    </mat-checkbox>
+  </div> -->
+          <div class="col-md-3 refresh">
+            <mat-form-field class="example-full-width">
+              <mat-select matInput [(ngModel)]="filterCareGapGraph && filterCareGapGraph.nextAppointmentPresent"
+                          (selectionChange)="onCareGapStatusSelect($event)" placeholder="Next Appointment">
+                <mat-option *ngFor="let option of nextAppointmentList" [value]="option.id">
+                  {{option.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <i (click)="onCareGapNextAppReferesh()" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+          </div>
+
+        </div>
+        <div *ngIf="showPieChartCarePlan">
+          <app-pie-chart [pieChartData]="pieChartData_carePlan" [pieChartLabels]="pieChartLabels_carePlan"
+            [pieChartOptions]="pieChartOptions_carePlan" [pieColors]="pieColors_carePlan" (chartClicked)="onCareGapChartClick($event)">
+          </app-pie-chart>
+
+
+          <!-- <app-bar-chart [barChartData]="pieChartData_carePlan" [barChartLabels]="pieChartLabels_carePlan"
+            [barChartOptions]="pieChartOptions_carePlan" [barChartColors]="pieColors_carePlan"
+            (chartClicked)="onCareGapChartClick($event)" ></app-bar-chart> -->
+
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <div class="readmin-panel pt-0 righticonmenu">
+        <div class="panel-heading">
+          <h5>Encounters</h5>
+        </div>
+        <div class="row">
+          <div class="col-sm-7 mt-3 refresh cushgt">
+            <div class="sech_item caregap-sl-dt">
+              <p>Provider: </p>
+              <span [ngClass]="{'active' : filterParamsForEncounter && filterParamsForEncounter.CareManagerIds.length == masterStaffsForEncounter.length }"
+                    (click)="onEncounterCMSelectOrDeselect('SelectAll')">Select All </span>
+              <span [ngClass]="{'active' : filterParamsForEncounter && filterParamsForEncounter.CareManagerIds.length == 0 }"
+                    (click)="onEncounterCMSelectOrDeselect()">
+                Deselect All
+              </span>
+            </div>
+            <mat-form-field class="example-full-width" floatLabel="never">
+              <mat-select multiple placeholder="Select Provider" [(ngModel)]="filterParamsForEncounter && filterParamsForEncounter.CareManagerIds"
+                          (selectionChange)="onEncounterCMSelect()" matInput>
+                <mat-option *ngFor="let obj of masterStaffsForEncounter" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!-- <i (click)="onEncounterCMSelectOrDeselect()" class="fa fa-refresh field-clear" aria-hidden="true"
+      title="Clear All"></i> -->
+          </div>
+          <div class="col-sm-5 mt-3">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Chart View" [(ngModel)]="filterParamsForEncounter && filterParamsForEncounter.encounterTimeIntervalId"
+                          (selectionChange)="onEncounterTimeInterval($event)" matInput>
+                <mat-option *ngFor="let obj of masterEncountertimeIntervalData " [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-7 refresh cushgt">
+            <div class="sech_item caregap-sl-dt">
+              <p>Encounter Types: </p>
+              <span [ngClass]="{'active' : filterParamsForEncounter && filterParamsForEncounter.encounterTypeIds.length == masterEncounterTypes.length }"
+                    (click)="onEncounterTypeSelectOrDeselect('SelectAll')">Select All </span>
+              <span [ngClass]="{'active' : filterParamsForEncounter && filterParamsForEncounter.encounterTypeIds.length == 0 }"
+                    (click)="onEncounterTypeSelectOrDeselect()">
+                Deselect All
+              </span>
+            </div>
+            <mat-form-field class="example-full-width" floatLabel="never">
+              <mat-select multiple placeholder="Select Encounter Types" [(ngModel)]="filterParamsForEncounter && filterParamsForEncounter.encounterTypeIds"
+                          (selectionChange)="onEncounterSelect($event)" matInput>
+                <mat-option *ngFor="let obj of masterEncounterTypes" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!-- <i (click)="onResetEncounterTypeDropdown()" class="fa fa-refresh field-clear" aria-hidden="true"
+      title="Clear All"></i> -->
+          </div>
+          <div class="col-sm-5">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Enrollment Type" [(ngModel)]="filterParamsForEncounter && filterParamsForEncounter.EnrollmentId"
+                          (selectionChange)="onEncounterCMSelect()" matInput>
+                <mat-option *ngFor="let obj of masterEnrollmentTypeFilter" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- <div class="col-sm-5 mt-3 d-flex align-items-center">
+      <mat-checkbox color="primary" (change)='onCheckIncludeTotalEnrollments($event)'
+        [(ngModel)]="filterParams && filterParams.isCheckTotalEnrollments">
+        Include Total Enrollments
+      </mat-checkbox>
+    </div> -->
+
+          <div class="col-md-3 refresh">
+            <mat-form-field class="example-full-width">
+              <mat-select matInput [(ngModel)]="filterParamsForEncounter && filterParamsForEncounter.nextAppointmentPresent"
+                          (selectionChange)="onEncounterNextAppSelect($event)" placeholder="Next Appointment">
+                <mat-option *ngFor="let option of nextAppointmentList" [value]="option.id">
+                  {{option.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <i (click)="onEncounterNextAppRefersh()" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div *ngIf="showEncounterGraph">
+          <app-line-chart [lineChartData]="lineChartData_encounters" [lineChartLabels]="lineChartLabels_encounters"
+            [lineChartColors]="lineChartColors_encounter" [lineChartOptions]="lineChartOptions_encounters"
+            (chartClicked)="onEncounterChartClick($event)">
+          </app-line-chart>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row dashboardchart">
+
+    <div class="col-md-6 mb-3">
+      <div class="readmin-panel pt-0 righticonmenu">
+        <div class="panel-heading">
+          <h5>Age Group</h5>
+        </div>
+        <div class="row">
+          <div class="col-sm-7 mt-3 refresh cushgt">
+            <div class="sech_item caregap-sl-dt">
+              <p>Provider: </p>
+              <span [ngClass]="{'active' : filterAgeGroupGraph && filterAgeGroupGraph.CareManagerIds.length == masterStaffs.length }"
+                    (click)="onAgeGroupCMSelectOrDeselect('SelectAll')">Select All </span>
+              <span [ngClass]="{'active' : filterAgeGroupGraph && filterAgeGroupGraph.CareManagerIds.length == 0 }"
+                    (click)="onAgeGroupCMSelectOrDeselect()">
+                Deselect All
+              </span>
+            </div>
+            <mat-form-field class="example-full-width" floatLabel="never">
+              <mat-select multiple placeholder="Provider" [(ngModel)]="filterAgeGroupGraph && filterAgeGroupGraph.CareManagerIds"
+                          (selectionChange)="onAgeGroupDropdownSelect()" matInput>
+                <mat-option *ngFor="let obj of masterStaffs" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!-- <i (click)="onAgeGroupCMSelectOrDeselect()" class="fa fa-refresh field-clear" aria-hidden="true"
+      title="Clear All"></i> -->
+          </div>
+          <div class="col-sm-5 mt-3">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Enrollment Type" [(ngModel)]="filterAgeGroupGraph && filterAgeGroupGraph.EnrollmentId"
+                          (selectionChange)="onAgeGroupDropdownSelect()" matInput>
+                <mat-option *ngFor="let obj of masterEnrollmentTypeFilter" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3 refresh">
+            <mat-form-field class="example-full-width">
+              <mat-select matInput [(ngModel)]="filterAgeGroupGraph && filterAgeGroupGraph.nextAppointmentPresent"
+                          (selectionChange)="onAgeGroupDropdownSelect()" placeholder="Next Appointment">
+                <mat-option *ngFor="let option of nextAppointmentList" [value]="option.id">
+                  {{option.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <i (click)="onAgeGroupDropdownRefersh()" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div *ngIf="showPieChartDemographicInfo">
+          <app-pie-chart [pieChartData]="pieChartData_demographic" [pieChartLabels]="pieChartLabels_demographic"
+            [pieChartOptions]="pieChartOptions_demographic" [pieColors]="pieColors_demographic" (chartClicked)="chartClicked($event)">
+          </app-pie-chart>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <div class="readmin-panel pt-0 righticonmenu">
+        <div class="panel-heading">
+          <h5>Mozart Risk Score</h5>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mt-3 cushgt">
+            <div class="sech_item caregap-sl-dt">
+              <p>Provider: </p>
+              <span [ngClass]="{'active' : filterParamsFoRisk && filterParamsFoRisk.careManagerIds.length == masterStaffs.length }"
+                    (click)="onSelectOrDeselectChange('SelectAll','risk')">Select All </span>
+              <span [ngClass]="{'active' : filterParamsFoRisk && filterParamsFoRisk.careManagerIds.length == 0 }"
+                    (click)="onSelectOrDeselectChange('DeselectAll','risk')">
+                Deselect All
+              </span>
+            </div>
+            <mat-form-field class="example-full-width" floatLabel="never">
+              <mat-select multiple placeholder="Select Provider" [(ngModel)]="filterParamsFoRisk && filterParamsFoRisk.careManagerIds"
+                          (selectionChange)="onCMDeselectDropdown($event)" matInput>
+                <mat-option *ngFor="let obj of masterStaffs" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-5 mt-3">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Enrollment Type" [(ngModel)]="filterParamsFoRisk && filterParamsFoRisk.EnrollmentId"
+                          (selectionChange)="onEnrollmentRiskSelect($event)" matInput>
+                <mat-option *ngFor="let obj of masterEnrollmentTypeFilter" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3 refresh">
+            <mat-form-field class="example-full-width">
+              <mat-select matInput [(ngModel)]="filterParamsFoRisk && filterParamsFoRisk.nextAppointmentPresent"
+                           (selectionChange)="onEnrollmentNextAppRiskSelect($event)" placeholder="Next Appointment">
+                <mat-option *ngFor="let option of nextAppointmentList" [value]="option.id">
+                  {{option.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <i (click)="onEnrollmentNextAppRiskRefersh()" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div *ngIf="showRiskChart">
+          <app-bar-chart [barChartData]="barChartData_Risk" [barChartLabels]="barChartLabels_Risk" [barChartOptions]="barChartOptions_Risk"
+            [barChartColors]="barChartColors_risk" (chartClicked)="onRiskChartClick($event)">
+          </app-bar-chart>
+        </div>
+      </div>
+    </div>
+
+    <!-- DMP Enrolles -->
+    <div class="col-md-6 mb-3">
+      <div class="readmin-panel pt-0">
+        <div class="panel-heading">
+          <!-- <h5>Program Enrollees</h5> -->
+          <h5>Enrollments</h5>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 mt-3 cushgt">
+            <div class="sech_item caregap-sl-dt">
+              <p>Programs: </p>
+              <span [ngClass]="{'active' : filterParams && filterParams.programIds.length == programsData.length }"
+                    (click)="onResetProgramsDropdown('SelectAll')">Select All </span>
+              <span [ngClass]="{'active' : filterParams && filterParams.programIds.length == 0 }" (click)="onResetProgramsDropdown()">
+                Deselect All
+              </span>
+            </div>
+            <mat-form-field class="example-full-width" floatLabel="never">
+              <mat-select multiple placeholder="Select Programs" [(ngModel)]="filterParams && filterParams.programIds"
+                          (selectionChange)="onProgramSelect($event)" matInput>
+                <mat-option *ngFor="let obj of programsData" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!-- <i (click)="onResetProgramsDropdown()" class="fa fa-refresh field-clear" aria-hidden="true"
+      title="Clear All"></i> -->
+          </div>
+          <!-- <div class="col-sm-4 mt-3">
+      <mat-form-field class="example-full-width">
+        <mat-select multiple placeholder="Select Conditions" [(ngModel)]="filterParams && filterParams.conditionIds"
+          (selectionChange)="onProgramsConditionSelect($event)" matInput>
+          <mat-option *ngFor="let obj of diseaseConditionsData" [value]="obj.id">
+            {{obj.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div> -->
+          <div class="col-sm-3 mt-3">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Chart View" [(ngModel)]="filterParams && filterParams.timeIntervalFilterId"
+                          (selectionChange)="onTimeIntervalSelect($event)" matInput>
+                <mat-option *ngFor="let obj of masterTimeIntervalData" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- </div> -->
+          <!-- <div class="col-sm-5 refresh cushgt">
+    <div class="sech_item caregap-sl-dt">
+      <p>Provider: </p>
+      <span [ngClass]="{'active' : filterParams && filterParams.CareManagerIds.length == masterStaffs.length }"
+        (click)="onProgramsCMSelectOrDeselect('SelectAll')">Select All </span>
+        <span [ngClass]="{'active' : filterParams && filterParams.CareManagerIds.length == 0 }"
+        (click)="onProgramsCMSelectOrDeselect()">
+        Deselect All</span>
+    </div>
+    <mat-form-field class="example-full-width" floatLabel="never">
+      <mat-select multiple placeholder="Provider" [(ngModel)]="filterParams && filterParams.CareManagerIds"
+        (selectionChange)="onCheckEnrollments()" matInput>
+        <mat-option *ngFor="let obj of masterStaffs" [value]="obj.id">
+          {{obj.value}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field> -->
+          <!-- <i (click)="onProgramsCMSelectOrDeselect()" class="fa fa-refresh field-clear" aria-hidden="true"
+      title="Clear All"></i> -->
+          <!-- </div> -->
+          <!-- <div class="row"> -->
+          <div class="col-sm-3 mt-3">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Enrollment Type" [(ngModel)]="filterParams && filterParams.EnrollmentId"
+                          (selectionChange)="onEnrollmentDMPSelect($event)" matInput>
+                <mat-option *ngFor="let obj of masterEnrollmentTypeFilter" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3 refresh">
+            <mat-form-field class="example-full-width">
+              <mat-select matInput [(ngModel)]=" filterParams && filterParams.nextAppointmentPresent"
+                           (selectionChange)="onEnrollmentNextAppSelect($event)" placeholder="Next Appointment">
+                <mat-option *ngFor="let option of nextAppointmentList" [value]="option.id">
+                  {{option.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <i (click)="onEnrollmentNextAppRefersh()" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+          </div>
+        </div>
+        <!-- <div class="col-sm-2 d-flex align-items-center">
+            <mat-checkbox color="primary" (change)='onCheckEnrollments()'
+              [(ngModel)]="filterParams && filterParams.isCheckEnrolled">
+              Enrolled
+            </mat-checkbox>
+          </div> -->
+        <!-- <div class="col-sm-2 d-flex align-items-center">
+            <mat-checkbox color="primary" (change)='onCheckEnrollments()'
+              [(ngModel)]="filterParams && filterParams.isCheckNotEnrolled">
+              Not Enrolled
+            </mat-checkbox>
+          </div> -->
+        <!-- <div class="col-sm-3 d-flex align-items-center">
+            <mat-checkbox color="primary" (change)='onCheckEnrollments()'
+              [(ngModel)]="filterParams && filterParams.isCheckTotalEnrollments">
+              All Program Enrollments
+            </mat-checkbox>
+          </div> -->
+        <!-- </div> -->
+        <div *ngIf="showGraphDMP">
+          <app-line-chart [lineChartData]="lineChartData_dmp" [lineChartLabels]="lineChartLabels_dmp" [lineChartColors]="lineChartColors_dmp"
+            [lineChartOptions]="lineChartOptions_dmp" (chartClicked)="onProgramsChartClick($event)"></app-line-chart>
+        </div>
+      </div>
+    </div>
+
+    <!------Comorbidity conditions graph ------->
+    <div class="col-md-6 mb-3">
+      <div class="readmin-panel pt-0">
+        <div class="panel-heading">
+          <h5>Condition & Comorbidities</h5>
+        </div>
+        <div class="row">
+          <div class="col-sm-3 mt-3">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Primary Condition" [(ngModel)]="filtersForComorbidCondition && filtersForComorbidCondition.PrimaryConditionId"
+                          (selectionChange)="onComorbidGraphSelect()" matInput>
+                <mat-option *ngFor="let obj of masterChronicCondition" [value]="obj.id" [disabled]="isSameComorbidConditionSeleted(obj.id)">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6 mt-3 cushgt">
+            <div class="sech_item caregap-sl-dt">
+              <p>Comorbid Condition(s): </p>
+              <span [ngClass]="{'active' : filtersForComorbidCondition && filtersForComorbidCondition.ComorbidConditionIds.length == masterChronicCondition.length }"
+                    (click)="onComorbidSelectOrDeselectChange('SelectAll')">Select All </span>
+              <span [ngClass]="{'active' : filtersForComorbidCondition && filtersForComorbidCondition.ComorbidConditionIds.length == 0 }"
+                    (click)="onComorbidSelectOrDeselectChange('DeselectAll')">
+                Deselect All
+              </span>
+            </div>
+            <mat-form-field class="example-full-width" floatLabel="never">
+              <mat-select multiple placeholder="Select Comorbid Condition(s)" [(ngModel)]="filtersForComorbidCondition && filtersForComorbidCondition.ComorbidConditionIds"
+                          (selectionChange)="onComorbidGraphSelect()" matInput>
+                <mat-option *ngFor="let obj of masterChronicCondition" [value]="obj.id" [disabled]="isSamePrimaryConditionSeleted(obj.id)">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-3 mt-3">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Enrollment Type" [(ngModel)]="filtersForComorbidCondition && filtersForComorbidCondition.EnrollmentId"
+                          (selectionChange)="onComorbidGraphSelect()" matInput>
+                <mat-option *ngFor="let obj of masterEnrollmentTypeFilter" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3 refresh">
+            <mat-form-field class="example-full-width">
+              <mat-select matInput [(ngModel)]="filtersForComorbidCondition && filtersForComorbidCondition.nextAppointmentPresent"
+                          (selectionChange)="onComorbidGraphSelect()" placeholder="Next Appointment">
+                <mat-option *ngFor="let option of nextAppointmentList" [value]="option.id">
+                  {{option.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <i (click)="onComorbidGraphRefersh()" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div *ngIf="showGraphForComorbidCondition">
+          <app-bar-chart [barChartData]="barChartData_ComorbidCondition" [barChartLabels]="barChartLabels_ComorbidCondition"
+            [barChartOptions]="barChartOptions_ComorbidCondition" [barChartColors]="barChartColors_ComorbidCondition"
+            (chartClicked)="onComorbidGraphChartClick($event)">
+          </app-bar-chart>
+        </div>
+      </div>
+    </div>
+
+    <!------------->
+    <div class="col-md-6 mb-3">
+      <div class="readmin-panel pt-0">
+        <div class="panel-heading">
+          <h5>{{headerText}}</h5>
+        </div>
+        <div class="row">
+          <div class="col-md-7 mt-3 cushgt">
+            <div class="sech_item caregap-sl-dt">
+              <p>Provider: </p>
+              <span [ngClass]="{'active' : filterParamsForHRA && filterParamsForHRA.careManagerIds.length == masterStaffs.length }"
+                    (click)="onSelectOrDeselectChange('SelectAll','hra')">Select All </span>
+              <span [ngClass]="{'active' : filterParamsForHRA && filterParamsForHRA.careManagerIds.length == 0 }"
+                    (click)="onSelectOrDeselectChange('DeselectAll','hra')">
+                Deselect All
+              </span>
+            </div>
+            <mat-form-field class="example-full-width" floatLabel="never">
+              <mat-select multiple placeholder="Select Provider" [(ngModel)]="filterParamsForHRA && filterParamsForHRA.careManagerIds"
+                          (selectionChange)="onCMSelect($event)" matInput>
+                <mat-option *ngFor="let obj of masterStaffs" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-5 mt-3">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Enrollment Type" [(ngModel)]="filterParamsForHRA && filterParamsForHRA.EnrollmentId"
+                          (selectionChange)="onEnrollmentSelect($event.value)" matInput>
+                <mat-option *ngFor="let obj of masterEnrollmentTypeFilter" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!--<div class="col-md-3 refresh">
+            <mat-form-field class="example-full-width">
+              <mat-select matInput [(ngModel)]="filterParamsForHRA && filterParamsForHRA.nextAppointmentPresent"
+                          (selectionChange)="onHRANextAppSelect($event.value)" placeholder="Next Appointment">
+                <mat-option *ngFor="let option of nextAppointmentList" [value]="option.id">
+                  {{option.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <i (click)="onHRANextAppRefersh()" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+          </div>-->
+        </div>
+        <div *ngIf="showGraphForHRA">
+          <app-bar-chart [barChartData]="barChartData_hra" [barChartLabels]="barChartLabels_hra" [barChartOptions]="barChartOptions_hra"
+            [barChartColors]="barChartColors_hra" (chartClicked)="onHRAChartClick($event)">
+          </app-bar-chart>
+        </div>
+      </div>
+    </div>
+
+    <!-------------------------DRUG BREAKDOWN GRAPH------------------------------------------------------->
+
+    <div class="col-md-6 mb-3">
+      <div class="readmin-panel pt-0 righticonmenu">
+        <div class="panel-heading">
+          <h5>Drug Breakdown Graph</h5>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Chart View" [(ngModel)]="filterParamsForTheraClass && filterParamsForTheraClass.ChartView"
+                          name="ChartView" (selectionChange)="onChartViewSelect($event)" matInput>
+                <mat-option *ngFor="let obj of masterChartViewType" [value]="obj.id">
+                  {{obj.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field class="example-full-width">
+              <mat-label>Start Date</mat-label>
+              <input matInput [(ngModel)]="filterParamsForTheraClass && filterParamsForTheraClass.StartDate" name="StartDate"
+                     [matDatepicker]="startDate" placeholder="MM/DD/YYYY" (dateChange)="onDateChange($event.value,'startdate')">
+              <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+              <mat-datepicker #startDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field class="example-full-width">
+              <mat-label>End Date</mat-label>
+              <input matInput [(ngModel)]="filterParamsForTheraClass && filterParamsForTheraClass.EndDate" name="EndDate"
+                     [matDatepicker]="endDate" placeholder="MM/DD/YYYY" (dateChange)="onDateChange($event.value,'enddate')">
+              <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+              <mat-datepicker #endDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-3">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Min Amount" maxlength="5" [(ngModel)]="filterParamsForTheraClass && filterParamsForTheraClass.MinAmount"
+                     name="MinAmount" (keyup.enter)="minMaxValue($event,'min')" />
+            </mat-form-field>
+          </div>
+          <div class="col-sm-3">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Max Amount" maxlength="5" [(ngModel)]="filterParamsForTheraClass && filterParamsForTheraClass.MaxAmount"
+                     name="MaxAmount" (keyup.enter)="minMaxValue($event,'max')" />
+            </mat-form-field>
+          </div>
+          <div class="col-md-3 refresh">
+            <mat-form-field class="example-full-width">
+              <mat-select matInput [(ngModel)]="filterParamsForTheraClass && filterParamsForTheraClass.nextAppointmentPresent"
+                          (selectionChange)="onNextAppDateChange()" placeholder="Next Appointment">
+                <mat-option *ngFor="let option of nextAppointmentList" [value]="option.id">
+                  {{option.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <i (click)="onNextAppGraphReferash()" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div *ngIf="showPieChartForDrugBreakdownTheraClass">
+          <app-pie-chart [pieChartData]="pieChartData_theraClass" [pieChartLabels]="pieChartLabels_theraClass"
+            [pieChartOptions]="pieChartOptions_theraClass" [pieColors]="pieColors_theraClass" (chartClicked)="theraClassChartClicked($event)">
+            <!-- (chartClicked)="chartClicked($event)" -->
+            <!-- <div id="tooltip"></div> -->
+          </app-pie-chart>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    <!-- <div class="col-md-6 mb-3">
+      <div class="readmin-panel pt-0 righticonmenu">
+        <div class="panel-heading">
+          <h5>Tasks</h5>
+          <i title="Tasks" routerLink="/web/tasks/listing" class="fa fa-link" aria-hidden="true"></i>
+        </div>
+        <div class="sticky-header">
+          <ng-scrollbar [trackX]="true" [autoHide]="true">
+            <table class="mat-table table table-hover group-table fixed-table no-table">
+              <thead>
+                <tr class="mat-header-row">
+                  <th class="mat-header-cell" width="100px">
+                    Due date
+                  </th>
+                  <th class="mat-header-cell" width="210px">
+                    Task Type
+                  </th>
+                  <th class="mat-header-cell" width="210px">
+                    Description
+                  </th>
+                  <th class="mat-header-cell" width="100px">
+                    Priority
+                  </th>
+                  <th class="mat-header-cell" width="130px">
+                    Assigned By
+                  </th>
+                  <th class="mat-header-cell" width="150px">
+                    Associated Patient
+                  </th>
+                  <th class="mat-header-cell" width="100px">
+                    Completed?
+                  </th>
+                  <th class="mat-header-cell" width="80px">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="mat-header-row" *ngFor="let taskObj of tasksList">
+                  <td class="mat-cell">{{(taskObj.dueDate || '--') | date:'MM/dd/yyyy'}}</td>
+                  <td class="mat-cell">{{taskObj.taskType || '--'}}</td>
+                  <td class="mat-cell">{{taskObj.description || '--'}}</td>
+                  <td class="mat-cell">{{taskObj.priority || '--'}}</td>
+                  <td class="mat-cell">{{taskObj.assignedBy || '--'}}</td>
+                  <td class="mat-cell">{{taskObj.associatedPatient || '--'}}</td>
+                  <td class="mat-cell"><span
+                      [ngClass]="{'greenfont':taskObj.overallTaskStatus,'orangefont':!taskObj.overallTaskStatus}">
+                      {{taskObj.overallTaskStatus ? 'Yes' : 'No'}}</span></td>
+                  <td class="mat-cell">
+                    <button class="tbactionbtn" (click)="openDialog(taskObj.id)"
+                      *ngIf="taskObj.associatedPatient=='N/A'"><i class="fa fa-pencil"></i></button>
+                    <button class="tbactionbtn" (click)="deleteDetails(taskObj.id)"
+                      *ngIf="taskObj.associatedPatient=='N/A'"><i class="fa fa-close"></i></button>
+                    <button class="tbactionbtn" (click)="updateTask(taskObj.id)"
+                      *ngIf="taskObj.overallTaskStatus==false "><i class="fa fa-check"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="taskMeta['totalRecords']"
+              [pageIndex]="taskMeta['currentPage'] - 1" [pageSize]="taskMeta['pageSize']" showFirstLastButtons
+              (page)="onTasksPageOrSortChange($event)">
+            </mat-paginator>
+          </ng-scrollbar>
+        </div>
+      </div>
+    </div> -->
+  </div>
+</div>

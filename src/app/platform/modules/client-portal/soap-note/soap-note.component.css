@@ -1,0 +1,18 @@
+.formio-form {
+  padding-left: 0px;
+}
+.formio-form dl dt {
+  font-weight: 500;
+  line-height: 25px;
+  font-size: 12px;
+  color: #2b807f;
+}
+.formio-form dd {
+  border-bottom: solid 1px #e5e5e5;
+  line-height: 35px;
+}
+:host ::ng-deep form#soapForm .has-feedback {
+  width: 47%;
+  display: inline-block;
+  margin: 1%;
+}

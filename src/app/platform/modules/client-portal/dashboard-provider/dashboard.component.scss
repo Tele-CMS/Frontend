@@ -1,0 +1,260 @@
+.iconbox-single {
+    background: var(--color-white);
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    box-shadow: 0 4px 16px -2px rgba(0,0,0,.1), 0 0 0 1px rgba(0,0,0,.02);
+    -webkit-box-shadow: 0 4px 16px -2px rgba(0,0,0,.1), 0 0 0 1px rgba(0,0,0,.02);
+    height: 160px;
+}
+.iconbox-single .box-title {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+}
+.circle-icon {
+    display: flex;
+    align-items: flex-end;
+}
+.circle-icon i
+{
+    font-size: 130px;
+    line-height: 98px;
+    color: rgba(0, 0, 0, 0.15);
+}
+.icon-2 i
+{
+    font-size: 162px;
+    line-height: 108px;
+}
+.icon-1 i
+{
+    font-size: 200px;
+    line-height: 100px;
+}
+.iconbox-single p {
+    margin: 0;
+    opacity: .5;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--color-white);
+}
+.iconbox-single h5 {
+    margin: 0;
+    font-size: 40px;
+    font-weight: 500;
+    color: var(--color-white);
+}
+.iconbox-single.gaps-click:hover p {
+    color: var(--color-white);
+    opacity: 1;
+    cursor: pointer;
+}
+.dashboard-panel > div {
+    height: 30px;
+  }
+  .dashboard-panel button {
+    width: 30px!important;
+    height: 30px!important;
+    padding: 0px!important;
+    line-height: normal;
+  }
+  .dashboard_body table th {
+    height: auto!important;
+    color: var(--color-black)!important;
+    font-weight: 500!important;
+    font-size: 11px!important;
+    text-transform: uppercase;
+  }
+  .dashboard_body .DivPager {
+    padding: 0px 25px;
+  }
+  .remain-unit-circle {
+    color: var(--color-white);
+    border: 1px solid transparent;
+    width: 80px;
+    text-align: center;
+    display: block;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    font-size: 13px;
+  }
+  .mb-minus-15{ 
+      margin-bottom: -15px;
+  }
+  .update-pwd{display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
+.update-pwd i{cursor: pointer;}
+.dashboard-box .chart svg {
+    width: 100%;
+}
+
+
+.icon-3 i
+{
+    line-height: 104px;
+}
+.icon-5 i
+{
+    font-size: 125px;
+    line-height: 102px;
+}
+ .dash-table, .sticky-header
+{
+    height: 280px;
+}
+
+.sticky-header table
+{
+    table-layout: fixed;
+}
+.sticky-header table.mat-table thead, .sticky-header table.mat-table thead th {
+    position: sticky;
+    top: 0px;
+    z-index: 100;
+}
+.dash-table a:hover, .sticky-header a:hover {
+    text-decoration: underline;
+}
+.-vertical .ng-scrollbar-thumb {
+    min-height: 70px;
+}
+.dashboardchart i
+{
+    cursor: pointer;
+}
+  td.mat-table-sticky:first-child, td.mat-table-sticky:last-child {
+    background-color: var(--color-white);
+    background-clip: padding-box;
+  }
+  td.mat-table-sticky:nth-child(2) {
+    background-color: var(--color-white);
+    background-clip: padding-box;
+  }
+  th.mat-table-sticky:first-child, th.mat-table-sticky:nth-child(2), th.mat-table-sticky:last-child {
+    background-color:#F1F5F7;
+  }
+
+  .sticky-table .table-hover tbody tr:hover {
+    background-color: transparent;
+    }
+
+    .no-fixed {
+        width: 100%;
+        height: 100%;
+    }
+    .no-fixed .table {
+        table-layout: inherit;
+        width: 100%;
+        
+        margin: 0px;
+    }
+    .no-fixed .table tr.mat-header-row th {
+        position: static !important;
+        width: auto;
+    }
+/*increase height of bar chart*/
+    .bar-dash > div {
+        min-height: 320px;
+    }
+
+.refresh
+{
+    padding-right: 27px;
+}
+.field-clear
+{
+    position: absolute;
+    bottom: 1.80em;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.40);
+}
+
+@media (max-width: 1199px) {
+
+    .iconbox-single
+    {
+        height: 130px;
+    }
+    
+    .iconbox-single h5
+    {
+        font-size: 30px;
+    }
+    .circle-icon i{
+        font-size: 72px;
+        line-height: 53px;
+    }
+    .icon-2 i {
+        font-size: 90px;
+        line-height: 61px;
+    }
+    .icon-1 i {
+        font-size: 110px;
+        line-height: 54px;
+    }
+}
+@media (max-width: 480px) {
+    .dashboard-box .chart > div {
+        width: 60px !important;
+    }  
+}
+.sech_item {
+    font-size: 13px;
+    line-height: 14px;
+    margin-bottom: 5px;
+    font-weight: 300;
+    display: flex;
+}
+.sech_item p {
+    margin: 0;
+    font-weight: 400;
+}
+.sech_item span::before {
+    border-left: 1px solid var(--color-black);
+    content: "";
+    height: 59%;
+    position: absolute;
+    right: -5px;
+    top: 3px;
+}
+.sech_item span {
+    margin: 0 5px;
+    position: relative;
+    color: var(--color-black);
+    cursor: pointer;
+}
+.sech_item span:last-child::before {
+    border-left: 0px;
+}
+.sech_item span.active {
+    font-weight: 500;
+    color: var(--color-black);
+}
+.caregap-sl-dt {
+    position: absolute;
+    top: -5px;
+    z-index: 1;
+}
+.expt-excel {
+    min-width: auto;
+}
+@media (max-width: 575px) {
+    .cushgt {
+        padding: 0 15px !important;
+   }
+    .sech_item a {
+        margin: 0px 5px;
+   }
+    .sech_item a::before {
+        border-left: 1px solid var(--color-white);
+        content: "";
+        height: 59%;
+        position: absolute;
+        right: -5px;
+        top: 3px;
+   }
+    .cushgt {
+        margin: 15px 0px 0px;
+   }
+}
+

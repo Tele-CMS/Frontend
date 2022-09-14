@@ -1,0 +1,331 @@
+<div class="patient-container">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-sm-12 col-md-3">
+                <div class="white-box patient-profile-box">
+                    <h3>Profile</h3>
+                    <div class="profile-detail">
+                        <div class="profile-pic">
+                            <img src="{{ clientProfileModel && clientProfileModel.patientInfo[0] !=undefined ? clientProfileModel.patientInfo[0].photoThumbnailPath || '../assets/img/patient-default-user.svg':'../assets/img/patient-default-user.svg'}}" alt="" />
+                        </div>
+                        <h2>{{ clientProfileModel && clientProfileModel.patientInfo[0] !=undefined ?clientProfileModel.patientInfo[0].name:''}}</h2>
+                        <p class="age-txt">{{clientProfileModel && clientProfileModel.patientInfo[0].age+' yrs'||''}}</p>
+                        <button class="btn edit-btn" style="background-color: #eec65e;" (click)="editProfile($event)">
+                        	<i class="fa fa-pencil"></i>  &nbsp;
+                        Edit Profile</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-9 patient-profile-grid">
+                <div class="row">
+                    <div class="col-md-4" (click)="goToVitals()">
+                        <div class="grid">
+                            <img src="../assets/img/bp-icon.png" alt="ic1" />
+                            <h3>Blood Pressure</h3>
+                            <p class="lgt-blue-txt">{{(clientProfileModel && clientProfileModel.patientVitals[0] !=undefined && retValue(clientProfileModel.patientVitals[0].bpSystolic,'/',clientProfileModel.patientVitals[0].bpDiastolic))|| ''}}</p>
+                            <p class="small-txt" *ngIf="clientProfileModel && clientProfileModel.patientVitals">{{getChangePercentage('bp')}}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4" (click)="goToVitals()">
+                        <div class="grid">
+                            <img src="../assets/img/heart-icon.png" alt="ic2" />
+                            <h3>Heart Rate</h3>
+                            <p class="lgt-blue-txt">{{clientProfileModel && clientProfileModel.patientVitals[0] !=undefined && retValue(clientProfileModel.patientVitals[0].heartRate,' bmp','')|| ''}}</p>
+                            <p class="small-txt" *ngIf="clientProfileModel && clientProfileModel.patientVitals">{{getChangePercentage('heartrate')}}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4" (click)="goToVitals()">
+                        <div class="grid">
+                            <img src="../assets/img/temp-icon.png" alt="ic3" />
+                            <h3>Body Temp</h3>
+                            <p class="lgt-blue-txt">{{clientProfileModel && clientProfileModel.patientVitals[0] !=undefined && retValue(clientProfileModel.patientVitals[0].temperature,'°C','')||''}}
+                            </p>
+                            <p class="small-txt" *ngIf="clientProfileModel && clientProfileModel.patientVitals">{{getChangePercentage('temperature')}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4" (click)="clientProfileModel && goToVitals()">
+                        <div class="grid">
+                            <img src="../assets/img/height-icon.png" alt="ic6" />
+                            <h3>Height</h3>
+                            <p class="lgt-blue-txt">{{clientProfileModel && clientProfileModel.patientVitals[0] !=undefined && retValue(clientProfileModel.patientVitals[0].heightIn,'IN','') ||''}}</p>
+                            <p class="small-txt" *ngIf="clientProfileModel && clientProfileModel.patientVitals">{{getChangePercentage('height')}}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4" (click)="goToVitals()">
+                        <div class="grid" (click)="goToVitals()">
+                            <img src="../assets/img/weight-icon.png" alt="ic6" />
+                            <h3>Weight</h3>
+                            <p class="lgt-blue-txt">{{clientProfileModel && clientProfileModel.patientVitals[0] !=undefined && retValue(clientProfileModel.patientVitals[0].weightLbs,' lbs','') ||''}}</p>
+                            <p class="small-txt" *ngIf="clientProfileModel && clientProfileModel.patientVitals">{{getChangePercentage('weight')}}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4" (click)="goToVitals()">
+                        <div class="grid" (click)="goToVitals()">
+                            <img src="../assets/img/resp-icon.png" alt="ic6" />
+                            <h3>Respiration</h3>
+                            <p class="lgt-blue-txt">{{clientProfileModel && clientProfileModel.patientVitals[0] !=undefined && retValue(clientProfileModel.patientVitals[0].respiration,'','') ||''}}</p>
+                            <p class="small-txt" *ngIf="clientProfileModel && clientProfileModel.patientVitals">{{getChangePercentage('respiration')}}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <!-- <div class="col-sm-12 col-md-3">
+                <div class="white-box appnt-blk">
+                    <h3>Appointment</h3>
+                    <div class="ap-detail">
+                        <p class="med-txt">Upcoming</p>
+                        <div (click)="appointment && viewAppointment(appointment.upcomingAppointmentId)">
+                            <div class="blue-txt" *ngIf="appointment">{{appointment.appointedPastStaff}}, <span *ngIf="appointment">{{appointment.upcomingAppointmentStartDate|date:'MMM d'}}</span></div>
+                            <div class="light-txt" *ngIf="appointment">{{appointment.upcomingAppointmentStartDate|date: 'shortTime'}} - {{appointment.upcomingAppointmentEndDate|date: 'shortTime'}}</div>
+                        </div>
+                    </div>
+                    <div class="ap-detail">
+                        <p class="med-txt">Last</p>
+                        <div (click)="appointment && viewAppointment(appointment.pastAppointmentId)">
+                            <div class="blue-txt" *ngIf="appointment"> {{appointment.appointedUpcomingStaff}},
+                                <span *ngIf="appointment">{{appointment.pastAppointmentStartDate|date:'MMM d'}}</span>
+                            </div>
+                            <div class="light-txt" *ngIf="appointment">{{appointment.pastAppointmentStartDate|date: 'shortTime'}} - {{appointment.pastAppointmentEndDate|date: 'shortTime'}}</div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="white-box appnt-blk">
+                    <h3>Payments</h3>
+                    <div class="ap-detail">
+                        <p class="med-txt">This Month</p>
+                        <div class="blue-txt" (click)="goToPayment('mon');" *ngIf="payment">{{payment.monthlyAmount| currency:'USD':'symbol-narrow'}}</div>
+                    </div>
+                    <div class="ap-detail">
+                        <p class="med-txt">Total</p>
+                        <div class="blue-txt" (click)="goToPayment('tot');" *ngIf="payment">{{payment.netAmount| currency:'USD':'symbol-narrow'}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-9"> -->
+                <div class="white-box">
+                    <h3>Appointments Graph</h3>
+                    <div class="clearfix"></div>
+                    <div class="dashboardchart cstm-mat-grid nw-dashboardchart">
+                        <div class="col-md-12">
+                            <div class="readmin-panel pt-0">
+                                <!-- <mat-tab-group (selectedTabChange)="onTabChanged($event)">
+                                    <mat-tab label="Appointments Graph"> -->
+                                <div class="col-md-12 mb-3">
+                                    <div class="row">
+                                        <div class="col-sm-4 mt-3 refresh cushgt">
+                                            <div class="sech_item caregap-sl-dt">
+                                                <p>Provider: </p>
+                                                <span [ngClass]="{'active' : filterParamsForAppointent && filterParamsForAppointent.CareManagerIds.length == masterStaffs.length }" (click)="onAppointmentCMSelectOrDeselect('SelectAll')">Select All </span>
+                                                <span [ngClass]="{'active' : filterParamsForAppointent && filterParamsForAppointent.CareManagerIds.length == 0 }" (click)="onAppointmentCMSelectOrDeselect()">
+                                                  Deselect All
+                                                </span>
+                                            </div>
+                                            <mat-form-field class="example-full-width" floatLabel="never">
+                                                <mat-select multiple placeholder="Select Provider" [(ngModel)]="filterParamsForAppointent && filterParamsForAppointent.CareManagerIds" (selectionChange)="onApptGraphCMSelect($event)" matInput>
+                                                    <mat-option *ngFor="let obj of masterStaffs" [value]="obj.id">
+                                                        {{obj.value}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <!-- <i (click)="onAppointmentCMSelectOrDeselect()" class="fa fa-refresh field-clear" aria-hidden="true"
+                                  title="Clear All"></i> -->
+                                        </div>
+                                        <div class="col-sm-4 mt-3">
+                                            <mat-form-field class="example-full-width">
+                                                <mat-select multiple placeholder="Select Status" [(ngModel)]="filterParamsForAppointent && filterParamsForAppointent.statusIds" (selectionChange)="onStatusSelect($event)" matInput>
+                                                    <mat-option *ngFor="let obj of masterAppointmentStatus" [value]="obj.id">
+                                                        {{obj.value}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-sm-4 mt-3">
+                                            <mat-form-field class="example-full-width">
+                                                <mat-select placeholder="Chart View" [(ngModel)]="filterParamsForAppointent && filterParamsForAppointent.appointmentTimeIntervalId" (selectionChange)="onAppointmenttimeInterval($event)" matInput>
+                                                    <mat-option *ngFor="let obj of masterAppointmenttimeIntervalData" [value]="obj.id">
+                                                        {{obj.value}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <!--<div class="col-md-3 refresh">
+                                              <mat-form-field class="example-full-width">
+                                                <mat-select matInput [(ngModel)]="filterParamsForAppointent && filterParamsForAppointent.nextAppointmentPresent"
+                                                            (selectionChange)="onNextAppSelect($event)" placeholder="Next Appointment">
+                                                  <mat-option *ngFor="let option of nextAppointmentList" [value]="option.id">
+                                                    {{option.value}}
+                                                  </mat-option>
+                                                </mat-select>
+                                              </mat-form-field>
+                                              <i (click)="onNextAppRefersh()" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+                                            </div>-->
+                                    </div>
+                                    <div *ngIf="showGraphAppointment">
+                                        <!-- <app-line-chart [lineChartData]="lineChartData_appointments" [lineChartLabels]="lineChartLabels_appointments"
+                                          [lineChartOptions]="lineChartOptions_appointments"></app-line-chart> -->
+
+                                        <app-bar-chart class="bar-dash" [barChartData]="lineChartData_appointments" [barChartLabels]="lineChartLabels_appointments" [barChartOptions]="lineChartOptions_appointments" [barChartColors]="barChartColors_appointments" (chartClicked)="onAppointmentChartClick($event)">
+                                        </app-bar-chart>
+
+                                    </div>
+                                </div>
+                                <!-- </mat-tab> -->
+                                <!-- <mat-tab label="Today's Appointments">
+                                        <div class="dash-table mt-2">
+                                            <ng-scrollbar [trackX]="true" [autoHide]="true">
+                                                <app-data-table class="d-inline-block sticky-table fixed-table no-table" [ngClass]="{'no-fixed':allTodayAppointmentsList && allTodayAppointmentsList.length == 0,'':allTodayAppointmentsList && allTodayAppointmentsList.length > 0}" stickyHeader="true" [inputColumns]="todayDisplayedColumns"
+                                                    [inputSource]="allTodayAppointmentsList" [inputMeta]="todayAppointmentMeta" (onChange)="onTodayPageOrSortChange($event)" [inputButtons]="todayActionButtons" (onTableActionClick)="onTableActionClick($event)">
+                                                </app-data-table>
+                                            </ng-scrollbar>
+                                        </div>
+                                    </mat-tab>
+                                    <mat-tab label="Upcoming Appoinments">
+                                        <div class="dash-table mt-2">
+                                            <ng-scrollbar [trackX]="true" [autoHide]="true">
+                                                <app-data-table class="d-inline-block sticky-table fixed-table no-table" [ngClass]="{'no-fixed':allAppointmentsList && allAppointmentsList.length == 0,'':allAppointmentsList && allAppointmentsList.length > 0}" stickyHeader="true" [inputColumns]="allAppointmentsDisplayedColumns"
+                                                    [inputSource]="allAppointmentsList" [inputMeta]="allAppointmentsMeta" (onChange)="onUpcomingAptPageOrSortChange($event)" [inputButtons]="upcomingAppointmentsActionButtons" (onTableActionClick)="onUpcomingTableActionClick($event)">
+                                                </app-data-table>
+                                            </ng-scrollbar>
+                                        </div>
+                                    </mat-tab>
+                                    <mat-tab label="Past Appointments">
+                                        <div class="dash-table mt-2">
+                                            <ng-scrollbar [trackX]="true" [autoHide]="true">
+                                                <app-data-table class="d-inline-block sticky-table fixed-table no-table" [ngClass]="{'no-fixed':pastAppointmentsList && pastAppointmentsList.length == 0,'':pastAppointmentsList && pastAppointmentsList.length > 0}" stickyHeader="true" [inputColumns]="pastAppointmentsDisplayedColumns"
+                                                    [inputSource]="pastAppointmentsList" [inputButtons]="pastAppointmentsActionButtons" [inputMeta]="pastAppointmentMeta" (onChange)="onPastPageOrSortChange($event)" (onTableActionClick)="onPastTableActionClick($event)">
+                                                </app-data-table>
+                                            </ng-scrollbar>
+                                        </div>
+                                    </mat-tab>
+
+                                    <mat-tab label="Cancelled Appointments">
+                                        <div class="dash-table mt-2">
+                                            <ng-scrollbar [trackX]="true" [autoHide]="true">
+                                                <app-data-table class="d-inline-block sticky-table fixed-table no-table" [ngClass]="{'no-fixed':CancelledPatientAppointment && CancelledPatientAppointment.length == 0,'':CancelledPatientAppointment && CancelledPatientAppointment.length > 0}" stickyHeader="true"
+                                                    [inputColumns]="cancelledDisplayedColumns" [inputSource]="CancelledPatientAppointment" [inputMeta]="CancelledAppointmentMeta" (onChange)="onCancelledPageOrSortChange($event)">
+                                                </app-data-table>
+                                            </ng-scrollbar>
+                                        </div>
+                                    </mat-tab> -->
+                                <!-- <mat-tab label="Reports">
+                                        <div class="dash-table mt-2 report-table">
+                                            <ng-scrollbar [trackX]="true" [autoHide]="true">
+                                                <app-data-table (onTableActionClick)="onTableRowClick($event);" class="d-inline-block sticky-table fixed-table no-table" stickyHeader="true" [inputColumns]="patientReportColumns" [inputSource]="PatientReport" [inputMeta]="PatientReportMeta" (onChange)="onReportPageOrSortChange($event)">
+                                                </app-data-table>
+                                            </ng-scrollbar>
+                                        </div>
+                                    </mat-tab> -->
+                                <!-- </mat-tab-group> -->
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            <!-- <div class="col-sm-12 col-md-9">
+                <div class="white-box">
+                    <h3>Encounters Graph</h3>
+                    <div class="clearfix"></div>
+                    <div class="dashboardchart cstm-mat-grid nw-dashboardchart">
+                        <div class="col-md-12">
+                            <div class="readmin-panel pt-0">
+                                <div class="row">
+                                    <div class="col-sm-7 mt-3 refresh cushgt">
+                                        <div class="sech_item caregap-sl-dt">
+                                            <p>Provider: </p>
+                                            <span [ngClass]="{'active' : filterParamsForEncounter && filterParamsForEncounter.CareManagerIds.length == masterStaffsForEncounter.length }" (click)="onEncounterCMSelectOrDeselect('SelectAll')">Select All </span>
+                                            <span [ngClass]="{'active' : filterParamsForEncounter && filterParamsForEncounter.CareManagerIds.length == 0 }" (click)="onEncounterCMSelectOrDeselect()">
+                                          Deselect All
+                                        </span>
+                                        </div>
+                                        <mat-form-field class="example-full-width" floatLabel="never">
+                                            <mat-select multiple placeholder="Select Provider" [(ngModel)]="filterParamsForEncounter && filterParamsForEncounter.CareManagerIds" (selectionChange)="onEncounterCMSelect()" matInput>
+                                                <mat-option *ngFor="let obj of masterStaffsForEncounter" [value]="obj.id">
+                                                    {{obj.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field> -->
+            <!-- <i (click)="onEncounterCMSelectOrDeselect()" class="fa fa-refresh field-clear" aria-hidden="true"
+                                title="Clear All"></i> -->
+            <!-- </div>
+                                    <div class="col-sm-5 mt-3">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-select placeholder="Chart View" [(ngModel)]="filterParamsForEncounter && filterParamsForEncounter.encounterTimeIntervalId" (selectionChange)="onEncounterTimeInterval($event)" matInput>
+                                                <mat-option *ngFor="let obj of masterEncountertimeIntervalData " [value]="obj.id">
+                                                    {{obj.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-7 refresh cushgt">
+                                        <div class="sech_item caregap-sl-dt">
+                                            <p>Encounter Types: </p>
+                                            <span [ngClass]="{'active' : filterParamsForEncounter && filterParamsForEncounter.encounterTypeIds.length == masterEncounterTypes.length }" (click)="onEncounterTypeSelectOrDeselect('SelectAll')">Select All </span>
+                                            <span [ngClass]="{'active' : filterParamsForEncounter && filterParamsForEncounter.encounterTypeIds.length == 0 }" (click)="onEncounterTypeSelectOrDeselect()">
+                                          Deselect All
+                                        </span>
+                                        </div>
+                                        <mat-form-field class="example-full-width" floatLabel="never">
+                                            <mat-select multiple placeholder="Select Encounter Types" [(ngModel)]="filterParamsForEncounter && filterParamsForEncounter.encounterTypeIds" (selectionChange)="onEncounterSelect($event)" matInput>
+                                                <mat-option *ngFor="let obj of masterEncounterTypes" [value]="obj.id">
+                                                    {{obj.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field> -->
+            <!-- <i (click)="onResetEncounterTypeDropdown()" class="fa fa-refresh field-clear" aria-hidden="true"
+                                title="Clear All"></i> -->
+            <!-- </div>
+                                    <div class="col-sm-5">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-select placeholder="Enrollment Type" [(ngModel)]="filterParamsForEncounter && filterParamsForEncounter.EnrollmentId" (selectionChange)="onEncounterCMSelect()" matInput>
+                                                <mat-option *ngFor="let obj of masterEnrollmentTypeFilter" [value]="obj.id">
+                                                    {{obj.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div> -->
+            <!-- <div class="col-sm-5 mt-3 d-flex align-items-center">
+                                <mat-checkbox color="primary" (change)='onCheckIncludeTotalEnrollments($event)'
+                                  [(ngModel)]="filterParams && filterParams.isCheckTotalEnrollments">
+                                  Include Total Enrollments
+                                </mat-checkbox>
+                              </div> -->
+
+            <!-- <div class="col-md-3 refresh">
+                                      <mat-form-field class="example-full-width">
+                                        <mat-select matInput [(ngModel)]="filterParamsForEncounter && filterParamsForEncounter.nextAppointmentPresent"
+                                                    (selectionChange)="onEncounterNextAppSelect($event)" placeholder="Next Appointment">
+                                          <mat-option *ngFor="let option of nextAppointmentList" [value]="option.id">
+                                            {{option.value}}
+                                          </mat-option>
+                                        </mat-select>
+                                      </mat-form-field>
+                                      <i (click)="onEncounterNextAppRefersh()" class="fa fa-refresh field-clear" aria-hidden="true"></i>
+                                    </div> -->
+            <!-- </div>
+                                <div *ngIf="showEncounterGraph">
+                                    <app-line-chart [lineChartData]="lineChartData_encounters" [lineChartLabels]="lineChartLabels_encounters" [lineChartColors]="lineChartColors_encounter" [lineChartOptions]="lineChartOptions_encounters" (chartClicked)="onEncounterChartClick($event)">
+                                    </app-line-chart>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+
+            <!-- <div class="clearfix"></div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>

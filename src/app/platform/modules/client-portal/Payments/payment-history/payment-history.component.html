@@ -1,0 +1,72 @@
+<div>
+  <h2 class="page_title">Payment History</h2>
+  <div class="clearfix"></div>
+  <div class="readmin-panel">
+    <div class="no-gutters">
+      <!-- <div class="col-md-3 pull-right justify-content-md-end d-flex">
+        <button *ngIf="addPermission" mat-raised-button color="primary" (click)="addUser()">
+          <i class="fa fa-plus" aria-hidden="true"></i> Add User</button>
+      </div> -->
+      <div class="col-md-12 justify-content-start pull-left">
+        <form class="readmin-form custom_form" id="paymentFormGroup" #documentForm="ngForm" [formGroup]="paymentFormGroup">
+          <div class="row end-flex">
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                <input matInput (keyup)="applyFilter()" placeholder="Provider Name" formControlName="name">
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                <input matInput readonly [matDatepicker]="payDate" (dateChange)="applyPayDateFilter($event)" placeholder="Payment Date" formControlName="payDate">
+                <mat-datepicker-toggle matSuffix [for]="payDate"></mat-datepicker-toggle>
+                <mat-datepicker #payDate></mat-datepicker>
+
+              </mat-form-field>
+
+            </div>
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                <input matInput readonly [matDatepicker]="appDate" (dateChange)="applyAppDateFilter($event)" placeholder="Appointment Date"
+                  formControlName="appDate">
+                <mat-datepicker-toggle matSuffix [for]="appDate"></mat-datepicker-toggle>
+                <mat-datepicker #appDate></mat-datepicker>
+
+              </mat-form-field>
+
+            </div>
+            <div class="col-md-3">
+
+              <mat-form-field class="example-full-width">
+                  <input matInput readonly [matDatepicker]="rangeStartDate" (dateChange)="applyStartDateFilter($event)" placeholder="Appointment Date range start" formControlName="rangeStartDate">
+                  <mat-datepicker-toggle matSuffix [for]="rangeStartDate"></mat-datepicker-toggle>
+                  <mat-datepicker #rangeStartDate></mat-datepicker>
+
+              </mat-form-field>
+          </div>
+          <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                  <input matInput readonly [matDatepicker]="rangeEndDate" (dateChange)="applyEndDateFilter($event)" placeholder="Appointment Date range end" formControlName="rangeEndDate">
+                  <mat-datepicker-toggle matSuffix [for]="rangeEndDate"></mat-datepicker-toggle>
+                  <mat-datepicker #rangeEndDate></mat-datepicker>
+
+              </mat-form-field>
+          </div>
+            <div class="col-md-2 filter-btn">
+              <button class="clear-btn" mat-raised-button (click)='clearFilters()'>Clear All</button>
+            </div>
+            <div *ngIf="totalNetAmount" class="col-md-7 d-flex flex-align">
+              <div class="total-amt">Total Amount: {{'$ ' + totalNetAmount}}</div>
+          </div>
+            
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <app-data-table [inputColumns]="displayedColumns" [inputSource]="payments" [inputMeta]="metaData" [inputButtons]='actionButtons'
+      (onChange)="onPageOrSortChange($event)">
+    </app-data-table>
+
+    <!-- (onChange)="onPageOrSortChange($event)" 
+   (-->

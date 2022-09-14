@@ -1,0 +1,40 @@
+@import url("../auth/auth.component.css");
+/* .login-health{
+  background: url("../../../../../assets/img/health-bg.png") no-repeat;
+  background-size: cover;
+} */
+.centered-align{
+  min-height: 100vh;
+  align-items: center;
+}
+.outer-area {
+  background: var(--color-white);
+  padding: 20px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  box-shadow: 0 0 4px rgb(0 0 0 / 7%);
+  max-width: 380px;
+  margin: auto;
+}
+
+svg#Layer_1 {
+  padding: 22px;
+  margin: 19px 0;
+}
+.login-health .outer-area {
+  background: rgba(38, 70, 83, .9);
+  padding: 50px;
+  border: 0;
+  text-align: center;
+  border-radius: 5px;
+}
+.inactive span {
+  color: #eee;
+  margin-top: 20px;
+  display: block;
+  text-transform: uppercase;
+}
+.inactive:hover span {
+  color: var(--color-white);
+}

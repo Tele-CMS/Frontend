@@ -1,0 +1,41 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>{{headerText}}</h3>
+  <div mat-dialog-content>
+      <div class="row">
+          <div class="col-sm-12">
+              <form (ngSubmit)="onSubmit()" id="reviewRatingForm" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="reviewRatingForm">
+                  <div class="row">
+                      <div class="col-sm-8">
+                          <mat-form-field class="example-full-width"> 
+                            <input matInput autofocus placeholder="Rating" min="1" maxlength="5" minlength="1" formControlName="rating" [ngClass]="{ 'is-invalid': submitted && formControls.rating.errors }"
+                            required />
+                            <mat-error *ngIf="formControls.rating.errors?.required || formControls.rating.errors?.min">
+                              Please add rating
+                          </mat-error>
+                          <star-rating value="{{reviewModel.rating}}"  totalstars="5" checkedcolor="red" uncheckedcolor="black" size="24px" readonly="false" (rate)="onRate($event)"></star-rating>
+                        </mat-form-field>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-sm-8">
+                          <mat-form-field class="example-full-width">
+                            <textarea matInput placeholder="Add Review" minlength="5" maxlength="80" formControlName="review" [ngClass]="{ 'is-invalid': submitted && formControls.review.errors}"></textarea>
+                            <mat-error *ngIf="formControls.review.errors?.maxlength || formControls.review.errors?.minlength">
+                                Please add review between 5-80 character
+                            </mat-error>  
+                        </mat-form-field>
+                      </div>
+                  </div>                
+              </form>
+          </div>
+      </div>
+  </div>
+
+  <div mat-dialog-actions>
+      <button mat-raised-button class="cancel-btn" (click)="closeDialog('close')">Close</button>
+      <div>
+          <button name="Save" mat-raised-button color="primary" form="reviewRatingForm" class="text-uppercase" [disabled]="submitted"
+              cdkFocusInitial>{{submitted ? 'Saving...' : 'Save'}}</button>
+      </div>
+  </div>
+</div>

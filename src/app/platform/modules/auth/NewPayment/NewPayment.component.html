@@ -1,0 +1,51 @@
+<app-auth>
+    <div class="login-headtabs">
+        <div class="login-headtab active col-sm-12">
+            <a class="active" aria-current="page">Pay & Book your Appointment </a>
+        </div>
+    </div>
+
+
+
+    <div *ngIf="isNotBooked" style="margin-top: 112px;">
+        <div class="app-booked" style="text-align:center;">
+
+            <h3>Thank you</h3>
+            <p>Your appointment has been successfully booked with us,<br/> </p>
+            <p class="mt-3">We will contact you as soon as possible.</p>
+            <div class="d-flex justify-content-center mt-3">
+                <button mat-raised-button color="primary" (click)="gotologin()">Go TO Login</button>
+            </div>
+            <!-- <img src="{{Message.imgSrc}}" alt="user-register-icon" /> -->
+        </div>
+    </div>
+
+    <div *ngIf="isApptTimeExpired" style="margin-top: 112px;">
+        <div class="app-booked" style="text-align:center;">
+
+
+            <p>This payment link has been expired, new appointment needs to be booked again<br/> </p>
+
+            <div class="d-flex justify-content-center mt-3">
+                <button mat-raised-button color="primary" (click)="gotologin()">Go tO Login</button>
+            </div>
+            <!-- <img src="{{Message.imgSrc}}" alt="user-register-icon" /> -->
+        </div>
+    </div>
+</app-auth>
+
+
+
+<!-- 
+<app-auth>
+    <div class="row doclogin no-gutters form-block">
+        <div class="col-md-12">
+            <div class="logo mb-4">
+                <a routerLink='/' title="Go To Home"><img src="../assets/img/telehealth-logo.svg" alt="" /></a>
+            </div>
+
+        </div>
+      
+    </div>
+
+</app-auth> -->

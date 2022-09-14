@@ -1,0 +1,119 @@
+<div class="custom_modal">
+  <h3 mat-dialog-title>{{headerText}}</h3>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-sm-12">
+        <form id="taskform" #documentForm="ngForm" class="readmin-form custom_form" [formGroup]="taskform">
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="example-full-width">
+                <input matInput [matDatepicker]="dueDate" placeholder="Due Date" formControlName="dueDate" [min]="maxDate"
+                  required (focus)="dueDate.open()">
+                <mat-datepicker-toggle matSuffix [for]="dueDate"></mat-datepicker-toggle>
+                <mat-datepicker #dueDate></mat-datepicker>
+                <mat-error *ngIf="formCtrls.dueDate.errors?.required">
+                  Please enter due Date
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6" *ngIf="!dialogFromHeader">
+              <label>Assign Task To :</label>
+              <div class="row">
+                <div class="col-md-4 mb-2">
+                  <mat-checkbox color="primary" class="mr-3" (change)="onClickCheckbox($event,'patient')" [checked]="taskModal.assignedPatientId > 0">
+                    Patient</mat-checkbox>
+                </div>
+                <div class="col-md-8">
+                  <mat-checkbox color="primary" (change)="onClickCheckbox($event,'staff')" *ngIf="assignTaskToCMPermission"
+                    [checked]="isStaff && taskModal.assignedCareManagerId > 0"> Assign to other provider</mat-checkbox>
+                  <div *ngIf="isStaff">
+                    <mat-form-field class="example-full-width">
+                      <mat-select matInput placeholder="Provider" formControlName="assignedCareManagerId" required>
+                        <mat-option *ngFor="let opt of staffs" [value]="opt.id">
+                          {{opt.value}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="formCtrls.assignedCareManagerId.errors?.required">
+                        Please select provider
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-6 require">
+              <mat-form-field class="example-full-width">
+                <mat-select matInput placeholder="Task" formControlName="masterTaskTypeId" required>
+                  <mat-option *ngFor="let opt of masterTaskTypes" [value]="opt.id" [matTooltip]="opt.typeName" matTooltipClass="example-tooltip">
+                    {{opt.typeName}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formCtrls.masterTaskTypeId.errors?.required">
+                  Please select task
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-md-6 require">
+              <mat-form-field class="example-full-width">
+                <mat-select matInput placeholder="Priority Level" formControlName="priorityId" required>
+                  <mat-option *ngFor="let opt of masterTaskPriority" [value]="opt.id">
+                    {{opt.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formCtrls.priorityId.errors?.required">
+                  Please select priority level
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-6" *ngIf="!dialogFromHeader">
+              <mat-form-field class="example-full-width">
+                <mat-select autofocus placeholder="Associated Care Gap" formControlName="associatedCareGapId"
+                  [disabled]="disableCareGap">
+                  <mat-option *ngFor="let item of patientcaregapDD" [value]="item.id" [matTooltip]="item.description" matTooltipClass="example-tooltip">
+                    {{item.description}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-md-6" *ngIf="!dialogFromHeader">
+              <mat-form-field class="example-full-width">
+                <mat-select matInput placeholder="Mark Close" (selectionChange)="onSelecttaskStatus($event)"
+                  formControlName="statusId">
+                  <mat-option *ngFor="let opt of markTaskStatus" [value]="opt.id">
+                    {{opt.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12 require">
+              <mat-form-field class="example-full-width" hintLabel="{{formCtrls.description.value ? 1000 - formCtrls.description.value.length : 1000}} characters remaining">
+                <textarea rows="4" matInput placeholder="Description" maxlength="1000" formControlName="description"
+                  [ngClass]="{ 'is-invalid': submitted && formCtrls.description.errors }" required>
+                </textarea>
+                <mat-error *ngIf="formCtrls.description.errors?.required">
+                  Please select task
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button color="accent" mat-raised-button class="cancel-btn" (click)="closeDialog('cancel')">Close</button>
+    <button mat-raised-button color="primary" form="taskform" [disabled]="submitted" (click)="onSubmit()"
+      cdkFocusInitial>
+      {{submitted ? 'Saving...' : 'Save'}}
+    </button>
+  </div>
+</div>
