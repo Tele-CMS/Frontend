@@ -1,0 +1,54 @@
+//color variables
+// $menu-link-color:#132144;
+// $hover-bg-grey: rgba(189,197,209,.2);
+// $border-color:rgba(231,234,243,.7);
+// $border-dark-color:#e7eaf3;
+// $heading-color: #1e2022;
+
+// light theme variables
+
+:root {
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --menu-link-color: #132144;
+  --hover-bg-grey: rgba(189,197,209,.2);
+  --border-color: rgba(231,234,243,.7);
+  --border-dark-color: #e7eaf3;
+  --heading-color: #1e2022;
+  --yellow-color: #eec65e;
+  --menu-grey-btn:#adadad;
+  --dark-grey-icons:#a1a5b7;
+  // setting sidebar color
+  --White-Smoke:#EFEFEF;
+  --Neon-Blue:#4F46E5;
+  --Dodger-Blue:#2196F3;
+  --Dark-Cyan:#0D9488;
+  --Radical-Red:#F43F5E;
+  --Blue-Violet:#9333EA;
+  --Orange-Peel:#F59E0B;
+  --Pink-Swan:#b3b3b3;
+}
+
+body.dark-theme {
+  --color-white: #20242a;
+  --color-black: #ffffff;
+  --menu-link-color: #f9484b;
+  --hover-bg-grey: rgba(189,197,209,.2);
+  --border-color:  rgba(238,239,240,.4);
+  --border-dark-color: #e7eaf3;
+  --heading-color: #ffffff;
+  --yellow-color: #eec65e;
+  --menu-grey-btn:#adadad;
+  --dark-grey-icons:#a1a5b7;
+  --Shark-color:#30363E;
+  --Black-Russian:#1A1C20;
+  --confirmation-bg:#d9d9d9;
+  --BlackPanther:#424242;
+  --CerebralGrey:#cccccc;
+  --MetallicSilver:#8A8AA8;
+}
+body.dark-theme{
+  transition: all ease 0.3s;
+}
+
+ 
