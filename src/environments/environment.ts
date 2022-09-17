@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
 
-  api_url: "https://www.stagingwin.com:6121",
+  api_url: "0.0.0.0:6121",
   //  api_url: "http://localhost:51269"  ,           //local\
 
 //};
